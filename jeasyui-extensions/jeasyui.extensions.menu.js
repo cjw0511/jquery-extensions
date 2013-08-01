@@ -1,0 +1,588 @@
+﻿/**
+* jQuery EasyUI 1.3.3
+* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+*
+* Licensed under the GPL or commercial licenses
+* To use it on other terms please contact us: jeasyui@gmail.com
+* http://www.gnu.org/licenses/gpl.txt
+* http://www.jeasyui.com/license_commercial.php
+*
+* jQuery EasyUI menu Extensions 1.0 beta
+* jQuery EasyUI menu 组件扩展
+* jeasyui.extensions.menu.js
+* 二次开发 陈建伟
+* 最近更新：2013-07-31
+*
+* 依赖项：
+*   1、jquery.jdirk.js v1.0 beta late
+*   2、jeasyui.extensions.js v1.0 beta late
+*
+* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* http://www.chenjianwei.org
+*/
+
+/*
+功能说明：
+*/
+(function ($, undefined) {
+
+    /**
+    * initialize the target menu, the function can be invoked only once
+    */
+    function init(target) {
+        var t = $(target).appendTo('body').addClass('menu-top');
+
+        $(document).unbind('.menu').bind('mousedown.menu', function (e) {
+            var allMenu = $('body>div.menu:visible');
+            var m = $(e.target).closest('div.menu', allMenu);
+            if (m.length) { return }
+            $('body>div.menu-top:visible').menu('hide');
+        });
+
+        var menus = splitMenu(t);
+        for (var i = 0; i < menus.length; i++) { createMenu(menus[i]); }
+
+        function splitMenu(menu) {
+            var menus = [];
+            menu.addClass('menu');
+            menus.push(menu);
+            if (!menu.hasClass('menu-content')) {
+                menu.children('div').each(function () {
+                    var submenu = $(this).children('div');
+                    if (submenu.length) {
+                        submenu.insertAfter(target);
+                        this.submenu = submenu; 	// point to the sub menu
+                        var mm = splitMenu(submenu);
+                        menus = menus.concat(mm);
+                    }
+                });
+            }
+            return menus;
+        }
+
+        function createMenu(menu) {
+            var width = $.parser.parseOptions(menu[0], ['width']).width;
+            if (menu.hasClass('menu-content')) {
+                menu[0].originalWidth = width || menu._outerWidth();
+            } else {
+                menu[0].originalWidth = width || 0;
+                menu.children('div').each(function () {
+                    var item = $(this);
+                    if (item.hasClass('menu-sep')) {
+                        //item.html('&nbsp;');
+                    } else {
+                        //var itemOpts = $.extend({}, $.parser.parseOptions(this, ['name', 'iconCls', 'href']), {
+                        //  注释掉上一行代码，并添加了下一行代码，以实现获取 menu-item 的属性 hideOnClick，该参数表示是否在点击菜单项后菜单自动隐藏
+                        var itemOpts = $.extend({ hideOnClick: true }, $.parser.parseOptions(this, ['name', 'iconCls', 'href', { hideOnClick: 'boolean'}]), {
+                            disabled: (item.attr('disabled') ? true : undefined)
+                        });
+                        //item.attr('name', itemOpts.name || '').attr('href', itemOpts.href || '');
+                        //  注释掉上一行代码，并添加了下一行代码，以实现将 menu-item 的 hideOnClick 绑定到菜单项上
+                        item.attr({ name: itemOpts.name || '', href: itemOpts.href || '', hideOnClick: itemOpts.hideOnClick });
+
+                        var text = item.addClass('menu-item').html();
+                        item.empty().append($('<div class="menu-text"></div>').html(text));
+                        if (itemOpts.iconCls) {
+                            $('<div class="menu-icon"></div>').addClass(itemOpts.iconCls).appendTo(item);
+                        }
+                        if (itemOpts.disabled) {
+                            setDisabled(target, item[0], true);
+                        }
+                        if (item[0].submenu) {
+                            $('<div class="menu-rightarrow"></div>').appendTo(item); // has sub menu
+                        }
+
+                        bindMenuItemEvent(target, item);
+                    }
+                });
+                $('<div class="menu-line"></div>').prependTo(menu);
+            }
+            setMenuWidth(target, menu);
+            menu.hide();
+
+            bindMenuEvent(target, menu);
+        }
+    }
+
+    function setMenuWidth(target, menu) {
+        var opts = $.data(target, 'menu').options;
+        var d = menu.css('display');
+        menu.css({
+            display: 'block',
+            left: -10000
+        });
+
+        menu.find('div.menu-item')._outerHeight(22);
+        var width = 0;
+        menu.find('div.menu-text').each(function () {
+            if (width < $(this)._outerWidth()) {
+                width = $(this)._outerWidth();
+            }
+        });
+        width += 65;
+        menu._outerWidth(Math.max((menu[0].originalWidth || 0), width, opts.minWidth));
+
+        menu.css('display', d);
+    }
+
+    /**
+    * bind menu event
+    */
+    function bindMenuEvent(target, menu) {
+        //var state = $.data(target, 'menu');
+        //  注释掉上一行代码代码，并添加下面两行代码，以实现当菜单的 hideOnMouseLeave: true 时，鼠标移出菜单控件时才自动隐藏，否则则是在菜单失去焦点后才隐藏。
+        var state = $.data(target, 'menu'), opts = state.options;
+        if (!opts.hideOnMouseLeave) { return; };
+
+        menu.unbind('.menu').bind('mouseenter.menu', function () {
+            if (state.timer) {
+                clearTimeout(state.timer);
+                state.timer = null;
+            }
+        }).bind('mouseleave.menu', function () {
+            state.timer = setTimeout(function () {
+                hideAll(target);
+            }, 100);
+        });
+    }
+
+    /**
+    * bind menu item event
+    */
+    function bindMenuItemEvent(target, item) {
+        item.unbind('.menu');
+        item.bind('click.menu', function () {
+            var t = $(this);
+            if (t.hasClass('menu-item-disabled')) { return; }
+            // only the sub menu clicked can hide all menus
+            if (!this.submenu) {
+                //hideAll(target);
+                //  注释掉上面一行代码，并添加下面两行代码，以实现当 menu-item 的属性 hideOnClick 为 false 的情况下，点击菜单项不自动隐藏菜单控件。
+                var hideOnClick = t.attr("hideOnClick"); hideOnClick = String(hideOnClick).toLowerCase() == "true" ? true : false;
+                if (hideOnClick) { hideAll(target); }
+                var href = t.attr('href');
+                if (href) {
+                    location.href = href;
+                }
+            }
+            var item = $(target).menu('getItem', this);
+            $.data(target, 'menu').options.onClick.call(target, item);
+        }).bind('mouseenter.menu', function (e) {
+            // hide other menu
+            item.siblings().each(function () {
+                if (this.submenu) {
+                    hideMenu(this.submenu);
+                }
+                $(this).removeClass('menu-active');
+            });
+            // show this menu
+            item.addClass('menu-active');
+
+            if ($(this).hasClass('menu-item-disabled')) {
+                item.addClass('menu-active-disabled');
+                return;
+            }
+
+            var submenu = item[0].submenu;
+            if (submenu) {
+                $(target).menu('show', {
+                    menu: submenu,
+                    parent: item
+                });
+            }
+        }).bind('mouseleave.menu', function (e) {
+            item.removeClass('menu-active menu-active-disabled');
+            var submenu = item[0].submenu;
+            if (submenu) {
+                if (e.pageX >= parseInt(submenu.css('left'))) {
+                    item.addClass('menu-active');
+                } else {
+                    hideMenu(submenu);
+                }
+
+            } else {
+                item.removeClass('menu-active');
+            }
+        });
+    }
+
+    /**
+    * hide top menu and it's all sub menus
+    */
+    function hideAll(target) {
+        var state = $.data(target, 'menu');
+        if (state) {
+            if ($(target).is(':visible')) {
+                hideMenu($(target));
+                state.options.onHide.call(target);
+            }
+        }
+        return false;
+    }
+
+    /**
+    * show the menu, the 'param' object has one or more properties:
+    * left: the left position to display
+    * top: the top position to display
+    * menu: the menu to display, if not defined, the 'target menu' is used
+    * parent: the parent menu item to align to
+    * alignTo: the element object to align to
+    */
+    function showMenu(target, param) {
+        var left, top;
+        var menu = $(param.menu || target);
+        if (menu.hasClass('menu-top')) {
+            var opts = $.data(target, 'menu').options;
+            left = opts.left;
+            top = opts.top;
+            if (param.alignTo) {
+                var at = $(param.alignTo);
+                left = at.offset().left;
+                top = at.offset().top + at._outerHeight();
+            }
+            if (param.left != undefined) { left = param.left }
+            if (param.top != undefined) { top = param.top }
+            if (left + menu.outerWidth() > $(window)._outerWidth() + $(document)._scrollLeft()) {
+                left = $(window)._outerWidth() + $(document).scrollLeft() - menu.outerWidth() - 5;
+            }
+            if (top + menu.outerHeight() > $(window)._outerHeight() + $(document).scrollTop()) {
+                top -= menu.outerHeight();
+            }
+        } else {
+            var parent = param.parent; // the parent menu item
+            left = parent.offset().left + parent.outerWidth() - 2;
+            if (left + menu.outerWidth() + 5 > $(window)._outerWidth() + $(document).scrollLeft()) {
+                left = parent.offset().left - menu.outerWidth() + 2;
+            }
+            var top = parent.offset().top - 3;
+            if (top + menu.outerHeight() > $(window)._outerHeight() + $(document).scrollTop()) {
+                top = $(window)._outerHeight() + $(document).scrollTop() - menu.outerHeight() - 5;
+            }
+        }
+        menu.css({ left: left, top: top });
+        menu.show(0, function () {
+            if (!menu[0].shadow) {
+                menu[0].shadow = $('<div class="menu-shadow"></div>').insertAfter(menu);
+            }
+            menu[0].shadow.css({
+                display: 'block',
+                zIndex: $.fn.menu.defaults.zIndex++,
+                left: menu.css('left'),
+                top: menu.css('top'),
+                width: menu.outerWidth(),
+                height: menu.outerHeight()
+            });
+            menu.css('z-index', $.fn.menu.defaults.zIndex++);
+            if (menu.hasClass('menu-top')) {
+                $.data(menu[0], 'menu').options.onShow.call(menu[0]);
+            }
+        });
+    }
+
+    function hideMenu(menu) {
+        if (!menu) return;
+
+        hideit(menu);
+        menu.find('div.menu-item').each(function () {
+            if (this.submenu) {
+                hideMenu(this.submenu);
+            }
+            $(this).removeClass('menu-active');
+        });
+
+        function hideit(m) {
+            m.stop(true, true);
+            if (m[0].shadow) {
+                m[0].shadow.hide();
+            }
+            m.hide();
+        }
+    }
+
+    function findItem(target, text) {
+        var result = null;
+        var tmp = $('<div></div>');
+        function find(menu) {
+            menu.children('div.menu-item').each(function () {
+                var item = $(target).menu('getItem', this);
+                var s = tmp.empty().html(item.text).text();
+                if (text == $.trim(s)) {
+                    result = item;
+                } else if (this.submenu && !result) {
+                    find(this.submenu);
+                }
+            });
+        }
+        find($(target));
+        tmp.remove();
+        return result;
+    }
+
+    function setDisabled(target, itemEl, disabled) {
+        var t = $(itemEl);
+
+        if (disabled) {
+            t.addClass('menu-item-disabled');
+            if (itemEl.onclick) {
+                itemEl.onclick1 = itemEl.onclick;
+                itemEl.onclick = null;
+            }
+        } else {
+            t.removeClass('menu-item-disabled');
+            if (itemEl.onclick1) {
+                itemEl.onclick = itemEl.onclick1;
+                itemEl.onclick1 = null;
+            }
+        }
+    }
+
+    function appendItem(target, param) {
+        var menu = $(target);
+        if (param.parent) {
+            if (!param.parent.submenu) {
+                var submenu = $('<div class="menu"><div class="menu-line"></div></div>').appendTo('body');
+                submenu.hide();
+                param.parent.submenu = submenu;
+                $('<div class="menu-rightarrow"></div>').appendTo(param.parent);
+            }
+            menu = param.parent.submenu;
+        }
+        var item = $('<div class="menu-item"></div>').appendTo(menu);
+        $('<div class="menu-text"></div>').html(param.text).appendTo(item);
+        if (param.iconCls) $('<div class="menu-icon"></div>').addClass(param.iconCls).appendTo(item);
+        if (param.id) item.attr('id', param.id);
+        if (param.href) item.attr('href', param.href);
+        if (param.name) item.attr('name', param.name);
+        if (param.onclick) {
+            if (typeof param.onclick == 'string') {
+                item.attr('onclick', param.onclick);
+            } else {
+                item[0].onclick = eval(param.onclick);
+            }
+        }
+        if (param.handler) item[0].onclick = eval(param.handler);
+
+        bindMenuItemEvent(target, item);
+
+        if (param.disabled) {
+            setDisabled(target, item[0], true);
+        }
+        bindMenuEvent(target, menu);
+        setMenuWidth(target, menu);
+    }
+
+    function removeItem(target, itemEl) {
+        function removeit(el) {
+            if (el.submenu) {
+                el.submenu.children('div.menu-item').each(function () {
+                    removeit(this);
+                });
+                var shadow = el.submenu[0].shadow;
+                if (shadow) shadow.remove();
+                el.submenu.remove();
+            }
+            $(el).remove();
+        }
+        removeit(itemEl);
+    }
+
+    function destroyMenu(target) {
+        $(target).children('div.menu-item').each(function () {
+            removeItem(target, this);
+        });
+        if (target.shadow) target.shadow.remove();
+        $(target).remove();
+    }
+
+    $.fn.menu = function (options, param) {
+        if (typeof options == 'string') { return $.fn.menu.methods[options](this, param); }
+        options = options || {};
+        return this.each(function () {
+            var state = $.data(this, 'menu');
+            if (state) {
+                $.extend(state.options, options);
+            } else {
+                state = $.data(this, 'menu', { options: $.extend({}, $.fn.menu.defaults, $.fn.menu.parseOptions(this), options) });
+                init(this);
+            }
+            $(this).css({ left: state.options.left, top: state.options.top });
+        });
+    };
+
+    $.fn.menu.methods = {
+        options: function (jq) { return $.data(jq[0], 'menu').options; },
+        show: function (jq, pos) { return jq.each(function () { showMenu(this, pos); }); },
+        hide: function (jq) { return jq.each(function () { hideAll(this); }); },
+        destroy: function (jq) { return jq.each(function () { destroyMenu(this); }); },
+        setText: function (jq, param) { return jq.each(function () { $(param.target).children('div.menu-text').html(param.text); }); },
+        setIcon: function (jq, param) {
+            return jq.each(function () {
+                var item = $(this).menu('getItem', param.target);
+                if (item.iconCls) {
+                    $(item.target).children('div.menu-icon').removeClass(item.iconCls).addClass(param.iconCls);
+                } else {
+                    $('<div class="menu-icon"></div>').addClass(param.iconCls).appendTo(param.target);
+                }
+            });
+        },
+        getItem: function (jq, itemEl) {
+            var t = $(itemEl);
+            var item = {
+                target: itemEl,
+                id: t.attr('id'),
+                text: $.trim(t.children('div.menu-text').html()),
+                disabled: t.hasClass('menu-item-disabled'),
+                href: t.attr('href'),
+                name: t.attr('name'),
+                onclick: itemEl.onclick
+            }
+            var icon = t.children('div.menu-icon');
+            if (icon.length) {
+                var cc = [];
+                var aa = icon.attr('class').split(' ');
+                for (var i = 0; i < aa.length; i++) {
+                    if (aa[i] != 'menu-icon') {
+                        cc.push(aa[i]);
+                    }
+                }
+                item.iconCls = cc.join(' ');
+            }
+            return item;
+        },
+        findItem: function (jq, text) { return findItem(jq[0], text); },
+        appendItem: function (jq, param) { return jq.each(function () { appendItem(this, param); }); },
+        removeItem: function (jq, itemEl) { return jq.each(function () { removeItem(this, itemEl); }); },
+        enableItem: function (jq, itemEl) { return jq.each(function () { setDisabled(this, itemEl, false); }); },
+        disableItem: function (jq, itemEl) { return jq.each(function () { setDisabled(this, itemEl, true); }); }
+    };
+
+    $.fn.menu.parseOptions = function (target) {
+        return $.extend({}, $.parser.parseOptions(target, ['left', 'top', { minWidth: 'number', hideOnMouseLeave: "boolean"}]));
+    };
+
+    $.fn.menu.defaults = {
+        zIndex: 110000, left: 0, top: 0, minWidth: 120,
+        onShow: function () { },
+        onHide: function () { },
+        onClick: function (item) { },
+
+        //  添加 easyui-menu 的自定义扩展属性；表示是否当鼠标移出菜单时，才菜单自动隐藏，默认为 false。
+        hideOnMouseLeave: false
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+    var buildMenu = function (options) {
+        var guid = $.util.guid("N", 12), id = "easyui_menu_id_" + guid, name = "easyui_menu_name_" + guid;
+        var opts = $.extend({}, $.fn.menu.defaults, {
+            id: id, name: name, left: window.event ? window.event.clientX : 0, top: window.event ? window.event.clientY : 0, items: null, hideDisabledMenu: false
+        }, options || {});
+        opts.items = $.array.isArray(opts.items) ? opts.items : [];
+        var menu = $("<div></div>").attr({ id: id, name: name }).appendTo("body");
+        if (!opts.items.length) { opts.items.push({ text: "当前无菜单项", disabled: true }); }
+        $.each(opts.items, function () {
+            if (opts.hideDisabledMenu && this.disabled) { return; } appendItemToMenu(menu, this, id, menu);
+        });
+        return { menu: menu, options: opts };
+    };
+
+    var appendItemToMenu = function (menu, item, id, menus) {
+        if ($.util.isString(item) && $.trim(item) == "-") { $("<div></div>").addClass("menu-sep").appendTo(menu); return; }
+        var guid = $.util.guid("N", 12), itemId = id + "_" + guid;
+        item = item || {};
+        item = $.extend({
+            id: itemId, text: "", iconCls: null, href: null, disabled: false,
+            onclick: null, handler: null, bold: false, style: null,
+            children: null, hideDisabledMenu: false, hideOnClick: true
+        }, item);
+        var onclick = item.onclick, handler = item.handler;
+        item.onclick = undefined; item.handler = undefined;
+        item = $.util.parseMapFunction(item);
+        item.onclick = onclick; item.handler = handler;
+        if (item.hideDisabledMenu && item.disabled) { return; }
+        var itemEle = $("<div></div>").attr({
+            id: item.id, iconCls: item.iconCls, href: item.href, disabled: item.disabled, hideOnClick: item.hideOnClick
+        }).appendTo(menu);
+        if (item.style) { itemEle.css(item.style); }
+        if ($.isFunction(item.handler)) {
+            var handler = item.handler;
+            item.onclick = function (e, item, menus) { handler.call(this, e, item, menus); };
+        }
+        if ($.isFunction(item.onclick)) {
+            itemEle.click(function (e) {
+                if (itemEle.hasClass("menu-item-disabled")) { return; }
+                item.onclick.call(this, e, item, menus);
+            });
+        }
+        var hasChild = item.children && item.children.length ? true : false, span = $("<span></span>").text(item.text).appendTo(itemEle);
+        if (item.bold) { span.css("font-weight", "bold"); }
+        if (hasChild) {
+            var itemNode = $("<div></div>").appendTo(itemEle);
+            $.each(item.children, function () {
+                var val = $.util.isString(this) && $.trim(this) == "-" ? this : $.extend({ hideDisabledMenu: item.hideDisabledMenu }, this);
+                appendItemToMenu(itemNode, val, itemId, menus);
+            });
+        }
+    };
+
+
+
+    $.extend($.easyui, {
+
+        //  根据指定的属性创建 easyui-menu 对象；该方法定义如下参数：
+        //      options: JSON 对象类型，参数属性继承 easyui-menu 控件的所有属性和事件（参考官方 API 文档），并在此基础上增加了如下参数：
+        //          id: 一个 String 对象，表示创建的菜单对象的 ID 属性，如果不定义该参数，将会分配一个随机值。
+        //          name: 一个 String 对象，表示创建的菜单对象的 name 属性，如果不定义该参数，将会分配一个随机值。
+        //          hideDisabledMenu: 一个 Boolean 值，默认为 false；该属性表示当菜单项的 disabled: true，是否自动隐藏该菜单项；
+        //          items: 一个 Array 对象，该数组对象中的每一个元素都是一个 JSON 格式对象用于表示一个 menu item （关于 menu item 对象属性，参考官方 API）；
+        //                  该数组中每个元素的属性，除 easyui-menu 中 menu item 官方 API 定义的属性外，还增加了如下属性：
+        //              hideDisabledMenu: 该属性表示在当前子菜单级别下当菜单项的 disabled: true，是否自动隐藏该菜单项；一个 Boolean 值，取上一级的 hideDisabledMenu 值；
+        //              handler: 一个回调函数，表示点击菜单项时触发的事件；
+        //                  回调函数 handler 和回调函数 onclick 的签名都为 function(e, item, menu)，其中：
+        //                      e:  表示动作事件；
+        //                      item:   表示当前点击的菜单项的 options 选项；
+        //                      menu:   表示整个菜单控件的 jQuery 对象。
+        //                      函数中 this 指向触发事件的对象本身
+        //                  另，如果同时定义了 onclick 和 handler，则只处理 handler 而不处理 onclick，所以请不要两个回调函数属性同时使用。
+        //              children: 同上一级对象的 items 属性，为一个 Array 对象；
+        //  返回值：返回一个 JSON 格式对象，该返回的对象中具有如下属性：
+        //      menu: 依据于传入参数 options 构建出的菜单 DOM 元素对象，这是一个 jQuery 对象，该对象未初始化为 easyui-menu 控件，而只是具有该控件的 DOM 结构；
+        //      options: 传入参数 options 解析后的结果，该结果尚未用于但可用于初始化 menu 元素。
+        createMenu: buildMenu,
+
+        //  根据指定的属性创建 easyui-menu 对象并立即显示出来；该方法定义的参数和本插件文件中的插件方法 createMenu 相同：
+        //  注意：本方法与 createMenu 方法不同之处在于：
+        //      createMenu: 仅根据传入的 options 参数创建出符合 easyui-menu DOM 结构要求的 jQuery DOM 对象，但是该对象并未初始化为 easyui-menu 控件；
+        //      showMenu: 该方法在 createMenu 方法的基础上，对创建出来的 jQuery DOM 对象立即进行 easyui-menu 结构初始化，并显示出来。
+        //  返回值：返回一个 jQuery 对象，该对象表示创建并显示出的 easyui-menu 元素，该返回的元素已经被初始化为 easyui-menu 控件。
+        showMenu: function (options) {
+            var opts = options || {};
+            var onHide1 = $.fn.menu.defaults.onHide, onHide2 = opts.onHide;
+            opts.onHide = function () {
+                var m = $.util.parseJquery(this);
+                if ($.isFunction(onHide1)) { onHide1.apply(this, arguments); }
+                if ($.isFunction(onHide2)) { onHide2.apply(this, arguments); }
+                $.util.call(function () { m.menu("destroy"); });
+            };
+            var m = buildMenu(opts);
+            m.menu.menu(m.options).menu("show", { left: m.options.left, top: m.options.top });
+            return m.menu;
+        }
+    });
+
+    //  另，增加 easyui-menu 控件中 menu-item 的如下自定义扩展属性:
+    //      hideOnClick:    Boolean 类型值，默认为 true；表示点击该菜单项后整个菜单是否会自动隐藏；
+    //      bold:           Boolean 类型值，默认为 false；表示该菜单项是否字体加粗；
+    //      style:          JSON-Object 类型值，默认为 null；表示要附加到该菜单项的样式；
+    //  备注：上述增加的 menu-item 的自定义扩展属性，只有通过 $.easyui.createMenu 或者 $.easyui.showMenu 生成菜单时，才有效。
+
+})(jQuery);
