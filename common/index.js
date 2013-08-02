@@ -9,7 +9,7 @@
 
     var navMenusData = [
         { id: "1", text: "扩展 API 文档", iconCls: "icon-hamburg-product-design" },
-        { id: "2", text: "演示 DEMO", iconCls: "icon-hamburg-docs", attributes: { title: "百度一下", href: "http://www.baidu.com", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true } },
+        { id: "2", text: "演示 DEMO", iconCls: "icon-hamburg-docs", attributes: { title: "百度一下", href: "http://www.baidu.com", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true} },
         { id: "3", text: "测试菜单 1", iconCls: "icon-standard-accept" },
         { id: "4", text: "测试菜单 2", iconCls: "icon-standard-add" },
         { id: "5", text: "测试菜单 3", iconCls: "icon-standard-anchor" },
@@ -107,10 +107,11 @@
             animate: true,
             lines: true,
             dnd: true,
+            toggleOnClick: true,
             onBeforeDrop: function (target, source, point) {
                 var node = $(this).tree("getNode", target);
                 if (point == "append" || !point) {
-                    if (!node || !node.attributes || !node.attibutes.folder) { return false; }
+                    if (!node || !node.attributes || !node.attributes.folder) { return false; }
                 }
             },
             selectOnContextMenu: true,
@@ -127,6 +128,7 @@
                     window.mainpage.mainTabs.addModule(node.attributes);
                 }
                 }, "-",
+                { text: "添加目录", iconCls: "icon-standard-folder-add", handler: function (e, node) { window.mainpage.favo.addFolder(node); } }, "-",
                 { text: "从个人收藏删除", iconCls: "icon-standard-feed-delete", handler: function (e, node) { window.mainpage.favo.removeFavo(node.id); } },
                 { text: "重命名", iconCls: "icon-hamburg-pencil", handler: function (e, node) { t.tree("beginEdit", node.target); } }, "-",
                 { text: "刷新", iconCls: "icon-cologne-refresh", handler: function (e, node) { window.mainpage.favo.refreshTree(); } }
@@ -186,7 +188,7 @@
     };
 
     window.mainpage.mainTabs.tabDefaultOption = {
-        title: "新建选项卡", href: "", iniframe: false, closeable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true
+        title: "新建选项卡", href: "", iniframe: false, closable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true
     };
     window.mainpage.mainTabs.parseCreateTabArgs = function (args) {
         var ret = {};
@@ -269,7 +271,6 @@
     };
 
 
-
     window.mainpage.refreshNavTab = function (index) {
         var t = $(navTab);
         if (index == null || index == undefined) { index = t.tabs("getSelectedIndex"); }
@@ -277,11 +278,16 @@
     };
 
 
+
+
     window.mainpage.nav.refreshNav = function () { window.mainpage.instMainMenus(); };
 
     window.mainpage.nav.refreshTree = function () { $(navMenuList).find("a.tree-node-selected.selected").click(); };
 
-    window.mainpage.nav.addFavo = function (id) { };
+    window.mainpage.nav.addFavo = function (id) {
+        var t = $(navMenuTree), node = arguments.length ? t.tree("find", id) : t.tree("getSelected");
+        if (!node) { return $.easyui.messager.show("请先选择一行数据"); }
+    };
 
     window.mainpage.nav.rename = function (id, text) {
         var t = $(navMenuTree), node;
@@ -347,7 +353,10 @@
 
     window.mainpage.favo.refreshTree = function () { window.mainpage.loadFavoMenus() };
 
-    window.mainpage.favo.removeFavo = function (id) { };
+    window.mainpage.favo.removeFavo = function (id) {
+        var t = $(favoMenuTree), node = arguments.length ? t.tree("find", id) : t.tree("getSelected");
+        if (!node) { return $.easyui.messager.show("请先选择一行数据"); }
+    };
 
     window.mainpage.favo.rename = function (id, text) {
         var t = $(favoMenuTree), node;
@@ -357,6 +366,21 @@
             t.tree("beginEdit", node.target);
         } else { }
     };
+
+    var folderId = 20;
+    window.mainpage.favo.addFolder = function (node) {
+        var t = $(favoMenuTree);
+        node = node || t.tree("getSelected");
+        $.easyui.messager.prompt("请输入添加的目录名称：", function (name) {
+            if (name == null || name == undefined) { return; }
+            if (String(name).trim() == "") { return $.easyui.messager.show("请输入目录名称！"); }
+            if (node) {
+                t.tree("insert", { after: node.target, data: { id: folderId++, text: name, iconCls: "icon-hamburg-folder", attributes: { folder: true}} });
+            } else {
+
+            }
+        });
+    }
 
     window.mainpage.favo.expand = function (id) {
         var t = $(favoMenuTree), node;

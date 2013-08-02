@@ -135,7 +135,7 @@
             return $.isFunction(arguments[0]) ? _prompt(defaults.title, defaults.prompt, arguments[0]) : _prompt(defaults.title, defaults.prompt);
         }
         if (arguments.length == 2) {
-            return $.isFunction(arguments[0]) ? _prompt(defaults.title, arguments[0], arguments[1]) : _prompt(arguments[0], arguments[1]);
+            return $.isFunction(arguments[1]) ? _prompt(defaults.title, arguments[0], arguments[1]) : _prompt(arguments[0], arguments[1]);
         }
         return _prompt.apply(this, arguments);
     };
@@ -179,7 +179,24 @@
     //  更改 jeasyui-combo 组件的非空验证提醒消息语言。
     $.extend($.fn.combo.defaults, { missingMessage: $.fn.validatebox.defaults.missingMessage });
 
-    //  更改 jQuery EasyUI 部分组件的通用错误提示。
+
+
+    //  获取或更改 jQuery EasyUI 部分组件的通用错误提示函数；该方法定义如下重载方式：
+    //      function():         获取 jQuery EasyUI 部分组件的通用错误提示函数；
+    //      function(callback): 更改 jQuery EasyUI 部分组件的通用错误提示函数；
+    coreEasyui.ajaxError = function (callback) {
+        if (!arguments.length) { return $.fn.form.defaults.onLoadError; }
+        $.fn.form.defaults.onLoadError = callback;
+        $.fn.combobox.defaults.onLoadError = callback;
+        $.fn.combotree.defaults.onLoadError = callback;
+        $.fn.combogrid.defaults.onLoadError = callback;
+        $.fn.datagrid.defaults.onLoadError = callback;
+        $.fn.propertygrid.defaults.onLoadError = callback;
+        $.fn.tree.defaults.onLoadError = callback;
+        $.fn.treegrid.defaults.onLoadError = callback;
+        $.ajaxSetup({ error: callback });
+    };
+
     var onLoadError = function (XMLHttpRequest, textStatus, errorThrown) {
         $.messager.progress("close");
         if (coreEasyui.messager != $.messager) { coreEasyui.messager.progress("close"); }
@@ -193,22 +210,15 @@
         if (width > 800 || height > 800) { win.window("resize", { width: width > 800 ? 800 : width, height: height > 800 ? 800 : height }); }
         win.window("center");
     };
-    $.fn.form.defaults.onLoadError = onLoadError;
-    $.fn.combobox.defaults.onLoadError = onLoadError;
-    $.fn.combotree.defaults.onLoadError = onLoadError;
-    $.fn.combogrid.defaults.onLoadError = onLoadError;
-    $.fn.datagrid.defaults.onLoadError = onLoadError;
-    $.fn.propertygrid.defaults.onLoadError = onLoadError;
-    $.fn.tree.defaults.onLoadError = onLoadError;
-    $.fn.treegrid.defaults.onLoadError = onLoadError;
 
+    //  更改 jQuery EasyUI 部分组件的通用错误提示。
+    coreEasyui.ajaxError(onLoadError);
 
     //  更改 jQuery.ajax 函数的部分默认属性。
     $.ajaxSetup({
         dataFilter: function (data, type) {
             return $.util.isString(type) && type.toLowerCase(type) == "json" ? $.string.toJSONString(data) : data;
-        },
-        error: onLoadError
+        }
     });
 
     $.union(coreJquery);
