@@ -9,10 +9,7 @@
 
     var navMenusData = [
         { id: "1", text: "扩展 API 文档", iconCls: "icon-hamburg-product-design" },
-        { id: "2", text: "演示 DEMO", iconCls: "icon-hamburg-docs", attributes: {
-            title: "百度一下", href: "http://www.baidu.com", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true
-        }
-        },
+        { id: "2", text: "演示 DEMO", iconCls: "icon-hamburg-docs", attributes: { title: "百度一下", href: "http://www.baidu.com", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true } },
         { id: "3", text: "测试菜单 1", iconCls: "icon-standard-accept" },
         { id: "4", text: "测试菜单 2", iconCls: "icon-standard-add" },
         { id: "5", text: "测试菜单 3", iconCls: "icon-standard-anchor" },

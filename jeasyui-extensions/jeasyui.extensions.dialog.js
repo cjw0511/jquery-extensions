@@ -243,11 +243,7 @@
         var content = $("<table></table>").css({ padding: "10px", width: "100%" }), type = $.type(options);
         if ($.array.contains(["array", "object", "function"], type)) {
             for (var key in options) {
-                var msg = options[key];
-                if ($.array.contains(["array", "object"], $.type(msg)) && $.util.browser.msie && window.parseFloat($.util.browser.version) > 7) {
-                    msg = JSON.stringify(msg);
-                }
-                content.append("<tr><td style='text-align: right; width: 100px;'>" + key + ":</td><td>" + msg + "</td></tr>");
+                content.append("<tr><td style='text-align: right; width: 100px;'>" + key + ":</td><td>" + options[key] + "</td></tr>");
             }
         } else {
             content.append("<tr><td style='text-align: right; width: 100px;'>options:</td><td>" + String(options) + "</td></tr>");

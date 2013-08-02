@@ -10,6 +10,14 @@
  *   draggable
  *   panel
  * 
+ * jQuery EasyUI portal Plugin 1.0 beta
+ * jQuery EasyUI portal 插件
+ * jquery.portal.js
+ * 二次开发 陈建伟
+ * 最近更新：2013-08-02
+ *
+ * Copyright (c) 2013 ChenJianwei personal All rights reserved.
+ * http://www.chenjianwei.org
  */
 (function ($) {
     /**
@@ -212,7 +220,6 @@
         if (typeof options == 'string') {
             return $.fn.portal.methods[options](this, param);
         }
-
         options = options || {};
         return this.each(function () {
             var state = $.data(this, 'portal');
@@ -324,6 +331,9 @@
                 setSize(this);
                 opts.onRemoveColumn.call(this, index);
             });
+        },
+        columns: function (jq) {
+            return $.data(jq[0], "portal").columnWidths.length;
         },
         disableDragging: function (jq, panel) {
             panel.panel('panel').draggable('disable');

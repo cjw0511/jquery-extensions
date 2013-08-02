@@ -25,7 +25,7 @@
     function initialize(target) {
         var t = $.util.parseJquery(target), isDiv = /^(?:div)$/i.test(target.nodeName),
             container = isDiv ? t : $("<div></div>");
-        if (!isDiv) { container.attr({ class: t.attr("class"), style: t.attr("style") }); t.hide(); }
+        if (!isDiv) { container.attr({ "class": t.attr("class"), "style": t.attr("style") }); t.hide(); }
         var state = $.data(target, "toolbar");
         state.container = container;
         t.addClass("toolbar-f");

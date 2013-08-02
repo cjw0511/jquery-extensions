@@ -11,7 +11,7 @@
 * jQuery EasyUI combo 组件扩展
 * jeasyui.extensions.combo.js
 * 二次开发 陈建伟
-* 最近更新：2013-05-21
+* 最近更新：2013-08-02
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
