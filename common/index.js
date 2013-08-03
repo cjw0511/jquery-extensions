@@ -6,18 +6,47 @@
     $.util.namespace("mainpage.favo");
     $.util.namespace("mainpage.mainTabs");
 
-
     var navMenusData = [
-        { id: "1", text: "扩展 API 文档", iconCls: "icon-hamburg-product-design" },
-        { id: "2", text: "演示 DEMO", iconCls: "icon-hamburg-docs", attributes: { title: "百度一下", href: "http://www.baidu.com", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true} },
-        { id: "3", text: "测试菜单 1", iconCls: "icon-standard-accept" },
-        { id: "4", text: "测试菜单 2", iconCls: "icon-standard-add" },
-        { id: "5", text: "测试菜单 3", iconCls: "icon-standard-anchor" },
-        { id: "6", text: "测试菜单 4", iconCls: "icon-standard-application" },
-        { id: "7", text: "测试菜单 5", iconCls: "icon-standard-application-add" },
+        { id: "1", text: "百度一下", iconCls: "icon-hamburg-docs", attributes: { href: "http://www.baidu.com", iniframe: true, closable: true, refreshable: true, selected: true} },
+        { id: "2", text: "测试菜单 1", iconCls: "icon-standard-accept" },
+        { id: "3", text: "测试菜单 2", iconCls: "icon-standard-add" },
+        { id: "4", text: "测试菜单 3", iconCls: "icon-standard-anchor" },
+        { id: "5", text: "测试菜单 4", iconCls: "icon-standard-application" },
+        { id: "6", text: "测试菜单 5", iconCls: "icon-standard-application-add" },
         { id: "8", text: "测试菜单 6", iconCls: "icon-standard-application-cascade" },
-        { id: "9", text: "测试菜单 7", iconCls: "icon-standard-application-delete" }
+        { id: "9", text: "测试菜单 7", iconCls: "icon-standard-application-delete" },
+        { id: "10", text: "扩展 API 文档", iconCls: "icon-hamburg-docs" },
+        { id: "11", text: "演示 DEMO", iconCls: "icon-hamburg-product-design" }
     ];
+
+    var apiMenus = [
+        { id: "1101", text: "Base", pid: "11" },
+        { id: "110101", text: "Messager", pid: "1101", attributes: { href: "examples/example.html?messager"} },
+        { id: "110102", text: "Tooltip", pid: "1101" },
+        { id: "110103", text: "Mask-Loading", pid: "1101" },
+
+        { id: "1102", text: "Layout", pid: "11" },
+        { id: "1103", text: "Menu and Button", pid: "11" },
+        { id: "1104", text: "Form", pid: "11" },
+        { id: "1105", text: "Window", pid: "11" },
+        { id: "1106", text: "DataGrid and Tree", pid: "11" },
+        { id: "110601", text: "DataGrid", pid: "1106" },
+        { id: "11060101", text: "表头菜单", pid: "110601", attributes: { href: "examples/example.html?datagrid/header"} },
+
+        { id: "1107", text: "Others", pid: "11" }
+    ];
+
+    var docMenus = [
+        { id: "1001", text: "Base", pid: "10" },
+        { id: "1002", text: "Layout", pid: "10" },
+        { id: "1003", text: "Menu and Button", pid: "10" },
+        { id: "1004", text: "Form", pid: "10" },
+        { id: "1005", text: "Window", pid: "10" },
+        { id: "1006", text: "DataGrid and Tree", pid: "10" },
+        { id: "1007", text: "Others", pid: "10" }
+    ];
+
+
 
     var homePageTitle = "主页", homePageHref = null, navMenuList = "#navMenu_list",
         navMenuTree = "#navMenu_Tree", mainTab = "#mainTab", navTab = "#navTab", favoMenuTree = "#favoMenu_Tree",
@@ -30,7 +59,10 @@
     window.mainpage.loadMenu = function (id) {
         $(navMenuList).find("a").attr("disabled", true);
         $.easyui.loading(westCenterLayout);
-        $(navMenuTree).tree("loadData", navMenusData);
+        var root = $.extend({}, $.array.first(navMenusData, function (val) { return val.id == id; })),
+            menus = id == "10" ? docMenus : (id == "11" ? apiMenus : []),
+            data = $.array.merge([], menus, root), array = $.array.map(data, function (val) { return $.extend({}, val); });
+        var t = $(navMenuTree).tree("loadData", array);
     };
 
     //  将指定的根节点数据集合数据加载至左侧面板中“导航菜单”的 ul 控件中；该方法定义如下参数：
@@ -57,18 +89,30 @@
         layout.layout("resize");
     };
 
+    window.mainpage.instTreeStatus = function (target) {
+        var t = $.util.parseJquery(target), array = t.tree("getRoots");
+        $.each(array, function () {
+            var cc = t.tree("getChildren", this.target);
+            t.tree("expand", this.target);
+            $.each(cc, function () { t.tree("collapseAll", this.target); });
+        });
+    };
+
     //  初始化 westSouthPanel 位置的“导航菜单”区域子菜单 ul 控件(仅初始化 easyui-tree 对象，不加载数据)。
     window.mainpage.instNavTree = function () {
         var t = $(navMenuTree).tree({
             animate: true,
             lines: true,
+            toggleOnClick: true,
             selectOnContextMenu: true,
             onClick: function (node) {
                 if (!node || !node.attributes || !node.attributes.href) { return; }
-                window.mainpage.mainTabs.addModule(node.attributes);
+                var opts = $.extend({ id: node.id, title: node.text, iconCls: node.iconCls }, node.attributes);
+                window.mainpage.mainTabs.addModule(opts);
             },
             onLoadSuccess: function (node, data) {
                 $.util.call(function () { $(navMenuList).find("a").removeAttr("disabled"); });
+                window.mainpage.instTreeStatus(this);
                 $.easyui.loaded(westCenterLayout);
             },
             contextMenu: [
@@ -77,7 +121,7 @@
                     window.mainpage.mainTabs.addModule(node.attributes);
                 }
                 }, "-",
-                { text: "添加至个人收藏", iconCls: "icon-standard-feed-add", handler: function (e, node) { window.mainpage.nav.addFavo(node.id); } },
+                { text: "添加至个人收藏", iconCls: "icon-standard-feed-add", disabled: function (e, node) { return !t.tree("isLeaf", node.target); }, handler: function (e, node) { window.mainpage.nav.addFavo(node.id); } },
                 { text: "重命名", iconCls: "icon-hamburg-pencil", handler: function (e, node) { t.tree("beginEdit", node.target); } }, "-",
                 { text: "刷新", iconCls: "icon-cologne-refresh", handler: function (e, node) { window.mainpage.nav.refreshTree(); } }
             ],
@@ -117,9 +161,11 @@
             selectOnContextMenu: true,
             onClick: function (node) {
                 if (!node || !node.attributes || !node.attributes.href) { return; }
-                window.mainpage.mainTabs.addModule(node.attributes);
+                var opts = $.extend({ id: node.id, title: node.text, iconCls: node.iconCls }, node.attributes);
+                window.mainpage.mainTabs.addModule(opts);
             },
             onLoadSuccess: function (node, data) {
+                window.mainpage.instTreeStatus(this);
                 $.easyui.loaded(westFavoLayout);
             },
             contextMenu: [
@@ -188,7 +234,7 @@
     };
 
     window.mainpage.mainTabs.tabDefaultOption = {
-        title: "新建选项卡", href: "", iniframe: false, closable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true
+        title: "新建选项卡", href: "", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true
     };
     window.mainpage.mainTabs.parseCreateTabArgs = function (args) {
         var ret = {};
