@@ -1,7 +1,7 @@
 jquery-extensions
 ====================================================================
-jQuery && jEasyUI À©Õ¹¹¦ÄÜ¼¯ºÏ
-¸ÃÀ©Õ¹¹¦ÄÜ»ùÓÚ jQuery 1.9.x ºÍ jQuery EasyUI 1.3.3 ÊµÏÖ
+jQuery && jEasyUI æ‰©å±•åŠŸèƒ½é›†åˆ
+è¯¥æ‰©å±•åŠŸèƒ½åŸºäº jQuery 1.9.x å’Œ jQuery EasyUI 1.3.3 å®ç°
 
 jQuery EasyUI 1.3.3
 Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
@@ -12,72 +12,72 @@ http://www.gnu.org/licenses/gpl.txt
 http://www.jeasyui.com/license_commercial.php
 
 jqueyr-extensions
-¶ş´Î¿ª·¢ ³Â½¨Î°
-×î½ü¸üĞÂ£º2013-08-25
+äºŒæ¬¡å¼€å‘ é™ˆå»ºä¼Ÿ
+æœ€è¿‘æ›´æ–°ï¼š2013-08-25
 
 Copyright (c) 2013 ChenJianwei personal All rights reserved.
 http://www.chenjianwei.org
 ====================================================================
 
-Ê¹ÓÃ±¾À©Õ¹Ç°Çë×ĞÏ¸ÔÄ¶Á±¾ÎÄ¼ş¡£
+ä½¿ç”¨æœ¬æ‰©å±•å‰è¯·ä»”ç»†é˜…è¯»æœ¬æ–‡ä»¶ã€‚
 
-Ò»¡¢À©Õ¹ËµÃ÷
-    ±¾À©Õ¹¼¯ºÏ°üº¬Á½´ó²¿·Ö£º
-    1¡¢jquery »ù´¡¿âÀ©Õ¹£»ÓÉÎÄ¼ş jquery.jdirk.js ÊµÏÖ£»¸ÃÎÄ¼şÀ©³äÁË jquery µÄ»ù´¡¹¦ÄÜ£¬Ö÷ÒªÌåÏÖÔÚ£º
-        A¡¢Ôö¼ÓÁË´óÁ¿µÄ jquery-utility£¬ÎªÇ°¶Ë¿ª·¢Ìá¹©Öî¶à±ãÀû£»
-        B¡¢¶Ô javascript µÄ»ù´¡¶ÔÏó String¡¢Date¡¢Array¡¢Number¡¢Boolean ½øĞĞÁË´óÁ¿µÄÊµÀı·½·¨À©³ä£»
-        C¡¢Ôö¼ÓÁË jquery ¶Ô HTML5 ÊôĞÔÑéÖ¤µÄÖ§³Ö£»
-        D¡¢Ôö¼ÓÁËÔÚ IE6/7 »·¾³ÏÂ¶Ô JSON Êı¾İ¸ñÊ½µÄÖ§³Ö(ÕûºÏ json2.js)£»
-    2¡¢jeasyui ¹¦ÄÜÀ©Õ¹£»¸Ã²¿·ÖÀ©Õ¹º­¸ÇËÄ¸ö²¿·Ö£º
-        A¡¢jeasyui À©Õ¹»ù´¡¿â£»ÓÉ ÎÄ¼ş jeasyui.extensions.js ÊµÏÖ£»¸ÃÎÄ¼şÌá¹©µÄ¹¦ÄÜÖ÷ÒªÌåÏÖÔÚ£º
-            a¡¢·â×°ÁË jeasyui µÄ ajax ´íÎó´¦Àí£»
-            b¡¢¸Ä½øÁË messager¡¢tooltip µÄµ÷ÓÃ·½Ê½£»
-            c¡¢ÔöÇ¿ÁË jeasyui ¿Ø¼ş´¦ÀíÍ¨¹ı ajax ÇëÇóµÄÔ¶³Ì json Êı¾İµÄÈİ´íĞÔ£»
-            d¡¢Ôö¼ÓÁË²¿·Ö jeasyui Ö§³ÖµÄÆäËû»ù´¡·½·¨£»
-        B¡¢¶Ô jeasyui µÄÏÖÓĞ²å¼ş½øĞĞÁË¹¦ÄÜÀ©Õ¹£»ÒÑ¾­¹¦ÄÜÀ©Õ¹µÄ²å¼ş°üÀ¨(ÔÚÄ¿Â¼ "jeasyui-extensions" µÄ js ÎÄ¼şÃûÒÔ "jeasyui.extensions" ¿ªÍ·)£º
-            a¡¢validatebox
-            b¡¢combo
-            c¡¢combobox
-            e¡¢form
-            f¡¢menu
-            g¡¢panel
-            h¡¢window
-            i¡¢dialog
-            j¡¢tree
-            k¡¢datagrid
-            l¡¢treegrid
-            m¡¢combogrid
-            n¡¢combotree
-            o¡¢tabs
-        C¡¢ĞÂÔö²¿·Ö jeasyui ²å¼ş£¬°üÀ¨£º
-            a¡¢toolbar(ËùÔÚÄ¿Â¼Îª "jeasyui-extensions/jquery-easyui-toolbar")£»
-            b¡¢my97£»
-            c¡¢ckeditor£»
-            d¡¢uploadify£»
-        D¡¢¶Ô jeasyui ¹Ù·½Ìá¹©µÄ²¿·ÖÀ©Õ¹²å¼ş½øĞĞÁË´úÂëÖØ¹¹»ò BUG ĞŞ¸´£¬²¢ÔöÇ¿Æä²¿·Ö¹¦ÄÜ£»Õâ²¿·Ö²å¼ş°üÀ¨£º
-            a¡¢portal(ËùÔÚÄ¿Â¼Îª "jeasyui-extensions/jquery-easyui-portal")£»
+ä¸€ã€æ‰©å±•è¯´æ˜
+    æœ¬æ‰©å±•é›†åˆåŒ…å«ä¸¤å¤§éƒ¨åˆ†ï¼š
+    1ã€jquery åŸºç¡€åº“æ‰©å±•ï¼›ç”±æ–‡ä»¶ jquery.jdirk.js å®ç°ï¼›è¯¥æ–‡ä»¶æ‰©å……äº† jquery çš„åŸºç¡€åŠŸèƒ½ï¼Œä¸»è¦ä½“ç°åœ¨ï¼š
+        Aã€å¢åŠ äº†å¤§é‡çš„ jquery-utilityï¼Œä¸ºå‰ç«¯å¼€å‘æä¾›è¯¸å¤šä¾¿åˆ©ï¼›
+        Bã€å¯¹ javascript çš„åŸºç¡€å¯¹è±¡ Stringã€Dateã€Arrayã€Numberã€Boolean è¿›è¡Œäº†å¤§é‡çš„å®ä¾‹æ–¹æ³•æ‰©å……ï¼›
+        Cã€å¢åŠ äº† jquery å¯¹ HTML5 å±æ€§éªŒè¯çš„æ”¯æŒï¼›
+        Dã€å¢åŠ äº†åœ¨ IE6/7 ç¯å¢ƒä¸‹å¯¹ JSON æ•°æ®æ ¼å¼çš„æ”¯æŒ(æ•´åˆ json2.js)ï¼›
+    2ã€jeasyui åŠŸèƒ½æ‰©å±•ï¼›è¯¥éƒ¨åˆ†æ‰©å±•æ¶µç›–å››ä¸ªéƒ¨åˆ†ï¼š
+        Aã€jeasyui æ‰©å±•åŸºç¡€åº“ï¼›ç”± æ–‡ä»¶ jeasyui.extensions.js å®ç°ï¼›è¯¥æ–‡ä»¶æä¾›çš„åŠŸèƒ½ä¸»è¦ä½“ç°åœ¨ï¼š
+            aã€å°è£…äº† jeasyui çš„ ajax é”™è¯¯å¤„ç†ï¼›
+            bã€æ”¹è¿›äº† messagerã€tooltip çš„è°ƒç”¨æ–¹å¼ï¼›
+            cã€å¢å¼ºäº† jeasyui æ§ä»¶å¤„ç†é€šè¿‡ ajax è¯·æ±‚çš„è¿œç¨‹ json æ•°æ®çš„å®¹é”™æ€§ï¼›
+            dã€å¢åŠ äº†éƒ¨åˆ† jeasyui æ”¯æŒçš„å…¶ä»–åŸºç¡€æ–¹æ³•ï¼›
+        Bã€å¯¹ jeasyui çš„ç°æœ‰æ’ä»¶è¿›è¡Œäº†åŠŸèƒ½æ‰©å±•ï¼›å·²ç»åŠŸèƒ½æ‰©å±•çš„æ’ä»¶åŒ…æ‹¬(åœ¨ç›®å½• "jeasyui-extensions" çš„ js æ–‡ä»¶åä»¥ "jeasyui.extensions" å¼€å¤´)ï¼š
+            aã€validatebox
+            bã€combo
+            cã€combobox
+            eã€form
+            fã€menu
+            gã€panel
+            hã€window
+            iã€dialog
+            jã€tree
+            kã€datagrid
+            lã€treegrid
+            mã€combogrid
+            nã€combotree
+            oã€tabs
+        Cã€æ–°å¢éƒ¨åˆ† jeasyui æ’ä»¶ï¼ŒåŒ…æ‹¬ï¼š
+            aã€toolbar(æ‰€åœ¨ç›®å½•ä¸º "jeasyui-extensions/jquery-easyui-toolbar")ï¼›
+            bã€my97ï¼›
+            cã€ckeditorï¼›
+            dã€uploadifyï¼›
+        Dã€å¯¹ jeasyui å®˜æ–¹æä¾›çš„éƒ¨åˆ†æ‰©å±•æ’ä»¶è¿›è¡Œäº†ä»£ç é‡æ„æˆ– BUG ä¿®å¤ï¼Œå¹¶å¢å¼ºå…¶éƒ¨åˆ†åŠŸèƒ½ï¼›è¿™éƒ¨åˆ†æ’ä»¶åŒ…æ‹¬ï¼š
+            aã€portal(æ‰€åœ¨ç›®å½•ä¸º "jeasyui-extensions/jquery-easyui-portal")ï¼›
 
-¶ş¡¢ÎÄ¼şÄ¿Â¼ËµÃ÷
-    Çë²Î¿¼ API ÎÄµµÖĞµÄËµÃ÷£»
+äºŒã€æ–‡ä»¶ç›®å½•è¯´æ˜
+    è¯·å‚è€ƒ API æ–‡æ¡£ä¸­çš„è¯´æ˜ï¼›
 
-Èı¡¢ÒıÓÃ·½Ê½
-    Çë²Î¿¼ API ÎÄµµÖĞµÄËµÃ÷£»
+ä¸‰ã€å¼•ç”¨æ–¹å¼
+    è¯·å‚è€ƒ API æ–‡æ¡£ä¸­çš„è¯´æ˜ï¼›
 
-ËÄ¡¢×¢ÒâÊÂÏî
-    1¡¢ÇëÎğĞŞ¸Ä±¾ÎÄ¼ş¼ĞÏÂÈÎºÎÎÄ¼şµÄÃû³Æ£¬ÇëÎğÉ¾³ı±¾ÎÄ¼ş¼ĞÏÂÈÎºÎÎÄ¼ş£»
+å››ã€æ³¨æ„äº‹é¡¹
+    1ã€è¯·å‹¿ä¿®æ”¹æœ¬æ–‡ä»¶å¤¹ä¸‹ä»»ä½•æ–‡ä»¶çš„åç§°ï¼Œè¯·å‹¿åˆ é™¤æœ¬æ–‡ä»¶å¤¹ä¸‹ä»»ä½•æ–‡ä»¶ï¼›
 
-Îå¡¢API ºÍ DEMO ÎÄµµ
-    ¹ØÓÚ±¾À©Õ¹¼¯ºÏµÄ API ºÍ DEMO ÎÄµµ£¬Çë´ò¿ª±¾ÎÄ¼ş¼ĞÖĞµÄ index.html ²é¿´¡£
+äº”ã€API å’Œ DEMO æ–‡æ¡£
+    å…³äºæœ¬æ‰©å±•é›†åˆçš„ API å’Œ DEMO æ–‡æ¡£ï¼Œè¯·æ‰“å¼€æœ¬æ–‡ä»¶å¤¹ä¸­çš„ index.html æŸ¥çœ‹ã€‚
 
 
 
-ÆäËû£º
-    1¡¢¹ØÓÚ jquery-easyui-datagrid Ïà¹ØAPI£¬²Î¼û£º
-            ¹Ù·½ API(Ó¢ÎÄ)£ºhttp://www.jeasyui.com/documentation/index.php
-            ÖĞÎÄÉçÇø API  £ºhttp://api.btboys.com/
-    2¡¢×ªÔØÇë×¢Ã÷³ö´¦£»ÈçĞèÔÚÄú×Ô¼ºµÄÏîÄ¿ÓÃÒıÓÃ±¾À©Õ¹¼¯ºÏ£¬Çë×ñÑ­ gpl-v3 Ğ­Òé£»
-    3¡¢jEasyUI ÖĞÎÄÉçÇø£º
+å…¶ä»–ï¼š
+    1ã€å…³äº jquery-easyui-datagrid ç›¸å…³APIï¼Œå‚è§ï¼š
+            å®˜æ–¹ API(è‹±æ–‡)ï¼šhttp://www.jeasyui.com/documentation/index.php
+            ä¸­æ–‡ç¤¾åŒº API  ï¼šhttp://api.btboys.com/
+    2ã€è½¬è½½è¯·æ³¨æ˜å‡ºå¤„ï¼›å¦‚éœ€åœ¨æ‚¨è‡ªå·±çš„é¡¹ç›®ç”¨å¼•ç”¨æœ¬æ‰©å±•é›†åˆï¼Œè¯·éµå¾ª gpl-v3 åè®®ï¼›
+    3ã€jEasyUI ä¸­æ–‡ç¤¾åŒºï¼š
             http://www.jeasyuicn.com/
             http://bbs.jeasyuicn.com/
-    4¡¢jEasyUI ÖĞÎÄÉçÇø QQ ÈººÅ£º70168958
+    4ã€jEasyUI ä¸­æ–‡ç¤¾åŒº QQ ç¾¤å·ï¼š70168958
 
