@@ -31,7 +31,7 @@
     <script src="../icons/jeasyui.icons.all.js" type="text/javascript"></script>
 
     <script src="../jeasyui-extensions/jeasyui.extensions.icons.js" type="text/javascript"></script>
-    <script src="../jeasyui-extensions/jeasyui.plugins.toolbar.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jquery-easyui-toolbar/jquery.toolbar.js" type="text/javascript"></script>
 
     <script src="../jeasyui-extensions/jquery-easyui-portal/jquery.portal.js" type="text/javascript"></script>
     <link href="../jeasyui-extensions/jquery-easyui-portal/portal.css" rel="stylesheet" type="text/css" />
@@ -43,6 +43,7 @@
 
     <style type="text/css">
         body { padding: 0px; margin: 0px; font-size: 12px; }
+        .panel-container { padding-left: 10px; padding-right: 10px; }
     </style>
 
     <script type="text/javascript">
@@ -53,7 +54,7 @@
             var demo = $("#demo").panel("refresh", path + "/demo.html");
             var code = $("#code"), opts = code.panel("options");
             opts.onLoad = function () {
-                $(this).find(">textarea").each(function () { SyntaxHighlighter.highlight({}, this); });
+                $(this).find("textarea[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
             };
             code.panel("refresh", path + "/code.html")
         });
@@ -61,8 +62,8 @@
 </head>
 <body>
     <div class="easyui-tabs" data-options="fit: true, border: false, tabPosition: 'left'">
-        <div id="demo" data-options="title: '功能演示', iconCls: 'icon-hamburg-advertising', selected: true"></div>
-        <div id="code" data-options="title: '源代码', iconCls: 'icon-standard-script-code'">
+        <div id="demo" class="panel-container" data-options="title: '功能演示', iconCls: 'icon-hamburg-advertising', selected: true"></div>
+        <div id="code" class="panel-container" data-options="title: '源代码', iconCls: 'icon-standard-script-code'">
         </div>
     </div>
 </body>

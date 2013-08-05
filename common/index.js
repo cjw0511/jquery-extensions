@@ -6,48 +6,6 @@
     $.util.namespace("mainpage.favo");
     $.util.namespace("mainpage.mainTabs");
 
-    var navMenusData = [
-        { id: "1", text: "百度一下", iconCls: "icon-hamburg-docs", attributes: { href: "http://www.baidu.com", iniframe: true, closable: true, refreshable: true, selected: true} },
-        { id: "2", text: "测试菜单 1", iconCls: "icon-standard-accept" },
-        { id: "3", text: "测试菜单 2", iconCls: "icon-standard-add" },
-        { id: "4", text: "测试菜单 3", iconCls: "icon-standard-anchor" },
-        { id: "5", text: "测试菜单 4", iconCls: "icon-standard-application" },
-        { id: "6", text: "测试菜单 5", iconCls: "icon-standard-application-add" },
-        { id: "8", text: "测试菜单 6", iconCls: "icon-standard-application-cascade" },
-        { id: "9", text: "测试菜单 7", iconCls: "icon-standard-application-delete" },
-        { id: "10", text: "扩展 API 文档", iconCls: "icon-hamburg-docs" },
-        { id: "11", text: "演示 DEMO", iconCls: "icon-hamburg-product-design" }
-    ];
-
-    var apiMenus = [
-        { id: "1101", text: "Base", pid: "11" },
-        { id: "110101", text: "Messager", pid: "1101", attributes: { href: "examples/example.html?messager"} },
-        { id: "110102", text: "Tooltip", pid: "1101" },
-        { id: "110103", text: "Mask-Loading", pid: "1101" },
-
-        { id: "1102", text: "Layout", pid: "11" },
-        { id: "1103", text: "Menu and Button", pid: "11" },
-        { id: "1104", text: "Form", pid: "11" },
-        { id: "1105", text: "Window", pid: "11" },
-        { id: "1106", text: "DataGrid and Tree", pid: "11" },
-        { id: "110601", text: "DataGrid", pid: "1106" },
-        { id: "11060101", text: "表头菜单", pid: "110601", attributes: { href: "examples/example.html?datagrid/header"} },
-
-        { id: "1107", text: "Others", pid: "11" }
-    ];
-
-    var docMenus = [
-        { id: "1001", text: "Base", pid: "10" },
-        { id: "1002", text: "Layout", pid: "10" },
-        { id: "1003", text: "Menu and Button", pid: "10" },
-        { id: "1004", text: "Form", pid: "10" },
-        { id: "1005", text: "Window", pid: "10" },
-        { id: "1006", text: "DataGrid and Tree", pid: "10" },
-        { id: "1007", text: "Others", pid: "10" }
-    ];
-
-
-
     var homePageTitle = "主页", homePageHref = null, navMenuList = "#navMenu_list",
         navMenuTree = "#navMenu_Tree", mainTab = "#mainTab", navTab = "#navTab", favoMenuTree = "#favoMenu_Tree",
         westLayout = "#westLayout", westCenterLayout = "#westCenterLayout", westFavoLayout = "#westFavoLayout",
@@ -59,16 +17,16 @@
     window.mainpage.loadMenu = function (id) {
         $(navMenuList).find("a").attr("disabled", true);
         $.easyui.loading(westCenterLayout);
-        var root = $.extend({}, $.array.first(navMenusData, function (val) { return val.id == id; })),
-            menus = id == "10" ? docMenus : (id == "11" ? apiMenus : []),
-            data = $.array.merge([], menus, root), array = $.array.map(data, function (val) { return $.extend({}, val); });
-        var t = $(navMenuTree).tree("loadData", array);
+        var root = $.extend({}, $.array.first(window.mainpage.navMenusData, function (val) { return val.id == id; })),
+            menus = id == "10" ? window.mainpage.docMenus : (id == "11" ? window.mainpage.apiMenus : []);
+        root.children = menus;
+        var t = $(navMenuTree).tree("loadData", [root]);
     };
 
     //  将指定的根节点数据集合数据加载至左侧面板中“导航菜单”的 ul 控件中；该方法定义如下参数：
     //      menus:  为一个 Array 对象；数组中的每一个元素都是一个表示根节点菜单数据的 JSON-Object。
     window.mainpage.loadNavMenus = function () {
-        var ul = $(navMenuList).empty(), menus = navMenusData;
+        var ul = $(navMenuList).empty(), menus = window.mainpage.navMenusData;
         $.each(menus, function (i, item) {
             var li = $("<li></li>").appendTo(ul);
             var pp = $("<div></div>").addClass("panel-header panel-header-noborder").appendTo(li);
@@ -105,6 +63,7 @@
             lines: true,
             toggleOnClick: true,
             selectOnContextMenu: true,
+            smooth: false,
             onClick: function (node) {
                 if (!node || !node.attributes || !node.attributes.href) { return; }
                 var opts = $.extend({ id: node.id, title: node.text, iconCls: node.iconCls }, node.attributes);
@@ -134,7 +93,9 @@
         window.mainpage.loadNavMenus();
         window.mainpage.instNavTree();
         var selectIndex = 0;
-        if (navMenusData.length) { $(navMenuList).find("a").eq(selectIndex > -1 && selectIndex < navMenusData.length ? selectIndex : 0).click(); }
+        if (window.mainpage.navMenusData.length) {
+            $(navMenuList).find("a").eq(selectIndex > -1 && selectIndex < window.mainpage.navMenusData.length ? selectIndex : 0).click();
+        }
     };
 
 
@@ -142,7 +103,7 @@
     //      menus:  为一个 Array 对象；数组中的每一个元素都是一个表示根节点菜单数据的 JSON-Object。
     window.mainpage.loadFavoMenus = function () {
         $.easyui.loading(westFavoLayout);
-        $(favoMenuTree).tree("loadData", navMenusData);
+        $(favoMenuTree).tree("loadData", window.mainpage.navMenusData);
     };
 
     //  初始化 westSouthPanel 位置“个人收藏”的 ul 控件(仅初始化 easyui-tree 对象，不加载数据)。

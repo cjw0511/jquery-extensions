@@ -162,7 +162,8 @@
             if (opts.enableContextMenu) {
                 e.preventDefault();
                 var items = parseContextMenuItems(t, opts, e, node);
-                if (opts.autoBindDblClick && opts.dblClickMenuIndex >= 0 && items.length > opts.dblClickMenuIndex) {
+                if (opts.autoBindDblClick && opts.dblClickMenuIndex >= 0 && $.util.likeArray(opts.contextMenu) && !$.util.isString(opts.contextMenu)
+                    && opts.contextMenu.length > opts.dblClickMenuIndex) {
                     items[opts.dblClickMenuIndex].bold = true;
                 }
                 $.easyui.showMenu({ items: items, left: e.pageX, top: e.pageY });
@@ -283,7 +284,7 @@
         data = $.array.likeArray(data) && !$.util.isString(data) ? data : [];
         if (!data.length) { return data; }
         var t = $.util.parseJquery(this), opts = t.tree("options");
-        return $.fn.tree.extensions.smoothConverter(data, opts);
+        return opts.smooth ? $.fn.tree.extensions.smoothConverter(data, opts) : data;
     };
     /******************** initExtensions   End ********************/
 
@@ -460,6 +461,7 @@
 
         //  扩展 easyui-tree 的自定义属性，表示同一级菜单节点下，只允许一个节点被展开。
         //  Boolean 类型，默认为 false。
+        //  当该属性设置为 true 时，建议同时把 animate 属性设置为 false，以免影响菜单联动折叠时的美观效果。
         onlyNodeExpand: false,
 
         //  扩展 easyui-tree 的自定义属性，表示是否启用当前 easyui-tree 组件的右键菜单。

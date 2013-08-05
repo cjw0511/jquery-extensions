@@ -11,7 +11,7 @@
 * jQuery EasyUI treegrid 组件扩展
 * jeasyui.extensions.treegrid.js
 * 二次开发 陈建伟
-* 最近更新：2013-2013-07-24
+* 最近更新：2013-08-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -1481,7 +1481,7 @@
         var isArray = $.array.likeArray(data) && !$.util.isString(data), rows = isArray ? data : data.rows;
         if (!rows.length) { return data; }
         var t = $.util.parseJquery(this), opts = t.treegrid("options");
-        rows = $.fn.tree.extensions.smoothConverter(rows, opts);
+        rows = opts.smooth ? $.fn.tree.extensions.smoothConverter(rows, opts) : rows;
         if (parent != null && parent != undefined) { return isArray ? rows : { total: rows.length, rows: rows }; }
         return isArray ? rows : { total: data.length || rows.length, rows: rows };
     };
@@ -1951,6 +1951,7 @@
 
         //  扩展 easyui-treegrid 的自定义属性，表示同一级菜单节点下，只允许一个节点被展开。
         //  Boolean 类型，默认为 false。
+        //  当该属性设置为 true 时，建议同时把 animate 属性设置为 false，以免影响菜单联动折叠时的美观效果。
         onlyNodeExpand: false,
 
         //  扩展 easyui-treegrid 的自定义属性，表示当前 easyui-treegrid 控件是否支持级联选择；
