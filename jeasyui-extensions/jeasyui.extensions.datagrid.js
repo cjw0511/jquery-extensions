@@ -980,7 +980,8 @@
             if (!opts.enableRowContextMenu) { return; }
             var eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, e),
                 items = parseRowContextMenuItems(t, opts, exts, e, rowIndex, rowData, eventData);
-            if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && items.length > opts.dblClickRowMenuIndex) {
+            if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && $.util.likeArray(opts.rowContextMenu) && !$.util.isString(opts.rowContextMenu)
+                && opts.rowContextMenu.length > opts.dblClickRowMenuIndex) {
                 items[opts.dblClickRowMenuIndex].bold = true;
             }
             $.easyui.showMenu({ items: items, left: e.pageX, top: e.pageY, hideDisabledMenu: opts.hideDisabledMenu });
@@ -1025,9 +1026,10 @@
             //  t.datagrid("selectRow", rowIndex);
             var eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, null);
             items = parseRowContextMenuItems(t, opts, exts, null, rowIndex, rowData, eventData);
-            if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && items.length > opts.dblClickRowMenuIndex) {
+            if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && $.util.likeArray(opts.rowContextMenu)
+                && !$.util.isString(opts.rowContextMenu) && opts.rowContextMenu.length > opts.dblClickRowMenuIndex) {
                 var item = items[opts.dblClickRowMenuIndex], handler = item.handler || item.onclick;
-                handler(null, rowIndex, rowData, eventData, t, item, null);
+                return handler(null, rowIndex, rowData, eventData, t, item, null);
             }
             if (opts.autoEditing) { t.datagrid("beginEdit", rowIndex); }
         };
@@ -1923,7 +1925,7 @@
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否启用右键点击表头或者行数据时候弹出菜单中具有 "导出数据" 菜单的功能；
         //  该属性可以定义为以下类型：
-        //      Boolean 类型值，表示是否启用右键菜单中的“翻页”菜单项功能，默认为 false。
+        //      Boolean 类型值，表示是否启用右键菜单中的“导出数据”菜单项功能，默认为 false。
         //      JSON-Object 类型，该 JSON-Object 可以包含如下属性：
         //          current:   Boolean 类型值，表示是否启用“导出当前页”的菜单项，默认为 true；
         //          all:   Boolean 类型值，表示是否启用“导出全部”的菜单项，默认为 true；
@@ -1965,11 +1967,11 @@
         //  备注：具体格式参考 easyui-datagrid 的 toolbar 属性为 Array 对象类型的格式；
         rowContextMenu: null,
 
-        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否启用 easyui-treegrid 的表头右键菜单；
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否启用 easyui-datagrid 的表头右键菜单；
         //  Boolean 类型值，默认为 true。
         enableHeaderContextMenu: true,
 
-        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否启用 easyui-treegrid 的行右键菜单；
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否启用 easyui-datagrid 的行右键菜单；
         //  Boolean 类型值，默认为 true。
         enableRowContextMenu: true,
 
@@ -1982,9 +1984,9 @@
         //          down:       布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“下移”菜单；
         //          bottom:     布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“移至最上”菜单；
         //          submenu:    表示这四个菜单项是否以子菜单方式呈现，默认为 true；
-        //          上面四个属性，如果参数的值为函数，则函数的签名为 function(e, node, treegrid, item, menu)。
+        //          上面四个属性，如果参数的值为函数，则函数的签名为 function(e, node, datagrid, item, menu)。
         //  备注：当 enableRowContextMenu 属性设置为 true 时，该属性才有效。
-        //      这四个菜单点击时，会自动触发 easyui-treegrid 的 onDrop 事件。
+        //      这四个菜单点击时，会自动触发 easyui-datagrid 的 onDrop 事件。
         moveMenu: false,
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否启用右键菜单中的“翻页”菜单项的功能；
@@ -2013,7 +2015,7 @@
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示在双击 data-row(数据行) 时，是否自动启用该行的编辑功能(执行 beginEdit 操作)；
         //  Boolean 类型值，默认为 false。
-        //  如果将此属性值设置为 true，建议同时把 autoBindDblClickRow 属性值设置为 false。
+        //  注意：当 autoBindDblClickRow 属性设置为 true 且菜单项满足其触发条件时，autoEditing 的双击行时自动启用编辑效果将不会触发。
         autoEditing: false,
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否在一个时刻只允许一行数据开启编辑状态(当某行数据开启编辑状态时，其他正在编辑的行将会被自动执行 endEdit 操作)；

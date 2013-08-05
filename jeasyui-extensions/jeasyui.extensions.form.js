@@ -46,6 +46,7 @@
 
 
     var load = function (target, data) {
+        var form = $.util.parseJquery(target);
         if (!$.data(target, 'form')) {
             $.data(target, 'form', { options: $.extend({}, $.fn.form.defaults) });
         }
@@ -63,7 +64,6 @@
         } else {
             _load(data);
         }
-        var form = $.util.parseJquery(target);
         function _load(data) {
             for (var name in data) {
                 var val = data[name];

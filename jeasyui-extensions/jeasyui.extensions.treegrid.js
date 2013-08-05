@@ -922,7 +922,8 @@
             if (!opts.enableRowContextMenu) { return; }
             var eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, e),
                 items = parseRowContextMenuItems(t, opts, exts, e, row, eventData);
-            if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && items.length > opts.dblClickRowMenuIndex) {
+            if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && $.util.likeArray(opts.rowContextMenu) && !$.util.isString(opts.rowContextMenu)
+                && opts.rowContextMenu.length > opts.dblClickRowMenuIndex) {
                 items[opts.dblClickRowMenuIndex].bold = true;
             }
             $.easyui.showMenu({ items: items, left: e.pageX, top: e.pageY, hideDisabledMenu: opts.hideDisabledMenu });
@@ -1227,9 +1228,10 @@
             //  t.treegrid("select", row[opts.idField]);
             var eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, null);
             items = parseRowContextMenuItems(t, opts, exts, null, row, eventData);
-            if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && items.length > opts.dblClickRowMenuIndex) {
+            if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && $.util.likeArray(opts.rowContextMenu)
+                && !$.util.isString(opts.rowContextMenu) && opts.rowContextMenu.length > opts.dblClickRowMenuIndex) {
                 var item = items[opts.dblClickRowMenuIndex], handler = item.handler || item.onclick;
-                handler(null, row, eventData, t, item, null);
+                return handler(null, row, eventData, t, item, null);
             }
             if (opts.autoEditing) { t.treegrid("beginEdit", row[opts.idField]); }
         };
@@ -1644,12 +1646,12 @@
         getNearChildren: function (jq, id) { return getNearChildren(jq[0], id); },
 
 
-        //  扩展 easyui-datagrid 的自定义方法；启用当前表格的行拖动功能；该方法无参数；
-        //  返回值：返回表示当前 easyui-datagrid 的 jQuery 链式对象。
+        //  扩展 easyui-treegrid 的自定义方法；启用当前表格的行拖动功能；该方法无参数；
+        //  返回值：返回表示当前 easyui-treegrid 的 jQuery 链式对象。
         enableRowDnd: function (jq) { return jq.each(function () { enableRowDnd(this); }); },
 
-        //  扩展 easyui-datagrid 的自定义方法；禁用当前表格的行拖动功能；该方法无参数；
-        //  返回值：返回表示当前 easyui-datagrid 的 jQuery 链式对象。
+        //  扩展 easyui-treegrid 的自定义方法；禁用当前表格的行拖动功能；该方法无参数；
+        //  返回值：返回表示当前 easyui-treegrid 的 jQuery 链式对象。
         disableRowDnd: function (jq) { return jq.each(function () { disableRowDnd(this); }); },
 
 
@@ -1981,7 +1983,7 @@
 
         //  增加 easyui-treegrid 的自定义扩展属性，该属性表示是否启用右键点击表头或者行数据时候弹出菜单中具有 "导出数据" 菜单的功能；
         //  该属性可以定义为以下类型：
-        //      Boolean 类型值，表示是否启用右键菜单中的“翻页”菜单项功能，默认为 false。
+        //      Boolean 类型值，表示是否启用右键菜单中的“导出数据”菜单项功能，默认为 false。
         //      JSON-Object 类型，该 JSON-Object 可以包含如下属性：
         //          current:   Boolean 类型值，表示是否启用“导出当前页”的菜单项，默认为 true；
         //          all:   Boolean 类型值，表示是否启用“导出全部”的菜单项，默认为 true；
@@ -2087,7 +2089,7 @@
 
         //  增加 easyui-treegrid 的自定义扩展属性，该属性表示在双击 data-row(数据行) 时，是否自动启用该行的编辑功能(执行 beginEdit 操作)；
         //  Boolean 类型值，默认为 false。
-        //  如果将此属性值设置为 true，建议同时把 autoBindDblClickRow 属性值设置为 false。
+        //  注意：当 autoBindDblClickRow 属性设置为 true 且菜单项满足其触发条件时，autoEditing 的双击行时自动启用编辑效果将不会触发。
         autoEditing: false,
 
         //  增加 easyui-treegrid 的自定义扩展属性，该属性表示是否在一个时刻只允许一行数据开启编辑状态(当某行数据开启编辑状态时，其他正在编辑的行将会被自动执行 endEdit 操作)；
