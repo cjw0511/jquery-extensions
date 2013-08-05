@@ -21,8 +21,7 @@ jqueyr-extensions<br />
 Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
 http://www.chenjianwei.org
 </p>
-====================
-使用本扩展前请仔细阅读本文件。
+<h3>使用本扩展前请仔细阅读本文件。</h3>
 <ul>
     <li>
         扩展说明
