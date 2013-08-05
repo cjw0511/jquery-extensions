@@ -1,6 +1,7 @@
 <p>
-jquery-extensions
-====================================================================
+jquery-extensions<br />
+<hr />
+<br />
 jQuery && jEasyUI 扩展功能集合<br />
 该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.3 实现<br />
 <br />
@@ -21,5 +22,5 @@ jqueyr-extensions<br />
 Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
 http://www.chenjianwei.org
 <br />
-====================================================================
+<hr />
 </p>
