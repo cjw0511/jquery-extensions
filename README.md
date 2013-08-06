@@ -16,12 +16,13 @@ http://www.jeasyui.com/license_commercial.php
 <br />
 jqueyr-extensions<br />
 二次开发 陈建伟<br />
-最近更新：2013-08-25<br />
+最近更新：2013-08-05<br />
 <br />
 Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
 http://www.chenjianwei.org
 </p>
 <h3>使用本扩展前请仔细阅读本文件。</h3>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js" type="text/javascript" ></script>
 <ul>
     <li>
         扩展说明
@@ -32,7 +33,7 @@ http://www.chenjianwei.org
                     jquery 基础库扩展；由文件 jquery.jdirk.js 实现；该文件扩充了 jquery 的基础功能，主要体现在：
                     <ul>
                         <li>增加了大量的 jquery-utility，为前端开发提供诸多便利；</li>
-                        <li>对 javascript 的基础对象 String、Date、Array、Number、Boolean 进行了大量的实例方法扩充；</li>
+                        <li>对 javascript 的基础对象 String、Date、Array、Number、Boolean 进行了大量的静态和实例方法扩充；</li>
                         <li>增加了 jquery 对 HTML5 属性验证的支持；</li>
                         <li>增加了在 IE6/7 环境下对 JSON 数据格式的支持(整合 json2.js)；</li>
                     </ul>
@@ -107,7 +108,7 @@ http://www.chenjianwei.org
 
     <li>
         API 和 DEMO 文档
-        <p>关于本扩展集合的 API 和 DEMO 文档，请打开本文件夹中的 index.html 查看。</p>
+        <p>关于本扩展集合的 API 和 DEMO 文档，请将本插件打包下载后，打开本文件夹中的 index.html 查看。</p>
     </li>
 
     <li>

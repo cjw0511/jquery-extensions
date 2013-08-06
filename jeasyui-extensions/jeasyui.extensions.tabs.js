@@ -101,7 +101,7 @@
             panelOpts = $.union({}, param.options, $.fn.tabs.extensions.panelOptions),
             tools = panelOpts.tools, onLoad = panelOpts.onLoad,
             refreshButton = { iconCls: "icon-mini-refresh", handler: function () {
-                var title = $(event.srcElement).parent().prev().find("span.tabs-title").text();
+                var title = $(this).parent().prev().find("span.tabs-title").text();
                 if (title) { tabs.tabs("refresh", title); }
             }
             };
