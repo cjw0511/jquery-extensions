@@ -22,7 +22,6 @@ Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
 http://www.chenjianwei.org
 </p>
 <h3>使用本扩展前请仔细阅读本文件。</h3>
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js" type="text/javascript" ></script>
 <ul>
     <li>
         扩展说明
@@ -93,7 +92,23 @@ http://www.chenjianwei.org
 
     <li>
         文件目录说明
-        <p>请参考 API 文档中的说明；</p>
+        <p>
+            ─jquery-extensions               该扩展项目的根目录<br />
+              ├─common                      提供 index.html 页面运行的部分支持 javascript 文件<br />
+              ├─docs                        关于该扩展项目的文档目录<br />
+              ├─examples                    关于该扩展项目的 DEMO 目录<br />
+              ├─icons                       图标库，包含整理好的约 3600 个图标及其符合 jeasyui 图标格式要求的 css 定义、数据源 javascript 脚本定义<br />
+              ├─jeasyui-extensions          该扩展项目的插件扩展源代码主目录<br />
+              ├─jquery                      该目录用于存放 jquery 基础库<br />
+              ├─jquery-easyui-1.3.3         该目录用于存放 jquery-easyui 插件基础库<br />
+              ├─syntaxhighlighter_3.0.83    syntaxhighlighter插件，用于在文档DEMO中对代码的显示提供格式化支持<br />
+              │<br />
+              ├─changelog.txt               该扩展项目的更新日志<br />
+              ├─index.html                  该扩展项目的演示主文件<br />
+              ├─jquery.jdirk.js             jquery.jdirk.js 扩展库源代码文件<br />
+              ├─LICENSE                     该扩展项目遵循的 GPL-v3 协议说明文件<br />
+              └─README.md                   该扩展项目的 README.md 文件(本文件)<br />
+        </p>
     </li>
 
     <li>
