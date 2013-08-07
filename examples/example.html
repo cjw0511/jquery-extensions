@@ -53,7 +53,7 @@
 
             var ajaxError = $.easyui.ajaxError();
             $.easyui.ajaxError(function (XMLHttpRequest, status, error) {
-                if (XMLHttpRequest.status == 404 && $.util.browser.chrome) {
+                if (XMLHttpRequest.status == 404 && $.util.browser.chrome && !XMLHttpRequest.responseText) {
                     alert("Chrome 浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
                 } else {
                     if ($.isFunction(ajaxError)) { ajaxError.apply(this, arguments); }

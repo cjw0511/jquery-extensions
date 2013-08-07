@@ -232,9 +232,12 @@
                 ]
                 },
 
-                { id: "11070307", text: "列冻结/取消冻结", pid: "110703", attributes: { href: "examples/example.html?treegrid/freeze"} },
-                { id: "11070308", text: "自适应屏幕大小", pid: "110703", attributes: { href: "examples/example.html?treegrid/offset"} },
-                { id: "11070309", text: "其他扩展功能", pid: "110703", attributes: { href: "examples/example.html?treegrid/others"} }
+                { id: "11070307", text: "平滑数据支持", pid: "110703", attributes: { href: "examples/example.html?treegrid/simpleData"} },
+                { id: "11070308", text: "单击节点自动展开/折叠", pid: "110703", attributes: { href: "examples/example.html?treegrid/autoToggle"} },
+                { id: "11070309", text: "节点展开控制", pid: "110703", attributes: { href: "examples/example.html?treegrid/onlyNodeExpand"} },
+                { id: "11070310", text: "列冻结/取消冻结", pid: "110703", attributes: { href: "examples/example.html?treegrid/freeze"} },
+                { id: "11070311", text: "自适应屏幕大小", pid: "110703", attributes: { href: "examples/example.html?treegrid/offset"} },
+                { id: "11070312", text: "其他扩展功能", pid: "110703", attributes: { href: "examples/example.html?treegrid/others"} }
             ]
             }
         ]
