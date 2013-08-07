@@ -6,7 +6,7 @@
     <link href="jquery-easyui-1.3.3/themes/icon.css" rel="stylesheet" type="text/css" />
     <link href="icons/icon-all.css" rel="stylesheet" type="text/css" />
 
-    <script src="jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="jquery/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="jquery-easyui-1.3.3/jquery.easyui.min.js" type="text/javascript"></script>
     <script src="jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
 
@@ -31,7 +31,7 @@
     <script src="icons/jeasyui.icons.all.js" type="text/javascript"></script>
 
     <script src="jeasyui-extensions/jeasyui.extensions.icons.js" type="text/javascript"></script>
-    <script src="jeasyui-extensions/jeasyui.plugins.toolbar.js" type="text/javascript"></script>
+    <script src="jeasyui-extensions/jquery-easyui-toolbar/jquery.toolbar.js" type="text/javascript"></script>
 
     <script src="jeasyui-extensions/jquery-easyui-portal/jquery.portal.js" type="text/javascript"></script>
     <link href="jeasyui-extensions/jquery-easyui-portal/portal.css" rel="stylesheet" type="text/css" />
@@ -40,7 +40,17 @@
     <script src="common/index.js" type="text/javascript"></script>
     
     <style type="text/css">
-        .topbar { position: absolute; padding: 0px; width: 100%; height: 29px; top: 50px; left: 0px; border-top-width: 1px; border-bottom-width: 0px; }
+        .top-bar { position: absolute; width: 100%; height: 52px; top: 0px; left: 0px; }
+        .top-bar-left { position: absolute; width: 800px; height: 52px; }
+        .top-bar-right { position: absolute; width: 400px; height: 52px; right: 0px; }
+        .top-bar-right #timerSpan { position: absolute; padding-top: 5px; right: 10px; }
+        .top-bar-right #themeSpan { position: absolute; width: 350px; top: 22px; right: 5px; text-align: right; }
+        
+        .top-toolbar { position: absolute; padding: 0px; width: 100%; height: 27px; top: 52px; left: 0px; border-top-width: 1px; border-bottom-width: 0px; z-index: 100; }
+        .top-toolbar #infobar { position: absolute; width: 400px; left: 10px; height: 26px; line-height: 26px; font-size: 12px; }
+        .top-toolbar #searchbar { position: absolute; width: 400px; left: 400px; padding-top: 1px; }
+        .top-toolbar #buttonbar { position: absolute; width: 600px; right: 5px; text-align: right; }
+        
         
         #navTab>div.tabs-header { border-right-width: 0px; }
         #navMenu_list { padding: 0px; margin: 0px; }
@@ -61,7 +71,9 @@
         $(function () {
             window.mainpage.instMainMenus();
             window.mainpage.instFavoMenus();
+            window.mainpage.instTimerSpan();
             window.mainpage.bindNavTabsButtonEvent();
+            window.mainpage.bindToolbarButtonEvent();
             window.mainpage.bindMainTabsButtonEvent();
 
 
@@ -81,9 +93,59 @@
         });
     </script>
 </head>
-<body class="easyui-layout" data-options="fit: true"  style="padding: 0px; margin: 0px;">
-    <div data-options="region: 'north', border: false" style="height: 80px; overflow: hidden;">        
-        <div class="panel-header panel-header-noborder topbar" >
+<body id="mainLayout" class="easyui-layout" data-options="fit: true"  style="padding: 0px; margin: 0px;">
+    <div id="northPanel" data-options="region: 'north', border: false" style="height: 80px; overflow: hidden;">
+        <div id="topbar" class="top-bar">
+            <div class="top-bar-left">
+                <h1 style="margin-left: 10px; margin-top: 10px;">jQuery & jEasyUI Extensions</h1>
+            </div>
+            <div class="top-bar-right">
+                <div id="timerSpan"></div>
+                <div id="themeSpan">
+                    <span>更换皮肤风格：</span>
+                    <select id="themeSelector" class="easyui-combobox" data-options="width: 140, editable: false">
+                        <option value="default" selected="selected">默认(天空蓝,推荐)</option>
+                        <option value="black" >金属黑(推荐)</option>
+                        <option value="bootstrap" >银色</option>
+                        <option value="gray" >灰霾(推荐)</option>
+                        <option value="jquery-easyui-themes/cupertino" >清泉</option>
+                        <option value="jquery-easyui-themes/dark-hive" >黑色蜂巢</option>
+                        <option value="jquery-easyui-themes/pepper-grinder" >杏黄</option>
+                        <option value="jquery-easyui-themes/sunny" >阳光</option>
+                        <option value="metro" >磁贴（白）</option>
+                        <option value="jquery-easyui-themes-metro/metro-blue" >磁贴（蓝）</option>
+                        <option value="jquery-easyui-themes-metro/metro-gray" >磁贴（灰）</option>
+                        <option value="jquery-easyui-themes-metro/metro-green" >磁贴（绿）</option>
+                        <option value="jquery-easyui-themes-metro/metro-orange" >磁贴（橙）</option>
+                        <option value="jquery-easyui-themes-metro/metro-red" >磁贴（红）</option>
+                    </select>
+                    <a id="btnHideNorth" class="easyui-linkbutton" data-options="plain: true, iconCls: 'layout-button-up'"></a>
+                </div>
+            </div>
+        </div>
+        <div id="toolbar" class="panel-header panel-header-noborder top-toolbar" >
+            <div id="infobar">
+                <span class="icon-hamburg-user" style="padding-left: 25px; background-position: left center;">此处可以放置登录用户账户信息</span>
+            </div>
+            <div id="searchbar">
+                <input id="topSearchbox" class="easyui-searchbox" data-options="width: 350, height: 25, prompt: '您输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
+                <div id="topSearchboxMenu" style="width: 85px;">
+                    <div data-options="name:'0', iconCls: 'icon-hamburg-zoom'">查询类型</div>
+		            <div data-options="name:'1'">测试类型1</div>
+                    <div data-options="name:'2'">测试类型2</div>
+                    <div data-options="name:'3'">测试类型3</div>
+                    <div data-options="name:'4'">测试类型4</div>
+                </div>
+            </div>
+            <div id="buttonbar">
+                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-address'">按钮1</a>
+                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-advertising'">按钮2</a>
+                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-archives'">按钮3</a>
+                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-attibutes'">按钮4</a>
+                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-bank'">按钮5</a>
+                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-basket'">按钮6</a>
+                <a id="btnShowNorth" class="easyui-linkbutton" data-options="plain: true, iconCls: 'layout-button-down'" style="display: none;"></a>
+            </div>
         </div>
     </div>
 
@@ -162,7 +224,7 @@
             </table>
         </div>
         <div id="mainTab" class="easyui-tabs" data-options="fit: true, border: true, showOption: true, enableNewTabMenu: true, repeatable: true, tools: '#mainTabs_tools'">
-            <div id="homePanel" data-options="title: '主页', iconCls: 'icon-hamburg-home', repeatable: true">
+            <div id="homePanel" data-options="title: '主页', iconCls: 'icon-hamburg-home'">
                 <div class="easyui-layout" data-options="fit: true">
                     <div data-options="region: 'north', split: false, border: false">
                         <div class="datagrid-toolbar">

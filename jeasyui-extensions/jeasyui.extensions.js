@@ -11,7 +11,7 @@
 * jQuery EasyUI 通用插件基础库
 * jeasyui.extensions.js
 * 二次开发 陈建伟
-* 最近更新：2013-07-25
+* 最近更新：2013-08-07
 *
 * 依赖项：jquery.jdirk.js v1.0 beta late
 *
@@ -78,7 +78,7 @@
             centerRight: { left: "", right: 0, bottom: "" },
             bottomLeft: { left: 0, right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
             bottomCenter: { right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
-            bottomRight: null
+            bottomRight: { left: "", right: 0, top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop }
         };
         var opts = $.extend({}, defaults, options);
         opts.style = position[options.position] ? position[options.position] : position.topCenter;
@@ -156,6 +156,7 @@
     //      function (callback)
     //      function (message, callback)
     //      function (title, message)
+    //      function (title, message, callback)
     $.messager.prompt = function (title, msg, fn) {
         if (arguments.length == 1) {
             return $.isFunction(arguments[0]) ? _prompt(defaults.title, defaults.prompt, arguments[0]) : _prompt(defaults.title, defaults.prompt);
@@ -168,27 +169,52 @@
 
 
     //  显示类似于 easyui-datagrid 在加载远程数据时显示的 mask 状态层；该函数定义如下重载方式：
-    //      function (options)，其中 options 为一个格式为 { msg, local } 的 JSON-Object；
-    //      function (local)
-    //      function (msg, local)
-    //  上述重载中：msg 表示加载显示的消息文本内容；
-    //      locale 表示加载的区域，可以是一个 jQuery 对象选择器字符串，也可以是一个 jQuery 对象或者 HTML-DOM 对象。
+    //      function ()
+    //      function (options)，其中 options 为一个格式为 { msg, locale, topMost } 的 JSON-Object；
+    //  上述参数中：
+    //      msg 表示加载显示的消息文本内容，默认为 "正在加载，请稍等..."；
+    //      locale 表示加载的区域，可以是一个 jQuery 对象选择器字符串，也可以是一个 jQuery 对象或者 HTML-DOM 对象；默认为字符串 "body"。
+    //      topMost 为一个布尔类型参数，默认为 false，表示是否在顶级页面加载此 mask 状态层。
     coreEasyui.loading = function (options) {
-        var opts = { msg: defaults.loading, locale: "body" };
-        if (arguments.length == 1) { opts = $.extend(opts, $.isPlainObject(arguments[0]) ? arguments[0] : { locale: arguments[0] }); }
-        if (arguments.length == 2) { opts = $.extend(opts, { msg: arguments[0], locale: arguments[1] }); }
-        var locale = $.util.parseJquery(opts.locale), array = locale.children().map(function () {
+        var opts = { msg: defaults.loading, locale: "body", topMost: false };
+        options = options || {};
+        $.extend(opts, options);
+        var jq = opts.topMost ? $.util.$ : $, locale = jq.util.parseJquery(opts.locale), array = locale.children().map(function () {
             var zindex = $(this).css("z-index");
             return $.isNumeric(zindex) ? parseInt(zindex) : 0;
         }), zindex = $.array.max(array);
-
-        $("<div></div>").addClass("datagrid-mask").css({ display: "block", "z-index": zindex + 1 }).appendTo(opts.locale);
-        var msg = $("<div></div>").addClass("datagrid-mask-msg").css({ display: "block", left: "50%", "z-index": zindex + 2 }).html(opts.msg).appendTo(opts.locale);
+        locale.addClass("mask-container");
+        jq("<div></div>").addClass("datagrid-mask").css({ display: "block", "z-index": ++zindex }).appendTo(locale);
+        var msg = jq("<div></div>").addClass("datagrid-mask-msg").css({ display: "block", left: "50%", "z-index": ++zindex }).html(opts.msg).appendTo(locale);
         msg.css("marginLeft", -msg.outerWidth() / 2);
     };
 
-    coreEasyui.loaded = function (locale) {
-        locale = locale ? $.util.parseJquery(locale) : $("body");
+    //  关闭由 $.easyui.loading 方法显示的 "正在加载..." 状态层；该函数定义如下重载方式：
+    //      function ()
+    //      function (locale)
+    //      function (locale, topMost)
+    //      function (topMost, locale)
+    //      function (options)，其中 options 为一个格式为 { locale, topMost } 的 JSON-Object
+    coreEasyui.loaded = function (locale, topMost) {
+        var opts = { locale: "body", topMost: false };
+        if (arguments.length == 1) {
+            if ($.isPlainObject(arguments[0])) {
+                $.extend(opts, arguments[0]);
+            } else if ($.util.isBoolean(arguments[0])) {
+                opts.topMost = arguments[0];
+            } else {
+                opts.locale = arguments[0];
+            }
+        }
+        if (arguments.length == 2) {
+            if ($.util.isBoolean(arguments[0])) {
+                $.extend(opts, { locale: arguments[1], topMost: arguments[0] });
+            } else {
+                $.extend(opts, { locale: arguments[0], topMost: arguments[1] });
+            }
+        }
+        var jq = opts.topMost ? $.util.$ : $, locale = jq.util.parseJquery(opts.locale);
+        locale.removeClass("mask-container");
         locale.children("div.datagrid-mask-msg,div.datagrid-mask").remove();
     };
 
@@ -218,7 +244,7 @@
         $.fn.combogrid.defaults.onLoadError = callback;
         $.fn.datagrid.defaults.onLoadError = callback;
         $.fn.propertygrid.defaults.onLoadError = callback;
-        $.fn.tree.defaults.onLoadError = callback;
+        $.fn.propertygrid.defaults.onLoadError = callback;
         $.fn.treegrid.defaults.onLoadError = callback;
         $.ajaxSetup({ error: callback });
     };
@@ -249,4 +275,7 @@
 
     $.union(coreJquery);
     $.fn.union(coreJquery.fn);
+
+    var css = ".mask-container { position: relative; }";
+    $.util.addCss(css);
 })(jQuery);

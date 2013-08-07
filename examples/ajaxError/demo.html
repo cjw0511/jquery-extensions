@@ -1,0 +1,51 @@
+﻿<div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#Button1").click(function () {
+            //  加载一个不存在的页面，引发 jQuery AJAX 全局异常。
+            $("#panel1").panel("refresh", "abc.html");
+        });
+
+        $("#Button2").click(function () {
+            //  加载一个无效的数据源，引发 easyui-combobox 的 onLoadError 事件。
+            $("#combobox1").combobox("reload", "abc.html");
+        });
+
+        $("#Button3").click(function () {
+            //  改变全局异常回调事件
+            $.easyui.ajaxError(function (XMLHttpRequest, textStatus, errorThrown) { alert(XMLHttpRequest.responseText); });
+        });
+    });
+</script>
+
+<h2>jEasyUI Generic Ajax Error Extensions</h2>
+<p>该部分扩展由文件 jeasyui.extensions.js 实现。</p>
+<hr />
+<p>
+    该扩展通过快捷便利的方式允许用户自定义 ajax 请求异常事件，该事件函数会被应用到如下范围：
+    <ul>
+        <li>jQuery 全局 AJAX 操作</li>
+        <li>easyui-form</li>
+        <li>easyui-combobox</li>
+        <li>easyui-combotree</li>
+        <li>easyui-combogrid</li>
+        <li>easyui-datagrid</li>
+        <li>easyui-propertygrid</li>
+        <li>easyui-propertygrid</li>
+        <li>easyui-treegrid</li>
+    </ul>
+    此处仅演示 jQuery 全局异常 和 easyui-combobox 异常。
+</p>
+<input id="Button1" type="button" value="加载 panel 的 href，引发 jQuery AJAX 全局异常" />
+<input id="Button2" type="button" value="加载 combobox 的数据源，引发 easyui-combobox 的 onLoadError" />
+<br /><br />
+<input id="Button3" type="button" value="改变全局异常回调事件，点击该按钮后请重新试试第一个'加载 panel'的按钮" />
+<p>
+    点击该按钮后，之所以不会影响到当前界面上 easyui-combobox 的 onLoadError，是因为 $.easyui.ajaxError 改变的是 easyui 组件的默认值；
+    而当前的 combobox 组件在初始化时已经加载过默认值了。
+</p>
+<select id="combobox1" class="easyui-combobox" data-options="width: 140" ></select><br /><br />
+<div id="panel1" class="easyui-panel" data-options="title: 'panel1', width: 300, height: 200, border: true"></div>
+
+</div>

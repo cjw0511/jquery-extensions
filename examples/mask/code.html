@@ -1,0 +1,47 @@
+﻿<div>
+
+<h2>JavaScript 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [3,4,8,9,13,17,21,25]" >
+    $(function () {
+        $("#mask1").click(function () {
+            $.easyui.loading({ msg: "正在加载..." });
+            window.setTimeout(function () { $.easyui.loaded(); }, 1000);
+        });
+
+        $("#mask2").click(function () {
+            $.easyui.loading({ msg: "正在加载...", topMost: true });
+            window.setTimeout(function () { $.easyui.loaded(true); }, 1000);
+        });
+
+        $("#mask3").click(function () {
+            $.easyui.loading({ msg: "正在加载...", locale: "#maskContainer" });
+        });
+
+        $("#mask4").click(function () {
+            $.easyui.loaded("#maskContainer");
+        });
+
+        $("#mask5").click(function () {
+            $.easyui.loading({ msg: "正在加载...", locale: "#westCenterLayout", topMost: true });
+        });
+
+        $("#mask6").click(function () {
+            $.easyui.loaded("#westCenterLayout", true);
+        });
+    });
+</textarea>
+<h2>HTML 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
+    <input id="mask1" type="button" value="显示 Loading" />
+    <input id="mask2" type="button" value="在顶级页面显示 Loading" /><br /><br />
+    <input id="mask3" type="button" value="在指定容器中显示 Loading" />
+    <input id="mask4" type="button" value="关闭指定容器中的 Loading" /><br /><br />
+    <input id="mask5" type="button" value="在顶级页面的指定容器中显示 Loading" />
+    <input id="mask6" type="button" value="关顶级页面的闭指定容器中的 Loading" />
+    <br />
+    <br />
+    <div id="maskContainer" style="border-color: Black; border-width: 1px; border-style: solid; width: 400px; height: 200px;">这是一个 mask 容器</div>
+</textarea>
+
+
+</div>

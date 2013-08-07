@@ -1937,8 +1937,8 @@
 
         //  扩展 easyui-treegrid 的自定义属性，表示当前 easyui-treegrid 控件是否支持平滑数据格式。
         //  当支持平滑数据格式时，数据元素中不需要通过指定 children 来指定子节点，而是支持通过指定的 parentField 值所表示的列的值来指示其父级节点。
-        //  Boolean 类型值，默认为 true。
-        smooth: true,
+        //  Boolean 类型值，默认为 false。
+        smooth: false,
 
         //  扩展 easyui-treegrid 的自定义属性，表示当前 easyui-treegrid 控件支持平滑数据格式时，程序用哪个 field 表示当前行数据的父级节点 idField 值
         //  String 类型值，默认为 "pid"。

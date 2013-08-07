@@ -1,14 +1,189 @@
-﻿
+﻿<div>
+
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
-    function () {
-        alert(123);
-    }
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [1, 30, 49, 61, 73, 83]" >
+        //  以下为 $.messager.show 代码段
+        $("#showIcon1").click(function () {
+            $.messager.show({ icon: "error", msg: "error" });
+        });
+        $("#showIcon2").click(function () {
+            $.messager.show({ icon: "info", msg: "error" });
+        });
+        $("#showIcon3").click(function () {
+            $.messager.show({ icon: "question", msg: "error" });
+        });
+        $("#showIcon4").click(function () {
+            $.messager.show({ icon: "warning", msg: "error" });
+        });
+
+        $(":button[name=showPos]").click(function () {
+            $.messager.show({ msg: "messager", position: this.value });
+        });
+
+        $("#show1").click(function () {
+            $.messager.show("messager");
+        });
+        $("#show2").click(function () {
+            $.messager.show("操作提醒", "messager", "info", "topCenter");
+        });
+        $("#show3").click(function () {
+            $.messager.show({ title: "操作提醒", msg: "messager", icon: "info", position: "topCenter" });
+        });
+
+
+        //  以下为 $.messager.alert 代码段
+        $("#alert1").click(function () {
+            $.messager.alert("messager");
+        });
+        $("#alert2").click(function () {
+            $.messager.alert("messager", function () { alert("您关闭了消息框"); });
+        });
+        $("#alert3").click(function () { $.messager.alert("操作提醒", "messager"); });
+        $("#alert4").click(function () {
+            $.messager.alert("操作提醒", "messager", "warning");
+        });
+        $("#alert5").click(function () {
+            $.messager.alert("操作提醒", "messager", function () { alert("您关闭了消息框"); });
+        });
+        $("#alert6").click(function () {
+            $.messager.alert("操作提醒", "messager", "warning", function () { alert("您关闭了消息框"); });
+        });
+
+
+        //  以下为 $.messager.confirm 代码段
+        $("#confirm1").click(function () {
+            $.messager.confirm(function (c) { alert(c); });
+        });
+        $("#confirm2").click(function () {
+            $.messager.confirm("您确定要进行该操作？", function (c) { alert(c); });
+        });
+        $("#confirm3").click(function () {
+            $.messager.confirm("操作提醒", "您确定要进行该操作？", function (c) { alert(c); });
+        });
+
+
+        //  以下为 $.messager.prompt 代码段
+        $("#prompt1").click(function () {
+            $.messager.prompt(function (text) { if (text != undefined) { alert(text); } });
+        });
+        $("#prompt2").click(function () {
+            $.messager.prompt("请输入内容？", function (text) { if (text != undefined) { alert(text); } });
+        });
+        $("#prompt3").click(function () {
+            $.messager.prompt("操作提醒", "请输入内容？", function (text) { if (text != undefined) { alert(text); } });
+        });
+
+
+        //  以下为 $.messager.solicit 代码段
+        $("#solicit1").click(function () {
+            $.messager.solicit("您确定要进行该操作？", function (c) { if (c != undefined) { alert(c); } });
+        });
+        $("#solicit2").click(function () {
+            $.messager.solicit("操作提醒", "您确定要进行该操作？", function (c) { if (c != undefined) { alert(c); } });
+        });
+
+
+
+        //  在顶级页面进行消息呈现
+        $("#topShow").click(function () {
+            $.easyui.messager.show("messager");
+        });
+        $("#topAlert").click(function () {
+            $.easyui.messager.alert("messager");
+        });
+        $("#topConfirm").click(function () {
+            $.easyui.messager.confirm("操作提醒", "您确定要进行该操作？", function (c) { alert(c); });
+        });
+        $("#topPrompt").click(function () {
+            $.easyui.messager.prompt("操作提醒", "请输入内容：", function (val) {
+                if (val != undefined) { alert(val); }
+            })
+        });
+        $("#topSolicit").click(function () {
+            $.easyui.messager.solicit("操作提醒", "您确定要进行该操作？", function (c) {
+                if (c != undefined) { alert(c); }
+            })
+        });
+
 </textarea>
 <h2>HTML 代码：</h2>
 <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
-    <div data-options="region: 'north', border: false" style="height: 80px; overflow: hidden;">        
-        <div class="panel-header panel-header-noborder topbar" >
-        </div>
-    </div>
+    <h3>$.messager.show 方法</h3>
+    <p>
+        控制图标：
+        <input id="showIcon1" type="button" value="show-error" />
+        <input id="showIcon2" type="button" value="show-info" />
+        <input id="showIcon3" type="button" value="show-question" />
+        <input id="showIcon4" type="button" value="show-warning" />
+    </p>
+    <p>
+        控制位置：<br />
+        <input id="showPos1" name="showPos" type="button" value="topLeft" />
+        <input id="showPos2" name="showPos" type="button" value="topCenter" />
+        <input id="showPos3" name="showPos" type="button" value="topRight" /><br />
+        <input id="showPos4" name="showPos" type="button" value="centerLeft" />
+        <input id="showPos5" name="showPos" type="button" value="center" />
+        <input id="showPos6" name="showPos" type="button" value="centerRight" /><br />
+        <input id="showPos7" name="showPos" type="button" value="bottomLeft" />
+        <input id="showPos8" name="showPos" type="button" value="bottomCenter" />
+        <input id="showPos9" name="showPos" type="button" value="bottomRight" />
+    </p>
+    <p>
+        方法重载(以下几个按钮的调用方式不同，通过这种方式可以实现便利的调用)：<br />
+        <input id="show1" type="button" value="show1" />
+        <input id="show2" type="button" value="show2" />
+        <input id="show3" type="button" value="show3" />
+    </p>
+    <hr />
+
+    <h3>$.messager.alert 方法</h3>
+    <p>
+        方法重载(以下几个按钮的调用方式不同，通过这种方式可以实现便利的调用)：<br />
+        <input id="alert1" type="button" value="alert1" />
+        <input id="alert2" type="button" value="alert2" />
+        <input id="alert3" type="button" value="alert3" />
+        <input id="alert4" type="button" value="alert4" />
+        <input id="alert5" type="button" value="alert5" />
+        <input id="alert6" type="button" value="alert6" />
+    </p>
+    <hr />
+
+    <h3>$.messager.confirm 方法</h3>
+    <p>
+        方法重载(以下几个按钮的调用方式不同，通过这种方式可以实现便利的调用)：<br />
+        <input id="confirm1" type="button" value="confirm1" />
+        <input id="confirm2" type="button" value="confirm2" />
+        <input id="confirm3" type="button" value="confirm3" />
+    </p>
+    <hr />
+
+    <h3>$.messager.prompt 方法</h3>
+    <p>
+        方法重载(以下几个按钮的调用方式不同，通过这种方式可以实现便利的调用)：<br />
+        <input id="prompt1" type="button" value="prompt1" />
+        <input id="prompt2" type="button" value="prompt2" />
+        <input id="prompt3" type="button" value="prompt3" />
+    </p>
+    <hr />
+
+    <h3>$.messager.solicit 方法</h3>
+    <p>
+        方法重载(以下几个按钮的调用方式不同，通过这种方式可以实现便利的调用)：<br />
+        <input id="solicit1" type="button" value="solicit1" />
+        <input id="solicit2" type="button" value="solicit2" />
+    </p>
+    <hr />
+
+    <h3>在顶级页面进行消息呈现</h3>
+    <p>
+        以下按钮全部在顶级页面进行 messager 的显示<br /><br />
+        <input id="topShow" type="button" value="messager.show" />
+        <input id="topAlert" type="button" value="messager.alert" />
+        <input id="topConfirm" type="button" value="messager.confirm" />
+        <input id="topPrompt" type="button" value="messager.prompt" />
+        <input id="topSolicit" type="button" value="messager.topSolicit" />
+    </p>
 </textarea>
+
+
+</div>

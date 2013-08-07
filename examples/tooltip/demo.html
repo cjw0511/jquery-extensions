@@ -1,0 +1,21 @@
+﻿<div>
+
+<script type="text/javascript">
+    $(function () {
+        var a1 = $("#A1"), a2 = $("#A2");
+        a1.tooltip({ content: "这是 tooltip 消息" });
+        $.easyui.tooltip.init(a2, { content: "这是 tooltip 消息，鼠标移开时我能自动从 DOM 列表中清除哟", trackMouse: false });
+    });
+</script>
+
+<h2>jEasyUI Tooltip Extensions</h2>
+<p>该部分扩展由文件 jeasyui.extensions.js 实现。</p>
+<hr />
+<p>
+    实现标签对 tooltip 的快速调用<br /><br />
+    <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">鼠标放我身上试试</a>
+    <a id="A2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">快速调用 tooltip</a>
+</p>
+
+
+</div>

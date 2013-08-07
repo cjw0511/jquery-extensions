@@ -1,0 +1,34 @@
+﻿<div>
+
+<h2>JavaScript 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4,9,14]" >
+    $(function () {
+        $("#Button1").click(function () {
+            //  加载一个不存在的页面，引发 jQuery AJAX 全局异常。
+            $("#panel1").panel("refresh", "abc.html");
+        });
+
+        $("#Button2").click(function () {
+            //  加载一个无效的数据源，引发 easyui-combobox 的 onLoadError 事件。
+            $("#combobox1").combobox("reload", "abc.html");
+        });
+
+        $("#Button3").click(function () {
+            //  改变全局异常回调事件
+            $.easyui.ajaxError(function (XMLHttpRequest, textStatus, errorThrown) { alert(XMLHttpRequest.responseText); });
+        });
+    });
+</textarea>
+<h2>HTML 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
+    <input id="Button1" type="button" value="加载 panel 的 href，引发 jQuery AJAX 全局异常" />
+    <input id="Button2" type="button" value="加载 combobox 的数据源，引发 easyui-combobox 的 onLoadError" />
+
+    <input id="Button3" type="button" value="改变全局异常回调事件，点击该按钮后请重新试试第一个'加载 panel'的按钮" />
+
+    <select id="combobox1" class="easyui-combobox" data-options="width: 140" ></select><br /><br />
+    <div id="panel1" class="easyui-panel" data-options="title: 'panel1', width: 300, height: 200, border: true"></div>
+</textarea>
+
+
+</div>

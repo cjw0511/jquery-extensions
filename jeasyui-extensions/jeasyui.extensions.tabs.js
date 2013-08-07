@@ -68,8 +68,8 @@
             $.array.merge(items, "-", m5, m6, m7);
             if (panelOpts.repeatable || opts.enableNewTabMenu) {
                 var mm = [];
-                if (panelOpts.repeatable) { mm.push(m8); }
-                if (opts.enableNewTabMenu) { mm.push(m9); }
+                if (opts.enableNewTabMenu) { mm.push(m8); }
+                if (panelOpts.repeatable) { mm.push(m9); }
                 $.array.merge(items, "-", mm);
             }
             items = parseContextMenuMap(e, title, index, items, t);
@@ -179,6 +179,7 @@
             autoVCenter: false,
             autoHCenter: false,
             enableSaveButton: false,
+            topMost: false,
             applyButtonText: "打开",
             onApply: function (dia) {
                 var title = txtTitle.val(), href = txtHref.val();
@@ -332,7 +333,10 @@
         var index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", panel),
             header = tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li:eq(" + index + ")"),
             offset = header.offset(), position = $.extend({}, { left: offset.left + 10, top: offset.top + 10 });
-        $.easyui.showOption(panelOpts, { iconCls: "icon-standard-application-form", title: "显示选项卡 " + panelOpts.title + " 的 option 值", left: position.left, top: position.top });
+        $.easyui.showOption(panelOpts, {
+            iconCls: "icon-standard-application-form", title: "显示选项卡 " + panelOpts.title + " 的 option 值",
+            left: position.left, top: position.top, topMost: false
+        });
     };
 
     function moveTab(tabTarget, param) {
@@ -367,7 +371,7 @@
         iniframe: false,
 
         //  该选项卡是否具有重复打开功能
-        repeatable: true,
+        repeatable: false,
 
         //  该选项卡是否具有刷新功能。
         refreshable: true,

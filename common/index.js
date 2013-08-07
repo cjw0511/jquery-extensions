@@ -8,6 +8,7 @@
 
     var homePageTitle = "主页", homePageHref = null, navMenuList = "#navMenu_list",
         navMenuTree = "#navMenu_Tree", mainTab = "#mainTab", navTab = "#navTab", favoMenuTree = "#favoMenu_Tree",
+        mainLayout = "#mainLayout", northPanel = "#northPanel",
         westLayout = "#westLayout", westCenterLayout = "#westCenterLayout", westFavoLayout = "#westFavoLayout",
         westSouthPanel = "#westSouthPanel", homePanel = "#homePanel";
 
@@ -35,6 +36,7 @@
             }, function () {
                 if (!a.hasClass("selected")) { $(this).removeClass("tree-node-selected"); }
             }).click(function () {
+                if (a.is(".tree-node-selected.selected")) { return; }
                 a.closest("ul").find("a").removeClass("tree-node-selected selected");
                 a.addClass("tree-node-selected selected");
                 window.mainpage.loadMenu(item.id);
@@ -151,6 +153,44 @@
     };
 
 
+    window.mainpage.instTimerSpan = function () {
+        var timerSpan = $("#timerSpan"), interval = function () { timerSpan.text($.date.toLongDateTimeString(new Date())); };
+        interval();
+        window.setInterval(interval, 1000);
+    };
+
+    window.mainpage.bindToolbarButtonEvent = function () {
+        var searchOpts = $("#topSearchbox").searchbox("options"), searcher = searchOpts.searcher;
+        searchOpts.searcher = function (value, name) {
+            if ($.isFunction(searcher)) { searcher.apply(this, arguments); }
+            window.mainpage.search(name, value);
+        };
+        $("#btnHideNorth").click(function () { window.mainpage.hideNorth(); });
+        var btnShow = $("#btnShowNorth").click(function () { window.mainpage.showNorth(); });
+        var l = $(mainLayout), north = l.layout("panel", "north"), panel = north.panel("panel"),
+            toolbar = $("#toolbar"), topbar = $("#topbar"), top = toolbar.css("top"),
+            opts = north.panel("options"), onCollapse = opts.onCollapse, onExpand = opts.onExpand;
+        opts.onCollapse = function () {
+            if ($.isFunction(onCollapse)) { onCollapse.apply(this, arguments); }
+            btnShow.show();
+            toolbar.insertBefore(panel).css("top", 0);
+        };
+        opts.onExpand = function () {
+            if ($.isFunction(onExpand)) { onExpand.apply(this, arguments); }
+            btnShow.hide();
+            toolbar.insertAfter(topbar).css("top", top);
+        };
+        var themeOpts = $("#themeSelector").combobox("options"), onSelect = themeOpts.onSelect;
+        themeOpts.onSelect = function (record) {
+            if ($.isFunction(onSelect)) { onSelect.apply(this, arguments); }
+            window.mainpage.setTheme(record[themeOpts.valueField]);
+        };
+    };
+
+    window.mainpage.search = function (value, name) { $.easyui.messager.show($.string.format("您设置的主题为：value: {0}, name: {1}", value, name)); };
+
+    window.mainpage.setTheme = function (theme) { $.easyui.messager.show($.string.format("您设置的主题为：{0}", theme)); };
+
     window.mainpage.bindMainTabsButtonEvent = function () {
         $("#mainTabs_junmpHome").click(function () { window.mainpage.mainTabs.jumpHome(); });
         $("#mainTabs_closeTab").click(function () { window.mainpage.mainTabs.closeCurrentTab(); });
@@ -182,6 +222,11 @@
         $("#favoMenu_expandAll").click(function () { window.mainpage.favo.collapseAll(); });
     };
 
+    window.mainpage.hideNorth = function () { $(mainLayout).layout("collapse", "north"); };
+
+    window.mainpage.showNorth = function () { $(mainLayout).layout("expand", "north"); };
+
+
     //  判断指定的选项卡是否存在于当前主页面的选项卡组中；
     //  返回值：返回的值可能是以下几种：
     //      0:  表示不存在于当前选项卡组中；
@@ -195,7 +240,7 @@
     };
 
     window.mainpage.mainTabs.tabDefaultOption = {
-        title: "新建选项卡", href: "", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-tab", selected: true
+        title: "新建选项卡", href: "", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-tab", repeatable: true, selected: true
     };
     window.mainpage.mainTabs.parseCreateTabArgs = function (args) {
         var ret = {};

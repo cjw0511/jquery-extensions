@@ -19,208 +19,284 @@
         { id: "1101", text: "jQuery jDirk", pid: "11", attributes: { href: "examples/example.html?jdirk"} },
         { id: "1102", text: "Base", pid: "11", children: [
             { id: "110201", text: "Messager", pid: "1102", attributes: { href: "examples/example.html?messager"} },
-            { id: "110202", text: "Tooltip", pid: "1102" },
-            { id: "110203", text: "Mask-Loading", pid: "1102" }
-        ] },
+            { id: "110202", text: "Tooltip", pid: "1102", attributes: { href: "examples/example.html?tooltip"} },
+            { id: "110203", text: "Mask-Loading", pid: "1102", attributes: { href: "examples/example.html?mask"} },
+            { id: "110204", text: "通用Ajax错误处理", pid: "1102", attributes: { href: "examples/example.html?ajaxError"} }
+        ]
+        },
 
         { id: "1103", text: "Layout", pid: "11", children: [
             { id: "110301", text: "Panel", pid: "1103", children: [
-                { id: "11030101", text: "Href加载在Iframe中", pid: "110301" },
-                { id: "11030102", text: "其他功能扩展", pid: "110301" }
-            ] },
+                { id: "11030101", text: "Href加载在Iframe中", pid: "110301", attributes: { href: "examples/example.html?panel/useiframe"} },
+                { id: "11030102", text: "其他功能扩展", pid: "110301", attributes: { href: "examples/example.html?panel/others"} }
+            ]
+            },
 
             { id: "110302", text: "Tabs", pid: "1103", children: [
                 { id: "11030201", text: "Tab选项卡头右键菜单", pid: "110302", children: [
-                    { id: "1103020101", text: "默认菜单", pid: "11030201" },
-                    { id: "1103020102", text: "自定义菜单", pid: "11030201" },
-                    { id: "1103020103", text: "自定义动态菜单", pid: "11030201" }
+                    { id: "1103020101", text: "默认菜单", pid: "11030201", attributes: { href: "examples/example.html?tabs/menus/default"} },
+                    { id: "1103020102", text: "自定义菜单", pid: "11030201", attributes: { href: "examples/example.html?tabs/menus/custome"} },
+                    { id: "1103020103", text: "自定义动态菜单", pid: "11030201", attributes: { href: "examples/example.html?tabs/menus/customeDynamic"} }
                 ]
                 },
-                { id: "11030202", text: "可刷新的Tab", pid: "110302" },
-                { id: "11030203", text: "新增加的Tab自动加载至iframe中", pid: "110302" },
-                { id: "11030204", text: "移动和插入Tab", pid: "110302" },
-                { id: "11030205", text: "其他扩展功能", pid: "110302" }
-            ] },
-        ] },
+                { id: "11030202", text: "可刷新的Tab", pid: "110302", attributes: { href: "examples/example.html?tabs/refreshable"} },
+                { id: "11030203", text: "新增加的Tab自动加载至iframe中", pid: "110302", attributes: { href: "examples/example.html?tabs/useiframe"} },
+                { id: "11030204", text: "移动和插入Tab", pid: "110302", attributes: { href: "examples/example.html?tabs/move"} },
+                { id: "11030205", text: "其他扩展功能", pid: "110302", attributes: { href: "examples/example.html?others"} }
+            ]
+            },
+        ]
+        },
 
         { id: "1104", text: "Menu and Button", pid: "11", children: [
             { id: "110401", text: "Menu", pid: "1104", children: [
-                { id: "11040101", text: "动态批量创建Menu", pid: "110401" },
-                { id: "11040102", text: "自定义Menu-Item的样式", pid: "110401" }
-            ] },
-            { id: "110402", text: "LinkButton", pid: "1104" }
-        ] },
+                { id: "11040101", text: "动态批量创建Menu", pid: "110401", attributes: { href: "examples/example.html?menu/default"} },
+                { id: "11040102", text: "自定义Menu-Item的样式", pid: "110401", attributes: { href: "examples/example.html?menu/custom"} }
+            ]
+            },
+            { id: "110402", text: "LinkButton", pid: "1104", attributes: { href: "examples/example.html?linkbutton"} }
+        ]
+        },
 
         { id: "1105", text: "Form", pid: "11", children: [
             { id: "110501", text: "Form", pid: "1105", children: [
-                { id: "11050101", text: "支持div-form", pid: "110501" },
-                { id: "11050102", text: "获取表单数据", pid: "110501" },
-                { id: "11050103", text: "其他扩展功能", pid: "110501" }
-            ] },
+                { id: "11050101", text: "支持div-form", pid: "110501", attributes: { href: "examples/example.html?form/div"} },
+                { id: "11050102", text: "获取表单数据", pid: "110501", attributes: { href: "examples/example.html?form/getData"} },
+                { id: "11050103", text: "其他扩展功能", pid: "110501", attributes: { href: "examples/example.html?form/others"} }
+            ]
+            },
 
             { id: "110502", text: "Validatebox", pid: "1105", children: [
-                { id: "11050201", text: "增强的Rules", pid: "11050201" },
-                { id: "11050202", text: "输入提示文字", pid: "11050201" }
-            ] },
+                { id: "11050201", text: "增强的Rules", pid: "11050201", attributes: { href: "examples/example.html?validatebox/rules"} },
+                { id: "11050202", text: "输入提示文字", pid: "11050201", attributes: { href: "examples/example.html?validatebox/prompt"} }
+            ]
+            },
 
             { id: "110503", text: "Combo", pid: "1105", children: [
-                { id: "11050301", text: "输入框获取焦点时自动展开Panel", pid: "110503" },
-                { id: "11050302", text: "其他扩展功能", pid: "110503" }
-            ] },
+                { id: "11050301", text: "输入框获取焦点时自动展开Panel", pid: "110503", attributes: { href: "examples/example.html?combo/autoShowPanel"} },
+                { id: "11050302", text: "其他扩展功能", pid: "110503", attributes: { href: "examples/example.html?combo/others"} }
+            ]
+            },
 
-            { id: "110504", text: "ComboBox", pid: "1105" },
-            { id: "110505", text: "ComboGrid", pid: "1105" },
-            { id: "110506", text: "ComboTree", pid: "1105" }
-        ] },
+            { id: "110504", text: "ComboBox", pid: "1105", attributes: { href: "examples/example.html?combobox"} },
+            { id: "110505", text: "ComboGrid", pid: "1105", attributes: { href: "examples/example.html?combogrid"} },
+            { id: "110506", text: "ComboTree", pid: "1105", attributes: { href: "examples/example.html?combotree"} }
+        ]
+        },
 
         { id: "1106", text: "Window", pid: "11", children: [
             { id: "110601", text: "Window", pid: "1106", children: [
-                { id: "11060101", text: "自动屏幕居中", pid: "110601" },
-                { id: "11060102", text: "ESC键关闭", pid: "110601" },
-                { id: "11060103", text: "双击窗体头部时自动最大化/还原", pid: "110601" },
-                { id: "11060104", text: "Href加载在Iframe中", pid: "110601" },
+                { id: "11060101", text: "自动屏幕居中", pid: "110601", attributes: { href: "examples/example.html?window/autoCenter"} },
+                { id: "11060102", text: "ESC键关闭", pid: "110601", attributes: { href: "examples/example.html?window/escClose"} },
+                { id: "11060103", text: "双击窗体头部时自动最大化/还原", pid: "110601", attributes: { href: "examples/example.html?window/autoRestore"} },
+                { id: "11060104", text: "Href加载在Iframe中", pid: "110601", attributes: { href: "examples/example.html?window/useiframe"} },
                 { id: "11060105", text: "窗体头部右键菜单", pid: "110601", children: [
-                    { id: "1106010501", text: "默认菜单", pid: "11060105" },
-                    { id: "1106010502", text: "自定义菜单", pid: "11060105" },
-                    { id: "1106010503", text: "自定义动态菜单", pid: "11060105" }
-                ] },
-                { id: "11060106", text: "不能移出容器边界", pid: "110601" }
-            ] },
+                    { id: "1106010501", text: "默认菜单", pid: "11060105", attributes: { href: "examples/example.html?window/menu/default"} },
+                    { id: "1106010502", text: "自定义菜单", pid: "11060105", attributes: { href: "examples/example.html?window/menu/custome"} },
+                    { id: "1106010503", text: "自定义动态菜单", pid: "11060105", attributes: { href: "examples/example.html?window/menu/customeDynamic"} }
+                ]
+                },
+                { id: "11060106", text: "不能移出容器边界", pid: "110601", attributes: { href: "examples/example.html?window/inContainer"} }
+            ]
+            },
 
             { id: "110602", text: "Dialog", pid: "1106", children: [
-                { id: "11060201", text: "自动屏幕居中", pid: "110602" },
-                { id: "11060202", text: "ESC键关闭", pid: "110602" },
-                { id: "11060203", text: "双击窗体头部时自动最大化/还原", pid: "110602" },
-                { id: "11060204", text: "Href加载在Iframe中", pid: "110602" },
+                { id: "11060201", text: "自动屏幕居中", pid: "110602", attributes: { href: "examples/example.html?dialog/autoCenter"} },
+                { id: "11060202", text: "ESC键关闭", pid: "110602", attributes: { href: "examples/example.html?dialog/escClose"} },
+                { id: "11060203", text: "双击窗体头部时自动最大化/还原", pid: "110602", attributes: { href: "examples/example.html?dialog/autoRestore"} },
+                { id: "11060204", text: "Href加载在Iframe中", pid: "110602", attributes: { href: "examples/example.html?dialog/useiframe"} },
                 { id: "11060205", text: "窗体头部右键菜单", pid: "110602", children: [
-                    { id: "1106020501", text: "默认菜单", pid: "11060205" },
-                    { id: "1106020502", text: "自定义菜单", pid: "11060205" },
-                    { id: "1106020503", text: "自定义动态菜单", pid: "11060205" }
-                ] },
+                    { id: "1106020501", text: "默认菜单", pid: "11060205", attributes: { href: "examples/example.html?dialog/menu/default"} },
+                    { id: "1106020502", text: "自定义菜单", pid: "11060205", attributes: { href: "examples/example.html?dialog/menu/custome"} },
+                    { id: "1106020503", text: "自定义动态菜单", pid: "11060205", attributes: { href: "examples/example.html?dialog/menu/customeDynamic"} }
+                ]
+                },
                 { id: "11060206", text: "快速创建Dialog", pid: "110602", children: [
-                    { id: "1106020601", text: "创建Dialog", pid: "11060206" },
-                    { id: "1106020602", text: "创建自定义工具栏和按纽栏的Dialog", pid: "11060206" },
-                    { id: "1106020603", text: "创建Iframe-Dialog", pid: "11060206" },
-                    { id: "1106020604", text: "Iframe-Dialog与父级页面互调用", pid: "11060206" }
-                ] }
-            ] }
-        ] },
+                    { id: "1106020601", text: "创建Dialog", pid: "11060206", attributes: { href: "examples/example.html?dialog/easy/createDialog"} },
+                    { id: "1106020602", text: "创建自定义工具栏和按纽栏的Dialog", pid: "11060206", attributes: { href: "examples/example.html?dialog/easy/toolbuttons"} },
+                    { id: "1106020603", text: "创建Iframe-Dialog", pid: "11060206", attributes: { href: "examples/example.html?dialog/easy/useiframe"} },
+                    { id: "1106020604", text: "Iframe-Dialog与父级页面互调用", pid: "11060206", attributes: { href: "examples/example.html?dialog/easy/useParent"} }
+                ]
+                }
+            ]
+            }
+        ]
+        },
 
         { id: "1107", text: "DataGrid and Tree", pid: "11", children: [
             { id: "110701", text: "DataGrid", pid: "1107", children: [
                 { id: "11070101", text: "表头过滤器", pid: "110701", children: [
-                    { id: "1107010101", text: "简单过滤器效果", pid: "11070101" },
-                    { id: "1107010102", text: "复杂过滤器效果", pid: "11070101" },
-                    { id: "1107010103", text: "过滤器操作", pid: "11070101" }
-                ] },
+                    { id: "1107010101", text: "简单过滤器效果", pid: "11070101", attributes: { href: "examples/example.html?datagrid/columnFilter/simple"} },
+                    { id: "1107010102", text: "复杂过滤器效果", pid: "11070101", attributes: { href: "examples/example.html?datagrid/columnFilter/complex"} },
+                    { id: "1107010103", text: "过滤器操作", pid: "11070101", attributes: { href: "examples/example.html?datagrid/columnFilter/operate"} }
+                ]
+                },
 
                 { id: "11070102", text: "表头右键菜单", pid: "110701", children: [
-                    { id: "1107010201", text: "默认菜单", pid: "11070102" },
-                    { id: "1107010202", text: "自定义菜单", pid: "11070102" },
-                    { id: "1107010203", text: "自定义动态菜单", pid: "11070102" }
-                ] },
+                    { id: "1107010201", text: "默认菜单", pid: "11070102", attributes: { href: "examples/example.html?datagrid/headerMenu/default"} },
+                    { id: "1107010202", text: "自定义菜单", pid: "11070102", attributes: { href: "examples/example.html?datagrid/custome"} },
+                    { id: "1107010203", text: "自定义动态菜单", pid: "11070102", attributes: { href: "examples/example.html?datagrid/customeDynamic"} }
+                ]
+                },
 
                 { id: "11070103", text: "行右键菜单", pid: "110701", children: [
-                    { id: "1107010301", text: "默认菜单", pid: "11070103" },
-                    { id: "1107010302", text: "自定义菜单", pid: "11070103" },
-                    { id: "1107010303", text: "自定义动态菜单", pid: "11070103" },
-                    { id: "1107010304", text: "自定义菜单自动绑定双击行事件", pid: "11070103" }
-                ] },
+                    { id: "1107010301", text: "默认菜单", pid: "11070103", attributes: { href: "examples/example.html?datagrid/rowMenu/default"} },
+                    { id: "1107010302", text: "自定义菜单", pid: "11070103", attributes: { href: "examples/example.html?datagrid/rowMenu/custome"} },
+                    { id: "1107010303", text: "自定义动态菜单", pid: "11070103", attributes: { href: "examples/example.html?datagrid/rowMenu/customeDynamic"} },
+                    { id: "1107010304", text: "自定义菜单自动绑定双击行事件", pid: "11070103", attributes: { href: "examples/example.html?datagrid/rowMenu/autoBindDblClick"} }
+                ]
+                },
 
                 { id: "11070104", text: "行拖动排序功能", pid: "110701", children: [
-                    { id: "1107010401", text: "基本功能", pid: "11070104" },
-                    { id: "1107010402", text: "行拖动事件回调", pid: "11070104" }
-                ] },
+                    { id: "1107010401", text: "基本功能", pid: "11070104", attributes: { href: "examples/example.html?datagrid/rowDraggable/base"} },
+                    { id: "1107010402", text: "行拖动事件回调", pid: "11070104", attributes: { href: "examples/example.html?datagrid/rowDraggable/event"} }
+                ]
+                },
 
                 { id: "11070105", text: "Tooltip", pid: "110701", children: [
-                    { id: "1107010501", text: "行 Tooltip", pid: "11070105" },
-                    { id: "1107010502", text: "自定义样式的行 Tooltip", pid: "11070105" },
-                    { id: "1107010503", text: "列 Tooltip", pid: "11070105" },
-                    { id: "1107010504", text: "自定义样式的列 Tooltip", pid: "11070105" }
-                ] },
+                    { id: "1107010501", text: "行 Tooltip", pid: "11070105", attributes: { href: "examples/example.html?datagrid/tooltip/row"} },
+                    { id: "1107010502", text: "自定义样式的行 Tooltip", pid: "11070105", attributes: { href: "examples/example.html?datagrid/tooltip/rowCustome"} },
+                    { id: "1107010503", text: "列 Tooltip", pid: "11070105", attributes: { href: "examples/example.html?datagrid/tooltip/column"} },
+                    { id: "1107010504", text: "自定义样式的列 Tooltip", pid: "11070105", attributes: { href: "examples/example.html?datagrid/tooltip/columnCustome"} }
+                ]
+                },
 
                 { id: "11070106", text: "仿ExtRowEditing编辑风格", pid: "110701", children: [
-                    { id: "1107010601", text: "单行编辑状态RowEditing", pid: "11070106" },
-                    { id: "1107010602", text: "多行编辑状态RowEditing", pid: "11070106" }
-                ] },
+                    { id: "1107010601", text: "单行编辑状态RowEditing", pid: "11070106", attributes: { href: "examples/example.html?datagrid/extEditing/singleEdit"} },
+                    { id: "1107010602", text: "多行编辑状态RowEditing", pid: "11070106", attributes: { href: "examples/example.html?datagrid/extEditing/multiEditing"} }
+                ]
+                },
 
-                { id: "11070107", text: "列冻结/取消冻结", pid: "110701" },
-                { id: "11070108", text: "自适应屏幕大小", pid: "110701" },
-                { id: "11070109", text: "其他扩展功能", pid: "110701" }
-            ] },
+                { id: "11070107", text: "列冻结/取消冻结", pid: "110701", attributes: { href: "examples/example.html?datagrid/freeze"} },
+                { id: "11070108", text: "自适应屏幕大小", pid: "110701", attributes: { href: "examples/example.html?datagrid/offset"} },
+                { id: "11070109", text: "其他扩展功能", pid: "110701", attributes: { href: "examples/example.html?datagrid/others"} }
+            ]
+            },
 
             { id: "110702", text: "Tree", pid: "1107", children: [
                 { id: "11070201", text: "右键菜单", pid: "110702", children: [
-                    { id: "1107020101", text: "默认菜单", pid: "11070201" },
-                    { id: "1107020102", text: "自定义菜单", pid: "11070201" },
-                    { id: "1107020103", text: "自定义动态菜单", pid: "11070201" },
-                    { id: "1107020104", text: "自定义菜单自动绑定双击事件", pid: "11070201" }
-                ] },
-                { id: "11070202", text: "平滑数据支持", pid: "110702" },
-                { id: "11070203", text: "单击节点自动展开/折叠", pid: "110702" },
-                { id: "11070204", text: "节点展开控制", pid: "110702" },
-                { id: "11070205", text: "其他扩展功能", pid: "110702" }
-            ] },
+                    { id: "1107020101", text: "默认菜单", pid: "11070201", attributes: { href: "examples/example.html?tree/menu/default"} },
+                    { id: "1107020102", text: "自定义菜单", pid: "11070201", attributes: { href: "examples/example.html?tree/menu/custome"} },
+                    { id: "1107020103", text: "自定义动态菜单", pid: "11070201", attributes: { href: "examples/example.html?tree/menu/customeDynamic"} },
+                    { id: "1107020104", text: "自定义菜单自动绑定双击事件", pid: "11070201", attributes: { href: "examples/example.html?tree/menu/autoBindDblClick"} }
+                ]
+                },
+                { id: "11070202", text: "平滑数据支持", pid: "110702", attributes: { href: "examples/example.html?tree/simpleData"} },
+                { id: "11070203", text: "单击节点自动展开/折叠", pid: "110702", attributes: { href: "examples/example.html?tree/autoToggle"} },
+                { id: "11070204", text: "节点展开控制", pid: "110702", attributes: { href: "examples/example.html?tree/onlyNodeExpand"} },
+                { id: "11070205", text: "其他扩展功能", pid: "110702", attributes: { href: "examples/example.html?tree/others"} }
+            ]
+            },
 
             { id: "110703", text: "TreeGrid", pid: "1107", children: [
                 { id: "11070301", text: "表头过滤器", pid: "110703", children: [
-                    { id: "1107030101", text: "简单过滤器效果", pid: "11070301" },
-                    { id: "1107030102", text: "复杂过滤器效果", pid: "11070301" },
-                    { id: "1107030103", text: "过滤器操作", pid: "11070301" }
-                ] },
+                    { id: "1107030101", text: "简单过滤器效果", pid: "11070301", attributes: { href: "examples/example.html?treegrid/columnFilter/simple"} },
+                    { id: "1107030102", text: "复杂过滤器效果", pid: "11070301", attributes: { href: "examples/example.html?treegrid/columnFilter/complex"} },
+                    { id: "1107030103", text: "过滤器操作", pid: "11070301", attributes: { href: "examples/example.html?treegrid/columnFilter/operate"} }
+                ]
+                },
 
                 { id: "11070302", text: "表头右键菜单", pid: "110703", children: [
-                    { id: "1107030201", text: "默认菜单", pid: "11070302" },
-                    { id: "1107030202", text: "自定义菜单", pid: "11070302" },
-                    { id: "1107030203", text: "自定义动态菜单", pid: "11070302" }
-                ] },
+                    { id: "1107030201", text: "默认菜单", pid: "11070302", attributes: { href: "examples/example.html?treegrid/headerMenu/default"} },
+                    { id: "1107030202", text: "自定义菜单", pid: "11070302", attributes: { href: "examples/example.html?treegrid/headerMenu/custome"} },
+                    { id: "1107030203", text: "自定义动态菜单", pid: "11070302", attributes: { href: "examples/example.html?treegrid/headerMenu/customeDynamic"} }
+                ]
+                },
 
                 { id: "11070303", text: "行右键菜单", pid: "110703", children: [
-                    { id: "1107030301", text: "默认菜单", pid: "11070303" },
-                    { id: "1107030302", text: "自定义菜单", pid: "11070303" },
-                    { id: "1107030303", text: "自定义动态菜单", pid: "11070303" },
-                    { id: "1107030304", text: "自定义菜单自动绑定双击行事件", pid: "11070303" }
-                ] },
+                    { id: "1107030301", text: "默认菜单", pid: "11070303", attributes: { href: "examples/example.html?treegrid/rowMenu/default"} },
+                    { id: "1107030302", text: "自定义菜单", pid: "11070303", attributes: { href: "examples/example.html?treegrid/rowMenu/custome"} },
+                    { id: "1107030303", text: "自定义动态菜单", pid: "11070303", attributes: { href: "examples/example.html?treegrid/rowMenu/customeDynamic"} },
+                    { id: "1107030304", text: "自定义菜单自动绑定双击行事件", pid: "11070303", attributes: { href: "examples/example.html?treegrid/rowMenu/autoBindDblClick"} }
+                ]
+                },
 
                 { id: "11070304", text: "行拖动排序功能", pid: "110703", children: [
-                    { id: "1107030401", text: "基本功能", pid: "11070304" },
-                    { id: "1107030402", text: "行拖动事件回调", pid: "11070304" }
-                ] },
+                    { id: "1107030401", text: "基本功能", pid: "11070304", attributes: { href: "examples/example.html?treegrid/rowDraggable/base"} },
+                    { id: "1107030402", text: "行拖动事件回调", pid: "11070304", attributes: { href: "examples/example.html?treegrid/rowDraggable/event"} }
+                ]
+                },
 
                 { id: "11070305", text: "Tooltip", pid: "110703", children: [
-                    { id: "1107030501", text: "行 Tooltip", pid: "11070305" },
-                    { id: "1107030502", text: "自定义样式的行 Tooltip", pid: "11070305" },
-                    { id: "1107030503", text: "列 Tooltip", pid: "11070305" },
-                    { id: "1107030504", text: "自定义样式的列 Tooltip", pid: "11070305" }
-                ] },
+                    { id: "1107030501", text: "行 Tooltip", pid: "11070305", attributes: { href: "examples/example.html?treegrid/tooltip/row"} },
+                    { id: "1107030502", text: "自定义样式的行 Tooltip", pid: "11070305", attributes: { href: "examples/example.html?treegrid/tooltip/rowCustome"} },
+                    { id: "1107030503", text: "列 Tooltip", pid: "11070305", attributes: { href: "examples/example.html?treegrid/tooltip/column"} },
+                    { id: "1107030504", text: "自定义样式的列 Tooltip", pid: "11070305", attributes: { href: "examples/example.html?treegrid/tooltip/columnCustome"} }
+                ]
+                },
 
                 { id: "11070306", text: "仿ExtRowEditing编辑风格", pid: "110703", children: [
-                    { id: "1107030601", text: "单行编辑状态RowEditing", pid: "11070306" },
-                    { id: "1107030602", text: "多行编辑状态RowEditing", pid: "11070306" }
-                ] },
+                    { id: "1107030601", text: "单行编辑状态RowEditing", pid: "11070306", attributes: { href: "examples/example.html?treegrid/extEditing/singleEditing"} },
+                    { id: "1107030602", text: "多行编辑状态RowEditing", pid: "11070306", attributes: { href: "examples/example.html?treegrid/extEditing/multiEditing"} }
+                ]
+                },
 
-                { id: "11070307", text: "列冻结/取消冻结", pid: "110703" },
-                { id: "11070308", text: "自适应屏幕大小", pid: "110703" },
-                { id: "11070309", text: "其他扩展功能", pid: "110703" }
-            ] }
-        ] },
+                { id: "11070307", text: "列冻结/取消冻结", pid: "110703", attributes: { href: "examples/example.html?treegrid/freeze"} },
+                { id: "11070308", text: "自适应屏幕大小", pid: "110703", attributes: { href: "examples/example.html?treegrid/offset"} },
+                { id: "11070309", text: "其他扩展功能", pid: "110703", attributes: { href: "examples/example.html?treegrid/others"} }
+            ]
+            }
+        ]
+        },
 
         { id: "1108", text: "Others", pid: "11", children: [
-            { id: "110801", text: "Icons", pid: "1108" },
-            { id: "110802", text: "GridSelector", pid: "1108" },
-            { id: "110803", text: "Toolbar", pid: "1108" },
-            { id: "110804", text: "Portal", pid: "1108" }
-        ] }
+            { id: "110801", text: "Icons", pid: "1108", attributes: { href: "examples/example.html?icons"} },
+            { id: "110802", text: "GridSelector", pid: "1108", attributes: { href: "examples/example.html?gridSelector"} },
+            { id: "110803", text: "Toolbar", pid: "1108", attributes: { href: "examples/example.html?toolbar"} },
+            { id: "110804", text: "Portal", pid: "1108", attributes: { href: "examples/example.html?portal"} },
+            { id: "110805", text: "my97", pid: "1108", attributes: { href: "examples/example.html?my97"} },
+            { id: "110806", text: "ckeditor", pid: "1108", attributes: { href: "examples/example.html?ckeditor"} },
+            { id: "110807", text: "uploadify", pid: "1108", attributes: { href: "examples/example.html?uploadify"} }
+        ]
+        }
     ];
 
     window.mainpage.docMenus = [
-        { id: "1001", text: "Base", pid: "10" },
-        { id: "1002", text: "Layout", pid: "10" },
-        { id: "1003", text: "Menu and Button", pid: "10" },
-        { id: "1004", text: "Form", pid: "10" },
-        { id: "1005", text: "Window", pid: "10" },
-        { id: "1006", text: "DataGrid and Tree", pid: "10" },
-        { id: "1007", text: "Others", pid: "10" }
+        { id: "1001", text: "jQuery jDirk", pid: "10" },
+        { id: "1002", text: "Base", pid: "10", children: [
+            { id: "100201", text: "jeasyui.extensions.js", pid: "1002" }
+        ]
+        },
+        { id: "1003", text: "Layout", pid: "10", children: [
+            { id: "100301", text: "jeasyui.extensions.panel.js", pid: "1003" },
+            { id: "100302", text: "jeasyui.extensions.tabs.js", pid: "1003" }
+        ]
+        },
+        { id: "1004", text: "Menu and Button", pid: "10", children: [
+            { id: "100401", text: "jeasyui.extensions.menu.js", pid: "1004" },
+            { id: "100402", text: "jeasyui.extensions.linkbutton.js", pid: "1004" }
+        ]
+        },
+        { id: "1005", text: "Form", pid: "10", children: [
+            { id: "100501", text: "jeasyui.extensions.form.js", pid: "1005" },
+            { id: "100502", text: "jeasyui.extensions.validatebox.js", pid: "1005" },
+            { id: "100503", text: "jeasyui.extensions.combo.js", pid: "1005" },
+            { id: "100504", text: "jeasyui.extensions.combobox.js", pid: "1005" },
+            { id: "100505", text: "jeasyui.extensions.combogrid.js", pid: "1005" },
+            { id: "100506", text: "jeasyui.extensions.combotree.js", pid: "1005" }
+        ]
+        },
+        { id: "1006", text: "Window", pid: "10", children: [
+            { id: "100601", text: "jeasyui.extensions.window.js", pid: "1006" },
+            { id: "100602", text: "jeasyui.extensions.dialog.js", pid: "1006" },
+        ]
+        },
+        { id: "1007", text: "DataGrid and Tree", pid: "10", children: [
+            { id: "100701", text: "jeasyui.extensions.datagrid.js", pid: "1007" },
+            { id: "100702", text: "jeasyui.extensions.tree.js", pid: "1007" },
+            { id: "100703", text: "jeasyui.extensions.treegrid.js", pid: "1007" },
+        ]
+        },
+        { id: "1008", text: "Others", pid: "10", children: [
+            { id: "100801", text: "jeasyui.extensions.icons.js", pid: "1008" },
+            { id: "100802", text: "jeasyui.extensions.gridselector", pid: "1008" },
+            { id: "100803", text: "jquery.portal.js", pid: "1008" },
+            { id: "100804", text: "jquery.toolbar.js", pid: "1008" },
+            { id: "100805", text: "jquery.my97.js", pid: "1008" },
+            { id: "100806", text: "jquery.ckeditor.js", pid: "1008" },
+            { id: "100807", text: "jquery.uploadify.js", pid: "1008" }
+        ]
+        }
     ];
 
 })(jQuery);

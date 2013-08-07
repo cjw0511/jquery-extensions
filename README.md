@@ -104,7 +104,7 @@ http://www.chenjianwei.org
               ├─syntaxhighlighter_3.0.83    syntaxhighlighter插件，用于在文档DEMO中对代码的显示提供格式化支持<br />
               │<br />
               ├─changelog.txt               该扩展项目的更新日志<br />
-              ├─index.html                  该扩展项目的演示主文件<br />
+              ├─index.html                  该扩展项目的演示主文件(运行演示 DEMO，用 WEB 浏览器打开此文件即可)<br />
               ├─jquery.jdirk.js             jquery.jdirk.js 扩展库源代码文件<br />
               ├─LICENSE                     该扩展项目遵循的 GPL-v3 协议说明文件<br />
               └─README.md                   该扩展项目的 README.md 文件(本文件)<br />

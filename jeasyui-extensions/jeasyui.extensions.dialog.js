@@ -240,7 +240,8 @@
     $.easyui.showOption = function (options, dialogOption) {
         options = options || "无数据显示。";
         dialogOption = dialogOption || {};
-        var content = $("<table></table>").css({ padding: "10px", width: "100%" }), type = $.type(options);
+        var opts = $.extend({}, $.easyui.showDialog.defaults, dialogOption), jq = opts.topMost ? $.util.$ : $;
+        var content = jq("<table></table>").css({ padding: "10px", width: "100%" }), type = jq.type(options);
         if ($.array.contains(["array", "object", "function"], type)) {
             for (var key in options) {
                 content.append("<tr><td style='text-align: right; width: 100px;'>" + key + ":</td><td>" + options[key] + "</td></tr>");
@@ -256,7 +257,7 @@
             autoHCenter: false,
             enableSaveButton: false,
             enableApplyButton: false
-        }, dialogOption, { content: content });
+        }, opts, { content: content });
         return $.easyui.showDialog(opts);
     };
 

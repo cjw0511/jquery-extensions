@@ -1,0 +1,47 @@
+﻿<div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#mask1").click(function () {
+            $.easyui.loading({ msg: "正在加载..." });
+            window.setTimeout(function () { $.easyui.loaded(); }, 1000);
+        });
+
+        $("#mask2").click(function () {
+            $.easyui.loading({ msg: "正在加载...", topMost: true });
+            window.setTimeout(function () { $.easyui.loaded(true); }, 1000);
+        });
+
+        $("#mask3").click(function () {
+            $.easyui.loading({ msg: "正在加载...", locale: "#maskContainer" });
+        });
+
+        $("#mask4").click(function () {
+            $.easyui.loaded("#maskContainer");
+        });
+
+        $("#mask5").click(function () {
+            $.easyui.loading({ msg: "正在加载...", locale: "#westCenterLayout", topMost: true });
+        });
+
+        $("#mask6").click(function () {
+            $.easyui.loaded("#westCenterLayout", true);
+        });
+    });
+</script>
+
+<h2>jEasyUI Mask Extensions</h2>
+<p>该部分扩展由文件 jeasyui.extensions.js 实现。</p>
+<hr />
+<p>该功能实现的效果为，可以通过编程方式为任意一个对象添加类似于 easyui-datagrid 正在载入远程数据时显示的 "正在加载..." 风格的加载提示信息</p>
+<input id="mask1" type="button" value="显示 Loading" />
+<input id="mask2" type="button" value="在顶级页面显示 Loading" /><br /><br />
+<input id="mask3" type="button" value="在指定容器中显示 Loading" />
+<input id="mask4" type="button" value="关闭指定容器中的 Loading" /><br /><br />
+<input id="mask5" type="button" value="在顶级页面的指定容器中显示 Loading" />
+<input id="mask6" type="button" value="关顶级页面的闭指定容器中的 Loading" />
+<br />
+<br />
+<div id="maskContainer" style="border-color: Black; border-width: 1px; border-style: solid; width: 400px; height: 200px;">这是一个 mask 容器</div>
+
+</div>
