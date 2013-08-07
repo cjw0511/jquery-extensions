@@ -17,7 +17,7 @@
     //      id: 表示根节点菜单的 id；
     window.mainpage.loadMenu = function (id) {
         $(navMenuList).find("a").attr("disabled", true);
-        $.easyui.loading(westCenterLayout);
+        $.easyui.loading({ locale: westCenterLayout });
         var root = $.extend({}, $.array.first(window.mainpage.navMenusData, function (val) { return val.id == id; })),
             menus = id == "10" ? window.mainpage.docMenus : (id == "11" ? window.mainpage.apiMenus : []);
         root.children = menus;
@@ -104,7 +104,7 @@
     //  将指定的根节点数据集合数据加载至左侧面板中“个人收藏”的 ul 控件中；该方法定义如下参数：
     //      menus:  为一个 Array 对象；数组中的每一个元素都是一个表示根节点菜单数据的 JSON-Object。
     window.mainpage.loadFavoMenus = function () {
-        $.easyui.loading(westFavoLayout);
+        $.easyui.loading({ locale: westFavoLayout });
         $(favoMenuTree).tree("loadData", window.mainpage.navMenusData);
     };
 
