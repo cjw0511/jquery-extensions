@@ -932,6 +932,7 @@
     };
 
     function initHeaderClickMenu(t, opts, exts) {
+        if (!opts.enableHeaderClickMenu) { return; }
         t.treegrid("getPanel").find(".datagrid-view .datagrid-header table.datagrid-htable tr.datagrid-header-row td[field]").filter(function () {
             var td = $(this), colspan = td.attr("colspan");
             return (!colspan || colspan == "1") && !td.find("div.datagrid-header-check,div.datagrid-header-rownumber").length ? true : false;
@@ -2027,6 +2028,10 @@
         //  备注：具体格式参考 easyui-treegrid 的 toolbar 属性为 Array 对象类型的格式；
         //      当 enableRowContextMenu 属性为 true 时，该设置方有效。
         rowContextMenu: null,
+
+        //  增加 easyui-treegrid 的自定义扩展属性，该属性表示是否启用 easyui-treegrid 的表头列点击按钮菜单；
+        //  Boolean 类型值，默认为 true。 
+        enableHeaderClickMenu: true,
 
         //  增加 easyui-treegrid 的自定义扩展属性，该属性表示是否启用 easyui-treegrid 的表头右键菜单；
         //  Boolean 类型值，默认为 true。

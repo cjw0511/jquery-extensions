@@ -962,19 +962,18 @@
     function initHeaderContextMenu(t, opts, exts) {
         exts.onHeaderContextMenuBak = opts.onHeaderContextMenu;
         opts.onHeaderContextMenu = function (e, field) {
-            e.preventDefault();
             if ($.isFunction(exts.onHeaderContextMenuBak)) { exts.onHeaderContextMenuBak.apply(this, arguments); }
             if (!opts.enableHeaderContextMenu) { return; }
             var eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, e),
                 items = parseHeaderContextMenuItems(t, opts, exts, e, field, eventData);
             $.easyui.showMenu({ items: items, left: e.pageX, top: e.pageY, hideDisabledMenu: opts.hideDisabledMenu });
+            e.preventDefault();
         };
     };
 
     function initRowContextMenu(t, opts, exts) {
         exts.onRowContextMenuBak = opts.onRowContextMenu;
         opts.onRowContextMenu = function (e, rowIndex, rowData) {
-            e.preventDefault();
             if ($.isFunction(exts.onRowContextMenuBak)) { exts.onRowContextMenuBak.apply(this, arguments); }
             if (opts.selectOnRowContextMenu) { t.datagrid("selectRow", rowIndex); }
             if (!opts.enableRowContextMenu) { return; }
@@ -985,10 +984,12 @@
                 items[opts.dblClickRowMenuIndex].bold = true;
             }
             $.easyui.showMenu({ items: items, left: e.pageX, top: e.pageY, hideDisabledMenu: opts.hideDisabledMenu });
+            e.preventDefault();
         };
     };
 
     function initHeaderClickMenu(t, opts, exts) {
+        if (!opts.enableHeaderClickMenu) { return; }
         t.datagrid("getPanel").find(".datagrid-view .datagrid-header table.datagrid-htable tr.datagrid-header-row td[field]").filter(function () {
             var td = $(this), colspan = td.attr("colspan");
             return (!colspan || colspan == "1") && !td.find("div.datagrid-header-check,div.datagrid-header-rownumber").length ? true : false;
@@ -1250,8 +1251,8 @@
             t.datagrid("moveRow", { source: rowIndex, target: rows.length - 1, point: "bottom" });
         }
         };
-    var m10 = { text: "导出当前页", iconCls: "icon-standard-page-white-put", disabled: !(exp == true || exp.current == true), handler: function () { return t.datagrid("exportExcel", false); } };
-    var m11 = { text: "导出全部", iconCls: "icon-standard-page-white-stack", disabled: !(exp == true || exp.all == true), handler: function () { return t.datagrid("exportExcel", true); } };
+        var m10 = { text: "导出当前页", iconCls: "icon-standard-page-white-put", disabled: !(exp == true || exp.current == true), handler: function () { return t.datagrid("exportExcel", false); } };
+        var m11 = { text: "导出全部", iconCls: "icon-standard-page-white-stack", disabled: !(exp == true || exp.all == true), handler: function () { return t.datagrid("exportExcel", true); } };
         mm.push(m1);
         var pagingMenu = [m2, m3, m4, m5], moveMenu = [m6, m7, "-", m8, m9], expMenu = [m10, m11];
         if (paging) { $.array.merge(mm, "-", typeof paging == "object" && !paging.submenu ? pagingMenu : { text: "翻页", iconCls: "", disabled: !(paging == true || !paging.disabled), children: pagingMenu }); }
@@ -1966,6 +1967,10 @@
         //      handler:    表示菜单项的点击事件，该事件函数格式为 function(e, rowIndex, rowData, eventData, grid, item, menu)，其中 this 指向菜单项本身
         //  备注：具体格式参考 easyui-datagrid 的 toolbar 属性为 Array 对象类型的格式；
         rowContextMenu: null,
+
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否启用 easyui-datagrid 的表头列点击按钮菜单；
+        //  Boolean 类型值，默认为 true。 
+        enableHeaderClickMenu: true,
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否启用 easyui-datagrid 的表头右键菜单；
         //  Boolean 类型值，默认为 true。

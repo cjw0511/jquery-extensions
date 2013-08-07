@@ -2,12 +2,38 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#dg1").datagrid({
+            title: 'test datagrid',
+            width: 1200,
+            height: 400,
+            method: "get",
+            url: "datagrid/datagrid-data.json",
+            idField: 'ID',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'ID', title: 'ID', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'Code', title: '编号(Code)', width: 120 },
+                { field: 'Name', title: '名称(Name)', width: 140 },
+                { field: 'Age', title: '年龄(Age)', width: 120 },
+                { field: 'Height', title: '身高(Height)', width: 140 },
+                { field: 'Weight', title: '体重(Weight)', width: 140 },
+                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180 },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
+            ]],
+            columnFilter: { panelHeight: 100, position: "top" },
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            enableRowContextMenu: false
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI DataGrid Extensions - 简单过滤器效果</h2>
+<p>该部分扩展由文件 jeasyui.extensions.datagrid.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<table id="dg1"></table>
 
 </div>

@@ -2,12 +2,43 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#dg1").datagrid({
+            title: 'test datagrid',
+            width: 1200,
+            height: 400,
+            method: "get",
+            url: "datagrid/datagrid-data.json",
+            idField: 'ID',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'ID', title: 'ID', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'Code', title: '编号(Code)', width: 120 },
+                { field: 'Name', title: '名称(Name)', width: 140, filter: "livebox" },
+                { field: 'Age', title: '年龄(Age)', width: 120, filterable: false },
+                { field: 'Height', title: '身高(Height)', width: 140, filter: "caps" },
+                { field: 'Weight', title: '体重(Weight)', width: 140, filter: "lower" },
+                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180 },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
+            ]],
+            columnFilter: { panelHeight: 100, position: "top" },
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            enableRowContextMenu: false
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI DataGrid Extensions - 复杂过滤器效果</h2>
+<p>该部分扩展由文件 jeasyui.extensions.datagrid.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>
+    相对于简单列头过滤器，通过配置列属性的 filter 和 filterable 参数实现复杂的过滤效果；<br />
+    该示例中：禁用了列 "年龄(Age)" 的过滤器功能；另外对 "名称(Name)"、"身高(Height)" 和 "体重(Weight)" 实现了非默认的过滤器配置；<br />
+    未配置 filter 参数的列，filter 的值默认为 "checkbox"。
+</p>
+<table id="dg1"></table>
 
 </div>

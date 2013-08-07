@@ -255,7 +255,7 @@
     window.mainpage.docMenus = [
         { id: "1001", text: "jQuery jDirk", pid: "10" },
         { id: "1002", text: "Base", pid: "10", children: [
-            { id: "100201", text: "jeasyui.extensions.js", pid: "1002" }
+            { id: "100201", text: "jeasyui.extensions.js", pid: "1002", attributes: { href: "" } }
         ]
         },
         { id: "1003", text: "Layout", pid: "10", children: [
