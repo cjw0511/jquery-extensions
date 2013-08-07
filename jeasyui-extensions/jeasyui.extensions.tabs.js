@@ -102,7 +102,7 @@
             tools = panelOpts.tools, onLoad = panelOpts.onLoad,
             refreshButton = { iconCls: "icon-mini-refresh", handler: function () {
                 var title = $(this).parent().prev().find("span.tabs-title").text();
-                if (title) { tabs.tabs("refresh", title); }
+                if (title) { $.util.call(function () { tabs.tabs("refresh", title); }); }
             }
             };
         if (panelOpts.refreshable) {

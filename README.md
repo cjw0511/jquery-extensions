@@ -145,6 +145,7 @@ http://www.chenjianwei.org
                 </ul>
             </li>
             <li>jEasyUI 中文社区 QQ 群号：70168958</li>
+            <li>对于本扩展有任何意见或者建议，欢迎大家及时向我反馈，可以发邮件至我信箱 cjw0511@qq.com；在时间允许的情况下我会尽可能的给大家回复。</li>
         </ul>
     </li>
 </ul>

@@ -44,7 +44,7 @@
                 { id: "11030204", text: "移动和插入Tab", pid: "110302", attributes: { href: "examples/example.html?tabs/move"} },
                 { id: "11030205", text: "其他扩展功能", pid: "110302", attributes: { href: "examples/example.html?others"} }
             ]
-            },
+            }
         ]
         },
 
@@ -111,11 +111,12 @@
                     { id: "1106020503", text: "自定义动态菜单", pid: "11060205", attributes: { href: "examples/example.html?dialog/menu/customeDynamic"} }
                 ]
                 },
-                { id: "11060206", text: "快速创建Dialog", pid: "110602", children: [
-                    { id: "1106020601", text: "创建Dialog", pid: "11060206", attributes: { href: "examples/example.html?dialog/easy/createDialog"} },
-                    { id: "1106020602", text: "创建自定义工具栏和按纽栏的Dialog", pid: "11060206", attributes: { href: "examples/example.html?dialog/easy/toolbuttons"} },
-                    { id: "1106020603", text: "创建Iframe-Dialog", pid: "11060206", attributes: { href: "examples/example.html?dialog/easy/useiframe"} },
-                    { id: "1106020604", text: "Iframe-Dialog与父级页面互调用", pid: "11060206", attributes: { href: "examples/example.html?dialog/easy/useParent"} }
+                { id: "11060106", text: "不能移出容器边界", pid: "110601", attributes: { href: "examples/example.html?window/inContainer"} },
+                { id: "11060207", text: "快速创建Dialog", pid: "110602", children: [
+                    { id: "1106020701", text: "创建Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/createDialog"} },
+                    { id: "1106020702", text: "创建自定义工具栏和按纽栏的Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/toolbuttons"} },
+                    { id: "1106020703", text: "创建Iframe-Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/useiframe"} },
+                    { id: "1106020704", text: "Iframe-Dialog与父级页面互调用", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/useParent"} }
                 ]
                 }
             ]
@@ -278,13 +279,13 @@
         },
         { id: "1006", text: "Window", pid: "10", children: [
             { id: "100601", text: "jeasyui.extensions.window.js", pid: "1006" },
-            { id: "100602", text: "jeasyui.extensions.dialog.js", pid: "1006" },
+            { id: "100602", text: "jeasyui.extensions.dialog.js", pid: "1006" }
         ]
         },
         { id: "1007", text: "DataGrid and Tree", pid: "10", children: [
             { id: "100701", text: "jeasyui.extensions.datagrid.js", pid: "1007" },
             { id: "100702", text: "jeasyui.extensions.tree.js", pid: "1007" },
-            { id: "100703", text: "jeasyui.extensions.treegrid.js", pid: "1007" },
+            { id: "100703", text: "jeasyui.extensions.treegrid.js", pid: "1007" }
         ]
         },
         { id: "1008", text: "Others", pid: "10", children: [
