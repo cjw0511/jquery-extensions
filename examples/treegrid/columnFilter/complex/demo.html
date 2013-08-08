@@ -2,12 +2,39 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#t1").treegrid({
+            title: 'test treegrid',
+            width: 900,
+            height: 500,
+            animate: true,
+            method: "get",
+            url: "treegrid/treegrid-data.json",
+            idField: "id",
+            treeField: "name",
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { title: 'ID', field: 'id', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { title: "Name", field: "name", width: 200, filter: "livebox" },
+                { title: "Size", field: "size", width: 100, align: "right", filterable: false },
+                { title: "Age", field: "age", width: 140, align: "right", filter: "caps" },
+                { title: "Weight", field: "weight", width: 140, align: "right", filter: "lower" },
+                { title: "Date", field: "date", width: 150, align: "right" }
+            ]],
+            columnFilter: { panelHeight: 100, position: "top" },
+            smooth: false,
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            enableRowContextMenu: false
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI TreeGrid Extensions - 复杂过滤器效果</h2>
+<p>该部分扩展由文件 jeasyui.extensions.treegrid.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<table id="t1"></table>
 
 </div>

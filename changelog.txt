@@ -1,10 +1,11 @@
 ﻿jquery-extensions 发布及更新日志
 
+/******************** 2013-08-08(1.0.0 preview) ********************/
+1、修复 jeasyui.extensions.treegrid.js 扩展中 showRow 和 hideRow 方法中存在的部分 BUG；
+
+
 /******************** 2013-08-06(1.0.0 preview) ********************/
-1、修复 jeasyui.extensions.tabs 扩展的 Tab 刷新按钮功能在 Firefox 浏览器中不兼容的问题；
-
-
-
+1、修复 jeasyui.extensions.tabs.js 扩展的 Tab 刷新按钮功能在 Firefox 浏览器中不兼容的问题；
 
 
 /******************** 2013-08-05(1.0.0 preview) ********************/

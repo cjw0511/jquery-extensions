@@ -485,7 +485,7 @@
     var showRow = function (target, param, grid, options, extensions, refreshable) {
         var t = grid || $.util.parseJquery(target), opts = options || t.treegrid("options"),
             isFunc = $.isFunction(param), val = isFunc ? findRow(target, param, t) : null,
-            id = isFunc ? (val ? val[opts.idField] : null) : param;
+            id = isFunc ? (val ? val[opts.idField] : null) : ($.isPlainObject(param) && (opts.idField in param) ? param[opts.idField] : param);
         if (id == null || id == undefined) { return; }
         var dom = t.treegrid("getRowDom", { id: id, cascade: true }),
             refreshable = (refreshable == null || refreshable == undefined || refreshable == true) ? true : false;
@@ -504,7 +504,7 @@
     var hideRow = function (target, param, grid, options, extensions, refreshable) {
         var t = grid || $.util.parseJquery(target), opts = options || t.treegrid("options"),
             isFunc = $.isFunction(param), val = isFunc ? findRow(target, param, t) : null,
-            id = isFunc ? (val ? val[opts.idField] : null) : param;
+            id = isFunc ? (val ? val[opts.idField] : null) : ($.isPlainObject(param) && (opts.idField in param) ? param[opts.idField] : param);
         if (id == null || id == undefined) { return; }
         var dom = t.treegrid("getRowDom", { id: id, cascade: true }),
             refreshable = (refreshable == null || refreshable == undefined || refreshable == true) ? true : false;
@@ -1765,13 +1765,13 @@
 
         //  隐藏当前 easyui-treegrid 当前页数据中指定多行的数据；该方法的参数 param 可以是以下三种类型：
         //      Function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-treegrid 所有节点对象集合；
-        //          如果 param 参数为 Function 类型，则 showRows 方法会对当前 easyui-treegrid 的当前页的每一行数据调用该回调函数；
+        //          如果 param 参数为 Function 类型，则 hideRows 方法会对当前 easyui-treegrid 的当前页的每一行数据调用该回调函数；
         //          当回调函数返回 true 时，则该行数据将会被隐藏；
         //      Array 类型，数组中的每一项都可以定义为如下类型：
         //          待查找的行数据的 idField(主键) 字段值；
-        //          Function 类型；具体回调函数签名参考 showRow 方法中 param 参数为 function 类型时的定义；
-        //          当 param 参数定义为 Array 类型时，则 showRows 方法会对数组中的每一项循环调用 showRow 方法；
-        //      Boolean 类型且为 true：则 showRows 将会隐藏 easyui-treegrid 当前页的所有数据。
+        //          Function 类型；具体回调函数签名参考 hideRow 方法中 param 参数为 function 类型时的定义；
+        //          当 param 参数定义为 Array 类型时，则 hideRows 方法会对数组中的每一项循环调用 hideRow 方法；
+        //      Boolean 类型且为 true：则 hideRows 将会隐藏 easyui-treegrid 当前页的所有数据。
         //  返回值：返回表示当前 easyui-treegrid 组件的 jQuery 链式对象。
         hideRows: function (jq, param) { return jq.each(function () { hideRows(this, param); }); },
 

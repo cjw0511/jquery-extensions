@@ -1,15 +1,111 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [17,18,19,20,23,32,36,40,44,48,52,62,72,76,80]" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    $(function () {
+        var columnFilter = { panelHeight: 100, position: "top" }, t = $("#t1").treegrid({
+            title: 'test treegrid',
+            width: 900,
+            height: 500,
+            animate: true,
+            method: "get",
+            url: "treegrid/treegrid-data.json",
+            idField: "id",
+            treeField: "name",
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { title: 'ID', field: 'id', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { title: "Name", field: "name", width: 200, filter: "livebox" },
+                { title: "Size", field: "size", width: 100, align: "right", filterable: false },
+                { title: "Age", field: "age", width: 140, align: "right", filter: "caps" },
+                { title: "Weight", field: "weight", width: 140, align: "right", filter: "lower" },
+                { title: "Date", field: "date", width: 150, align: "right" }
+            ]],
+            columnFilter: { panelHeight: 100, position: "top" },
+            smooth: false,
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            enableRowContextMenu: false
+        });
+
+
+        $("#Button1").click(function () {
+            t.treegrid("setColumnFilter", columnFilter);
+        });
+
+        $("#Button2").click(function () {
+            t.treegrid("setColumnFilter");  //此处传入 null 亦可
+        });
+
+        $("#Button3").click(function () {
+            t.treegrid("setColumnFilter", $.extend({}, columnFilter, { position: "top" }));
+        });
+
+        $("#Button4").click(function () {
+            t.treegrid("setColumnFilter", $.extend({}, columnFilter, { position: "bottom" }));
+        });
+
+        $("#Button5").click(function () {
+            t.treegrid("showRows", true);     //等效于 t.treegrid("columnFilterSelect", true);
+        });
+
+        $("#Button6").click(function () {
+            t.treegrid("hideRows", true);     //等效于 t.treegrid("columnFilterSelect", false);
+        });
+
+        $("#Button7").click(function () {
+            var fields = t.treegrid("getColumnFields"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
+            if (!$.array.contains(fields, field)) {
+                $.messager.show("操作提醒", "请输入当前控件中存在的 field 值", "warning");
+                t1.focus();
+                return;
+            }
+            t.treegrid("columnFilterSelect", { field: field, value: value, selected: true })
+        });
+
+        $("#Button8").click(function () {
+            var fields = t.treegrid("getColumnFields"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
+            if (!$.array.contains(fields, field)) {
+                $.messager.show("操作提醒", "请输入当前控件中存在的 field 值", "warning");
+                t1.focus();
+                return;
+            }
+            t.treegrid("columnFilterSelect", { field: field, value: value, selected: false })
+        });
+
+        $("#Button9").click(function () {
+            t.treegrid("columnFilterSelect", { field: "name", value: ["A", "B", "C"], selected: true });
+        });
+
+        $("#Button10").click(function () {
+            t.treegrid("columnFilterSelect", { field: "name", value: ["D", "E", "F"], selected: false });
+        });
+    });
 
 </textarea>
 <h2>HTML 代码：</h2>
 <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    <input id="Button1" type="button" value="启用表头过滤器" />
+    <input id="Button2" type="button" value="禁用表头过滤器" />
+    <input id="Button3" type="button" value="将表头过滤器设置到列标题上方" />
+    <input id="Button4" type="button" value="将表头过滤器设置到列标题下方" />
+    <input id="Button5" type="button" value="全部选择" />
+    <input id="Button6" type="button" value="全部不选" />
+    <hr />
+    <input id="Button7" type="button" value="选择指定的字段中指定的值" />
+    <input id="Button8" type="button" value="不选指定的字段中指定的值" />
+    <label for="Text1">请输入字段的 Field 值:</label><input id="Text1" type="text" />
+    <label for="Text2">请输入要操作的值:</label><input id="Text2" type="text" />
+    <hr />
+    <input id="Button9" type="button" value="选中多个值" />该按钮点击后选中 Code 列的 "A", "B", "C" <br /><br />
+    <input id="Button10" type="button" value="不选多个值" />该按钮点击后不选 Name 列的 "D", "E", "F"
+    <hr />
+    <table id="t1"></table>
 
 </textarea>
 
