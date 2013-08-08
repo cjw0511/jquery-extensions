@@ -93,7 +93,7 @@
         var t = $.util.parseJquery(target), opts = t.datagrid("options"), rows = t.datagrid("getRows"),
             sourceRow = rows[param.source], targetRow = rows[param.target];
         if (!sourceRow || !targetRow) { return; }
-        if ($.isFunction(opts.onBeforeDrop) && opts.onBeforeDrop.call(target, param.target, param.source, param.point) == false) { return; }
+        if ($.isFunction(opts.onBeforeDrop) && opts.onBeforeDrop.call(target, targetRow, sourceRow, param.point) == false) { return; }
         var row = t.datagrid("popRow", param.source), index = t.datagrid("getRowIndex", targetRow);
         rows = t.datagrid("getRows");
         switch (param.point) {
@@ -107,7 +107,7 @@
                 break;
             default: break;
         }
-        if (row && $.isFunction(opts.onDrop)) { opts.onDrop.call(target, param.target, param.source, param.point); }
+        if (row && $.isFunction(opts.onDrop)) { opts.onDrop.call(target, targetRow, sourceRow, param.point); }
     };
 
     var shiftRow = function (target, param) {
@@ -2120,7 +2120,7 @@
         //          "bottom":   表示追加为目标位置 target 的下一格位置；
         //  该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)；
         //  如果该事件函数返回 false，则会立即停止移动数据行操作；
-        onBeforeDrop: function (source, target, point) { },
+        onBeforeDrop: function (target, source, point) { },
 
         //  扩展 easyui-datagrid 的自定义事件；该事件表示移动 data-row(数据行) 之后触发的动作；该事件回调函数提供如下三个参数：
         //      target: 表示目标位置的 data-row(数据行) 索引号(从 0 开始计数)；
@@ -2129,7 +2129,7 @@
         //          "top":      表示移动到目标位置 target 的上一格位置；
         //          "bottom":   表示追加为目标位置 target 的下一格位置；
         //  该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)；
-        onDrop: function (source, target, point) { },
+        onDrop: function (target, source, point) { },
 
         //  扩展 easyui-datagrid 的自定义事件；该事件表示拖动 data-row(数据行) 之前触发的动作；该事件回调函数提供如下两个参数：
         //      index:  表示被拖动的 data-row(数据行) 的索引号，从 0 开始计数；

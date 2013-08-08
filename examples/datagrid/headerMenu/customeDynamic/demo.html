@@ -2,12 +2,49 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#t1").datagrid({
+            title: 'test datagrid',
+            width: 1200,
+            height: 400,
+            method: "get",
+            url: "datagrid/datagrid-data.json",
+            idField: 'ID',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'ID', title: 'ID', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'Code', title: '编号(Code)', width: 120, sortable: true },
+                { field: 'Name', title: '名称(Name)', width: 140, sortable: true },
+                { field: 'Age', title: '年龄(Age)', width: 120, sortable: true },
+                { field: 'Height', title: '身高(Height)', width: 140, sortable: true },
+                { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true },
+                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
+            ]],
+            headerContextMenu: [
+                { text: "这是一个静态菜单", iconCls: "icon-hamburg-address", disabled: false, handler: function () { alert(1); } },
+                {
+                    //菜单中的每一个属性，可以是一个具体的值，也可以是一个返回值的回调函数
+                    //如果定义回调参数，则其参数格式为 function (e, field, eventData, grid, item, menu)
+                    text: function (e, field) { return $.string.format("这是一个动态菜单:{0}", field); },
+                    iconCls: function (e, field) { return field == "ID" ? "icon-hamburg-user" : "icon-hamburg-busy"; },
+                    disabled: function (e, field) { return field == "ID"; },
+                    handler: function (e, field) { alert($.string.format("您点击了{0}", field)); }
+                }
+            ],
+            enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
+            enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
+            enableRowContextMenu: false
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI DataGrid Extensions - 表头右键自定义动态菜单</h2>
+<p>该部分扩展由文件 jeasyui.extensions.datagrid.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>用鼠标右键点击此表格表头列试试看</p>
+<table id="t1"></table>
 
 </div>

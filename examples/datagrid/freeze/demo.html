@@ -2,12 +2,68 @@
 
 <script type="text/javascript">
     $(function () {
+        var t = $("#t1").datagrid({
+            title: 'test datagrid',
+            width: 1000,
+            height: 400,
+            method: "get",
+            url: "datagrid/datagrid-data.json",
+            idField: 'ID',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'ID', title: 'ID', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'Code', title: '编号(Code)', width: 120, sortable: true, editor: "text" },
+                { field: 'Name', title: '名称(Name)', width: 140, sortable: true, editor: "text" },
+                { field: 'Age', title: '年龄(Age)', width: 120, sortable: true, editor: "text" },
+                { field: 'Height', title: '身高(Height)', width: 140, sortable: true, editor: "text" },
+                { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true, editor: "text" },
+                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180 },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
+            ]],
+            headerContextMenu: [
+                {
+                    text: "冻结该列", disabled: function (e, field) { return t.datagrid("getColumnFields", true).contains(field); },
+                    handler: function (e, field) { t.datagrid("freezeColumn", field); }
+                },
+                {
+                    text: "取消冻结该列", disabled: function (e, field) { return t.datagrid("getColumnFields", false).contains(field); },
+                    handler: function (e, field) { t.datagrid("unfreezeColumn", field); }
+                }
+            ],
+            enableHeaderClickMenu: true,
+            enableHeaderContextMenu: true,
+            enableRowContextMenu: false
+        });
+
+        var array = $.array.filter(t.datagrid("getColumns", "all"), function (val) { return val.field && val.title ? true : false; }),
+            cc = $("#select1").combobox({ width: 120, valueField: "field", textField: "title", data: array });
+
+        $("#Button1").click(function () {
+            var field = cc.combobox("getValue");
+            if (!field) { return $.messager.show("请选择列名"); }
+            t.datagrid("freezeColumn", field);
+        });
+
+        $("#Button2").click(function () {
+            var field = cc.combobox("getValue");
+            if (!field) { return $.messager.show("请选择列名"); }
+            t.datagrid("unfreezeColumn", field);
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI DataGrid Extensions - 列冻结/取消冻结演示</h2>
+<p>该部分扩展由文件 jeasyui.extensions.datagrid.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>你可以通过操作以下两个按钮或者右键点击表头列名来实现冻结/取消冻结列的操作</p>
+<p>
+    <input id="Button1" type="button" value="冻结选定的行" />
+    <input id="Button2" type="button" value="解冻选定的行" />
+    列名称：<select id="select1"></select>
+</p>
+<table id="t1"></table>
 
 </div>

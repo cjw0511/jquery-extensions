@@ -365,6 +365,12 @@
         t.tabs("move", { source: tabs.length - 1, target: target, point: "before" });
     };
 
+    function setTitle(target, param) {
+        if (!param || !(param.which || $.isNumeric(param.which)) || !param.title) { return; }
+        var t = $.util.parseJquery(target), tab = t.tabs("getTab", param.which);
+        tab.panel("setTitle", param.title);
+    };
+
     var panelOptions = $.fn.tabs.extensions.panelOptions = {
 
         //  该选项卡的 href 是否在 iframe 中打开。
@@ -530,7 +536,14 @@
         //          该对象的各项属性参考 easyui-tabs 中 add 方法的参数 options，并在此基础上增加了如下属性：
         //          target: Integer 或 String 类型值，表示移动目标位置的 tab-panel 的索引号或者标题 title 值；
         //  返回值：返回当前选项卡控件 easyui-tabs 的 jQuery 对象。
-        insert: function (jq, options) { return jq.each(function () { insertTab(this, options); }); }
+        insert: function (jq, options) { return jq.each(function () { insertTab(this, options); }); },
+
+        //  重设指定选项卡的标题名；该方法定义如下参数：
+        //      param:  这是一个 JSON-Object 对象，该对象定义如下属性：
+        //          which: 需要重设标题名的选项卡的 索引号(index) 或者原标题名(title)；
+        //          title: 新的标题名；
+        //  返回值：返回当前选项卡控件 easyui-tabs 的 jQuery 对象。
+        setTitle: function (jq, param) { return jq.each(function () { setTitle(this, param); }); }
     };
     var defaults = $.fn.tabs.extensions.defaults = {
         //  增加 easyui-tabs 的自定义扩展属性，该属性表示当前选项卡标题栏和选项卡的 pane-body 之间的空白区域高(宽)度(px)；

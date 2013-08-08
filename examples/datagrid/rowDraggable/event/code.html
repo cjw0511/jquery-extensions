@@ -1,15 +1,49 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [25,26,27,30,31,32]" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    $(function () {
+        $("#t1").datagrid({
+            title: 'test datagrid',
+            width: 1200,
+            height: 400,
+            method: "get",
+            url: "datagrid/datagrid-data.json",
+            idField: 'ID',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'ID', title: 'ID', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'Code', title: '编号(Code)', width: 120, sortable: true },
+                { field: 'Name', title: '名称(Name)', width: 140, sortable: true },
+                { field: 'Age', title: '年龄(Age)', width: 120, sortable: true },
+                { field: 'Height', title: '身高(Height)', width: 140, sortable: true },
+                { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true },
+                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
+            ]],
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            dndRow: true,                       //此属性开启此表格的行拖动排序功能
+            moveMenu: { submenu: false, top: true, up: true, down: true, bottom: true },    //开始行右键菜单的移动列功能，此属性可丰富配置，详情见 API 文档
+            selectOnRowContextMenu: true,       //此属性开启当右键点击行时自动选择该行的功能
+            
+            //通过拖动数据行以及右键菜单移动行数据时，都会触发 onDrop 事件。
+            onDrop: function (target, source, point) {
+                $.messager.show($.string.format("您刚才将行 {0} 移动到行 {1} 的 {2} 位置", source.Name, target.Name, point));
+            },
+            autoBindDblClickRow: false
+        });
+    });
 
 </textarea>
 <h2>HTML 代码：</h2>
 <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    <table id="t1"></table> 
 
 </textarea>
 

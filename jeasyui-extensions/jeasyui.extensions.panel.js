@@ -160,6 +160,16 @@
         return tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li").eq(index);
     };
 
+    var _setTitle = $.fn.panel.methods.setTitle;
+    function setTitle(target, title) {
+        var t = $.util.parseJquery(target);
+        if (!intabs(target)) { return _setTitle.call(t, t, title); }
+        if (!title) { return; }
+        var opts = t.panel("options"), header = t.panel("header");
+        opts.title = title;
+        header.find(">a.tabs-inner>span.tabs-title").text(title);
+    };
+
     var methods = $.fn.panel.extensions.methods = {
         //  判断当前 easyui-panel 是否为 easyui-layout 的 panel 部件；
         //  返回值：如果当前 easyui-panel 是 easyui-layout 的 panel 部件，则返回 true，否则返回 false。
@@ -183,7 +193,11 @@
 
         //  重写 easyui-panel 控件的 header 方法，支持位于 easyui-tabs 中的 tab-panel 部件获取 header 对象；
         //  备注：如果该 panel 位于 easyui-tabs 中，则该方法返回 easyui-tabs 的 div.tabs-header div.tabs-wrap ul.tabs 中对应该 tab-panel 的 li 对象。
-        header: function (jq) { return getHeader(jq[0]); }
+        header: function (jq) { return getHeader(jq[0]); },
+
+        //  重写 easyui-panel 控件的 setTitle 方法，支持位于 easyui-tabs 中的 tab-panel 部件设置 title 操作；
+        //  返回值：返回当前选项卡控件 easyui-panel 的 jQuery 链式对象。
+        setTitle: function (jq, title) { return jq.each(function () { setTitle(this, title); }); }
     };
     var defaults = $.fn.panel.extensions.defaults = {
         //  表示 easyui-panel 面板的最小宽度。

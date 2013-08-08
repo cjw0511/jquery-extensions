@@ -2196,7 +2196,7 @@
         //              "bottom":   表示追加为目标节点 target 的下一格位置；
         //  该事件函数中的 this 指向当前 easyui-treegrid 的 DOM 对象(非 jQuery 对象)；
         //  如果该事件函数返回 false，则会立即停止移动数据节点操作；
-        onBeforeDrop: function (source, target, point) { },
+        onBeforeDrop: function (target, source, point) { },
 
         //  扩展 easyui-treegrid 的自定义事件；该事件表示移动 tree-node 之后触发的动作；该事件回调函数提供如下三个参数：
         //          target: 表示目标位置的 tree-node 对象；
@@ -2206,7 +2206,7 @@
         //              "top":      表示移动到目标节点 target 的上一格位置；
         //              "bottom":   表示追加为目标节点 target 的下一格位置；
         //  该事件函数中的 this 指向当前 easyui-treegrid 的 DOM 对象(非 jQuery 对象)；
-        onDrop: function (source, target, point) { },
+        onDrop: function (target, source, point) { },
 
         //  扩展 easyui-treegrid 的自定义事件；该事件表示拖动 data-row(数据行) 之前触发的动作；该事件回调函数提供如下参数：
         //      row:    表示被拖动的 data-row(数据行) 的行数据对象，是一个 JSON-Object。

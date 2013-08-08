@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $("#t1").datagrid({
+        var t = $("#t1").datagrid({
             title: 'test datagrid',
             width: 1200,
             height: 400,
@@ -25,16 +25,33 @@
             ]],
             enableHeaderClickMenu: false,
             enableHeaderContextMenu: false,
-            enableRowContextMenu: false,
-            offset: { width: -250, height: -150}   //该属性属性表示当屏幕大小调整时候随屏幕大小尺寸调整而自身大小调整的偏移量，具体设置方式参见 API 文档说明
+            enableRowContextMenu: false
+        });
+
+        var array = $.array.filter(t.datagrid("getColumns", "all"), function (val) { return val.field && val.title ? true : false; }),
+            cc = $("#select1").combobox({ width: 120, valueField: "field", textField: "title", data: array });
+
+        $("#clear").click(function () { cc.combobox("clear"); });
+
+        $("#Button1").click(function () {
+            var field = cc.combobox("getValue"), val = $("#Text1").val();
+            t.datagrid("livesearch", field ? { field: field, value: val } : val);
         });
     });
 </script>
 
-<h2>jEasyUI DataGrid Extensions - 自动适应屏幕大小(Offset)</h2>
+<h2>jEasyUI DataGrid Extensions - 高亮关键词查找</h2>
 <p>该部分扩展由文件 jeasyui.extensions.datagrid.js 实现。</p>
 <hr />
-<p>请试着调整浏览器窗口大小，在移动时/后，可以观察到表格的大小也随之而改变</p>
+<p>
+    该 DEMO 演示 datagrid 的高亮关键词查找功能扩展；<br />
+    如果未设定列，将查找所有列；<br />
+    如果未设定任何关键词，则取消之前的高亮显示效果。
+</p>
+<input id="Button1" type="button" value="高亮关键词查找" />
+请选择要查找的列：<select id="select1"></select><a id="clear" class="easyui-linkbutton easyui-tooltip" data-options="plain: true, iconCls: 'icon-undo', content: '清空'" ></a>
+请选择要查找的关键词：<input id="Text1" type="text" />
+<br /><br />
 <table id="t1"></table>
 
 </div>

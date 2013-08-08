@@ -135,8 +135,8 @@
 
                 { id: "11070102", text: "表头右键菜单", pid: "110701", children: [
                     { id: "1107010201", text: "默认菜单", pid: "11070102", attributes: { href: "examples/example.html?datagrid/headerMenu/default"} },
-                    { id: "1107010202", text: "自定义菜单", pid: "11070102", attributes: { href: "examples/example.html?datagrid/custome"} },
-                    { id: "1107010203", text: "自定义动态菜单", pid: "11070102", attributes: { href: "examples/example.html?datagrid/customeDynamic"} }
+                    { id: "1107010202", text: "自定义菜单", pid: "11070102", attributes: { href: "examples/example.html?datagrid/headerMenu/custome"} },
+                    { id: "1107010203", text: "自定义动态菜单", pid: "11070102", attributes: { href: "examples/example.html?datagrid/headerMenu/customeDynamic"} }
                 ]
                 },
 
@@ -170,7 +170,8 @@
 
                 { id: "11070107", text: "列冻结/取消冻结", pid: "110701", attributes: { href: "examples/example.html?datagrid/freeze"} },
                 { id: "11070108", text: "自适应屏幕大小", pid: "110701", attributes: { href: "examples/example.html?datagrid/offset"} },
-                { id: "11070109", text: "其他扩展功能", pid: "110701", attributes: { href: "examples/example.html?datagrid/others"} }
+                { id: "11070109", text: "高亮关键词查找", pid: "110701", attributes: { href: "examples/example.html?datagrid/livesearch"} },
+                { id: "11070110", text: "其他扩展功能", pid: "110701", attributes: { href: "examples/example.html?datagrid/others"} }
             ]
             },
 
@@ -237,7 +238,8 @@
                 { id: "11070309", text: "节点展开控制", pid: "110703", attributes: { href: "examples/example.html?treegrid/onlyNodeExpand"} },
                 { id: "11070310", text: "列冻结/取消冻结", pid: "110703", attributes: { href: "examples/example.html?treegrid/freeze"} },
                 { id: "11070311", text: "自适应屏幕大小", pid: "110703", attributes: { href: "examples/example.html?treegrid/offset"} },
-                { id: "11070312", text: "其他扩展功能", pid: "110703", attributes: { href: "examples/example.html?treegrid/others"} }
+                { id: "11070112", text: "高亮关键词查找", pid: "110701", attributes: { href: "examples/example.html?treegrid/livesearch"} },
+                { id: "11070313", text: "其他扩展功能", pid: "110703", attributes: { href: "examples/example.html?treegrid/others"} }
             ]
             }
         ]
