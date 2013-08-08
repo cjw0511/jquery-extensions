@@ -487,4 +487,21 @@
     window.mainpage.favo.collapseAll = function () { $(favoMenuTree).tree("collapseAll"); };
 
 
+
+
+
+
+    //初始化捐赠列表数据
+    window.donate.init = function () {
+        var donate = $("#donateList");
+        $.each(window.donate.data, function (i, item) {
+            var li = $("<li></li>").appendTo(donate);
+            $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
+            $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
+            $("<span></span>").text("(").appendTo(li);
+            $("<span></span>").addClass("donate-total").text(item.total).appendTo(li);
+            $("<span></span>").text("元)").appendTo(li);
+        });
+    };
+
 })(jQuery);

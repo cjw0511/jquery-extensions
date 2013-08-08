@@ -37,9 +37,12 @@
     <link href="jeasyui-extensions/jquery-easyui-portal/portal.css" rel="stylesheet" type="text/css" />
 
     <script src="common/tree-data.js" type="text/javascript"></script>
+    <script src="common/donate-data.js" type="text/javascript"></script>
     <script src="common/index.js" type="text/javascript"></script>
     
     <style type="text/css">
+        body{font-size: 12px;}
+        
         .top-bar { position: absolute; width: 100%; height: 52px; top: 0px; left: 0px; }
         .top-bar-left { position: absolute; width: 800px; height: 52px; }
         .top-bar-right { position: absolute; width: 400px; height: 52px; right: 0px; }
@@ -64,7 +67,15 @@
         
         #mainTabs_tools table{ border-width: 0px; border-collapse: collapse; border-spacing: 0px; }
         #mainTabs_tools table td{ padding: 0px; }
-        body{font-size: 12px;}
+        
+        .donate-name 
+        {
+            font-weight: bold;
+            background-color: rgb(70, 136, 71); color: #fff; line-height: 14px; padding-top: 2px; padding-bottom: 2px; padding-left: 4px; padding-right: 4px;
+            border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;
+        }
+        .donate-date { padding: 5px; }
+        .donate-total { font-weight: bold; color: Red; }
     </style>
 
     <script type="text/javascript">
@@ -75,6 +86,8 @@
             window.mainpage.bindNavTabsButtonEvent();
             window.mainpage.bindToolbarButtonEvent();
             window.mainpage.bindMainTabsButtonEvent();
+
+            window.donate.init();
 
 
             $("#A1").click(function () {
@@ -237,7 +250,7 @@
                         <div id="portal" class="easyui-portal" data-options="fit: true, border: false">
                             <div style="width: 33%;">
                                 <div data-options="title: '更新日志', height: 400, iniframe: true, href: 'changelog.txt'"></div>
-                                <div data-options="title: '项目根目录', height: 200, iniframe: true, href: 'http://localhost:15975/'"></div>
+                                <div data-options="title: '项目根目录', height: 200, iniframe: true, href: '/'"></div>
                             </div>
                             <div style="width: 33%;">
                                 <div data-options="title: 'LICENSE', height: 400, iniframe: true, href: 'LICENSE'"></div>
@@ -258,11 +271,7 @@
                                     </ul>
                                     <hr />
                                     以下为捐赠列表；感谢有你，动力常在！
-                                    <ul style="padding-left: 20px;">
-                                        <li></li>
-                                        <li></li>
-                                    </ul>
-                                    
+                                    <ul id="donateList" style="padding-left: 20px; line-height: 20px;"></ul>
                                 </div>
                                 <div data-options="title: '测试面板1', height: 200, closable: true">
                                 </div>
