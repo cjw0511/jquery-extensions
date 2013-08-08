@@ -132,16 +132,16 @@ http://www.chenjianwei.org
             <li>
                 关于 jquery-easyui-datagrid 相关API，参见：
                 <ul>
-                    <li>官方 API(英文)：http://www.jeasyui.com/documentation/index.php</li>
-                    <li>中文社区 API  ：http://api.btboys.com/</li>
+                    <li>官方 API(英文)：<a href="http://www.jeasyui.com/documentation/index.php" target="_blank">http://www.jeasyui.com/documentation/index.php</a></li>
+                    <li>中文社区 API  ：<a href="http://api.btboys.com/" target="_blank">http://api.btboys.com/</a></li>
                 </ul>
             </li>
             <li>转载请注明出处；如需在您自己的项目用引用本扩展集合，请遵循 gpl-v3 协议；</li>
             <li>
                 jEasyUI 中文社区：
                 <ul>
-                    <li>http://www.jeasyuicn.com/</li>
-                    <li>http://bbs.jeasyuicn.com/</li>
+                    <li><a href="http://www.jeasyuicn.com/" target="_blank">http://www.jeasyuicn.com/</a></li>
+                    <li><a href="http://bbs.jeasyuicn.com/" target="_blank">http://bbs.jeasyuicn.com/</a></li>
                 </ul>
             </li>
             <li>jEasyUI 中文社区 QQ 群号：70168958</li>
@@ -149,8 +149,8 @@ http://www.chenjianwei.org
                 对于本扩展有任何意见或者建议，欢迎大家及时向我反馈，可以发邮件至我信箱 <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>；
                 在时间允许的情况下我会尽可能的给大家回复。
             </li>
-            <li>源码下载：https://github.com/cjw0511/jquery-extensions/</li>
-            <li>在线演示地址：http://webdev.sturgeon.mopaas.com/jquery-extensions/</li>
+            <li>源码下载：<a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
+            <li>在线演示地址：<a href="http://webdev.sturgeon.mopaas.com/jquery-extensions/" target="_blank">http://webdev.sturgeon.mopaas.com/jquery-extensions/</a></li>
         </ul>
     </li>
 </ul>
