@@ -250,11 +250,49 @@
                         <div id="portal" class="easyui-portal" data-options="fit: true, border: false">
                             <div style="width: 33%;">
                                 <div data-options="title: '更新日志', height: 400, iniframe: true, href: 'changelog.txt'"></div>
-                                <div data-options="title: '项目根目录', height: 200, iniframe: true, href: '/'"></div>
+                                <div data-options="title: '项目根目录', height: 220, iniframe: true, href: '/'"></div>
                             </div>
                             <div style="width: 34%;">
                                 <div data-options="title: 'LICENSE', height: 300, iniframe: true, href: 'LICENSE'"></div>
-                                <div data-options="title: '百度', height: 320">
+                                <div data-options="title: '关于本项目', height: 320" style="padding: 10px;">
+                                       jQuery && jEasyUI 扩展功能集合<br />
+                                    该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.3 实现<br />
+                                    <br />
+                                    jQuery EasyUI 1.3.3<br />
+                                    Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.<br />
+                                    <br />
+                                    Licensed under the GPL or commercial licenses<br />
+                                    To use it on other terms please contact us: jeasyui@gmail.com<br />
+                                    http://www.gnu.org/licenses/gpl.txt
+                                    <br />
+                                    http://www.jeasyui.com/license_commercial.php
+                                    <br />
+                                    <br />
+                                    jqueyr-extensions<br />
+                                    二次开发 陈建伟<br />
+                                    <br />
+                                    Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
+                                    http://www.chenjianwei.org
+                                </div>
+                            </div>
+                            <div style="width: 33%;">
+                                <div data-options="title: '开源动力捐赠', height: 300, closable: true" style="padding: 10px;">
+                                    <a href="https://me.alipay.com/cjw0511" target="_blank">
+                                        <img alt="开源动力" src="common/images/alipay.jpg" style="border-width: 0px;" />
+                                    </a>
+                                    <ul style="padding-left: 20px;">
+                                        <li>
+                                            如果上面图片显示有问题，你可以
+                                            <a href="https://me.alipay.com/cjw0511" target="_blank" style="text-decoration: none;">点击此处 </a>向我
+                                            <a href="javascript:void(0);" class="easyui-tooltip" data-options="content: '您的捐赠与支持是我开源并不断进步的动力'" style="text-decoration: none;">捐赠</a>
+                                        </li>
+                                        <li>您的捐赠与支持是我开源并不断进步的动力。</li>
+                                    </ul>
+                                    <hr />
+                                    以下为捐赠列表；感谢有你，动力常在！
+                                    <ul id="donateList" style="padding-left: 20px; line-height: 20px;"></ul>
+                                </div>
+                                <div data-options="title: '更多信息...', height: 320">
                                     <ul style="padding-left: 20px; margin: 10px; line-height: 20px;">
                                         <li>
                                             关于 jquery-easyui-datagrid 相关API，参见：
@@ -279,26 +317,6 @@
                                         <li>源码下载：<a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
                                         <li>在线演示地址：<a href="http://webdev.sturgeon.mopaas.com/jquery-extensions/" target="_blank">http://webdev.sturgeon.mopaas.com/jquery-extensions/</a></li>
                                     </ul>
-                                </div>
-                            </div>
-                            <div style="width: 33%;">
-                                <div data-options="title: '开源动力捐赠', height: 300, closable: true" style="padding: 10px;">
-                                    <a href="https://me.alipay.com/cjw0511" target="_blank">
-                                        <img alt="开源动力" src="common/images/alipay.jpg" style="border-width: 0px;" />
-                                    </a>
-                                    <ul style="padding-left: 20px;">
-                                        <li>
-                                            如果上面图片显示有问题，你可以
-                                            <a href="https://me.alipay.com/cjw0511" target="_blank" style="text-decoration: none;">点击此处</a>向我
-                                            <a href="javascript:void(0);" class="easyui-tooltip" data-options="content: '您的捐赠与支持是我开源并不断进步的动力'" style="text-decoration: none;">捐赠</a>
-                                        </li>
-                                        <li>您的捐赠与支持是我开源并不断进步的动力。</li>
-                                    </ul>
-                                    <hr />
-                                    以下为捐赠列表；感谢有你，动力常在！
-                                    <ul id="donateList" style="padding-left: 20px; line-height: 20px;"></ul>
-                                </div>
-                                <div data-options="title: '测试面板1', height: 200, closable: true">
                                 </div>
                             </div>
                         </div>
