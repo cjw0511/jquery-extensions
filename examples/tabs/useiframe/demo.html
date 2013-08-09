@@ -2,12 +2,41 @@
 
 <script type="text/javascript">
     $(function () {
+        var t = $("#t").tabs({
+            width: 600,
+            height: 200,
+            lineHeight: 0,
+            enableConextMenu: true,
+            enableNewTabMenu: true
+        });
+
+        $("#Button1").click(function () {
+            var title = $("#Text1").val(), href = $("#Text2").val(), iniframe = $("#Checkbox1")[0].checked;
+            if (!title || !href) { return $.messager.show("请输入要新添加的选项卡的标题和路径"); }
+            t.tabs("add", {
+                title: title, href: href, iniframe: iniframe, closable: true
+            });
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Tabs Extensions - Tab 自动加载至 IFRAME 中</h2>
+<p>该部分扩展由文件 jeasyui.extensions.tabs.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>
+    该 DEMO 演示直接通过 iframe 方式加载 easyui-tabs 的选项卡，同时往 easyui-tabs 中添加新的选项卡时，也可以自由指定其是否加载在 iframe 中。<br />
+    你也可以在选项卡的右键菜单中看到“新建选项卡”项，也可以指定其是否加载至 iframe 中。
+</p>
+<p>
+    <input id="Button1" type="button" value="添加新选项卡" />
+    选项卡标题：<input id="Text1" type="text" />
+    选项卡路径：<input id="Text2" type="text" />
+    <input id="Checkbox1" type="checkbox" /><label for="Checkbox1">是否通过 IFRAME 加载：</label>
+</p>
+<div id="t">
+    <div data-options="title: 'tab1', href: 'tabs/refreshable/code.html', refreshable: true">tab1</div>
+    <div data-options="title: 'tab2', refreshable: false">tab2</div>
+    <div data-options="title: '项目根目录', refreshable: true, iniframe: true, href: '/'"></div>
+</div>
 
 </div>

@@ -1,0 +1,39 @@
+﻿<div>
+
+<h2>JavaScript 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+    
+    $(function () {
+        $("#Button1").click(function () {
+            alert($("#Text2").val());
+        });
+    });
+
+</textarea>
+<h2>HTML 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: [2,3,4,5,6,7,8,9,10,11,12,13,14]" >
+    
+    <style type="text/css">
+        .validatebox-text
+        {
+            border-width: 1px; border-style: solid;
+            height: 19px; line-height: 17px;
+            padding-top: 1px; padding-left: 3px; padding-bottom: 2px; padding-right: 3px;
+            background-attachment: scroll; background-size: auto; background-origin: padding-box; background-clip: border-box;
+        }
+        .validatebox-invalid
+        {
+            border-color: #cc3300;
+            background-repeat: repeat-x; background-position: center bottom;
+            background-color: White; background-image: url("validatebox/customeCss/invalid_line.gif");
+        }
+    </style>
+
+    <input id="Button1" type="button" value="获取第二个输入框的输入内容" />
+    <input id="Text1" class="easyui-validatebox" type="text" data-options="required: false, prompt: 'First Name'" />
+    <input id="Text2" class="easyui-validatebox" type="text" data-options="required: true, prompt: 'Last Name'" />
+
+</textarea>
+
+
+</div>

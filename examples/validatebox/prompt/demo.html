@@ -2,12 +2,21 @@
 
 <script type="text/javascript">
     $(function () {
+        var text = $("#Text1").validatebox({
+            required: true,
+            prompt: "请输入内容..."
+        });
+
+        $("#Button1").click(function () {
+            text.validatebox("validate");
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Validatebox Extensions - 增强的 Rules</h2>
+<p>该部分扩展由文件 jeasyui.extensions.validatebox.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<input id="Button1" type="button" value="刷新输入框的验证状态" />
+<input id="Text1" />
 
 </div>

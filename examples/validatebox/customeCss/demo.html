@@ -1,0 +1,33 @@
+﻿<div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#Button1").click(function () {
+            $("#Text2").validatebox("validate");
+        });
+    });
+</script>
+<style type="text/css">
+    .validatebox-text
+    {
+        border-width: 1px; border-style: solid;
+        height: 19px; line-height: 17px;
+        padding-top: 1px; padding-left: 3px; padding-bottom: 2px; padding-right: 3px;
+        background-attachment: scroll; background-size: auto; background-origin: padding-box; background-clip: border-box;
+    }
+    .validatebox-invalid
+    {
+        border-color: #cc3300;
+        background-repeat: repeat-x; background-position: center bottom;
+        background-color: White; background-image: url("validatebox/customeCss/invalid_line.gif");
+    }
+</style>
+
+<h2>jEasyUI Validatebox Extensions - 自定义验证样式</h2>
+<p>关于该项功能，并不需要扩展支持，只是修改覆盖相应 css 即可；应广大群众要求，才放在此处以供大家参考。</p>
+<hr />
+<input id="Button1" type="button" value="刷新第二个输入框的验证状态" />
+<input id="Text1" class="easyui-validatebox" type="text" data-options="required: false, prompt: 'First Name'" />
+<input id="Text2" class="easyui-validatebox" type="text" data-options="required: true, prompt: 'Last Name'" />
+
+</div>

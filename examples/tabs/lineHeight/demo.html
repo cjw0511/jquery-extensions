@@ -5,16 +5,19 @@
         var t = $("#t").tabs({
             width: 600,
             height: 200,
-            lineHeight: 0,
-            enableConextMenu: true
+            lineHeight: 5
         });
     });
 </script>
 
-<h2>jEasyUI Tabs Extensions - 选项卡头右键菜单 - 默认菜单</h2>
+<h2>jEasyUI Tabs Extensions - 选项卡标题分割线演示</h2>
 <p>该部分扩展由文件 jeasyui.extensions.tabs.js 实现。</p>
 <hr />
-<p>右键点击下面这个 easyui-tabs 的标题头部试试</p>
+<p>
+    该 DEMO 演示选项卡标题部分与选项卡内容区域的分割线设置。<br />
+    注意查看当前选项卡标题与选项卡内容区域存在的空白间隙，这就是该 DEMO 所称的 “分割线”；该分割线的存在可以让选项卡看起来更美观；<br />
+    通常，我们建议的分隔线厚度值也就是 lineHeight 参数的值设置为 2；该 DEMO 中设置的值为 5 只是为了看起来更明显.
+</p>
 <div id="t">
     <div data-options="title: 'tab1'">tab1</div>
     <div data-options="title: 'tab2'">tab2</div>

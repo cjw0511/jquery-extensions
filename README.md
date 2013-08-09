@@ -9,9 +9,9 @@ Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.<br />
 <br />
 Licensed under the GPL or commercial licenses<br />
 To use it on other terms please contact us: jeasyui@gmail.com<br />
-http://www.gnu.org/licenses/gpl.txt
+<a href="http://www.gnu.org/licenses/gpl.txt" target="_blank">http://www.gnu.org/licenses/gpl.txt</a>
 <br />
-http://www.jeasyui.com/license_commercial.php
+<a href="http://www.jeasyui.com/license_commercial.php" target="_blank">http://www.jeasyui.com/license_commercial.php</a>
 <br />
 <br />
 jqueyr-extensions<br />

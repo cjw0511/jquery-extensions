@@ -2,12 +2,40 @@
 
 <script type="text/javascript">
     $(function () {
+        var t = $("#t").tabs({
+            width: 600,
+            height: 200,
+            lineHeight: 0,
+            enableConextMenu: true,
+            enableNewTabMenu: true,
+            showOption: true,
+            contextMenu: [
+                {
+                    text: function (e, title, index) { return "这是Tab: " + title + " 的右键菜单" },
+                    iconCls: "icon-hamburg-address",
+                    handler: function (e, title, index) { alert("你点击了菜单：" + title); }
+                },
+                {
+                    text: function (e, title, index) { return "这是第 " + (index + 1) + " 个 Tab 的右键菜单" },
+                    disabled: function (e, tilte, index) { return index == 2; },
+                    handler: function (e, title, index) { alert(title); }
+                }
+            ]
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Tabs Extensions - 选项卡头右键菜单 - 自定义动态菜单</h2>
+<p>该部分扩展由文件 jeasyui.extensions.tabs.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>右键点击下面这个 easyui-tabs 的标题头部试试，注意各个 tab 的右键菜单有何不同</p>
+<div id="t">
+    <div data-options="title: 'tab1', closable: true, repeatable: true">tab1</div>
+    <div data-options="title: 'tab2', closable: true">tab2</div>
+    <div data-options="title: 'tab3', repeatable: true">tab3</div>
+    <div data-options="title: 'tab4', closable: true">tab4</div>
+    <div data-options="title: 'tab5', closable: true">tab5</div>
+    <div data-options="title: 'tab6'">tab6</div>
+</div>
 
 </div>

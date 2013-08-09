@@ -40,9 +40,10 @@
                 ]
                 },
                 { id: "11030202", text: "可刷新的Tab", pid: "110302", attributes: { href: "examples/example.html?tabs/refreshable"} },
-                { id: "11030203", text: "新增加的Tab自动加载至iframe中", pid: "110302", attributes: { href: "examples/example.html?tabs/useiframe"} },
+                { id: "11030203", text: "Tab自动加载至iframe中", pid: "110302", attributes: { href: "examples/example.html?tabs/useiframe"} },
                 { id: "11030204", text: "移动和插入Tab", pid: "110302", attributes: { href: "examples/example.html?tabs/move"} },
-                { id: "11030205", text: "其他扩展功能", pid: "110302", attributes: { href: "examples/example.html?others"} }
+                { id: "11030205", text: "选项卡标题分割线", pid: "110302", attributes: { href: "examples/example.html?tabs/lineHeight"} },
+                { id: "11030206", text: "其他扩展功能", pid: "110302", attributes: { href: "examples/example.html?tabs/others"} }
             ]
             }
         ]
@@ -68,7 +69,8 @@
 
             { id: "110502", text: "Validatebox", pid: "1105", children: [
                 { id: "11050201", text: "增强的Rules", pid: "11050201", attributes: { href: "examples/example.html?validatebox/rules"} },
-                { id: "11050202", text: "输入提示文字", pid: "11050201", attributes: { href: "examples/example.html?validatebox/prompt"} }
+                { id: "11050202", text: "输入提示文字", pid: "11050201", attributes: { href: "examples/example.html?validatebox/prompt"} },
+                { id: "11050203", text: "自定义验证样式", pid: "11050201", attributes: { href: "examples/example.html?validatebox/customeCss"} },
             ]
             },
 

@@ -2,12 +2,32 @@
 
 <script type="text/javascript">
     $(function () {
+        var p = $("#p").panel({
+            title: "test panel", width: 600, height: 400,
+            href: "/",
+            iniframe: true
+        });
+
+        $("#Button1").click(function () {
+            p.panel("options").iniframe = true;
+            p.panel("refresh", "http://www.baidu.com");
+        });
+
+        $("#Button2").click(function () {
+            p.panel("options").iniframe = false;
+            p.panel("refresh", "panel/useiframe/code.html");
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Panel Extensions - Href 加载在 IFrame 中</h2>
+<p>该部分扩展由文件 jeasyui.extensions.panel.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>下面这个 easyui-panel 开始加载的内容是放置在 iframe 中的哟</p>
+<p>
+    <input id="Button1" type="button" value="刷新至百度首页" />
+    <input id="Button2" type="button" value="刷新至当前功能的源代码展示页面" />
+</p>
+<div id="p"></div>
 
 </div>

@@ -2,12 +2,25 @@
 
 <script type="text/javascript">
     $(function () {
+        var t = $("#t").tabs({
+            width: 600,
+            height: 200,
+            lineHeight: 0,
+            enableConextMenu: true
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Tabs Extensions - 可刷新的 Tab</h2>
+<p>该部分扩展由文件 jeasyui.extensions.tabs.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>
+    以下 easyui-tabs 的两个选中卡中，tab1 是可刷新的，tab2 是不可刷新的<br />
+    所以 tab1 标题部位有一个刷新按钮，且其右键菜单中也具备刷新功能
+</p>
+<div id="t">
+    <div data-options="title: 'tab1', href: 'tabs/refreshable/code.html', refreshable: true">tab1</div>
+    <div data-options="title: 'tab2', refreshable: false">tab2</div>
+</div>
 
 </div>

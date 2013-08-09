@@ -34,7 +34,7 @@
     var _append = $.fn.treegrid.methods.append;
     var _insert = $.fn.treegrid.methods.insert;
     var updateRow = function (target, param) {
-        if (!param || !param.id || !$.isNumeric(param.row)) { return; }
+        if (!param || param.id == undefined || !param.row) { return; }
         var t = $.util.parseJquery(target), opts = t.treegrid("options");
         if ($.isFunction(opts.onBeforeUpdate) && opts.onBeforeUpdate.call(target, param.id, param.row) == false) { return; }
         _update.call(t, t, param);

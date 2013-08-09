@@ -1,15 +1,25 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [6]" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    $(function () {
+        var t = $("#t").tabs({
+            width: 600,
+            height: 200,
+            lineHeight: 0,
+            enableConextMenu: true
+        });
+    });
 
 </textarea>
 <h2>HTML 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
+<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: [2,3]" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    <div id="t">
+        <div data-options="title: 'tab1', href: 'tabs/refreshable/code.html', refreshable: true">tab1</div>
+        <div data-options="title: 'tab2'', refreshable: false">tab2</div>
+    </div>
 
 </textarea>
 

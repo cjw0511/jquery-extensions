@@ -340,7 +340,7 @@
     };
 
     function moveTab(tabTarget, param) {
-        if (!param || !param.source || !param.target || !param.point) { return; }
+        if (!param || param.source == undefined || param.target == undefined || !param.point) { return; }
         var source = param.source, target = param.target,
             point = $.array.contains(["before", "after"], param.point) ? param.point : "before",
             t = $.util.parseJquery(tabTarget), tabs = t.tabs("tabs"),
@@ -534,7 +534,7 @@
         //  在当前 easyui-tabs 组件上创建一个新的选项卡，并将其移动至指定选项卡的前一格位置；该方法定义如下参数：
         //      options:  表示要创建的新选项卡的属性；是一个 JSON-Object 对象；
         //          该对象的各项属性参考 easyui-tabs 中 add 方法的参数 options，并在此基础上增加了如下属性：
-        //          target: Integer 或 String 类型值，表示移动目标位置的 tab-panel 的索引号或者标题 title 值；
+        //          target: Integer 或 String 类型值，表示移动位置的 tab-panel 的索引号或者标题 title 值；
         //  返回值：返回当前选项卡控件 easyui-tabs 的 jQuery 对象。
         insert: function (jq, options) { return jq.each(function () { insertTab(this, options); }); },
 
