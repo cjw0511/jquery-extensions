@@ -1,24 +1,24 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [16]" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [7,16]" >
     
     $(function () {
-        var cc = $("#select1").combobox({
-            width: 120, data: [
-                { value: true, text: "顶级页面" },
-                { value: false, text: "当前页面" }
-            ]
+        $("#Button1").click(function () {
+            $.easyui.showDialog({
+                title: "快速创建的 Dialog - 当前页面",
+                top: 130, left: 170, width: 400, height: 200,
+                content: "这是通过 $.easyui.showDialog 方法创建的 Dialog，它加载在当前页面",
+                topMost: false
+            });
         });
 
-        $("#Button1").click(function () {
-            var topMost = cc.combobox("getValue");
-            if (topMost == undefined || topMost == null) { return $.messager.show("请选择Dialog是加载至当前页面还是顶级页面"); }
+        $("#Button2").click(function () {
             $.easyui.showDialog({
-                title: "快速创建的 Dialog",
+                title: "快速创建的 Dialog - 顶级页面",
                 top: 130, left: 170, width: 400, height: 200,
-                content: "这是通过 $.easyui.showDialog 方法创建的 Dialog",
-                topMost: topMost
+                content: "这是通过 $.easyui.showDialog 方法创建的 Dialog，它加载在顶级页面",
+                topMost: true
             });
         });
     });
@@ -27,8 +27,8 @@
 <h2>HTML 代码：</h2>
 <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
     
-    <input id="Button1" type="button" value="创建Dialog" />
-    设置Dialog加载至当前页面还是顶级页面：<select id="select1"></select>
+    <input id="Button1" type="button" value="在当前页面创建Dialog" />
+    <input id="Button2" type="button" value="在顶级页面创建Dialog" />
 
 </textarea>
 
