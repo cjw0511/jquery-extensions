@@ -2,12 +2,21 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#Button1").click(function () {
+            $.easyui.showDialog({
+                title: "快速创建的 Dialog",
+                top: 130, left: 170, width: 600, height: 400,
+                topMost: false,
+                href: "/",
+                iniframe: true
+            });
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Dialog Extensions - 创建通过 IFRAME 方式加载内容的 Dialog</h2>
+<p>该部分扩展由文件 jeasyui.extensions.dialog.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<input id="Button1" type="button" value="创建Dialog" />
 
 </div>

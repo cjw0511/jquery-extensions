@@ -1,0 +1,31 @@
+﻿<div>
+
+<script type="text/javascript">
+    $(function () {
+        var cc = $("#select1").combobox({
+            width: 120, data: [
+                { value: true, text: "顶级页面" },
+                { value: false, text: "当前页面" }
+            ]
+        });
+
+        $("#Button1").click(function () {
+            var topMost = cc.combobox("getValue");
+            if (topMost == undefined || topMost == null) { return $.messager.show("请选择Dialog是加载至当前页面还是顶级页面"); }
+            $.easyui.showDialog({
+                title: "快速创建的 Dialog",
+                top: 130, left: 170, width: 400, height: 200,
+                content: "这是通过 $.easyui.showDialog 方法创建的 Dialog",
+                topMost: topMost
+            });
+        });
+    });
+</script>
+
+<h2>jEasyUI Dialog Extensions - 快速创建 Dialog - 指定当前页面还是顶级页面</h2>
+<p>该部分扩展由文件 jeasyui.extensions.dialog.js 实现。</p>
+<hr />
+<input id="Button1" type="button" value="创建Dialog" />
+设置Dialog加载至当前页面还是顶级页面：<select id="select1"></select>
+
+</div>

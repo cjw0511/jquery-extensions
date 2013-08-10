@@ -1,0 +1,27 @@
+﻿<div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#win1").window({
+            title: "test window1", top: 100, left: 180, width: 300, height: 200,
+            enableHeaderContextMenu: true,
+            headerContextMenu: [
+                { text: "测试菜单1", iconCls: "icon-hamburg-address", disabled: false, handler: function () { alert("您点击了测试菜单1"); } },
+                { text: "测试菜单2", children: [
+                    { text: "测试子菜单1", handler: function () { alert("aaa"); } },
+                    { text: "测试子菜单2", handler: function () { alert("bbb"); } }
+                ]
+                },
+                "-",
+                { text: "测试菜单3", iconCls: "icon-hamburg-pencil", disabled: false, handler: function () { alert("您点击了测试菜单3"); } }
+            ]
+        });
+    });
+</script>
+
+<h2>jEasyUI Window Extensions - 窗体头部右键菜单 - 自定义菜单</h2>
+<p>该部分扩展由文件 jeasyui.extensions.window.js 实现。</p>
+<hr />
+<div id="win1" style="padding: 10px;">您可以右键点击我的头部试试</div>
+
+</div>

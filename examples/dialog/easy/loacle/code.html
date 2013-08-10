@@ -1,0 +1,56 @@
+﻿<div>
+
+<h2>JavaScript 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [6,14,22,30]" >
+    
+        $(function () {
+        $("#Button1").click(function () {
+            $.easyui.showDialog({
+                title: "框中创建的Dialog",
+                top: 130, left: 170, width: 400, height: 200,
+                locale: "#container"
+            });
+        });
+
+        $("#Button2").click(function () {
+            $.easyui.showDialog({
+                title: "'功能演示' 选项卡中创建的Dialog",
+                top: 130, left: 170, width: 400, height: 200,
+                locale: "#demo"     //  当前页面中 "功能演示" 选项卡的 ID 值为 "demo"
+            });
+        });
+
+        $("#Button3").click(function () {
+            $.easyui.showDialog({
+                title: "当前页面中创建的Dialog",
+                top: 130, left: 170, width: 400, height: 200,
+                topMost: false
+            });
+        });
+
+        $("#Button4").click(function () {
+            $.easyui.showDialog({
+                title: "'顶级页面中创建的Dialog",
+                top: 130, left: 170, width: 400, height: 200,
+                topMost: true
+            });
+        });
+    });
+
+
+
+</textarea>
+<h2>HTML 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
+    
+    <input id="Button1" type="button" value="在下面的框中创建Dialog" />
+    <input id="Button2" type="button" value="在当前 '功能演示' 选项卡中创建Dialog" />
+    <input id="Button3" type="button" value="在当前页面创建Dialog" />
+    <input id="Button4" type="button" value="在顶级页面创建Dialog" />
+    <hr />
+    <div id="container" style="border-width: 1px; border-color: Black; border-style: solid; width: 800px; height: 400px; position: relative;"></div>> 
+
+</textarea>
+
+
+</div>

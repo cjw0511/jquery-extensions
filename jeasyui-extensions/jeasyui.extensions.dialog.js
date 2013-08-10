@@ -45,9 +45,8 @@
     var getParent = function () {
         var current = $.util.currentFrame;
         if (!current) { return $.util.top; }
-        var parentMap = $.array.filter(cache, function (val) { return val.current == current; }), parent;
-        if (parentMap.length) { parent = parentMap[0].parent; }
-        return parent && parent.contentWindow ? parent.contentWindow : $.util.parent;
+        var p = $.array.first(cache, function (val) { return val.current == current; });
+        return p && p.contentWindow ? p.contentWindow : $.util.parent;
     };
     //  该属性仅可以在通过 $.easyui.showDialog 打开的 easyui-dialog 中的 iframe 中使用；
     //  该属性表示父级页面的 window 对象。
@@ -74,8 +73,8 @@
             $.util.parseJquery(this).dialog("destroy");
         };
 
-        if (opts.parent) { opts.inline = true; }
-        var dialog = $("<div></div>").appendTo(opts.parent ? opts.parent : "body");
+        if (opts.locale) { opts.inline = true; }
+        var dialog = $("<div></div>").appendTo(opts.locale ? opts.locale : "body");
 
         if (!$.util.likeArray(opts.toolbar)) { opts.toolbar = []; }
         if ($.isArray(opts.toolbar)) {
@@ -87,17 +86,17 @@
         }
 
         var buttons = [];
-        if (opts.enableSaveButton == true) {
-            var btnSave = { text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
-                handler: function (dia) { if (opts.onSave.call(dia, dia) !== false) { dia.dialog("close"); } }
-            };
-            buttons.push(btnSave);
-        }
         if (opts.enableApplyButton == true) {
             var btnApply = { text: opts.applyButtonText, iconCls: opts.applyButtonIconCls,
                 handler: function (dia) { opts.onApply.call(dia, dia); }
             };
             buttons.push(btnApply);
+        }
+        if (opts.enableSaveButton == true) {
+            var btnSave = { text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
+                handler: function (dia) { if (opts.onSave.call(dia, dia) !== false) { dia.dialog("close"); } }
+            };
+            buttons.push(btnSave);
         }
         if (opts.enableCloseButton == true) {
             var btnClose = { text: opts.closeButtonText, iconCls: opts.closeButtonIconCls,
@@ -158,7 +157,7 @@
     //  返回值：返回弹出的 easyui-dialog 的 jQuery 对象。
     $.easyui.showDialog = function (options) {
         var opts = $.extend({}, $.easyui.showDialog.defaults, options);
-        if (opts.parent) { opts.topMost = false; }
+        if (opts.locale) { opts.topMost = false; }
         var currentFrame = $.util.currentFrame, fn = opts.topMost ? $.util.$.easyui._showDialog : $.easyui._showDialog;
         return fn(opts, currentFrame);
     };
@@ -184,7 +183,7 @@
         //  表示将要打开的 easyui-dialog 的父级容器；可以是一个表示 jQuery 元素选择器的表达式字符串，也可以是一个 html-dom 或 jQuery-dom 对象。
         //  注意：如果设置了该参数，则 topMost 属性将自动设置为 false。
         //      如果为 null 或者 undefined 则表示父级容器为 body 标签。
-        parent: null,
+        locale: null,
 
         //  是否在顶级窗口打开此 easyui-dialog 组件。
         topMost: true,

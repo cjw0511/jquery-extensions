@@ -2,12 +2,41 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#win1").window({
+            title: "该窗口不自动居中", top: 120, left: 160, width: 250, height: 150,
+            autoVCenter: false,     //该属性如果设置为 true，则使窗口保持纵向居中，默认为 true。
+            autoHCenter: false      //该属性如果设置为 true，则使窗口保持横向居中，默认为 true。
+        });
+
+        $("#win2").window({
+            title: "该窗口横向自动居中", top: 120, left: 420, width: 250, height: 150,
+            autoVCenter: false,
+            autoHCenter: true
+        });
+
+        $("#win3").window({
+            title: "该窗口纵向自动居中", top: 120, left: 680, width: 250, height: 150,
+            autoVCenter: true,
+            autoHCenter: false
+        });
+
+        $("#win4").window({
+            title: "该窗口自动横纵向都居中", top: 300, left: 680, width: 250, height: 150,
+            autoVCenter: true,
+            autoHCenter: true
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Window Extensions - 自动屏幕居中</h2>
+<p>该部分扩展由文件 jeasyui.extensions.window.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>
+    该功能演示当浏览器调整窗口大小时，easyui-window 窗体能够自动跟随浏览器窗口大小的调整而始终保证屏幕居中状态。
+</p>
+<div id="win1" style="padding: 10px;">该窗口不自动居中，浏览器大小调整后该窗口位置不会发生改变</div>
+<div id="win2" style="padding: 10px;">该窗口横向自动居中，浏览器大小调整后该窗口能自动保持横向居中</div>
+<div id="win3" style="padding: 10px;">该窗口纵向自动居中，浏览器大小调整后该窗口能自动保持纵向居中</div>
+<div id="win4" style="padding: 10px;">该窗口自动横纵向都居中，浏览器大小调整后该窗口能自动保持横纵向都居中</div>
 
 </div>

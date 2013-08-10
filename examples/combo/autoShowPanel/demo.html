@@ -2,12 +2,25 @@
 
 <script type="text/javascript">
     $(function () {
+        var cc = $("#select1").combo({
+            width: 120,
+            autoShowPanel: true
+        });
+
+        $("#Button1").click(function () {
+            cc.combo("textbox").focus();
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Combo Extensions - 输入框获取焦点时自动展开 Panel</h2>
+<p>该部分扩展由文件 jeasyui.extensions.combo.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>
+    您可以点击下面这个 "设置焦点" 按钮让旁边的 easyui-combo 控件获取焦点，也可以直接通过鼠标点击的方式让它获取焦点；<br />
+    在 easyui-combo 的输入框获取焦点后，您能看到它自动进行了 showPanel 操作。
+</p>
+<input id="Button1" type="button" value="设置焦点" />
+<select id="select1"></select>
 
 </div>

@@ -118,7 +118,9 @@
                     { id: "1106020701", text: "创建Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/createDialog"} },
                     { id: "1106020702", text: "创建自定义工具栏和按纽栏的Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/toolbuttons"} },
                     { id: "1106020703", text: "创建Iframe-Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/useiframe"} },
-                    { id: "1106020704", text: "Iframe-Dialog与父级页面互调用", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/useParent"} }
+                    { id: "1106020704", text: "Iframe-Dialog与父级页面互调用", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/useParent"} },
+                    { id: "1106020705", text: "指定在当前页面还是顶级页面打开Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/topMost"} },
+                    { id: "1106020706", text: "指定Dialog的父级容器", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/loacle"} },
                 ]
                 }
             ]

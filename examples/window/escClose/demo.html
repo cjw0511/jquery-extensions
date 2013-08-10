@@ -2,12 +2,17 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#win1").window({
+            title: "test window", top: 120, left: 160, width: 250, height: 150,
+            modal: true,
+            autoCloseOnEsc: true
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Window Extensions - ESC键自动关闭窗口</h2>
+<p>该部分扩展由文件 jeasyui.extensions.window.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<div id="win1" style="padding: 10px;">当焦点位于此页面（IFRAME）中、此窗口至于本页面最顶层且 modal: true 时，按 "ESC" 键即可关闭此窗口</div>
 
 </div>

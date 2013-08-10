@@ -11,7 +11,7 @@
 * jQuery EasyUI menu 组件扩展
 * jeasyui.extensions.menu.js
 * 二次开发 陈建伟
-* 最近更新：2013-07-31
+* 最近更新：2013-08-10
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -489,8 +489,8 @@
         opts.items = $.array.isArray(opts.items) ? opts.items : [];
         var menu = $("<div></div>").attr({ id: id, name: name }).appendTo("body");
         if (!opts.items.length) { opts.items.push({ text: "当前无菜单项", disabled: true }); }
-        $.each(opts.items, function () {
-            if (opts.hideDisabledMenu && this.disabled) { return; } appendItemToMenu(menu, this, id, menu);
+        $.each(opts.items, function (i, item) {
+            if (opts.hideDisabledMenu && item.disabled) { return; } appendItemToMenu(menu, item, id, menu);
         });
         return { menu: menu, options: opts };
     };
@@ -527,8 +527,8 @@
         if (item.bold) { span.css("font-weight", "bold"); }
         if (hasChild) {
             var itemNode = $("<div></div>").appendTo(itemEle);
-            $.each(item.children, function () {
-                var val = $.util.isString(this) && $.trim(this) == "-" ? this : $.extend({ hideDisabledMenu: item.hideDisabledMenu }, this);
+            $.each(item.children, function (i, n) {
+                var val = $.util.isString(n) && $.trim(n) == "-" ? n : $.extend({ hideDisabledMenu: item.hideDisabledMenu }, n);
                 appendItemToMenu(itemNode, val, itemId, menus);
             });
         }

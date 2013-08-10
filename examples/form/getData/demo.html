@@ -2,12 +2,39 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#Button1").click(function () {
+            var data = $("#form1").form("getData");
+            $.easyui.showOption(data, { title: "显示表单 FORM 的数据" });
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Form Extensions - 获取表单数据</h2>
+<p>该部分扩展由文件 jeasyui.extensions.form.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>
+    <input id="Button1" type="button" value="获取该表单的数据" />
+</p>
+<fieldset style="width: 500px;">
+    <legend>请填写表单</legend>
+    <form id="form1" class="easyui-form">
+        姓名：<input id="Text1" name="Text1" type="text" />
+        年龄：<input id="Text2" name="Text2" type="text" class="easyui-numberbox" data-options="prompt: '请输入年龄'" /><hr />
+        学历：<input id="Radio1" name="Radio" type="radio" value="1" /><label for="Radio1">高中及以下</label>
+        <input id="Radio2" name="Radio" type="radio" value="2" /><label for="Radio2">本科</label>
+        <input id="Radio3" name="Radio" type="radio" value="3" /><label for="Radio3">硕士</label><hr />
+        兴趣爱好：<input id="CheckBox1" name="CheckBox1" type="checkbox" /><label for="CheckBox1">唱歌跳舞</label>
+        <input id="CheckBox2" name="CheckBox2" type="checkbox" /><label for="CheckBox2">上网聊天</label>
+        <input id="CheckBox3" name="CheckBox3" type="checkbox" /><label for="CheckBox3">看书挺音乐</label><hr />
+        <select id="select1" name="select1" class="easyui-combobox" data-options="width: 200">
+            <option value="1" selected="selected">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <hr />
+        备注信息：<textarea id="TextArea1" name="TextArea1" cols="20" rows="2"></textarea>
+    </form>
+</fieldset>
 
 </div>

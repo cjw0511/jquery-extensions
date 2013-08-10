@@ -1,8 +1,8 @@
 ﻿jquery-extensions 发布及更新日志
 
-/******************** 2013-08-09(1.0.0 preview) ********************/
+/******************** 2013-08-10(1.0.0 preview) ********************/
 1、修复 jeasyui.extensions.treegrid.js 扩展中 showRow 和 hideRow 方法中存在的部分 BUG；
-2、截至目前位置，"演示 DEMO" 菜单下，"Base"、"Layout"、"Menu and Button - Menu" 和 "DataGrid and Tree - DataGrid" 模块的演示 DEMO 已经编写完成；
+2、截至目前为止，"演示 DEMO" 菜单下，"Base"、"Layout"、"Menu and Button - Menu"、"Form - Validatebox、Combo"、"Window" 和 "DataGrid and Tree - DataGrid" 模块的演示 DEMO 已经编写完成；
 
 
 /******************** 2013-08-06(1.0.0 preview) ********************/

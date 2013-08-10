@@ -2,12 +2,33 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#Button1").click(function () {
+            $.easyui.showDialog({
+                title: "Dialog1",
+                top: 150, left: 170, width: 400, height: 200,
+                topMost: false,
+                href: "dialog/easy/useParent/subpage.html"
+            });
+        });
+
+        $("#Button2").click(function () {
+            $.easyui.showDialog({
+                title: "Dialog2",
+                top: 150, left: 170, width: 400, height: 200,
+                href: "dialog/easy/useParent/subpage-iframe.html",
+                topMost: false,
+                iniframe: true
+            });
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Dialog Extensions - 创建通过 IFRAME 方式加载内容的 Dialog</h2>
+<p>该部分扩展由文件 jeasyui.extensions.dialog.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+这是用于被操作的输入框：<input id="Text1" type="text" style="width: 300px;" />
+<hr />
+<input id="Button1" type="button" value="创建Dialog1" />
+<input id="Button2" type="button" value="创建IFRAME-Dialog2" />
 
 </div>

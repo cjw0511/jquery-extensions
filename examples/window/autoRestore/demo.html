@@ -2,12 +2,16 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#win1").window({
+            title: "test window", top: 120, left: 160, width: 250, height: 150,
+            autoRestore: true
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Window Extensions - 双击窗体头部时自动最大化/还原</h2>
+<p>该部分扩展由文件 jeasyui.extensions.window.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<div id="win1" style="padding: 10px;">您可以双击此窗口的标题试试</div>
 
 </div>

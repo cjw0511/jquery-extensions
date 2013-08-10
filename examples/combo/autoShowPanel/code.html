@@ -1,15 +1,25 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4]" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    $(function () {
+        var cc = $("#select1").combo({
+            width: 120,
+            autoShowPanel: true
+        });
+
+        $("#Button1").click(function () {
+            cc.combo("textbox").focus();
+        });
+    });
 
 </textarea>
 <h2>HTML 代码：</h2>
 <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    <input id="Button1" type="button" value="设置焦点" />
+    <select id="select1"></select>
 
 </textarea>
 

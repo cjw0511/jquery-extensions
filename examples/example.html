@@ -63,7 +63,7 @@
             $("#tabsContainer").tabs("tabs").forEach(function (p) {
                 var opts = p.panel("options");
                 opts.onLoad = function () {
-                    $(this).find("textarea[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
+                    $(this).find("[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
                 };
                 p.panel("refresh", $.string.format("{0}/{1}.html", path, opts.id));
             });
@@ -72,7 +72,7 @@
 </head>
 <body>
     <div id="tabsContainer" class="easyui-tabs" data-options="fit: true, border: false, showOption: true, enableNewTabMenu: true, tabPosition: 'left'">
-        <div id="demo" class="panel-container" data-options="title: '功能演示', iconCls: 'icon-hamburg-advertising', selected: true">
+        <div id="demo" class="panel-container" data-options="title: '功能演示', iconCls: 'icon-hamburg-advertising', selected: true" style="position: relative;">
             <p>Chrome 浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
             <p>IE6、7、8 浏览器中当 jQuery 和 syntaxhighlighter 插件共存时会有兼容性问题，请选择其他浏览器。</p>
         </div>

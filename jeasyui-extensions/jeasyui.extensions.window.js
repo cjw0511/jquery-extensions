@@ -11,7 +11,7 @@
 * jQuery EasyUI window 组件扩展
 * jeasyui.extensions.window.js
 * 二次开发 陈建伟
-* 最近更新：2013-06-01
+* 最近更新：2013-08-10
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -39,7 +39,7 @@
             t.window("header").on({
                 dblclick: function () {
                     var opts = t.window("options");
-                    if (opts.maximizableOnDblClickHeader) { if (opts.maximized) { t.window("restore"); } else if (opts.maximizable) { t.window("maximize"); } }
+                    if (opts.autoRestore) { if (opts.maximized) { t.window("restore"); } else if (opts.maximizable) { t.window("maximize"); } }
                 },
                 contextmenu: function (e) {
                     var opts = t.window("options");
@@ -79,7 +79,7 @@
             ret.hideOnClick = $.isFunction(value.hideOnClick) ? value.hideOnClick.call(ret, e, win) : value.hideOnClick;
             ret.onclick = $.isFunction(value.onclick) ? function (e, item, menu) { value.onclick.call(this, e, win, item, menu); } : value.onclick;
             ret.handler = $.isFunction(value.handler) ? function (e, item, menu) { value.handler.call(this, e, win, item, menu); } : value.handler;
-            if (ret.children && ret.children.length) { ret.children = parseContextMenuMap(e, win); }
+            if (ret.children && ret.children.length) { ret.children = parseContextMenuMap(e, ret.children, win); }
             return ret;
         });
     };
@@ -130,7 +130,7 @@
         autoCloseOnEsc: true,
 
         //  扩展 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口是否在双击头部时自动最大化。
-        maximizableOnDblClickHeader: true,
+        autoRestore: true,
 
         //  扩展 easyui-window 以及 easyui-dialog 控件的自定义属性，表示是否启用该窗口的右键菜单。
         enableHeaderContextMenu: true,
