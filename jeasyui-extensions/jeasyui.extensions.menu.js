@@ -466,8 +466,8 @@
         onHide: function () { },
         onClick: function (item) { },
 
-        //  添加 easyui-menu 的自定义扩展属性；表示是否当鼠标移出菜单时，才菜单自动隐藏，默认为 false。
-        hideOnMouseLeave: false
+        //  添加 easyui-menu 的自定义扩展属性；表示是否当鼠标移出菜单时，才菜单自动隐藏，默认为 true。
+        hideOnMouseLeave: true
     };
 
 
@@ -484,7 +484,8 @@
     var buildMenu = function (options) {
         var guid = $.util.guid("N", 12), id = "easyui_menu_id_" + guid, name = "easyui_menu_name_" + guid;
         var opts = $.extend({}, $.fn.menu.defaults, {
-            id: id, name: name, left: window.event ? window.event.clientX : 0, top: window.event ? window.event.clientY : 0, items: null, hideDisabledMenu: false
+            id: id, name: name, left: window.event ? window.event.clientX : 0, top: window.event ? window.event.clientY : 0,
+            items: null, hideDisabledMenu: false, hideOnMouseLeave: false
         }, options || {});
         opts.items = $.array.isArray(opts.items) ? opts.items : [];
         var menu = $("<div></div>").attr({ id: id, name: name }).appendTo("body");
