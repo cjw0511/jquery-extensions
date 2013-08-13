@@ -2,12 +2,21 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#tree").tree({
+            method: "get",
+            lines: true,
+            url: "tree/tree-data-simple.json",
+            smooth: true,       //该属性用以启用当前 easyui-tree 控件对平滑数据格式的支持
+            toggleOnClick: false,
+            enableContextMenu: false
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Tree Extensions - 平滑数据格式支持</h2>
+<p>该部分扩展由文件 jeasyui.extensions.tree.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>下面这个 easyui-tree 控件所采用的数据源格式为平滑数据</p>
+<ul id="tree"></ul>
 
 </div>

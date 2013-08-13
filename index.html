@@ -27,6 +27,7 @@
     <script src="jeasyui-extensions/jeasyui.extensions.combogrid.js" type="text/javascript"></script>
     <script src="jeasyui-extensions/jeasyui.extensions.combotree.js" type="text/javascript"></script>
     <script src="jeasyui-extensions/jeasyui.extensions.tabs.js" type="text/javascript"></script>
+    <script src="jeasyui-extensions/jeasyui.extensions.theme.js" type="text/javascript"></script>
 
     <script src="icons/jeasyui.icons.all.js" type="text/javascript"></script>
 
@@ -49,7 +50,7 @@
         .top-bar-right #timerSpan { position: absolute; padding-top: 5px; right: 10px; }
         .top-bar-right #themeSpan { position: absolute; width: 350px; top: 22px; right: 5px; text-align: right; }
         
-        .top-toolbar { position: absolute; padding: 0px; width: 100%; height: 27px; top: 52px; left: 0px; border-top-width: 1px; border-bottom-width: 0px; z-index: 100; }
+        .top-toolbar { position: absolute; font-weight: normal; padding: 0px; width: 100%; height: 27px; top: 52px; left: 0px; border-top-width: 1px; border-bottom-width: 0px; z-index: 100; }
         .top-toolbar #infobar { position: absolute; width: 400px; left: 10px; height: 26px; line-height: 26px; font-size: 12px; }
         .top-toolbar #searchbar { position: absolute; width: 400px; left: 400px; padding-top: 1px; }
         .top-toolbar #buttonbar { position: absolute; width: 600px; right: 5px; text-align: right; }
@@ -116,22 +117,7 @@
                 <div id="timerSpan"></div>
                 <div id="themeSpan">
                     <span>更换皮肤风格：</span>
-                    <select id="themeSelector" class="easyui-combobox" data-options="width: 140, editable: false">
-                        <option value="default" selected="selected">默认(天空蓝,推荐)</option>
-                        <option value="black" >金属黑(推荐)</option>
-                        <option value="bootstrap" >银色</option>
-                        <option value="gray" >灰霾(推荐)</option>
-                        <option value="jquery-easyui-themes/cupertino" >清泉</option>
-                        <option value="jquery-easyui-themes/dark-hive" >黑色蜂巢</option>
-                        <option value="jquery-easyui-themes/pepper-grinder" >杏黄</option>
-                        <option value="jquery-easyui-themes/sunny" >阳光</option>
-                        <option value="metro" >磁贴（白）</option>
-                        <option value="jquery-easyui-themes-metro/metro-blue" >磁贴（蓝）</option>
-                        <option value="jquery-easyui-themes-metro/metro-gray" >磁贴（灰）</option>
-                        <option value="jquery-easyui-themes-metro/metro-green" >磁贴（绿）</option>
-                        <option value="jquery-easyui-themes-metro/metro-orange" >磁贴（橙）</option>
-                        <option value="jquery-easyui-themes-metro/metro-red" >磁贴（红）</option>
-                    </select>
+                    <select id="themeSelector"></select>
                     <a id="btnHideNorth" class="easyui-linkbutton" data-options="plain: true, iconCls: 'layout-button-up'"></a>
                 </div>
             </div>
@@ -293,7 +279,7 @@
                                     <ul id="donateList" style="padding-left: 20px; line-height: 20px;"></ul>
                                 </div>
                                 <div data-options="title: '更多信息...', height: 320, collapsible: true, closable: true">
-                                    <ul style="padding-left: 20px; margin: 10px; line-height: 20px;">
+                                    <ul style="padding-left: 20px; margin: 5px; line-height: 20px;">
                                         <li>
                                             关于 jquery-easyui-datagrid 相关API，参见：
                                             <ul>

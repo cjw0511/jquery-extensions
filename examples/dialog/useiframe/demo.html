@@ -2,12 +2,17 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#win1").dialog({
+            title: "该窗口是通过 IFRAME 加载内容", top: 120, left: 160, width: 600, height: 400,
+            href: "/",
+            iniframe: true
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Dialog Extensions - HREF 加载在 IFRAME 中/还原</h2>
+<p>该部分扩展由文件 jeasyui.extensions.dialog.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<div id="win1"></div>
 
 </div>

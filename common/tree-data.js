@@ -113,7 +113,7 @@
                     { id: "1106020503", text: "自定义动态菜单", pid: "11060205", attributes: { href: "examples/example.html?dialog/menu/customeDynamic"} }
                 ]
                 },
-                { id: "11060106", text: "不能移出容器边界", pid: "110601", attributes: { href: "examples/example.html?window/inContainer"} },
+                { id: "11060106", text: "不能移出容器边界", pid: "110601", attributes: { href: "examples/example.html?dialog/inContainer"} },
                 { id: "11060207", text: "快速创建Dialog", pid: "110602", children: [
                     { id: "1106020701", text: "创建Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/createDialog"} },
                     { id: "1106020702", text: "创建自定义工具栏和按纽栏的Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/toolbuttons"} },

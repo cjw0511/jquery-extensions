@@ -1,15 +1,42 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4,5,10,11,16,17,22,23]" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    $(function () {
+        $("#win1").dialog({
+            title: "该窗口不自动居中", top: 120, left: 160, width: 250, height: 150,
+            autoVCenter: false,     //该属性如果设置为 true，则使窗口保持纵向居中，默认为 true。
+            autoHCenter: false      //该属性如果设置为 true，则使窗口保持横向居中，默认为 true。
+        });
+
+        $("#win2").dialog({
+            title: "该窗口横向自动居中", top: 120, left: 420, width: 250, height: 150,
+            autoVCenter: false,
+            autoHCenter: true
+        });
+
+        $("#win3").dialog({
+            title: "该窗口纵向自动居中", top: 120, left: 680, width: 250, height: 150,
+            autoVCenter: true,
+            autoHCenter: false
+        });
+
+        $("#win4").dialog({
+            title: "该窗口自动横纵向都居中", top: 300, left: 680, width: 250, height: 150,
+            autoVCenter: true,
+            autoHCenter: true
+        });
+    });
 
 </textarea>
 <h2>HTML 代码：</h2>
 <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    <div id="dd1" style="padding: 10px;">该窗口不自动居中，浏览器大小调整后该窗口位置不会发生改变</div>
+    <div id="dd2" style="padding: 10px;">该窗口横向自动居中，浏览器大小调整后该窗口能自动保持横向居中</div>
+    <div id="dd3" style="padding: 10px;">该窗口纵向自动居中，浏览器大小调整后该窗口能自动保持纵向居中</div>
+    <div id="dd4" style="padding: 10px;">该窗口自动横纵向都居中，浏览器大小调整后该窗口能自动保持横纵向都居中</div>
 
 </textarea>
 

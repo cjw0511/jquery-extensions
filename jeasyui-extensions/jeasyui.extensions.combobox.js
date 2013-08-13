@@ -20,10 +20,6 @@
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
-
-/*
-功能说明：
-*/
 (function ($, undefined) {
 
 

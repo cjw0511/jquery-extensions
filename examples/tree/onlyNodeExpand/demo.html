@@ -2,12 +2,21 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#tree").tree({
+            method: "get",
+            lines: true,
+            url: "tree/tree-data.json",
+            onlyNodeExpand: true,
+            toggleOnClick: false,
+            enableContextMenu: false
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Tree Extensions - 节点展开控制</h2>
+<p>该部分扩展由文件 jeasyui.extensions.tree.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>尝试着展开含有子节点的某个节点，你会发现它的同级节点全部会自动折叠</p>
+<ul id="tree"></ul>
 
 </div>

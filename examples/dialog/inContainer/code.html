@@ -1,15 +1,29 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4,9,10]" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    $(function () {
+        $("#win1").dialog({
+            title: "test dialog1", top: 120, left: 160, width: 250, height: 150,
+            inContainer: true
+        });
+
+        $("#win2").dialog({
+            title: "test dialog2", top: 120, left: 160, width: 250, height: 150,
+            inline: true,
+            inContainer: true
+        });
+    });
 
 </textarea>
 <h2>HTML 代码：</h2>
 <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    <div id="win1">您可以拖动我试试，您会发现我不能被拖出当前这个页面</div>
+    <div style="border-width: 1px; border-color: Black; border-style: solid; width: 800px; height: 600px; position: relative;">
+        <div id="win2">您可以拖动我试试，您会发现我不能被拖出这个外框</div>
+    </div>
 
 </textarea>
 

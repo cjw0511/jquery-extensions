@@ -8,7 +8,7 @@
 
     var homePageTitle = "主页", homePageHref = null, navMenuList = "#navMenu_list",
         navMenuTree = "#navMenu_Tree", mainTab = "#mainTab", navTab = "#navTab", favoMenuTree = "#favoMenu_Tree",
-        mainLayout = "#mainLayout", northPanel = "#northPanel",
+        mainLayout = "#mainLayout", northPanel = "#northPanel", themeSelector = "#themeSelector",
         westLayout = "#westLayout", westCenterLayout = "#westCenterLayout", westFavoLayout = "#westFavoLayout",
         westSouthPanel = "#westSouthPanel", homePanel = "#homePanel";
 
@@ -180,16 +180,22 @@
             btnShow.hide();
             toolbar.insertAfter(topbar).css("top", top);
         };
-        var themeOpts = $("#themeSelector").combobox("options"), onSelect = themeOpts.onSelect;
-        themeOpts.onSelect = function (record) {
-            if ($.isFunction(onSelect)) { onSelect.apply(this, arguments); }
-            window.mainpage.setTheme(record[themeOpts.valueField]);
-        };
+
+        $(themeSelector).combobox({
+            width: 140, editable: false, data: $.easyui.theme.dataSource, valueField: "path", textField: "name",
+            value: $.easyui.theme.dataSource[0].path,
+            onSelect: function (record) {
+                var opts = $(this).combobox("options");
+                window.mainpage.setTheme(record[opts.valueField])
+            }
+        });
     };
 
     window.mainpage.search = function (value, name) { $.easyui.messager.show($.string.format("您设置的主题为：value: {0}, name: {1}", value, name)); };
 
-    window.mainpage.setTheme = function (theme) { $.easyui.messager.show($.string.format("您设置的主题为：{0}", theme)); };
+    window.mainpage.setTheme = function (theme) {
+        $.easyui.theme(true, theme);
+    };
 
     window.mainpage.bindMainTabsButtonEvent = function () {
         $("#mainTabs_junmpHome").click(function () { window.mainpage.mainTabs.jumpHome(); });

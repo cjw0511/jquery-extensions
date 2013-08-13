@@ -2,12 +2,25 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#win1").dialog({
+            title: "test dialog1", top: 120, left: 160, width: 250, height: 150,
+            inContainer: true
+        });
+
+        $("#win2").dialog({
+            title: "test dialog2", top: 120, left: 160, width: 250, height: 150,
+            inline: true,
+            inContainer: true
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Dialog Extensions - 不能移除容器边界</h2>
+<p>该部分扩展由文件 jeasyui.extensions.dialog.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<div id="win1">您可以拖动我试试，您会发现我不能被拖出当前这个页面</div>
+<div style="border-width: 1px; border-color: Black; border-style: solid; width: 800px; height: 600px; position: relative;">
+    <div id="win2">您可以拖动我试试，您会发现我不能被拖出这个外框</div>
+</div>
 
 </div>

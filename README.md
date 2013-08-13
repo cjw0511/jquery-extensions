@@ -16,7 +16,6 @@ To use it on other terms please contact us: jeasyui@gmail.com<br />
 <br />
 jqueyr-extensions<br />
 二次开发 陈建伟<br />
-最近更新：2013-08-05<br />
 <br />
 Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
 http://www.chenjianwei.org
