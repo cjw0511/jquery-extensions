@@ -70,7 +70,7 @@
             { id: "110502", text: "Validatebox", pid: "1105", children: [
                 { id: "11050201", text: "增强的Rules", pid: "11050201", attributes: { href: "examples/example.html?validatebox/rules"} },
                 { id: "11050202", text: "输入提示文字", pid: "11050201", attributes: { href: "examples/example.html?validatebox/prompt"} },
-                { id: "11050203", text: "自定义验证样式", pid: "11050201", attributes: { href: "examples/example.html?validatebox/customeCss"} },
+                { id: "11050203", text: "自定义验证样式", pid: "11050201", attributes: { href: "examples/example.html?validatebox/customeCss"} }
             ]
             },
 
@@ -120,7 +120,7 @@
                     { id: "1106020703", text: "创建Iframe-Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/useiframe"} },
                     { id: "1106020704", text: "Iframe-Dialog与父级页面互调用", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/useParent"} },
                     { id: "1106020705", text: "指定在当前页面还是顶级页面打开Dialog", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/topMost"} },
-                    { id: "1106020706", text: "指定Dialog的父级容器", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/loacle"} },
+                    { id: "1106020706", text: "指定Dialog的父级容器", pid: "11060207", attributes: { href: "examples/example.html?dialog/easy/loacle"} }
                 ]
                 }
             ]
@@ -251,12 +251,13 @@
 
         { id: "1108", text: "Others", pid: "11", children: [
             { id: "110801", text: "Icons", pid: "1108", attributes: { href: "examples/example.html?icons"} },
-            { id: "110802", text: "GridSelector", pid: "1108", attributes: { href: "examples/example.html?gridSelector"} },
-            { id: "110803", text: "Toolbar", pid: "1108", attributes: { href: "examples/example.html?toolbar"} },
-            { id: "110804", text: "Portal", pid: "1108", attributes: { href: "examples/example.html?portal"} },
-            { id: "110805", text: "my97", pid: "1108", attributes: { href: "examples/example.html?my97"} },
-            { id: "110806", text: "ckeditor", pid: "1108", attributes: { href: "examples/example.html?ckeditor"} },
-            { id: "110807", text: "uploadify", pid: "1108", attributes: { href: "examples/example.html?uploadify"} }
+            { id: "110802", text: "Theme", pid: "1108", attributes: { href: "examples/example.html?theme"} },
+            { id: "110803", text: "GridSelector", pid: "1108", attributes: { href: "examples/example.html?gridSelector"} },
+            { id: "110804", text: "Toolbar", pid: "1108", attributes: { href: "examples/example.html?toolbar"} },
+            { id: "110805", text: "Portal", pid: "1108", attributes: { href: "examples/example.html?portal"} },
+            { id: "110806", text: "my97", pid: "1108", attributes: { href: "examples/example.html?my97"} },
+            { id: "110807", text: "ckeditor", pid: "1108", attributes: { href: "examples/example.html?ckeditor"} },
+            { id: "110808", text: "uploadify", pid: "1108", attributes: { href: "examples/example.html?uploadify"} }
         ]
         }
     ];
@@ -264,7 +265,7 @@
     window.mainpage.docMenus = [
         { id: "1001", text: "jQuery jDirk", pid: "10" },
         { id: "1002", text: "Base", pid: "10", children: [
-            { id: "100201", text: "jeasyui.extensions.js", pid: "1002", attributes: { href: "" } }
+            { id: "100201", text: "jeasyui.extensions.js", pid: "1002", attributes: { href: ""} }
         ]
         },
         { id: "1003", text: "Layout", pid: "10", children: [
@@ -299,12 +300,13 @@
         },
         { id: "1008", text: "Others", pid: "10", children: [
             { id: "100801", text: "jeasyui.extensions.icons.js", pid: "1008" },
-            { id: "100802", text: "jeasyui.extensions.gridselector", pid: "1008" },
-            { id: "100803", text: "jquery.portal.js", pid: "1008" },
-            { id: "100804", text: "jquery.toolbar.js", pid: "1008" },
-            { id: "100805", text: "jquery.my97.js", pid: "1008" },
-            { id: "100806", text: "jquery.ckeditor.js", pid: "1008" },
-            { id: "100807", text: "jquery.uploadify.js", pid: "1008" }
+            { id: "100802", text: "jeasyui.extensions.theme.js", pid: "1008" },
+            { id: "100803", text: "jeasyui.extensions.gridselector", pid: "1008" },
+            { id: "100804", text: "jquery.portal.js", pid: "1008" },
+            { id: "100805", text: "jquery.toolbar.js", pid: "1008" },
+            { id: "100806", text: "jquery.my97.js", pid: "1008" },
+            { id: "100807", text: "jquery.ckeditor.js", pid: "1008" },
+            { id: "100808", text: "jquery.uploadify.js", pid: "1008" }
         ]
         }
     ];

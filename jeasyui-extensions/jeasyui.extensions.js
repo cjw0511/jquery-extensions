@@ -65,10 +65,9 @@
     $.messager.show = function (options) {
         var isString = $.util.isString(options) || $.util.isBoolean(options) || $.isNumeric(options);
         if (isString) {
-            arguments.length == 1 ? $.messager.show({ msg: String(options) }) : $.messager.show({ title: options, msg: arguments[1], icon: arguments[2], position: arguments[3] });
-            return;
+            return arguments.length == 1 ? $.messager.show({ msg: String(options) }) : $.messager.show({ title: options, msg: arguments[1], icon: arguments[2], position: arguments[3] });
         }
-        var defaults = $.extend({}, $.messager.defaults, { title: "操作提醒", timeout: 3000, showType: "slide" });
+        var defaults = $.extend({}, $.messager.defaults, { title: "操作提醒", timeout: 4000, showType: "slide" });
         var position = {
             topLeft: { right: "", left: 0, top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
             topCenter: { right: "", top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
@@ -133,9 +132,7 @@
     $.messager.solicit = function (title, msg, fn) {
         var options = $.extend({}, (arguments.length == 2) ? { title: defaults.title, msg: arguments[0], fn: arguments[1] }
             : { title: arguments[0], msg: arguments[1], fn: arguments[2] });
-        $.messager.confirm(options.title, options.msg, options.fn);
-        var win = $("div.panel.window.messager-window:last").children("div.messager-body.panel-body.window-body"),
-            opts = win.window("options"), onClose = opts.onClose;
+        var win = $.messager.confirm(options.title, options.msg, options.fn), opts = win.window("options"), onClose = opts.onClose;
         opts.onClose = function () {
             if ($.isFunction(onClose)) { onClose.apply(this, arguments); }
             if ($.isFunction(options.fn)) { options.fn.call(this, undefined); }
@@ -150,6 +147,7 @@
         $("<a></a>").linkbutton({ text: "取消" }).css("margin-left", "10px").click(function () {
             opts.onClose = onClose; win.window("close"); if ($.isFunction(options.fn)) { options.fn.call(this, undefined); }
         }).appendTo(button);
+        return win;
     };
 
     //  重写 $.messager.prompt 方法，使其支持如下的多种重载方式：
@@ -184,9 +182,10 @@
             return $.isNumeric(zindex) ? parseInt(zindex) : 0;
         }), zindex = $.array.max(array);
         locale.addClass("mask-container");
-        jq("<div></div>").addClass("datagrid-mask").css({ display: "block", "z-index": ++zindex }).appendTo(locale);
+        var mask = jq("<div></div>").addClass("datagrid-mask").css({ display: "block", "z-index": ++zindex }).appendTo(locale);
         var msg = jq("<div></div>").addClass("datagrid-mask-msg").css({ display: "block", left: "50%", "z-index": ++zindex }).html(opts.msg).appendTo(locale);
         msg.css("marginLeft", -msg.outerWidth() / 2);
+        return mask.add(msg);
     };
 
     //  关闭由 $.easyui.loading 方法显示的 "正在加载..." 状态层；该函数定义如下重载方式：
@@ -256,9 +255,8 @@
                 "如果该问题重复出现，请联系您的系统管理员并反馈该故障。<br />" +
                 "错误号：" + XMLHttpRequest.status + "(" + XMLHttpRequest.statusText + ")；<hr />" + XMLHttpRequest.responseText :
                 "系统出现了一个未指明的错误，如果该问题重复出现，请联系您的系统管理员并反馈该故障。");
-        coreEasyui.messager.alert("错误提醒", msg, "error");
-        var win = $.util.$("div.panel.window.messager-window:last").children("div.messager-body.panel-body.window-body"),
-                opts = win.window("options"), panel = win.window("panel"), width = panel.outerWidth(), height = panel.outerHeight();
+        var win = coreEasyui.messager.alert("错误提醒", msg, "error"),
+            opts = win.window("options"), panel = win.window("panel"), width = panel.outerWidth(), height = panel.outerHeight();
         if (width > 800 || height > 800) { win.window("resize", { width: width > 800 ? 800 : width, height: height > 800 ? 800 : height }); }
         win.window("center");
     };
@@ -276,6 +274,7 @@
     $.union(coreJquery);
     $.fn.union(coreJquery.fn);
 
-    var css = ".mask-container { position: relative; }";
+    var css =
+        ".mask-container { position: relative; }";
     $.util.addCss(css);
 })(jQuery);

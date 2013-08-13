@@ -42,9 +42,9 @@
 
     function setTheme(jq, theme, callback, thisArg) {
         var link = jq("link[href$='easyui.css']"), href = link.attr("href"), array = href.split("/");
-        if (arguments.length > 1) { array[array.length - 2] = theme; } else { $.array.insert(array, 0, theme); }
+        if (arguments.length > 1) { array[array.length - 2] = theme; } else { jq.array.insert(array, 0, theme); }
         link.attr("href", array.join("/"));
-        if (jq.isFunction(callback)) { callback.call(thisArg); }
+        callbackFunc(callback, theme, thisArg);
     };
 
     function setTopTheme(jq, theme, callback, thisArg) {
@@ -57,7 +57,14 @@
                 }
             } catch (ex) { };
         });
-        if (jq.isFunction(callback)) { callback.call(thisArg); }
+        callbackFunc(callback, theme, thisArg);
+    };
+
+    function callbackFunc(callback, theme, thisArg) {
+        if (!$.isFunction(callback)) { return; }
+        var item = $.array.first($.easyui.theme.dataSource, function (val) { return val.path == theme; });
+        if (item) { theme = item; }
+        callback.call(thisArg, theme);
     };
 
     $.easyui.theme.dataSource = [

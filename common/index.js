@@ -194,7 +194,10 @@
     window.mainpage.search = function (value, name) { $.easyui.messager.show($.string.format("您设置的主题为：value: {0}, name: {1}", value, name)); };
 
     window.mainpage.setTheme = function (theme) {
-        $.easyui.theme(true, theme);
+        $.easyui.theme(true, theme, function (item) {
+            var win = $.easyui.messager.show($.string.format("您设置了新的系统主题皮肤为：{0}，{1}。", item.name, item.path));
+            if ($.util.browser.msie) { win.removeAttr("style"); }
+        });
     };
 
     window.mainpage.bindMainTabsButtonEvent = function () {

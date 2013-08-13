@@ -2,12 +2,19 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#tree").tree({
+            method: "get",
+            lines: true,
+            url: "tree/tree-data.json",
+            enableContextMenu: true
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Tree Extensions - 右键菜单 - 默认菜单</h2>
+<p>该部分扩展由文件 jeasyui.extensions.tree.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>右键点击下面这个 easyui-tree 的任意节点试试</p>
+<ul id="tree"></ul>
 
 </div>

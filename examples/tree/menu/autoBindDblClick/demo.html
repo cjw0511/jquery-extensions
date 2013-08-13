@@ -2,12 +2,38 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#tree").tree({
+            method: "get",
+            lines: true,
+            url: "tree/tree-data.json",
+            autoBindDblClick: true,
+            enableContextMenu: true,
+            contextMenu: [
+                {
+                    text: "测试菜单1", iconCls: "icon-hamburg-address", disabled: false,
+                    handler: function () {
+                        alert("您点击了测试菜单1");
+                    }
+                },
+                { text: "测试菜单2", children: [
+                    { text: "测试子菜单1", handler: function () { alert("aaa"); } },
+                    { text: "测试子菜单2", handler: function () { alert("bbb"); } }
+                ]
+                },
+                "-",
+                { text: "测试菜单3", iconCls: "icon-hamburg-pencil", disabled: false, handler: function () { alert("您点击了测试菜单3"); } }
+            ]
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Tree Extensions - 右键菜单 - 自定义菜单自动绑定为节点的双击事件</h2>
+<p>该部分扩展由文件 jeasyui.extensions.tree.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>
+    右键点击下面这个 easyui-tree 的任意节点试试，你会发现右键菜单的第一个菜单项的字体是加粗的；<br />
+    另外，您可以双击任意一个节点试试，您会发现该节点的双击事件与其右键菜单加粗菜单项的点击事件一样。
+</p>
+<ul id="tree"></ul>
 
 </div>
