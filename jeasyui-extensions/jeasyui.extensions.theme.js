@@ -70,7 +70,7 @@
     $.easyui.theme.dataSource = [
         { id: 1, name: "默认(天空蓝,推荐)", path: "default" },
         { id: 2, name: "金属黑(推荐)", path: "standard-black" },
-        { id: 3, name: "银色", path: "standard-bootstrap" },
+        { id: 3, name: "银色(推荐)", path: "standard-bootstrap" },
         { id: 4, name: "灰霾(推荐)", path: "standard-gray" },
         { id: 5, name: "清泉", path: "jqueryui-cupertino" },
         { id: 6, name: "黑色蜂巢", path: "jqueryui-dark-hive" },

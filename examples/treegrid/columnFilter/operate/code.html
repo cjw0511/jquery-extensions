@@ -1,37 +1,35 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [17,18,19,20,23,32,36,40,44,48,52,62,72,76,80]" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [16,17,18,19,23,30,34,38,42,46,50,60,70,74,78]" >
     
     $(function () {
         var columnFilter = { panelHeight: 100, position: "top" }, t = $("#t1").treegrid({
             title: 'test treegrid',
             width: 900,
-            height: 500,
-            animate: true,
+            height: 400,
             method: "get",
             url: "treegrid/treegrid-data.json",
-            idField: "id",
-            treeField: "name",
+            idField: 'id',
+            treeField: 'name',
             remoteSort: false,
             frozenColumns: [[
                 { field: 'ck', checkbox: true },
-                { title: 'ID', field: 'id', width: 80, sortable: true }
+                { field: 'id', title: 'ID(id)', width: 80, sortable: true }
             ]],
             columns: [[
-                { title: "Name", field: "name", width: 200, filter: "livebox" },
-                { title: "Size", field: "size", width: 100, align: "right", filterable: false },
-                { title: "Age", field: "age", width: 140, align: "right", filter: "caps" },
-                { title: "Weight", field: "weight", width: 140, align: "right", filter: "lower" },
-                { title: "Date", field: "date", width: 150, align: "right" }
+                { field: 'name', title: '名称(name)', width: 180, filter: "livebox" },
+                { field: 'age', title: '年龄(age)', width: 120, filter: "caps" },
+                { field: 'weight', title: '体重(weight)', width: 120, filter: "lower" },
+                { field: 'size', title: 'Size(size)', width: 140, filterable: false },
+                { field: 'date', title: '日期(date)', width: 140 },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 140 }
             ]],
-            columnFilter: { panelHeight: 100, position: "top" },
-            smooth: false,
+            columnFilter: columnFilter,
             enableHeaderClickMenu: false,
             enableHeaderContextMenu: false,
             enableRowContextMenu: false
         });
-
 
         $("#Button1").click(function () {
             t.treegrid("setColumnFilter", columnFilter);
@@ -58,7 +56,7 @@
         });
 
         $("#Button7").click(function () {
-            var fields = t.treegrid("getColumnFields"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
+            var fields = t.treegrid("getColumnFields", "all"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
             if (!$.array.contains(fields, field)) {
                 $.messager.show("操作提醒", "请输入当前控件中存在的 field 值", "warning");
                 t1.focus();
@@ -68,7 +66,7 @@
         });
 
         $("#Button8").click(function () {
-            var fields = t.treegrid("getColumnFields"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
+            var fields = t.treegrid("getColumnFields", "all"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
             if (!$.array.contains(fields, field)) {
                 $.messager.show("操作提醒", "请输入当前控件中存在的 field 值", "warning");
                 t1.focus();
@@ -78,11 +76,11 @@
         });
 
         $("#Button9").click(function () {
-            t.treegrid("columnFilterSelect", { field: "name", value: ["A", "B", "C"], selected: true });
+            t.treegrid("columnFilterSelect", { field: "id", value: [1, 2, 3], selected: true });
         });
 
         $("#Button10").click(function () {
-            t.treegrid("columnFilterSelect", { field: "name", value: ["D", "E", "F"], selected: false });
+            t.treegrid("columnFilterSelect", { field: "name", value: ["B", "C", "D"], selected: false });
         });
     });
 
@@ -102,8 +100,8 @@
     <label for="Text1">请输入字段的 Field 值:</label><input id="Text1" type="text" />
     <label for="Text2">请输入要操作的值:</label><input id="Text2" type="text" />
     <hr />
-    <input id="Button9" type="button" value="选中多个值" />该按钮点击后选中 Code 列的 "A", "B", "C" <br /><br />
-    <input id="Button10" type="button" value="不选多个值" />该按钮点击后不选 Name 列的 "D", "E", "F"
+    <input id="Button9" type="button" value="选中多个值" />该按钮点击后选中 id 列的 "1, 2, 3" <br /><br />
+    <input id="Button10" type="button" value="不选多个值" />该按钮点击后不选 name 列的 "B, C, D" 
     <hr />
     <table id="t1"></table>
 

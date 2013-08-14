@@ -54,7 +54,7 @@
         });
 
         $("#Button7").click(function () {
-            var fields = t.datagrid("getColumnFields"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
+            var fields = t.datagrid("getColumnFields", "all"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
             if (!$.array.contains(fields, field)) {
                 $.messager.show("操作提醒", "请输入当前控件中存在的 field 值", "warning");
                 t1.focus();
@@ -64,7 +64,7 @@
         });
 
         $("#Button8").click(function () {
-            var fields = t.datagrid("getColumnFields"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
+            var fields = t.datagrid("getColumnFields", "all"), t1 = $("#Text1"), t2 = $("#Text2"), field = t1.val(), value = t2.val();
             if (!$.array.contains(fields, field)) {
                 $.messager.show("操作提醒", "请输入当前控件中存在的 field 值", "warning");
                 t1.focus();

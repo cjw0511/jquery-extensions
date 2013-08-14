@@ -124,7 +124,7 @@
         var li = tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li:eq(" + index + ")").off("dblclick.closeOnDblClick").on("dblclick.closeOnDblClick", function () {
             if (panelOpts.closeOnDblClick && panelOpts.closable) { tabs.tabs("close", panelOpts.title); }
         });
-        if (panelOpts.closeOnDblClick && panelOpts.closable) { li.attr("title", "双击此选项卡标题可以关闭"); }
+        if (panelOpts.closeOnDblClick && panelOpts.closable) { li.attr("title", "双击此选项卡标题可以将其关闭"); }
     };
 
     function refreshTab(target, which) {

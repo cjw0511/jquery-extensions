@@ -168,7 +168,7 @@
 
                 { id: "11070106", text: "仿ExtRowEditing编辑风格", pid: "110701", children: [
                     { id: "1107010601", text: "单行编辑状态RowEditing", pid: "11070106", attributes: { href: "examples/example.html?datagrid/extEditing/singleEdit"} },
-                    { id: "1107010602", text: "多行编辑状态RowEditing", pid: "11070106", attributes: { href: "examples/example.html?datagrid/extEditing/multiEditing"} }
+                    { id: "1107010602", text: "多行编辑状态RowEditing", pid: "11070106", attributes: { href: "examples/example.html?datagrid/extEditing/multiEdit"} }
                 ]
                 },
 
@@ -217,7 +217,7 @@
                 ]
                 },
 
-                { id: "11070304", text: "行拖动排序功能", pid: "110703", children: [
+                { id: "11070304", text: "行拖动功能", pid: "110703", children: [
                     { id: "1107030401", text: "基本功能", pid: "11070304", attributes: { href: "examples/example.html?treegrid/rowDraggable/base"} },
                     { id: "1107030402", text: "行拖动事件回调", pid: "11070304", attributes: { href: "examples/example.html?treegrid/rowDraggable/event"} }
                 ]
@@ -232,8 +232,8 @@
                 },
 
                 { id: "11070306", text: "仿ExtRowEditing编辑风格", pid: "110703", children: [
-                    { id: "1107030601", text: "单行编辑状态RowEditing", pid: "11070306", attributes: { href: "examples/example.html?treegrid/extEditing/singleEditing"} },
-                    { id: "1107030602", text: "多行编辑状态RowEditing", pid: "11070306", attributes: { href: "examples/example.html?treegrid/extEditing/multiEditing"} }
+                    { id: "1107030601", text: "单行编辑状态RowEditing", pid: "11070306", attributes: { href: "examples/example.html?treegrid/extEditing/singleEdit"} },
+                    { id: "1107030602", text: "多行编辑状态RowEditing", pid: "11070306", attributes: { href: "examples/example.html?treegrid/extEditing/multiEdit"} }
                 ]
                 },
 

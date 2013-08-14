@@ -1,15 +1,54 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [25,26,27,28,29,30,31,32]" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    $(function () {
+        $("#t1").treegrid({
+            title: 'test treegrid',
+            width: 900,
+            height: 400,
+            method: "get",
+            url: "treegrid/treegrid-data.json",
+            idField: 'id',
+            treeField: 'name',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'id', title: 'ID(id)', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'name', title: '名称(name)', width: 180, sortable: true },
+                { field: 'age', title: '年龄(age)', width: 120, sortable: true },
+                { field: 'weight', title: '体重(weight)', width: 120, sortable: true },
+                { field: 'size', title: 'Size(size)', width: 140 },
+                { field: 'date', title: '日期(date)', width: 140, sortable: true },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 140 }
+            ]],
+            rowContextMenu: [
+                { text: "这是一个静态菜单", iconCls: "icon-hamburg-address", disabled: false, handler: function () { alert(1); } },
+                {
+                    //菜单中的每一个属性，可以是一个具体的值，也可以是一个返回值的回调函数
+                    //如果定义回调参数，则其参数格式为 function (e, rowIndex, rowData, eventData, grid, item, menu)
+                    text: function (e, row) { return $.string.format("这是一个动态菜单:{0}", row.name); },
+                    iconCls: function (e, row) { return row.name == "A" ? "icon-hamburg-user" : "icon-hamburg-busy"; },
+                    disabled: function (e, row) { return row.name == "A"; },
+                    handler: function (e, row) { alert($.string.format("您点击了{0}", row.name)); }
+                }
+            ],
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            enableRowContextMenu: true,         //此属性开启表头列名称右键点击菜单
+            pagingMenu: { submenu: false},     //开启行右键菜单的翻页功能，此属性可丰富配置，详情见 API 文档
+            autoBindDblClickRow: false
+        });
+    });
 
 </textarea>
 <h2>HTML 代码：</h2>
 <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    <table id="t1"></table> 
 
 </textarea>
 

@@ -455,9 +455,9 @@
         selectOnContextMenu: false,
 
         //  扩展 easyui-tree 的自定义属性，表示当左键点击带有子节点的条目时，是否自动展开/折叠相应节点。
-        //  Boolean 类型，默认为 true。
+        //  Boolean 类型，默认为 false。
         //  备注：该功能不会影响到 easyui-tree 的原生事件 onClick。
-        toggleOnClick: true,
+        toggleOnClick: false,
 
         //  扩展 easyui-tree 的自定义属性，表示同一级菜单节点下，只允许一个节点被展开。
         //  Boolean 类型，默认为 false。

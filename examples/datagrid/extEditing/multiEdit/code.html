@@ -1,0 +1,46 @@
+﻿<div>
+
+<h2>JavaScript 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [26,27,28]" >
+    
+    $(function () {
+        $("#t1").datagrid({
+            title: 'test datagrid',
+            width: 1200,
+            height: 400,
+            method: "get",
+            url: "datagrid/datagrid-data.json",
+            idField: 'ID',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'ID', title: 'ID', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'Code', title: '编号(Code)', width: 120, editor: "text" },
+                { field: 'Name', title: '名称(Name)', width: 140, editor: "text" },
+                { field: 'Age', title: '年龄(Age)', width: 120, editor: "text" },
+                { field: 'Height', title: '身高(Height)', width: 140, editor: "text" },
+                { field: 'Weight', title: '体重(Weight)', width: 140, editor: "text" },
+                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180 },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
+            ]],
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            enableRowContextMenu: false,
+            autoEditing: true,          //该属性启用双击行时自定开启该行的编辑状态
+            extEditing: true,           //该属性启用行编辑状态的 ExtEditing 风格效果，该属性默认为 true。
+            singleEditing: false        //该属性为 false 时禁用 datagrid 的只允许单行编辑效果，也就是允许多行同时编辑
+        });
+    });
+
+</textarea>
+<h2>HTML 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
+    
+    <table id="t1"></table> 
+
+</textarea>
+
+
+</div>

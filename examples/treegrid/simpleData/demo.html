@@ -2,12 +2,40 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#t1").treegrid({
+            title: 'test treegrid',
+            width: 900,
+            height: 400,
+            method: "get",
+            url: "treegrid/treegrid-data-simple.json",
+            idField: 'id',
+            treeField: 'name',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'id', title: 'ID(id)', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'name', title: '名称(name)', width: 180, sortable: true },
+                { field: 'age', title: '年龄(age)', width: 120, sortable: true },
+                { field: 'weight', title: '体重(weight)', width: 120, sortable: true },
+                { field: 'size', title: 'Size(size)', width: 140 },
+                { field: 'date', title: '日期(date)', width: 140, sortable: true },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 140 }
+            ]],
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            enableRowContextMenu: false,
+            smooth: true,       //该属性用以启用当前 easyui-treegrid 控件对平滑数据格式的支持
+            parentField: "pid"  //该属性表示支持平滑数据格式时指向父级节点idField的属性名，默认为 "pid"
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI TreeGrid Extensions - 平滑数据格式支持</h2>
+<p>该部分扩展由文件 jeasyui.extensions.treegrid.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>下面这个 easyui-treegrid 控件所采用的数据源格式为平滑数据；数据格式可以在 "源代码" 选项卡中进行查看。</p>
+<table id="t1"></table>
 
 </div>

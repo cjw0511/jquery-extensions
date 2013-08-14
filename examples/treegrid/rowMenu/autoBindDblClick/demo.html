@@ -2,12 +2,47 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#t1").treegrid({
+            title: 'test treegrid',
+            width: 900,
+            height: 400,
+            method: "get",
+            url: "treegrid/treegrid-data.json",
+            idField: 'id',
+            treeField: 'name',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'id', title: 'ID(id)', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'name', title: '名称(name)', width: 180, sortable: true },
+                { field: 'age', title: '年龄(age)', width: 120, sortable: true },
+                { field: 'weight', title: '体重(weight)', width: 120, sortable: true },
+                { field: 'size', title: 'Size(size)', width: 140 },
+                { field: 'date', title: '日期(date)', width: 140, sortable: true },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 140 }
+            ]],
+            rowContextMenu: [
+                { text: "测试菜单1", iconCls: "icon-hamburg-address", disabled: false, handler: function () { alert(1); } },
+                { text: "测试菜单2", iconCls: "icon-hamburg-busy", disabled: false, handler: function (e, row) { alert($.string.format("您点击了{0}", row.name)); } }
+            ],
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            enableRowContextMenu: true,         //此属性开启表头列名称右键点击菜单
+            pagingMenu: { submenu: false },     //开启行右键菜单的翻页功能，此属性可丰富配置，详情见 API 文档
+            autoBindDblClickRow: true           //此属性开启设置将第一个自定的右键菜单事件自动绑定为双击行事件，并且使第一个右键自定菜单文字加粗显示；此属性默认值为 true
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI Treegrid Extensions - 行右键自定义菜单事件自动绑定为行双击事件</h2>
+<p>该部分扩展由文件 jeasyui.extensions.treegrid.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>
+    用鼠标右键点击此表格的数据行试试看；另外，您也可以双击行数据试试；<br />
+    你会发现右键菜单中第一个自定义的菜单项文字加粗显示，另外第一个自定义右键菜单中的事件会在双击行时自动触发；
+</p>
+<table id="t1"></table>
 
 </div>

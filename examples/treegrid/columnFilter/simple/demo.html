@@ -5,26 +5,25 @@
         $("#t1").treegrid({
             title: 'test treegrid',
             width: 900,
-            height: 500,
-            animate: true,
+            height: 400,
             method: "get",
             url: "treegrid/treegrid-data.json",
-            idField: "id",
-            treeField: "name",
+            idField: 'id',
+            treeField: 'name',
             remoteSort: false,
             frozenColumns: [[
                 { field: 'ck', checkbox: true },
-                { title: 'ID', field: 'id', width: 80, sortable: true }
+                { field: 'id', title: 'ID(id)', width: 80, sortable: true }
             ]],
             columns: [[
-                { title: "Name", field: "name", width: 200 },
-                { title: "Size", field: "size", width: 100, align: "right" },
-                { title: "Age", field: "age", width: 140, align: "right" },
-                { title: "Weight", field: "weight", width: 140, align: "right" },
-                { title: "Date", field: "date", width: 150, align: "right" }
+                { field: 'name', title: '名称(name)', width: 180, sortable: true },
+                { field: 'age', title: '年龄(age)', width: 120, sortable: true },
+                { field: 'weight', title: '体重(weight)', width: 120, sortable: true },
+                { field: 'size', title: 'Size(size)', width: 140 },
+                { field: 'date', title: '日期(date)', width: 140, sortable: true },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 140 }
             ]],
             columnFilter: { panelHeight: 100, position: "top" },
-            smooth: false,
             enableHeaderClickMenu: false,
             enableHeaderContextMenu: false,
             enableRowContextMenu: false

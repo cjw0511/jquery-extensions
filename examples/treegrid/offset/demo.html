@@ -2,12 +2,39 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#t1").treegrid({
+            title: 'test treegrid',
+            width: 900,
+            height: 400,
+            method: "get",
+            url: "treegrid/treegrid-data.json",
+            idField: 'id',
+            treeField: 'name',
+            remoteSort: false,
+            frozenColumns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'id', title: 'ID(id)', width: 80, sortable: true }
+            ]],
+            columns: [[
+                { field: 'name', title: '名称(name)', width: 180, sortable: true },
+                { field: 'age', title: '年龄(age)', width: 120, sortable: true },
+                { field: 'weight', title: '体重(weight)', width: 120, sortable: true },
+                { field: 'size', title: 'Size(size)', width: 140 },
+                { field: 'date', title: '日期(date)', width: 140, sortable: true },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 140 }
+            ]],
+            enableHeaderClickMenu: false,
+            enableHeaderContextMenu: false,
+            enableRowContextMenu: false,
+            offset: { width: -250, height: -150}   //该属性属性表示当屏幕大小调整时候随屏幕大小尺寸调整而自身大小调整的偏移量，具体设置方式参见 API 文档说明
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+<h2>jEasyUI TreeGrid Extensions - 自动适应屏幕大小(Offset)</h2>
+<p>该部分扩展由文件 jeasyui.extensions.treegrid.js 实现。</p>
 <hr />
-<h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<p>请试着调整浏览器窗口大小，在移动时/后，可以观察到表格的大小也随之而改变</p>
+<table id="t1"></table>
 
 </div>

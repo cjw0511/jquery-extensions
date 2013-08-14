@@ -7,20 +7,20 @@
                     { "id": 1111, "name": "java.exe", "age": 3, "weight": 21.1, "size": "142 kb", "date": "01/13/2010", "pid": 111 },
                     { "id": 1112, "name": "jawt.dll", "age": 11, "weight": 22, "size": "5 kb", "date": "01/13/2010", "pid": 111 }
                 ] },
-                { "id": 112, "name": "MySQL", "age": 6, "weight": 11.2, "size": "120 MB", "date": "01/13/2010", "state": "closed", "pid": 11, "children": [
+                { "id": 112, "name": "MySQL", "age": 6, "weight": 11.2, "size": "120 MB", "date": "01/13/2010", "pid": 11, "children": [
                     { "id": 1121, "name": "my.ini", "age": 6, "weight": 11.2, "size": "10 kb", "date": "02/26/2009", "pid": 112 },
                     { "id": 1122, "name": "my-huge.ini", "age": 6, "weight": 11.2, "size": "5 kb", "date": "02/26/2009", "pid": 112 },
                     { "id": 1123, "name": "my-large.ini", "age": 6, "weight": 11.2, "size": "5 kb", "date": "02/26/2009", "pid": 112 }
                 ] }
             ] },
-            { "id": 12, "name": "Eclipse", "size": "", "date": "01/20/2010", "pid": 1, "children": [
+            { "id": 12, "name": "Eclipse", "size": "", "date": "01/20/2010", "state": "closed", "pid": 1, "children": [
                 { "id": 121, "name": "eclipse.exe", "size": "56 kb", "date": "05/19/2009", "pid": 12 },
                 { "id": 123, "name": "eclipse.ini", "size": "1 kb", "date": "04/20/2010", "pid": 12 },
                 { "id": 124, "name": "notice.html", "size": "7 kb", "date": "03/17/2005", "pid": 12 }
             ] }
         ] },
 
-        { "id": 2, "name": "B", "age": 13, "weight": 21.1, "size": "", "date": "02/19/2010", "children": [
+        { "id": 2, "name": "B", "age": 13, "weight": 21.1, "size": "", "date": "02/19/2010", "state": "closed", "children": [
             { "id": 21, "name": "B1", "age": 13, "weight": 21.1, "size": "", "date": "02/19/2010", "pid": 2 },
             { "id": 22, "name": "B2", "age": 13, "weight": 21.1, "size": "", "date": "02/19/2010", "pid": 2 },
             { "id": 23, "name": "B3", "age": 13, "weight": 21.1, "size": "", "date": "02/19/2010", "pid": 2 }

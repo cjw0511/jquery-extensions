@@ -61,7 +61,22 @@
         initHeaderColumnFilterContainer(t, opts);
         initRowDndExtensions(t, opts);
         initColumnRowTooltip(t, opts, param.data[opts.idField], param.data);
+        resetTeeIndent(t, opts, param.data[opts.idField], opts.treeField);
         if ($.isFunction(opts.onInsert)) { opts.onInsert.call(target, param.before, param.after, param.data); }
+    };
+    var resetTeeIndent = function (t, opts, id, field) {
+        var dom = t.treegrid("getCellDom", { field: field, id: id }),
+            level = t.treegrid("getLevel", id), child = t.treegrid("getChildren", id);
+        while (dom.find("span.tree-indent,span.tree-hit").length < level) {
+            $("<span></span>").addClass("tree-indent").prependTo(dom);
+        }
+        $.each(child, function () { resetTeeIndent(t, opts, this[opts.idField], field); });
+    };
+
+    var getLevel = function (target, id) {
+        var t = $.util.parseJquery(target), tr = t.treegrid("getRowDom", id);
+        if (!tr || !tr.length) { return 0; }
+        return tr.eq(0).parentsUntil("div.datagrid-body", "tr.treegrid-tr-tree").length + 1;
     };
 
 
@@ -127,7 +142,7 @@
         if (index > -1) { $.array.insert(targetColumns, param.point == "before" ? index : index + 1, sourceOpts); }
         opts = treeOpts;
 
-        if (!sourceFrozen && targetFrozen) { var data = t.treegrid("getData"); t.treegrid("loadData", data); } else { t.treegrid("fixColumnSize"); }
+        if (sourceFrozen || targetFrozen && sourceFrozen != targetFrozen) { var data = t.treegrid("getData"); t.treegrid("loadData", data); } else { t.treegrid("fixColumnSize"); }
         if (sourceFrozen) {
             if (!targetFrozen) {
                 index = $.array.indexOf(exts.fields, param.target);
@@ -1526,6 +1541,9 @@
         //  返回值：如果指定的 jQuery 对象是该 easyui-treegrid 的根节点，则返回 true，否则返回 false。
         isRoot: function (jq, id) { return isRootNode(jq[0], id); },
 
+        //  重写 easyui-treegrid 的方法 getLevel；修复该方法的部分 BUG；用于获取指定节点的级别；该方法的参数 target 表示要获取级别的节点的 idField 值；
+        //  返回值：如果 id 表示的节点存在于此 easyui-treegrid，则返回表示其所在节点级别的数字(从 1 开始计数)，否则返回 0。
+        getLevel: function (jq, id) { return getLevel(jq[0], id); },
 
         //  扩展 easyui-treegrid 的自定义方法；冻结指定的列；该方法的参数 field 表示要冻结的列的 field 值。
         //  返回值：返回表示当前 easyui-treegrid 的 jQuery 链式对象。
@@ -2290,6 +2308,52 @@
 
     $.extend($.fn.treegrid.defaults, defaults);
     $.extend($.fn.treegrid.methods, methods);
+
+
+
+    var view = {
+        onBeforeRender: function (target, id, data) {
+            if ($.isArray(id)) {
+                data = { total: id.length, rows: id };
+                id = null;
+            }
+            if (!data) { return false; }
+            var state = $.data(target, "treegrid");
+            var opts = state.options;
+            if (data.length == undefined) {
+                if (data.footer) { state.footer = data.footer; }
+                if (data.total) { state.total = data.total; }
+                data = this.transfer(target, id, data.rows);
+            }
+            setParent(data.length == undefined ? data.rows : data, id);
+            var node = findRow(target, id);
+            if (node) {
+                if (node.children) {
+                    node.children = node.children.concat(data);
+                } else {
+                    node.children = data;
+                }
+            } else {
+                state.data = state.data.concat(data);
+            }
+            if (!opts.remoteSort) { this.sort(target, data); }
+            this.treeNodes = data;
+            this.treeLevel = $(target).treegrid("getLevel", id);
+
+            function setParent(rows, id) {
+                for (var i = 0; i < rows.length; i++) {
+                    var row = rows[i];
+                    row._parentId = id;
+                    if (row.children && row.children.length) {
+                        setParent(row.children, row[opts.idField]);
+                    }
+                }
+            };
+        }
+    };
+
+    $.extend($.fn.treegrid.defaults.view, view);
+
 
     //  增加扩展插件中要用到的自定义样式
     var css =
