@@ -248,15 +248,16 @@
         } else {
             content.append("<tr><td style='text-align: right; width: 100px;'>options:</td><td>" + String(options) + "</td></tr>");
         }
-        var opts = $.extend({
+        $.extend(opts, {
             title: "显示 options 值",
-            width: 600,
-            height: 300,
+            width: 480,
+            height: 260,
+            content: content,
             autoVCenter: false,
             autoHCenter: false,
             enableSaveButton: false,
             enableApplyButton: false
-        }, opts, { content: content });
+        });
         return $.easyui.showDialog(opts);
     };
 

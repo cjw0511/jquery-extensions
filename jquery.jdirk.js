@@ -103,7 +103,7 @@
     //  测试对象是否是正则表达式（RegExp）。
     coreUtil.isRegExp = function (obj) { return coreUtil.type(obj) == "regexp"; };
 
-    //  测试擦边三个月是否是一个 javscript 对象；
+    //  测试传入的参数是否是一个 javscript 对象；
     coreUtil.isObject = function (obj) { return coreUtil.type(obj) == "object"; };
 
     //  测试对象是否是数组（Array）。
@@ -416,7 +416,7 @@
 
     //  获取浏览器的名称以及版本号。
     //  判断浏览器版本示例：判断浏览器是否为IE：  coreUtil.browser.msie == true，判断浏览器是否为 Chrome：window.browser.chrome == true
-    //  判断浏览器版本号：window.browser.version，IE下可能的值为 6.0/7.0/8.0/9.0/10.0 等等。
+    //  判断浏览器版本号：coreUtil.browser.version，IE下可能的值为 6.0/7.0/8.0/9.0/10.0 等等。
     coreUtil.browser = _browser;
 
 
@@ -2352,7 +2352,10 @@
 
 
 
-
+    //  判断指定的 window 对象是否具有可访问的父级页面；
+    //  返回值：返回一个 Boolean 值；
+    //      当前页面在一个 FRAME/IFRAME 中且父级页面和当前页面同域，则返回 true；
+    //      当前页面不是在一个 FRAME/IFRAME 中或父级页面和当前页面不同域，则返回 false。
     coreUtil.hasParentWindow = function (win) {
         var ret = false;
         try {
@@ -2361,11 +2364,15 @@
         } catch (ex) { }
         return ret;
     };
+    //  获取当前页面的可访问(同域)的顶级页面；
+    //  返回值：返回一个 window 对象；
     coreUtil.getTop = function () {
         var w = window;
         while (coreUtil.hasParentWindow(w) && w != w.parent) { w = w.parent; }
         return w;
     };
+    //  获取当前页面的可访问(同域)的父级页面；
+    //  返回值：返回一个 window 对象；
     coreUtil.getParent = function () {
         var w = window;
         if (coreUtil.hasParentWindow(w) && w != w.parent) { w = w.parent; }
@@ -2410,7 +2417,7 @@
     //  如果当前页面为顶级页面或当前页面的父级页面和当前页面不在同一个域下，则返回 null。
     coreUtil.currentFrameId = null;
 
-    // 获取包含当前页面的 iframe 对象的 uniqueID。
+    //  获取包含当前页面的 iframe 对象的 uniqueID。
     //  如果当前页面为顶级页面或当前页面的父级页面和当前页面不在同一个域下，则返回 null。
     coreUtil.currentFrameUniqueID = null;
     coreUtil.getCurrentFrame = function () {
@@ -2693,25 +2700,43 @@
     //  返回值：返回处理后的 this 的引用。
     coreJquery.prototype.attach = function () {
         var t = this;
-        $.apply(this, arguments).each(function () { if (!t.contains(this)) { t.add(this); } });
+        $.apply(this, arguments).each(function () {
+            if (!t.contains(this)) { core_push.call(t, this); }
+        });
         return t;
     };
 
     //  获取匹配元素相对滚动条顶部的偏移百分比
-    coreJquery.prototype.scrollTopP = function (val) {
+    coreJquery.prototype.scrollTopP = function () {
         var height = this.height();
         height = height <= 0 ? parseFloat(height) : parseFloat(1);
         return this.scrollTop() / height;
     };
 
     //  获取匹配元素相对滚动条左侧的偏移百分比
-    coreJquery.prototype.scrollLeftP = function (val) {
+    coreJquery.prototype.scrollLeftP = function () {
         var width = this.width();
         width = width <= 0 ? parseFloat(width) : parseFloat(1);
         return this.scrollLeft() / width;
     };
 
-    //  将当前表达式匹配到的所有元素及其子元素序列化成 JSON 对象并返回。
+    //  将当前表达式匹配到的所有元素及其子元素序列化成 JSON 对象并返回；该函数定义如下类型的重载方式：
+    //      1、Function(Object)：其中参数 Object 对象定义如下属性：
+    //          onlyEnabled:    表示返回的结果数据中是否仅包含启用(disabled == false)的 HTML 表单控件；Boolean 类型值，默认为 false。
+    //          transcript :    表示当范围内存在重名(name 相同时)的 DOM 元素时，对重复元素的取值规则；
+    ///                 这是一个 String 类型值，可选的值限定在以下范围：
+    //              cover  :    覆盖方式，只取后面元素 的值，丢弃前面元素的值；默认值；
+    //              discard:    丢弃后面元素的值，只取前面元素的值；
+    //              overlay:    将所有元素的值进行叠加；
+    //          overtype   :    元素叠加方式，当 transcript 的值定义为 "overlay" 时，此属性方有效；
+    //                  这是一个 String 类型值，可选的值限定在以下范围：
+    //              array  :    将所有重复的元素叠加为一个数组；
+    //              append :    将所有的重复元素叠加为一个字符串；默认值；
+    //          separator  :    元素叠加的分隔符，定义将所有重名元素叠加为一个字符串时用于拼接字符串的分隔符；
+    //                  这是一个 String 类型值，默认为 ","；当 transcript 的值定义为 "overlay" 且 overtype 的值定义为 "append" 时，此属性方有效。
+    //      2、Function(String)：其中参数 String 表示当范围内存在重名(name 相同时)的 DOM 元素时，对重复元素的取值规则；
+    //          其取值范围和当参数格式为 JSON-Object 时的属性 transcript 一样。
+    //  返回值：该方法返回一个 JSON Object，返回对象中的每个数据都表示一个表单控件值。
     coreJquery.prototype.serializeObject = function (options) {
         var rCRLF = /\r?\n/g,
 	        rsubmitterTypes = /^(?:submit|button|image|reset)$/i,
@@ -2772,6 +2797,9 @@
 
 
     //  创建或定义命名空间；该函数定义如下参数：
+    //      namespace:  要创建的命名空间，不同级别的命名请用符号 "." 隔开，请不要包含任何空格；
+    //      callback:   可选，创建完命名空间后执行的回调函数；
+    //      thisArg:    可选，同参数 callback 一起定义；表示 callback 回调函数执行中的 this 对象
     coreUtil.namespace = function (namespace, callback, thisArg) {
         namespace = coreString.trim(namespace);
         if (!namespace) { return; }

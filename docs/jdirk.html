@@ -1,70 +1,2465 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery jDirk 功能扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.jdirk.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>
+    该扩展依赖于 jquery 基础库，提供了多组工具类方法，并扩充了 JavaScript 基础数据类型的很多方法；
+    基于此扩展，您可以便捷的完成很多复杂的对数据格式或者对浏览器的操作。
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery 1.9.x later</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>首先在您的项目页面引入 jquery 基础框架 1.9.x 版本以上；然后引入该扩展文件即可。以下为部分示例代码</p>
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+    var str = "123";
+    //  下面这三行的代码作用相同，对字符串去空格；
+    var a = $.string.trim(str)
+    var b = String.trim(str);
+    var c = str.trim();
+
+    //  假设当前页的 url 为 "http://127.0.0.1/index.html?a=1&b=2&c=3"，下面这行代码用于获取当前页面的 url 参数列表所构成的一个数组
+    var params = $.util.request;    //$.util.request 属性等效于 $.util.getRequest() 方法
+    alert(params.length);   //输出 3
+    alert(param.a);         //输出 1
+    alert(param.b);         //输出 2
+    alert(param.c);         //输出 3
+    for (var i = 0; i < params.length; i++) {
+        alert(JSON.stringify(params[i]));
+    }
+    //  上面这个循环依次输出:
+    //      { name: "a", value: 1 }
+    //      { name: "b", value: 2 }
+    //      { name: "c", value: 3 }
+
+    //  关于更多用法，请参见下面 API。
+</textarea>
 
 
 <h4>扩展的属性</h4>
-<p>该扩展增加定义了如下属性：</p>
-<table class="doc-table">
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
-
-
-<h4>扩展的事件</h4>
-<p>该扩展增加定义了如下事件：</p>
-<table class="doc-table">
-    <tr>
-        <th>Name</th>
-        <th>Parameters</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
+<p>该扩展增加的自定义属性分为如下几类：</p>
+<ul>
+    <li>
+        common
+        <table class="doc-table">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>jQuery.string</td>
+                <td>function</td>
+                <td>字符串对象(String) 扩展对象基元，在调用代码中应使用附加在该属性上的属性或者方法，而非单独使用该属性。</td>
+            </tr>
+            <tr>
+                <td>jQuery.date</td>
+                <td>function</td>
+                <td>日期对象(Date) 扩展对象基元，在调用代码中应使用附加在该属性上的属性或者方法，而非单独使用该属性。</td>
+            </tr>
+            <tr>
+                <td>jQuery.number</td>
+                <td>function</td>
+                <td>数值对象(Number) 扩展对象基元，在调用代码中应使用附加在该属性上的属性或者方法，而非单独使用该属性。</td>
+            </tr>
+            <tr>
+                <td>jQuery.boolean</td>
+                <td>function</td>
+                <td>布尔值对象(Boolean) 扩展对象基元，在调用代码中应使用附加在该属性上的属性或者方法，而非单独使用该属性。</td>
+            </tr>
+            <tr>
+                <td>jQuery.util</td>
+                <td>function</td>
+                <td>通用工具方法 扩展对象基元，在调用代码中应使用附加在该属性上的属性或者方法，而非单独使用该属性。</td>
+            </tr>
+            <tr>
+                <td>jQuery.nullable</td>
+                <td>function</td>
+                <td>空值 集合基元，在调用代码中应使用附加在该属性上的属性或者方法，而非单独使用该属性。</td>
+            </tr>
+            <tr>
+                <td>jQuery.jquery</td>
+                <td>function</td>
+                <td>jQuery 扩展对象基元，在调用代码中应使用附加在该属性上的属性或者方法，而非单独使用该属性。</td>
+            </tr>
+            <tr>
+                <td>jQuery.html5</td>
+                <td>function</td>
+                <td>HTML5 工具组件对象基元，在调用代码中应使用附加在该属性上的属性或者方法，而非单独使用该属性。</td>
+            </tr>
+            <tr>
+                <td>jQuery.$$</td>
+                <td>jQuery 对象</td>
+                <td>表示一个空的jQuery对象，该对象不包含任何 DOM 元素。</td>
+            </tr>
+            <tr>
+                <td>jQuery.empty$</td>
+                <td>jQuery 对象</td>
+                <td>等效于 jQuery.$$。</td>
+            </tr>
+            <tr>
+                <td>jQuery.emptyJquery</td>
+                <td>jQuery 对象</td>
+                <td>等效于 jQuery.$$。</td>
+            </tr>
+            <tr>
+                <td>jQuery.shineInterval</td>
+                <td>Integer</td>
+                <td>元素闪动的默认时间间隔（毫秒）默认值；该属性仅限于被方法 jQuery.shine 调用；</td>
+            </tr>
+            <tr>
+                <td>jQuery.shineTimes</td>
+                <td>Integer</td>
+                <td>元素闪动的默认次数；该属性仅限于被方法 jQuery.shine 调用；</td>
+            </tr>
+        </table>
+    </li>
+    <li>
+        util
+        <table class="doc-table">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>jQuery.util.document</td>
+                <td>document</td>
+                <td>等效于当前页面的 window.document</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.location</td>
+                <td>location</td>
+                <td>等效于当前页面的 window.location</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.docElem</td>
+                <td>documentElement</td>
+                <td>等效于当前页面的 window.document.documentElement</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.history</td>
+                <td>history</td>
+                <td>等效于当前页面的 window.history</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.noop</td>
+                <td>function</td>
+                <td>定义一个空函数，等效于 jQuery.noop；当你仅仅想要传递一个空函数的时候，就用他吧。这对一些插件作者很有用，当插件提供了一个可选的回调函数接口，那么如果调用的时候没有传递这个回调函数，就用该函数来代替执行</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.request</td>
+                <td>Array</td>
+                <td>
+                    表示当前页面 url 参数所构成的集合；这是一个 Array 类型属性，数组中的每一项都是一个格式为 { name, value } 的 JSON-Object，其中 name 表示参数的名称，value 表示参数的值<br />
+                    对于该数组中的参数项，还可以用 jQuery.util.request[parameterName] 的方法来直接访问某个参数的值，其中 parameterName 表示参数的名称；
+                </td>
+            </tr>
+            <tr>
+                <td>jQuery.util.hostPath</td>
+                <td>String</td>
+                <td>表示当前应用程序的完整主机地址部分，格式如(http://127.0.0.1)</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.currentUri</td>
+                <td>String</td>
+                <td>返回当前页面不带参数的完整路径，格式如(http://127.0.0.1/index.html)</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.currentPath</td>
+                <td>String</td>
+                <td>
+                    返回当前页面所在目录的完整路径；<br />
+                    例如，当前页面的完整路径为 http://127.0.0.1/home/index.html ，则该属性值为 http://127.0.0.1/home
+                </td>
+            </tr>
+            <tr>
+                <td>jQuery.util.rootDegree</td>
+                <td>Integer</td>
+                <td>
+                    <span class="stress">重要</span>
+                    获取或设置当前应用程序所嵌套的虚拟目录的层数；默认为 0，表示未嵌套虚拟目录。<br />
+                    例如，如果当前应用程序部署在虚拟目录 app 下，则应设置该属性值为 1；<br />
+                    如果当前应用程序部署在虚拟目录 app/home 下，则应设置该属性值为 2；<br />
+                    <span class="stress">该属性值会影响如下属性或者方法：</span>
+                    <ul>
+                        <li>属性 jQuery.util.rootPath</li>
+                        <li>方法 jQuery.util.resolveUrl</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>jQuery.util.rootPath</td>
+                <td>String</td>
+                <td>当前应用程序（含站点名或者虚拟目录路径）的完整根路径。<span class="stress">该属性的准确性依赖于全局参数 jQuery.util.rootDegree 值准确性。</span></td>
+            </tr>
+            <tr>
+                <td>jQuery.util.browser</td>
+                <td>Object</td>
+                <td>
+                    获取浏览器内核标识。依据 navigator.userAgent 判断；mozilla 此属性在 DOM 树加载完成前即有效，可用于为特定浏览器设置 ready 事件。 浏览器对象检测技术与此属性共同使用可提供可靠的浏览器检测支持；<br />
+                    判断浏览器版本示例：判断浏览器是否为IE：  jQuery.util.browser.msie == true<br />
+                    判断浏览器是否为 Chrome：jQuery.util.browser.chrome == true<br />
+                    判断浏览器版本号：jQuery.util.browser.version，IE下可能的值为 6.0/7.0/8.0/9.0/10.0/11.0 等等。
+                </td>
+            </tr>
+            <tr>
+                <td>jQuery.util.uniqueIdName</td>
+                <td>String</td>
+                <td>获取或设置浏览器自动给所有 DOM 元素增加的唯一标识符的名称。</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.parent</td>
+                <td>Window</td>
+                <td>获取当前页面可访问(同域)的父级页面；如果当前页面不是在一个 FRAME/IFRAME 中或者其父级页面和当前页面不同域，则直接当前当前页面的 window 对象</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.top</td>
+                <td>Window</td>
+                <td>
+                    获取当前页面可访问(同域)的顶级页面；如果当前页面不是在一个 FRAME/IFRAME 中或者其父级页面和当前页面不同域，则直接当前当前页面的 window 对象<br />
+                    该方法从当前页面开始向上递归探测，直至遇到的父级页面和当前页面不同域或者父级页面为顶级页面而停止。
+                 </td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isTopMost</td>
+                <td>Boolean</td>
+                <td>获取表示当前浏览器是否为顶级页面的一个标识属性</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isTop</td>
+                <td>Boolean</td>
+                <td>等效于 jQuery.util.isTopMost</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.$</td>
+                <td>jQuery 对象</td>
+                <td>获取表示当前页面所在的可访问顶级页面(同域)的 jQuery 对象；如果顶级窗口不存在 jQuery 对象或者 jQuery 对象无法访问(例如跨域情况下) 则返回次级 jQuery 对象；以此类推；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.jQuery</td>
+                <td>jQuery 对象</td>
+                <td>等效于 jQuery.util.$</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.topJquery</td>
+                <td>jQuery 对象</td>
+                <td>等效于 jQuery.util.$</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.currentFrame</td>
+                <td>HTML-DOM FRAME/IFRAME</td>
+                <td>获取当前页面所在的 FRAME/IFRAME 的标签 DOM 对象，如果当前页面为顶级页面或当前的父级页面和当前页面不在同一域下，则返回 null。</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.currentFrameId</td>
+                <td>String</td>
+                <td>获取当前页面所在的 FRAME/IFRAME 的标签 DOM 对象的 id 属性值，如果当前页面为顶级页面或当前的父级页面和当前页面不在同一域下，则返回 null。</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.currentFrameUniqueID</td>
+                <td>String</td>
+                <td>获取当前页面所在的 FRAME/IFRAME 的标签 DOM 对象的 uniqueID 属性值，如果当前页面为顶级页面或当前的父级页面和当前页面不在同一域下，则返回 null。</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.$$</td>
+                <td>jQuery 对象</td>
+                <td>表示一个空的jQuery对象，该对象不包含任何 DOM 元素。</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.empty$</td>
+                <td>jQuery 对象</td>
+                <td>等效于 jQuery.$$。</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.emptyJquery</td>
+                <td>jQuery 对象</td>
+                <td>等效于 jQuery.$$。</td>
+            </tr>
+        </table>
+    </li>
+</ul>
 
 
 <h4>扩展的方法</h4>
-<p>该扩展增加定义了如下方法：</p>
-<table class="doc-table">
-    <tr>
-        <th>Name</th>
-        <th>Parameters</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
+<p>
+    对于类型为 String、Array、Date、Number 的扩展方法，除了可以用 jQuery.xxx.xxx 的方式调用外，还可以直接用 JavaScript 基础对象的静态方法来调用；例如：
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [3,4,8,9]" >
+        var a = [];
+        //  以下两行代码等效
+        var b = $.array.isArray(a);
+        var c = Array.isArray(a);
+
+        var d = "";
+        //  以下两行代码等效
+        var e = $.string.isNullOrEmpty(d);
+        var f = String.isNullOrEmpty(d);
+    </textarea>
+    <br />
+    如果该方法的 Component 属性被标记为 "Y"，则说明该方法还可以通过该 JavaScript 基础数据类型的实例方法方式来调用；例如：
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [3,4,5,9,10,11]" >
+        var a = [1, 1, 2, 2, 3];
+        //  以下三行代码等效
+        var b = $.array.distinct(a);
+        var c = Array.distinct(a);
+        var d = a.distinct();
+        
+        var e = "this is {0}.";
+        //  以下三行代码等效
+        var f = $.string.format(e, "jdirk");
+        var g = String.format(e, "jdirk");
+        var h = e.format("jdirk");
+    </textarea>
+</p>
+<p>该扩展增加的自定义方法分为如下几类：</p>
+<ul>
+    <li>
+        jquery
+        <table class="doc-table">
+            <tr>
+                <th>Name</th>
+                <th>Parameters</th>
+                <th>Description</th>
+                <th>Returns</th>
+            </tr>
+            <tr>
+                <td>hasUniqueID</td>
+                <td>无</td>
+                <td>判断当前 jQuery 对象包含的所有 DOM 元素中第一个元素是否具有 uniqueID 属性值</td>
+                <td>返回一个 Boolean 类型值</td>
+            </tr>
+            <tr>
+                <td>getUniqueID</td>
+                <td>none</td>
+                <td>获取当前 jQuery 对象包含的所有 DOM 元素中第一个元素的 uniqueID 属性值；</td>
+                <td>返回一个 String 类型值；如果匹配的元素没有 uniqueID 属性，则返回 null。</td>
+            </tr>
+            <tr>
+                <td>setUniqueID</td>
+                <td>uniqueID</td>
+                <td>
+                    设置当前 jQuery 对象包含的所有元素的 uniqueID 属性值；该函数定义如下参数：<br />
+                    uniqueID：可选，一个 String 类型值，表示要设置的 uniqueID 属性值；如果不定义该值，则默认用 jQuery.util.guid() 为其创建一个随机值。
+                </td>
+                <td>无</td>
+            </tr>
+            <tr>
+                <td>initUniqueID</td>
+                <td>无</td>
+                <td>初始化当前 jQuery 对象包含的所有元素的 uniqueID 属性值；该方法会检测当前 jQuery 对象包含的所有 DOM 元素，如果元素存在 uniqueID 属性值，则不进行任何操作，否则给其赋一个随机创建的 uniqueID 属性值。</td>
+                <td>无</td>
+            </tr>
+            <tr>
+                <td>uniqueID</td>
+                <td>uniqueID</td>
+                <td>
+                    获取或设置当前表达式元素的 uniqueID 属性值；该方法的参数 uniqueID 可选；<br />
+                    如果定义了参数 uniqueID，则设置当前 jQuery 包含的所有元素的 uniqueID 属性值；
+                    如果不定义任何参数，则获取当前 jQuery 包含的所有元素中第一个元素的 uniqueID 属性值；
+                </td>
+                <td>返回一个 String 类型值；或者没有返回值</td>
+            </tr>
+            <tr>
+                <td>isFocus</td>
+                <td>无</td>
+                <td>判断当前匹配到的元素是否具有焦点</td>
+                <td>返回一个 Boolean 类型值</td>
+            </tr>
+            <tr>
+                <td>contains</td>
+                <td>elem</td>
+                <td>
+                    测试当前 jQuery 对象是否包含另一个 DOM 对象；该函数定义如下参数：<br />
+                    elem:   DOM 节点，可能被其他元素包含<br />
+                    返回值：如果 item DOM节点包含在 this 指向的当前 jQuery 对象中，则返回 true，否则返回 false。
+                </td>
+                <td>返回一个 Boolean 类型值</td>
+            </tr>
+            <tr>
+                <td>attach</td>
+                <td>同 jQuery 查找元素的参数格式一样</td>
+                <td>如果当前 jQuery 对象不包含指定表达式匹配的元素，则把与表达式匹配的元素添加到 jQuery 对象中。这个函数可以用于连接分别与两个表达式匹配的元素结果集；</td>
+                <td>返回当前 jQuery 链式对象</td>
+            </tr>
+            <tr>
+                <td>scrollTopP</td>
+                <td>空</td>
+                <td>获取当前 jQuery 包含的所有元素中第一个元素的滚动条拖动相对于顶部的偏移百分比。</td>
+                <td>返回一个介意 0-1 之间的 float 类型值。</td>
+            </tr>
+            <tr>
+                <td>scrollLeftP</td>
+                <td>空</td>
+                <td>获取当前 jQuery 包含的所有元素中第一个元素的滚动条拖动相对于左侧的偏移百分比。</td>
+                <td>返回一个介意 0-1 之间的 float 类型值。</td>
+            </tr>
+            <tr>
+                <td>serializeObject</td>
+                <td>param</td>
+                <td>
+                    将当前表达式匹配到的所有元素及其子元素序列化成 JSON 对象并返回；该函数定义如下类型的重载方式：<br />
+                    1、Function(Object)：其中参数 Object 对象定义如下属性：<br />
+                    &nbsp;&nbsp;&nbsp;onlyEnabled:    表示返回的结果数据中是否仅包含启用(disabled == false)的 HTML 表单控件；Boolean 类型值，默认为 false。<br />
+                    &nbsp;&nbsp;&nbsp;transcript :    表示当范围内存在重名(name 相同时)的 DOM 元素时，对重复元素的取值规则；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一个 String 类型值，可选的值限定在以下范围：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cover  :    覆盖方式，只取后面元素 的值，丢弃前面元素的值；默认值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;discard:    丢弃后面元素的值，只取前面元素的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay:    将所有元素的值进行叠加；<br />
+                    &nbsp;&nbsp;&nbsp;overtype   :    元素叠加方式，当 transcript 的值定义为 "overlay" 时，此属性方有效；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一个 String 类型值，可选的值限定在以下范围：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array  :    将所有重复的元素叠加为一个数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;append :    将所有的重复元素叠加为一个字符串；默认值；<br />
+                    &nbsp;&nbsp;&nbsp;separator  :    元素叠加的分隔符，定义将所有重名元素叠加为一个字符串时用于拼接字符串的分隔符；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一个 String 类型值，默认为 ","；当 transcript 的值定义为 "overlay" 且 overtype 的值定义为 "append" 时，此属性方有效。<br />
+                    2、Function(String)：其中参数 String 表示当范围内存在重名(name 相同时)的 DOM 元素时，对重复元素的取值规则；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其取值范围和当参数格式为 JSON-Object 时的属性 transcript 一样。
+                </td>
+                <td>该方法返回一个 JSON Object，返回对象中的每个数据都表示一个表单控件值。</td>
+            </tr>
+            <tr>
+                <td>jQuery.shine</td>
+                <td>selector, interval, times</td>
+                <td>
+                    使表达式匹配到的所有 DOM 元素闪动；该方法定义如下参数：<br />
+                    selector:   用于匹配要闪动的元素的 jQuery 表达式；
+                    interval:   可选，一个 Integer 类型值，表示元素闪动的时间间隔；默认为 100 毫秒；
+                    times：     可选，一个 Integer 类型值，表示元素闪动的次数；默认为 10 次。
+                </td>
+                <td>返回当前 selector 匹配到的所有元素的 jQuery 对象。</td>
+            </tr>
+            <tr>
+                <td>shine</td>
+                <td>interval, times</td>
+                <td>同 jQuery.shine 方法，这是该方法的 jQuery 实例对象调用方式</td>
+                <td>返回当前 jQuery 链式对象</td>
+            </tr>
+            <tr>
+                <td>jQuery.union</td>
+                <td>同 jQuery.extend 方法相同的参数列表</td>
+                <td>
+                    用一个或多个其他对象来扩展一个对象，并返回被扩展的对象；该方法的参数类型同 jQuery.extend，并且该方法的作用也与 jQuery.extend 方法类似；
+                    该方法与 jQuery.extend 不同之处在于：<br />
+                    jQuery.extend 是用后面的对象中的属性值，来覆盖前面参数对象的属性值；<br />
+                    jQuery.union  是用后面的对象中的属性值，来补充前面参数对象的属性值；如果前面参数中存在该属性，则忽略后面参数中的该属性；如果不存在，才用后面参数中的相应属性；<br />
+                    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+                        var a = $.extend({ a: 1, b: 2, c: 3 }, { a: 8, b: 9, d: 4 });   // a = { a: 8, b: 9, c: 3, d: 4 }
+                        var b = $.union({ a: 1, b: 2, c: 3 }, { a: 8, b: 9, d: 4 });    // b = { a: 1, b: 2, c: 3, d: 4 }
+                    </textarea>
+                </td>
+                <td>返回被扩展的对象</td>
+            </tr>
+            <tr>
+                <td>jQuery.fn.union</td>
+                <td>同 jQuery.fn.extend 方法的相同的参数列表</td>
+                <td>该方法类似于 jQuery.fn.extend，用于对 jQuery 的成员方法进行扩展；与 jQuery.fn.extend 的区别也和 jQuery.union 与 jQuery.extend 的区别相同。</td>
+                <td>返回被扩展的对象</td>
+            </tr>
+
+        </table>
+    </li>
+    <li>
+        util
+        <table class="doc-table">
+            <tr>
+                <th>Name</th>
+                <th>Parameters</th>
+                <th>Description</th>
+                <th>Returns</th>
+            </tr>
+            <tr>
+                <td>jQuery.util.type</td>
+                <td>object</td>
+                <td>获取指定对象的数据类型</td>
+                <td>返回表示该对象类型的字符串，例如 "string"、"date"、"array" 等</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isWindow</td>
+                <td>object</td>
+                <td>测试对象是否是窗口(Window 对象，有可能是 Frame/IRrame)</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isBoolean</td>
+                <td>object</td>
+                <td>测试对象是否是布尔(Boolean)类型值</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isString</td>
+                <td>object</td>
+                <td>测试对象是否是字符串（String）类型值</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isDate</td>
+                <td>object</td>
+                <td>测试对象是否是日期（Date）类型值</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isRegExp</td>
+                <td>object</td>
+                <td>测试对象是否是正则表达式（RegExp）</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isObject</td>
+                <td>object</td>
+                <td>测试传入的参数是否是一个 javscript 对象</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isArray</td>
+                <td>object</td>
+                <td>测试对象是否是数组（Array）</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isFunction</td>
+                <td>object</td>
+                <td>
+                    测试对象是否是函数。<br />
+                    注意：在IE浏览器里，浏览器提供的函数比如'alert'还有 DOM 元素的方法比如 'getAttribute' 将不认为是函数。
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isEmptyObject</td>
+                <td>object</td>
+                <td>
+                    测试对象是否是空对象（不包含任何属性）。<br />
+                    这个方法既检测对象本身的属性，也检测从原型继承的属性（因此没有使用hasOwnProperty）。
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isPlainObject</td>
+                <td>object</td>
+                <td>测试对象是否是纯粹的对象（通过 "{}" 或者 "new Object" 创建的）。</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isJqueryObject</td>
+                <td>object</td>
+                <td>测试对象是否是 jQuery 对象。</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.isEmptyJquery</td>
+                <td>object</td>
+                <td>判断对象是否是一个空的 jQuery 对象(不包含任何 DOM 元素，即 length = 0)。</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.parseJqueryObject</td>
+                <td>object</td>
+                <td>
+                    将一个 DOM 对象或者表达式解析为 jQuery 对象；<br />
+                    如果该对象本身就已经是一个 jQuery 对象，则直接将其返回。
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.likeArray</td>
+                <td>object</td>
+                <td>
+                    检测一个对象是否为一个数组对象或者类似于数组对（具有数组的访问方式：具有 length 属性、且具有属性名为数字的索引访问器）<br />
+                    注意：此方法传入 字符串 时执行，也会返回 true，因为 字符串 是一个字符数组。
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getRequest</td>
+                <td>空</td>
+                <td>
+                    获取当前页面 url 参数。<br />
+                    返回值：该方法返回一个数组，数组中的每个元素都是一个 JSON 对象，该 JSON 对象包含如下属性：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:   表示 url 参数的名称；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value:  表示 url 参数的值；<br />
+                    也可以通过数组访问器快速访问某个特定名称的参数值，方法如：coreUtil.getRequest()["id"]。<br />
+                    该方法的返回值等效于属性 jQuery.util.request。
+                </td>
+                <td>Array</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.guid</td>
+                <td>format, length</td>
+                <td>
+                    生成一个 Guid(全球唯一标识符) 值；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;format: String 类型值，一个单格式说明符，它指示如何格式化此 Guid 的值。‎format 参数可以是：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"N":    返回值的格式 32 位(xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx)<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"D":    返回值的格式 由连字符分隔的 32 位数字(xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"B":    返回值的格式 括在大括号中、由连字符分隔的 32 位数字({xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx})<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"P":    返回值的格式 括在圆括号中、由连字符分隔的 32 位数字((xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx))<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 format 为 null 或空字符串 ("")，则使用 "D"。<br />
+                    &nbsp;&nbsp;&nbsp;length: Number 类型值，表示返回字符串的长度；如果不定义该参数，则全部返回。
+                </td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getHostPath</td>
+                <td>空</td>
+                <td>
+                    获取当前应用程序的完整主机地址部分，返回的结果格式如( http://127.0.0.1 )<br />
+                    该方法的返回值等效于属性 jQuery.util.hostPath
+                </td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getRootPath</td>
+                <td>空</td>
+                <td>
+                    返回当前应用程序（含站点名或者虚拟目录路径）的完整根路径。<br />
+                    该方法依赖于全局参数 jQuery.util.rootDegree 的值。<br />
+                    jQuery.util 参数设置正确，该方法方能返回正确的结果。<br />
+                    该方法的返回值等效于属性 jQuery.util.rootPath
+                </td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.resolveUrl</td>
+                <td>url</td>
+                <td>
+                    根据传入的 uri 地址返回该 uri 相对于应用程序的完整客户端访问url地址。<br />
+                    传入的 uri 地址应为相对于应用程序根路径的完整地址。<br />
+                    该方法依赖于当前文件的 jQuery.util.rootPath 属性。
+                </td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.resolveClientUrl</td>
+                <td>url</td>
+                <td>
+                    该方法等效于 jQuery.util.resolveUrl
+                </td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.closeWindowNoConfirm</td>
+                <td></td>
+                <td>在不弹出关闭提示确认的情况下直接关闭当前浏览器窗口。</td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.closeWindow</td>
+                <td></td>
+                <td>关闭当前浏览器窗口，同 window.close。</td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.shieldContxtMenuEvent</td>
+                <td>callback</td>
+                <td>
+                    屏蔽当前页面的鼠标右键默认事件，而调用指定的回调函数。<br />
+                    参数 callback 表示要执行的回调函数；如果回调函数为空，则点击鼠标右键没有任何反应。
+                    <span class="stress">不建议使用该方法，而是用 jquery 自带的事件函数 conextmenu 来实现相应功能。</span>
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.loadJs</td>
+                <td>url, callback</td>
+                <td>
+                    动态引入一个或多个 javascript 脚本文件至当前页面文档，并在引入成功后调用指定的回调函数。<br />
+                   参数 url 表示需要载入的 javascript 脚本路径；如果需要一次性载入多个脚本，则 url 可以是一个数组，数组中每个元素表示 javascript 脚本路径。<br />
+                   参数 callback 可选，表示在引入文件后需要执行的回调函数；
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.loadCss</td>
+                <td>url, callback</td>
+                <td>
+                   动态引入一个或多个 css 样式表文件至当前页面文档，并在引入成功后调用指定的回调函数。<br />
+                   参数 url 表示需要载入的 css 样式表文件路径；如果需要一次性载入多个样式表文件，则 url 可以是一个数组，数组中每个元素表示 css 样式表文件。<br />
+                   参数 callback 可选，表示在引入文件后需要执行的回调函数；
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.eachCall</td>
+                <td>obj, call, times</td>
+                <td>
+                   对某个对象及其所有可见属性进行多次嵌套递归循环调用某个方法；该函数定义如下参数：<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj:    目标对象<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call:   要被针对目标对象循环调用的方法<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;times:  嵌套的层数
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.preventExtensions</td>
+                <td>obj, times</td>
+                <td>
+                   阻止向对象添加新属性(模拟 Object.preventExtensions 方法)；该函数定义如下参数：<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj:    目标对象<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;times:  要被循环操作的层数，默认为 1
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.seal</td>
+                <td>obj, times</td>
+                <td>
+                   阻止修改现有属性的特性，并阻止添加新属性。(模拟 Object.seal 方法)；该函数定义如下参数：<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj:    目标对象<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;times:  要被循环操作的层数，默认为 1
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.freeze</td>
+                <td>obj, times</td>
+                <td>
+                   阻止修改现有属性的特性和值，并阻止添加新属性。(模拟 Object.freeze 方法)；该函数定义如下参数：<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj:    目标对象<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;times:  要被循环操作的层数，默认为 1
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.call</td>
+                <td>code, millisec</td>
+                <td>
+                   在指定的毫秒数后调用函数或计算表达式；该函数定义如下参数：<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code:       必需。要调用的函数后要执行的 JavaScript 代码串。<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;millisec:   可选。在执行代码前需等待的毫秒数。<br />
+                   模拟 setTimeout 方法。
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.equalsCompare</td>
+                <td>item1, item2</td>
+                <td>
+                   定义默认的对象比较函数，该函数返回一个 bool 值表示传入的两个对象是否等值。
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.numericCompare</td>
+                <td>a, b</td>
+                <td>
+                   定义默认的数值比较函数，该函数返回一个 int 值，该返回值的意义如下：<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果大于 0，则表示 a > b；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果小于 0，则表示 a < b；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果等于 0，则表示 a == b。
+                </td>
+                <td>Integer</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.equals</td>
+                <td>item1, item2, compare</td>
+                <td>
+                   确认两个 javascript 对象是否等值，该函数定义如下参数:<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item1: 待比较的对象1；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item2: 待比较的对象2，用于和对象1进行比较；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 用于比较运算的函数，该函数用于比较 item1 是否与 item2 等值；该函数返回一个 bool 值；这是一个可选参数。<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名应该是 function (item1, item2) { }，参数 item1 表示源数组中的项、item2 表示要进行比较的项；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；<br />
+                   返回值：如果 item1 与 item2 等值，则返回 true，否则返回 false。
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.compare</td>
+                <td>item1, item2, compare</td>
+                <td>
+                   比较两个 javascript 对象的大小，该函数定义如下参数：<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item1: 待比较的对象1；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item2: 待比较的对象2，用于和对象1进行比较；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 比较函数，该函数被循环调用，用于比较 array 中没两项的大小；这是一个可选参数；
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名为 function (a, b) { }，参数 a、b 分别表示源数组中的待比较大小的项；该函数必须返回一个数值表示比较后的结果；
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a > b ，则返回一个 大于 0 的值；
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a < b ，则返回一个 小于 0 的值；
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a == b，则返回 0；
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义该参数，则默认将 array 中的每一项当作数字来进行比较。
+                   返回值：如果 item1 > item2 ，则返回一个 大于 0 的值；
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 item1 < item2 ，则返回一个 小于 0 的值；
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 item1 == item2，则返回 0；
+                </td>
+                <td>Inetger</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getElementUniqueID</td>
+                <td>element</td>
+                <td>
+                    获取 HTML DOM 对象的 GUID 值；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要获取 uniqueID 属性的 DOM 对象；
+                    返回值：返回 element 元素的 uniqueID 值；如果该元素未定义该值，则返回 undefined。
+                </td>
+                <td>String 或 undefined</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.hasUniqueID</td>
+                <td>element</td>
+                <td>
+                    判断 HTML DOM 对象是否具有 uniqueID 属性；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要判断是否具有 uniqueID 属性的 DOM 对象。
+                    返回值：如果 element 元素具有 uniqueID 属性，则返回 true，否则返回 false。
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.setElementUniqueID</td>
+                <td>element, uniqueID</td>
+                <td>
+                    给 HTML DOM 对象设置一个新的 uniqueID 值；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要设置 uniqueID 属性的 DOM 对象；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uniqueID:   可选，表示要给 element 元素设置的 uniqueID 值；如果不定义该值，则会调用 coreUtil.guid 方法自动生成一个 uniqueID 值。
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.initElementUniqueID</td>
+                <td>element</td>
+                <td>
+                    初始化 HTML DOM 对象的 uniqueID 值；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要初始化 uniqueID 属性的 DOM 对象；
+                    备注：该方法判断 element 元素是否具有 uniqueID 属性值，如果有则不进行任何更改；如果没有则为期设置一个新的 uniqueID 值。
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.setEnableUniqueID</td>
+                <td>enableUniqueID</td>
+                <td>
+                    启用或者禁用浏览器自动给 DOM 元素设置全局唯一标识符功能；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enableUniqueID；必须，布尔类型值，表示启用或禁用该功能；
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.enableUniqueID</td>
+                <td>无</td>
+                <td>
+                    启用浏览器自动给 DOM 元素设置全局唯一标识符功能；
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.disableUniqueID</td>
+                <td>无</td>
+                <td>
+                    禁用浏览器自动给 DOM 元素设置全局唯一标识符功能；
+                </td>
+                <td>无返回值</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getEnableUniqueID</td>
+                <td>无</td>
+                <td>
+                    获取浏览器是否启用了自动给 DOM 元素设置全局唯一标识符功能；
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.hasParentWindow</td>
+                <td>window</td>
+                <td>
+                    判断指定的 window 对象是否具有可访问的父级页面；<br />
+                    返回值：返回一个 Boolean 值；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前页面在一个 FRAME/IFRAME 中且父级页面和当前页面同域，则返回 true；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前页面不是在一个 FRAME/IFRAME 中或父级页面和当前页面不同域，则返回 false。
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getTop</td>
+                <td>无</td>
+                <td>
+                    获取当前页面的可访问(同域)的顶级页面；<br />
+                    返回值：返回一个 window 对象；<br />
+                    该函数的返回值等效于属性 jQuery.util.top
+                </td>
+                <td>window</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getParent</td>
+                <td>无</td>
+                <td>
+                    获取当前页面的可访问(同域)的父级页面；<br />
+                    返回值：返回一个 window 对象；<br />
+                    该函数的返回值等效于属性 jQuery.util.parent
+                </td>
+                <td>window</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.hasParentJquery</td>
+                <td>window</td>
+                <td>
+                    判断指定的 window 对象是否具有可访问的父级页面并且父级页面具有 jQuery 对象；<br />
+                    返回值：返回一个 Boolean 值；
+                </td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getTopJquery</td>
+                <td>无</td>
+                <td>
+                    获取当前页面的可访问(同域)的顶级页面的 jQuery 对象；<br />
+                    返回值：返回一个 jQuery 函数对象；<br />
+                    该函数的返回值等效于属性 jQuery.util.$
+                </td>
+                <td>返回一个 jQuery 函数对象</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getCurrentFrame</td>
+                <td>无</td>
+                <td>
+                    获取当前页面所在的 FRAME/IFRAME 的 FRAME/IFRAME 对象；<br />
+                    返回值：返回一个 FRAME/IFRAME 对象；<br />
+                    该函数的返回值等效于属性 jQuery.util.currentFrame
+                </td>
+                <td>返回一个 FRAME/IFRAME 对象；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.getActiveElement</td>
+                <td>无</td>
+                <td>
+                    获取当前焦点对象；
+                </td>
+                <td>返回一个 jQuery 对象；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.windowSize</td>
+                <td>无</td>
+                <td>
+                    获取或设置当前 window 窗体的大小
+                </td>
+                <td>返回一个 { width, height } 对象；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.windowOffset</td>
+                <td>无</td>
+                <td>
+                    获取或设置当前 window 窗体的位置；
+                </td>
+                <td>返回一个 { top, left } 对象；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.windowPosition</td>
+                <td>无</td>
+                <td>
+                    获取或设置当前 window 窗体的大小和位置；
+                </td>
+                <td>返回一个 { width, height, top, left } 对象；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.parseMapFunction</td>
+                <td>obj</td>
+                <td>
+                    解析键值对格式对象中键值格式为 key: function 的 JSON 格式对象的函数运算值并返回解析后的数据；该函数定义如下参数：<br />
+                    返回值：返回对象中所有的 key: function 中的 function 运算后的结果与 key 序列组合成的新的对象副本；<br />
+                    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+                        var obj = { arg: 20, sex: function () { return "男"; } };
+                        coreUtil.parseMapFunction(obj);     //此时，obj 的值为：{ arg: 20, sex: "男" }。
+                    </textarea>
+                </td>
+                <td>返回一个 JSON-Object 对象；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.parseJSON</td>
+                <td>data</td>
+                <td>
+                    将通过 SOA(例如 ASP.NET 一般处理程序 或者 WebService) 方式返回的数据转换成 JSON 格式数据。
+                </td>
+                <td>返回一个 JSON-Object 对象；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.requestAjaxData</td>
+                <td>url, args</td>
+                <td>
+                    采用同步发送 ajax 请求的方式，以指定的参数请求远程数据并返回；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url:    请求的远程服务地址；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;args:   发送至远程服务的数据，在发送数据之前该参数将会被序列化；<br />
+                    返回值：返回远程请求的数据；<br />
+                    备注：该方法为 $.ajax 方法的快捷调用，采用 post 方式提交，并且 async 属性设置为 false；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果需要更加丰富的 ajax 调用，请使用 $.ajax 方法。
+                </td>
+                <td>返回远程请求的数据；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.requestAjaxBoolean</td>
+                <td>url, args</td>
+                <td>
+                     采用同步发送 ajax 请求的方式，以指定的参数请求远程布尔类型数据并返回；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url:    请求的远程服务地址；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;args:   发送至远程服务的数据，在发送数据之前该参数将会被序列化；<br />
+                    返回值：返回远程请求的布尔数据；<br />
+                    备注：该方法为 $.ajax 方法的快捷调用，采用 post 方式提交，并且 async 属性设置为 false；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果需要更加丰富的 ajax 调用，请使用 $.ajax 方法。
+                </td>
+                <td>返回远程请求的布尔数据；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.requestAjaxJson</td>
+                <td>url, args</td>
+                <td>
+                    采用同步发送 ajax 请求的方式，以指定的参数请求远程数据并将其转换成 JSON 格式后返回；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url:    请求的远程服务地址；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;args:   发送至远程服务的数据，在发送数据之前该参数将会被序列化；<br />
+                    返回值：返回转换成 JSON 格式后的远程请求的数据；<br />
+                    备注：该方法为 $.ajax 方法的快捷调用，采用 post 方式提交，并且 async 属性设置为 false；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果需要更加丰富的 ajax 调用，请使用 $.ajax 方法。
+                </td>
+                <td>返回转换成 JSON 格式后的远程请求的数据；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.addCss</td>
+                <td>context, target</td>
+                <td>
+                    以指定的 CSS 内容创建一个 CSS 对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context: 表示 css 内容；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:  该参数可选；表示包含该 css 的 style 标签被添加到的目标位置，可以是一个 DOM 对象或者 jQuery 对象。<br />
+                    返回值：返回创建的 CSS 标签的 jQuery DOM 对象；<br />
+                    备注：该方法会在 target 表示的 DOM 对象或当前页面的 head 中添加一个 <style type="text/css"></style> 标签，标签中的内容即为传入的 context 值。
+                </td>
+                <td>返回创建的 CSS 标签的 jQuery DOM 对象；</td>
+            </tr>
+            <tr>
+                <td>jQuery.util.namespace</td>
+                <td>namespace, callback, thisArg</td>
+                <td>
+                    创建或定义命名空间；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;要创建的命名空间，不同级别的命名请用符号 "." 隔开，请不要包含任何空格；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可选，创建完命名空间后执行的回调函数；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisArg:    可选，同参数 callback 一起定义；表示 callback 回调函数执行中的 this 对象
+                </td>
+                <td>无返回值</td>
+            </tr>
+        </table>
+    </li>
+    <li>
+        String
+        <table class="doc-table">
+            <tr>
+                <th>Name</th>
+                <th>Parameters</th>
+                <th>Description</th>
+                <th>Returns</th>
+                <th>Component</th>
+            </tr>
+            <tr>
+                <td>jQuery.string.isString</td>
+                <td>object</td>
+                <td>判断传入的对象是否是一个字符串</td>
+                <td>Boolean</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isNullOrEmpty</td>
+                <td>str</td>
+                <td>判断传入的字符串是否为Null或者为空字符串。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isNullOrWhiteSpace</td>
+                <td>str</td>
+                <td>判断传入的字符串是否为Null或者为空字符串或者全是空格。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.replaceAll</td>
+                <td>str, substr, replacement, ignoreCase</td>
+                <td>
+                    用新字符串替换与给定字符串匹配的所有子串；该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。
+                </td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.format</td>
+                <td>str, arg1, arg2, arg3, argn</td>
+                <td>
+                    格式化字符串，类似于 .NET 中的 string.format 函数功能<br />
+                    使用方法：coreString.format('字符串{0}字符串{1}字符串','第一个变量','第二个变量','第三个变量', ...'第 N 个变量');<br />
+                    该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。
+                </td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.contains</td>
+                <td>str, val</td>
+                <td>
+                    判断当前字符串对象是否包含指定的字符串内容。
+                </td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.reverse</td>
+                <td>str</td>
+                <td>字符串反转；该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.ltrim</td>
+                <td>str</td>
+                <td>去除字符串左边的空格；该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.rtrim</td>
+                <td>str</td>
+                <td>去除字符串右边的空格；该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.trim</td>
+                <td>str</td>
+                <td>去除字符串左右两边的空格；该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.padLeft</td>
+                <td>str, len, paddingChar</td>
+                <td>返回一个新字符串，该字符串通过在此实例中的字符左侧填充空格或指定字符来来达到指定的总长度，从而使这些字符右对齐。</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.padRight</td>
+                <td>str, len, paddingChar</td>
+                <td>返回一个新字符串，该字符串通过在此字符串中的字符右侧填充空格或指定字符来达到指定的总长度，从而使这些字符左对齐</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.mid</td>
+                <td>str, start, len</td>
+                <td>返回字符串中的的字符，注意从 0 开始。</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.lengthOfPrint</td>
+                <td>str</td>
+                <td>计算字符串的打印长度。</td>
+                <td>Integer</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.startsWith</td>
+                <td>str, val</td>
+                <td>判断当前 String 对象是否以指定的字符串开头。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.endsWith</td>
+                <td>str, val</td>
+                <td>判断当前 String 对象是否以指定的字符串结尾。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.left</td>
+                <td>str, len</td>
+                <td>截取当前字符串左边的指定长度内容。</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.right</td>
+                <td>str, len</td>
+                <td>截取当前字符串右边的指定长度内容。</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isLongDate</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的长日期格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isShortDate</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的段日期格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isDate</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的日期格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isTel</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的日期格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isMobile</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的手机号码格式(中国)。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isTelOrMobile</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的电话号码或者手机号码格式(中国)</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isFax</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的传真号码格式</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isEmail</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的 电子邮箱地址(Email) 格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isZipCode</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的 邮政编码(中国) 格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.existChinese</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是否存在汉字字符。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isChinese</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是否为纯中文字符。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isEnglish</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是否为纯英文字符。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isFileName</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的 文件名称(路径) 格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isIPv4</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的 IPv4 地址格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isUrl</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的 url 格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isUrlOrIPv4</td>
+                <td>str</td>
+                <td>判断是否为合法的 ipv4 或者 url 格式</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isCurrency</td>
+                <td>str</td>
+                <td>判断是否为合法的货币格式</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isQQ</td>
+                <td>str</td>
+                <td>判断是否为合法的 QQ 号码格式</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isMSN</td>
+                <td>str</td>
+                <td>判断是否为合法的 MSN 帐号格式</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isUnNormal</td>
+                <td>str</td>
+                <td>验证是否包含空格和非法字符Z</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isCarNo</td>
+                <td>str</td>
+                <td>验证是否为合法的车牌号码</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isCarEngineNo</td>
+                <td>str</td>
+                <td>验证是否为合法的汽车发动机序列号</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isUserName</td>
+                <td>str</td>
+                <td>验证是否可以作为合法的用户名字符(字母开头，允许6-16字节，允许字母数字下划线)</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isIDCard</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的 身份证号码(中国) 格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isInteger</td>
+                <td>str</td>
+                <td>验证是否为整数格式</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isNumeric</td>
+                <td>str, flag</td>
+                <td>判断当前 String 对象是否是正确的 数字 格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isColor</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否是正确的 颜色(#FFFFFF形式) 格式。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.isSafePassword</td>
+                <td>str</td>
+                <td>判断当前 String 对象是否可以作为安全密码字符(由字符和数字组成，至少 6 位).</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toCase</td>
+                <td>str</td>
+                <td>将指定的字符串转换成全角并返回转换后的结果</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toHtmlEncode</td>
+                <td>str</td>
+                <td>将指定的字符串对字符串进行Html编码并返回编码后的结果</td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toDate</td>
+                <td>str</td>
+                <td>转换成日期</td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toBoolean</td>
+                <td>str</td>
+                <td>将字符串对象转换成 布尔(boolean) 值</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toInteger</td>
+                <td>str</td>
+                <td>将字符串对象转换成 整数(int) 值</td>
+                <td>Number</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toNumber</td>
+                <td>str</td>
+                <td>将字符串对象转换成 数值(Number)。</td>
+                <td>Number</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toFloat</td>
+                <td>str</td>
+                <td>将字符串对象转换成 浮点数(float) 值</td>
+                <td>Number</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toNumeric</td>
+                <td>str</td>
+                <td>将字符串对象转换成 数值</td>
+                <td>Number</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toObject</td>
+                <td>str</td>
+                <td>将字符串对象转换成 对象(Object) 值，相当于调用 JSON.parse(str) 方法。</td>
+                <td>Object</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.string.toFunction</td>
+                <td>str</td>
+                <td>将字符串对象转换成 函数(function) 值</td>
+                <td>function</td>
+                <td>Y</td>
+            </tr>
+        </table>
+    </li>
+    <li>
+        Array
+        <table class="doc-table">
+            <tr>
+                <th>Name</th>
+                <th>Parameters</th>
+                <th>Description</th>
+                <th>Returns</th>
+                <th>Component</th>
+            </tr>
+            <tr>
+                <td>jQuery.array.isArray</td>
+                <td>object</td>
+                <td>判断对象是否是一个数组</td>
+                <td>Boolean</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>jQuery.array.likeArray</td>
+                <td>object</td>
+                <td>检测一个对象是否为一个数组对象或者类似于数组对象，等效于方法 jQuery.util.likeArray</td>
+                <td>Boolean</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>jQuery.array.isNullOrEmpty</td>
+                <td>array</td>
+                <td>判断传入的 数组 是否为 Null 或者为空数组。</td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.push</td>
+                <td>array, item</td>
+                <td>
+                    往数组中添加一个新项；该函数定义如下参数:<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:  要添加新项的数组对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item:   被添加的新项；<br />
+                    返回值：返回该数组添加新项后的长度；
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.copy</td>
+                <td>array, target</td>
+                <td>
+                    复制数组内的所有项到一个新的数组中，该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 源数据数组，该数组内的所有项将被赋值到目标数组 target 中；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 目标数组，源数组 source 中的所有项将被赋值到该数组中；<br />
+                    该方法会改变目标数组 target 中的元素数量。<br />
+                    返回值：源数组数据复制过来后的目标数组 target。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.contains</td>
+                <td>array, item, compare</td>
+                <td>
+                    确认数组中是否包含指定的元素。该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 被检测的数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item: 被检测的元素，判断该元素是否存在于数组 array 中；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 用于比较运算的函数，该函数被循环调用，用于比较 array 中的每一项是否与 item 等值；该函数返回一个 bool 值；这是一个可选参数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名应该是 function (item1, item2) { }，参数 item1 表示源数组中的项、item2 表示要进行比较的项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；
+                </td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.reverse</td>
+                <td>array</td>
+                <td>
+                    颠倒数组中元素的顺序。<br />
+                    返回值：返回传入的参数 array 本身；如果传入的参数 array 不是一个数组，则返回一个新创建的空数组对象。<br />
+                    注意：该方法会改变原来的数组，而不会创建新的数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.indexOf</td>
+                <td>array, item, startIndex, count, compare</td>
+                <td>
+                    在数组中搜索指定的项，并返回整个数组中第一个匹配项的从零开始的索引，该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item:  要搜索的项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startIndex: 从零开始的搜索的起始索引，空列表中 0（零）为有效值；该参数可选；如果该参数未定义则从 0 开始；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count: 要搜索的部分中的元素数；该参数可选，如果该参数未定义则搜索至数组的末尾；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 用于比较运算的函数，该函数被循环调用，用于比较 array 中的每一项是否与 item 等值；该函数返回一个 bool 值；这是一个可选参数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名应该是 function (item1, item2) { }，参数 item1 表示源数组中的项、item2 表示要进行比较的项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；<br />
+                    返回值：如果在数组中从 startIndex 开始并包含 count 个元素的元素范围内找到 item 的第一个匹配项，则为该项的从零开始的索引；否则为 -1。<br />
+                    参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679977(v=vs.94).aspx
+                </td>
+                <td>Integer</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.lastIndexOf</td>
+                <td>array, item, startIndex, count, compare</td>
+                <td>
+                    在数组中搜索指定的项，并返回整个数组中最后一个匹配项的从零开始的索引。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item:  要搜索的项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startIndex: 向后搜索的从零开始的起始索引，该参数可选；如果该参数未定义则从数组末尾开始；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count: 要搜索的部分中的元素数；该参数可选，如果该参数未定义则搜索至数组的末尾；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 用于比较运算的函数，该函数被循环调用，用于比较 array 中的每一项是否与 item 等值；该函数返回一个 bool 值；这是一个可选参数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名应该是 function (item1, item2) { }，参数 item1 表示源数组中的项、item2 表示要进行比较的项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；<br />
+                    返回值：如果在数组中包含 count 个元素、在 startIndex 处结尾的元素范围内找到 item 的最后一个匹配项，则为该项的从零开始的索引；否则为 -1。<br />
+                    参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679972(v=vs.94).aspx
+                </td>
+                <td>Integer</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.range</td>
+                <td>array, startIndex, stopIndex</td>
+                <td>
+                    提取指定数组中介于两个指定索引号之间的元素构成的一个新的数组；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startIndex: 必需。一个大于或等于 0 的整数，规定从何处开始选取，从 0 开始计数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stopIndex: 可选。规定从何处结束选取。该参数是数组片断结束处的数组下标。如果没有指定该参数，那么切分的数组包含从 startIndex 到数组结束的所有元素。<br />
+                    返回值：返回一个新的数组，包含从 startIndex 到 stopIndex （不包括该元素）的 arrayObject 中的元素。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.rangeLen</td>
+                <td>array, startIndex, length</td>
+                <td>
+                    提取指定数组中从 startIndex 位置开始后指定数量的元素构成的一个新的数组；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startIndex: 一个非负的整数，规定要提取的起始位置的索引号；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length: 一个非负的整数，规定要提取的元素的数量；该参数可选，如果不定义该参数，则一直提取到数组的末尾；<br />
+                    返回值：返回一个新的数组，包含从 startIndex 处开始后长度为 length 的所有元素。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.splitPage</td>
+                <td>array, pageIndex, pageSize, sortby</td>
+                <td>
+                    对指定的数组进行分页处理，并返回分页后的结果；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageIndex: 一个非负整数，表示要返回的数据所在页面的索引号，从 0 开始计算；该参数可选，如果未定义该参数或不合法，则默认为 0；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageSize: 一个非负整数，表示每一个分页页面的尺寸，即每页有多少行记录；该参数可选，如果未定义该参数或不合法，则默认为 10；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortby: 用于排序的比较函数，该函数被循环调用，用于比较 array 中没两项的大小；这是一个可选参数；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名为 function (a, b) { }，参数 a、b 分别表示源数组中的待比较大小的项；该函数必须返回一个数值表示比较后的结果；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a > b ，则返回一个 大于 0 的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a < b ，则返回一个 小于 0 的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a == b，则返回 0；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义该参数，则默认将 array 中的每一项当作数字来进行比较。<br />
+                    返回值：该函数返回一个具有如下属性的 JSON 对象：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageSize:   一个非负整数，表示每一个分页页面的尺寸，即每页有多少行记录；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageIndex:  一个非负整数，表示返回的数据所在页面的索引号，从 0 开始计算；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rowCount:   一个非负整数，表示返回的数据的未分页前的总行数；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data:       一个数组，为传入的参数 array 的子集，表示分页后的页面数据；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageCount:  一个非负整数，表示源数据数组分页后的总页面数量；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageNumber: 一个非负整数，表示返回的数据所在的页面的序号，从 1 开始计算；同 pageIndex + 1；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total:      一个非负整数，同 rowCount。
+                </td>
+                <td>Object</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.removeRange</td>
+                <td>array, index, count</td>
+                <td>
+                    从数组中移除一定范围的元素，该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: 要移除的元素的范围从零开始的起始索引；该参数可选，如果不定义该参数则默认为 0；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count: 要移除的元素数；该参数可选，如果不定义该参数则默认为从 index 起始位置一直到数组的末尾，可以为 0。<br />
+                    注意：该方法会改变现有的数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.removeAt</td>
+                <td>array, index</td>
+                <td>
+                    移除数组中的指定索引位置的项；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组，被移除的项包含在该数组中；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: 指定的索引位置，当检测到源数据数组中存在该索引项时，则移除源数据中的该索引项。<br />
+                    注意：该方法会改变现有的数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.remove</td>
+                <td>array, item, compare</td>
+                <td>
+                    移除数组中的指定项；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组，被移除的项包含在该数组中；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item: 被移除的项，当检测到源数据数组中存在该项时，则移除源数据中的该项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 用于比较运算的函数，该函数被循环调用，用于比较 array 中的每一项是否与 item 等值；该函数返回一个 bool 值；这是一个可选参数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名应该是 function (item1, item2) { }，参数 item1 表示源数组中的项、item2 表示要进行比较的项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；<br />
+                    注意：该方法会改变现有的数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.insertRange</td>
+                <td>array, index, collect</td>
+                <td>
+                    将另一个数组插入到当前数组的指定索引处；该方法定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: 应插入 collect 的位置的零始索引；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collect:  包含要插入的元素的数组；该值可以为 null。<br />
+                    返回值：返回插入元素后的数组对象本身；如果传入的参数 array 不是一个数组，则返回一个新创建的空数组对象。<br />
+                    注意：该方法会改变现有的数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.insert</td>
+                <td>array, index, item</td>
+                <td>
+                    将元素插入数组的指定索引处；该方法定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: 应插入 item 的位置的零始索引；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item:  要插入的元素；该值可以为 null。<br />
+                    返回值：返回插入元素后的数组对象本身；如果传入的参数 array 不是一个数组，则返回一个新创建的空数组对象。<br />
+                    注意：该方法会改变现有的数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.setRange</td>
+                <td>array, index, collect</td>
+                <td>
+                    将另一数组中的元素复制到当前数组中一定范围的元素上；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: 从 0 开始的数组索引，从该位置开始赋值 collect 元素；该参数可选，如果不定义该参数，则默认为数组的末尾；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collect: 要将其元素赋值到 array 中，该数组本身不能为 null，但它可以包含为null 的元素。<br />
+                    返回值：返回设置元素后的数组对象本身；如果传入的参数 array 不是一个数组，则返回一个新创建的空数组对象。<br />
+                    注意：该方法会改变现有的数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.attach</td>
+                <td>array, item, compare</td>
+                <td>
+                    如果源数组中不存在指定的项，则将该项添加到源数组中；该方法提供如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item: 将要被合并到源数组中的项，如果源数组中不存在该项，则将其添加至源数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 用于比较运算的函数，该函数被循环调用，用于比较 array 中的每一项是否与 item 等值；该函数返回一个 bool 值；这是一个可选参数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名应该是 function (item1, item2) { }，参数 item1 表示源数组中的项、item2 表示要进行比较的项；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；
+                    返回值：返回添加元素后的数组对象本身。<br />
+                    注意：该方法会改变现有的数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.merge</td>
+                <td>array, item1, item2, itemn</td>
+                <td>
+                    合并两个或多个数组；该方法提供如下参数:<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 初始源数组，之后所有的项都将被合并入该数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item1: 第 1 个待合并项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item2: 第 2 个待合并项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item3: 第 3 个待合并项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itemn... 第 n 个待合并项；<br />
+                    如果要进行 merge 操作的参数是数组，那么添加的是数组中的元素，而不是数组。<br />
+                    返回值：返回合并多个数组(元素)后的数组对象本身。<br />
+                    注意：该方法会改变现有的数组，item1、item2、item3、itemn...等所有的参数项将被合并入 array 数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.unique</td>
+                <td>array, compare, item1, item2, itemn</td>
+                <td>
+                    合并两个或多个数组，重复项将不会被合并；该方法提供如下参数:<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 初始源数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 用于比较运算的函数，该函数被循环调用，用于比较 array 中的每一项是否与 item 等值；该函数返回一个 bool 值；这是一个可选参数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名应该是 function (item1, item2) { }，参数 item1 表示源数组中的项、item2 表示要进行比较的项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item1: 第 1 个待合并项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item2: 第 2 个待合并项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item3: 第 3 个待合并项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itemn... 第 n 个待合并项；<br />
+                    如果要进行 unique 操作的参数是数组，那么添加的是数组中的元素，而不是数组。<br />
+                    返回值：返回合并多个数组(元素)后的数组对象本身。<br />
+                    注意：该方法会改变现有的数组，item1、item2、item3、itemn...等所有的参数项将被合并入 array 数组。<br />
+                    该方法与 jQuery.array.merge 方法的区别在于：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;merge 方法会将源数组与所有的 item 进行合并；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unique 方法会判断源数组中是否存在相应的 item，如果存在则不合并；并且如果源数组中本身的元素如果存在重复，也会进行 distinct 处理。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.filter</td>
+                <td>array, compare, thisArg</td>
+                <td>
+                    过滤查找当前数组中的元素，并返回查找的结果；返回的查找结果是一个新的数组；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 必需。 一个接受最多三个参数的函数。 对于数组中的每个元素， filter 方法都会调用 callbackfn 函数一次。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该回调函数的语法如：function callbackfn(value, index, array)；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果该回调函数返回 true，则该元素将被包含在返回的集合当中。<br />
+                    返回值：一个包含回调函数为其返回 true 的所有值的新数组。 如果回调函数为 array 的所有元素返回 false，则新数组的长度为 0。<br />
+                    参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679973(v=vs.94).aspx
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.map</td>
+                <td>array, callback, thisArg</td>
+                <td>
+                    对数组的每个元素调用定义的回调函数并返回包含结果的数组；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:      必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback:   必需。 一个接受最多三个参数的函数。 对于数组中的每个元素， map 方法都会调用 callbackfn 函数一次。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该回调函数语法如：function callbackfn(value, index, array1)；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisArg:    可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。<br />
+                    返回值：其中的每个元素均为关联的原始数组元素的回调函数返回值的新数组。<br />
+                    备注：对于数组中的每个元素， map 方法都会调用 callbackfn 函数一次（采用升序索引顺序）。 不为数组中缺少的元素调用该回调函数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除了数组对象之外， map 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。<br />
+                    参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679976(v=vs.94).aspx
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.cast</td>
+                <td>array, callback, thisArg</td>
+                <td>
+                    等效于方法 jQuery.array.map
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.max</td>
+                <td>array, compare</td>
+                <td>
+                    获取数组中最大值的项；该函数定义如下参数:<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 待查找的源数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 比较函数，该函数被循环调用，用于比较 array 中没两项的大小；这是一个可选参数；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名为 function (a, b) { }，参数 a、b 分别表示源数组中的待比较大小的项；该函数必须返回一个数值表示比较后的结果；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a > b ，则返回一个 大于 0 的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a < b ，则返回一个 小于 0 的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a == b，则返回 0；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义该参数，则默认将 array 中的每一项当作数字来进行比较。
+                </td>
+                <td>Object</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.maxs</td>
+                <td>array, compare</td>
+                <td>
+                    获取数组中值等于最大值的集合数组；该函数的参数定义和 jQuery.array.max 相同；<br />
+                    该函数返回的是一个新的数组，即使查找到的结果只有一项；
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.min</td>
+                <td>array, compare</td>
+                <td>
+                    获取数组中最小值的项；该函数的参数定义和 jQuery.array.max 相同；
+                </td>
+                <td>Object</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.mins</td>
+                <td>array, compare</td>
+                <td>
+                    获取数组中值等于最小值的集合；该函数的参数定义和 jQuery.array.max 相同；<br />
+                    该函数返回的是一个新的数组，即使查找到的结果只有一项；
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.sum</td>
+                <td>array, callback, thisArg</td>
+                <td>
+                    计算数组中各项累加后的合计值；该函数定义如下参数:<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:  源数据数组<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback: 转换函数，该函数被循环调用，用于将 array 中的每一项转换成一个新的数值并输出；如果定义该函数，则其必须返回一个数值；该参数可选；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名应该是 function (item) { }，参数 item 表示源数组中的项；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义该参数，则默认将 array 中的每一项直接相加。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisArg:    可选。 可在 callback 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。
+                </td>
+                <td>Integer</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.avg</td>
+                <td>array, callback, thisArg</td>
+                <td>
+                    计算数组中各项累积后的平均值；该函数参数的定义和 jQuery.array.sum 一样；
+                </td>
+                <td>Integer</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.take</td>
+                <td>array, count</td>
+                <td>
+                    从数组的开头返回指定数量的连续元素构成的新数组；该函数定义如下参数:<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count: 要提取的元素项的数量，必须是一个正整数；该参数可选；如果不传入该参数或传入的值超出范围，则默认为 1。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.skip</td>
+                <td>array, count</td>
+                <td>
+                    跳过数组中指定数量的元素，然后返回剩余元素构成的新数组；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array: 源数据数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count: 返回剩余元素前要跳过的元素数量，必须是一个非负整数；该参数可选；如果不传入该参数或传入的值为负数，则默认为 0。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.forEach</td>
+                <td>array, callback, thisArg</td>
+                <td>
+                    为数组中的每个元素执行指定操作；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:      必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback:   必需。 一个接受最多三个参数的函数。 对于数组中的每个元素， forEach 都会调用 callbackfn 函数一次。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数语法如：function callbackfn(value, index, array)；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisArg:    可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。<br />
+                    返回值：返回传入的参数 array 本身。<br />
+                    备注：对于数组中的每个元素， forEach 方法都会调用 callbackfn 函数一次（采用升序索引顺序）。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果需要退出 each 循环可使回调函数返回 false，其它返回值将被忽略。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除了数组对象之外， forEach 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。<br />
+                    参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679980(v=vs.94).aspx
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.reduce</td>
+                <td>array, callback, initialValue</td>
+                <td>
+                    对数组中的所有元素调用指定的回调函数。 该回调函数的返回值为累积结果，并且此返回值在下一次调用该回调函数时作为参数提供；该函数定义如下参数：<br />
+                    返回值：通过最后一次调用回调函数获得的累积结果。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:      必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback:   必需。 一个接受最多四个参数的函数。 对于数组中的每个元素， reduce 方法都会调用 callbackfn 函数一次。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该回调函数语法如：function callbackfn(previousValue, currentValue, currentIndex, array)<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initialValue:可选。 如果指定 initialValue，则它将用作初始值来启动累积。 第一次调用 callbackfn 函数会将此值作为参数而非数组值提供。<br />
+                    异常：当满足下列任一条件时，将引发 TypeError 异常：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、callbackfn 参数不是函数对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、数组不包含元素，且未提供 initialValue。<br />
+                    备注：如果提供了 initialValue，则 reduce 方法会对数组中的每个元素调用一次 callbackfn 函数（按升序索引顺序）。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果未提供 initialValue，则 reduce 方法会对从第二个元素开始的每个元素调用 callbackfn 函数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回调函数的返回值在下一次调用回调函数时作为 previousValue 参数提供。 最后一次调用回调函数获得的返回值为 reduce 方法的返回值。<br />
+                    参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679975(v=vs.94).aspx
+                </td>
+                <td>Object</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.reduceRight</td>
+                <td>array, callback, initialValue</td>
+                <td>
+                    按降序顺序对数组中的所有元素调用指定的回调函数。 该回调函数的返回值为累积结果，并且此返回值在下一次调用该回调函数时作为参数提供；该函数定义如下参数：<br />
+                    返回值：通过最后一次调用回调函数获得的累积结果。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:      必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback:   必需。 一个接受最多四个参数的函数。 对于数组中的每个元素， reduce 方法都会调用 callbackfn 函数一次。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该回调函数语法如：function callbackfn(previousValue, currentValue, currentIndex, array)<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initialValue:可选。 如果指定 initialValue，则它将用作初始值来启动累积。 第一次调用 callbackfn 函数会将此值作为参数而非数组值提供。<br />
+                    异常：当满足下列任一条件时，将引发 TypeError 异常：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、callbackfn 参数不是函数对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、数组不包含元素，且未提供 initialValue。<br />
+                    备注：如果提供了 initialValue，则 reduceRight 方法会按降序索引顺序对数组中的每个元素调用一次 callbackfn 函数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果未提供 initialValue，则 reduceRight 方法会按降序索引顺序对每个元素（从倒数第二个元素开始）调用 callbackfn 函数。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回调函数的返回值在下一次调用回调函数时作为 previousValue 参数提供。 最后一次调用回调函数获得的返回值为 reduceRight 方法的返回值。<br />
+                    参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679979(v=vs.94).aspx
+                </td>
+                <td>Object</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.every</td>
+                <td>array, callback, thisArg</td>
+                <td>
+                    确定数组的所有成员是否满足指定的测试；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:      必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback:   必需。 一个接受最多三个参数的函数。 every 方法会为 array1 中的每个元素调用 callbackfn 函数，直到 callbackfn 返回 false，或直到到达数组的结尾。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisArg:    可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。<br />
+                    返回值：如果 callbackfn 函数为所有数组元素返回 true，则为 true；否则为 false。 如果数组没有元素，则 every 方法将返回 true。<br />
+                    备注：除了数组对象之外， every 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。<br />
+                    参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679981(v=vs.94).aspx
+                </td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.some</td>
+                <td>array, callback, thisArg</td>
+                <td>
+                    确定指定的回调函数是否为数组中的任何元素均返回 true；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:      必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback:   必需。 一个接受最多三个参数的函数。 some 方法会为 array1 中的每个元素调用 callbackfn 函数，直到 callbackfn 返回 true，或直到到达数组的结尾。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数语法如：function callbackfn(value, index, array1)<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisArg:    可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。<br />
+                    返回值：如果 callbackfn 函数为任何数组元素均返回 true，则为 true；否则为 false。<br />
+                    异常：如果 callbackfn 参数不是函数对象，则将引发 TypeError 异常。<br />
+                    备注：some 方法会按升序索引顺序对每个数组元素调用 callbackfn 函数，直到 callbackfn 函数返回 true。 如果找到导致 callbackfn 返回 true 的元素，则 some 方法会立即返回 true。 如果回调不对任何元素返回 true，则 some 方法会返回 false。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除了数组对象之外， some 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。<br />
+                    参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679978(v=vs.94).aspx
+                </td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.first</td>
+                <td>array, callback, thisArg</td>
+                <td>
+                    查找指定数组中第一个符合条件判定的项会将其返回；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:      必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback:   可选。 一个接受最多三个参数的函数。 first 方法会为 array 中的每个元素调用 callbackfn 函数，直到 callbackfn 返回 true，或直到到达数组的结尾。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数语法如：function callbackfn(value, index, array1)<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisArg:    可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。<br />
+                    返回值：如果定义了参数 callbackfn ，返回 array 中第一个导致回调函数 callback 返回 true 的项目；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果未定义参数 callback，则返回 array 中的第一个元素；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果数组 array 不包含任何元素，或者 callback 回调函数遍历完 array 中所有元素后始终未返回 true 值，则 first 方法返回 null。<br />
+                    备注：first 方法会按升序索引顺序对每个数组元素调用 callbackfn 函数，直到 callbackfn 函数返回 true。 如果找到导致 callbackfn 返回 true 的元素，则 first 方法会立即返回该元素。 如果回调不对任何元素返回 true，则 first 方法会返回 null。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除了数组对象之外， first 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。
+                </td>
+                <td>Object</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.last</td>
+                <td>array, callback, thisArg</td>
+                <td>
+                    查找指定数组中最后一个符合条件判定的项会将其返回；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:      必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback:   可选。 一个接受最多三个参数的函数。 last 方法会从 array 的结束位置其为它的每个元素调用 callbackfn 函数，直到 callbackfn 返回 true，或直到到达数组的起始位置。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数语法如：function callbackfn(value, index, array1)<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisArg:    可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。<br />
+                    返回值：如果定义了参数 callbackfn ，返回 array 中最后一个导致回调函数 callback 返回 true 的项目；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果未定义参数 callback，则返回 array 中的最后一个元素；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果数组 array 不包含任何元素，或者 callback 回调函数遍历完 array 中所有元素后始终未返回 true 值，则 last 方法返回 null。<br />
+                    备注：last 方法会按降序索引顺序对每个数组元素调用 callbackfn 函数，直到 callbackfn 函数返回 true。 如果找到导致 callbackfn 返回 true 的元素，则 last 方法会立即返回该元素。 如果回调不对任何元素返回 true，则 last 方法会返回 null。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除了数组对象之外， last 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。
+                </td>
+                <td>Object</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.sort</td>
+                <td>array, callback</td>
+                <td>
+                    对数组的元素进行排序；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:      必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback: 比较函数，该函数被循环调用，用于比较 array 中没两项的大小；这是一个可选参数；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名为 function (a, b) { }，参数 a、b 分别表示源数组中的待比较大小的项；该函数必须返回一个数值表示比较后的结果；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a > b ，则返回一个 大于 0 的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a < b ，则返回一个 小于 0 的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a == b，则返回 0；<br />
+                    返回值：返回排序处理后的数组对象本身。<br />
+                    备注：如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，说得更精确点，是按照字符编码的顺序进行排序。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;要实现这一点，首先应把数组的元素都转换成字符串（如有必要），以便进行比较。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果想按照其他标准进行排序，就需要提供比较函数，该函数要比较两个值，然后返回一个用于说明这两个值的相对顺序的数字。<br />
+                    注意：该方法会改变现有的数组。
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.left</td>
+                <td>array, length</td>
+                <td>
+                    获取指定数组的前 N 项元素所构成的一个新数组；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:  必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length: 必须。 一个 Number 类型值，表示要获取的项的数量；<br />
+                    返回值：返回指定的数组对象 array 的前面长度为 length 的元素所构成的一个新的数组。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 length 的值为 0，则返回一个空数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 length 的值大于 array.length，则返回 array 的一个副本；
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.array.right</td>
+                <td>array, length</td>
+                <td>
+                    获取指定数组的后 N 项元素所构成的一个新数组；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array:  必需。 一个数组对象。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length: 必须。 一个 Number 类型值，表示要获取的项的数量；<br />
+                    返回值：返回指定的数组对象 array 的前面长度为 length 的元素所构成的一个新的数组。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 length 的值为 0，则返回一个空数组；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 length 的值大于 array.length，则返回 array 的一个副本；
+                </td>
+                <td>Array</td>
+                <td>Y</td>
+            </tr>
+        </table>
+    </li>
+    <li>
+        Date
+        <table class="doc-table">
+            <tr>
+                <th>Name</th>
+                <th>Parameters</th>
+                <th>Description</th>
+                <th>Returns</th>
+                <th>Component</th>
+            </tr>
+            <tr>
+                <td>jQuery.date.isDate</td>
+                <td>str</td>
+                <td>
+                    判断指定的对象是否为合法的日期(Date)格式对象；传入的参数可以为日期格式字符串。
+                </td>
+                <td>Boolean</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>jQuery.date.isLongDate</td>
+                <td>str</td>
+                <td>
+                    判断指定的日期字符串是否是合法的长日期格式；<br />
+                    该函数依赖于 jQuery.string.isLongDate 函数。
+                </td>
+                <td>Boolean</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>jQuery.date.isShortDate</td>
+                <td>str</td>
+                <td>
+                    判断指定的日期字符串是否是合法的短日期格式；<br />
+                    该函数依赖于 jQuery.string.isShortDate 函数。
+                </td>
+                <td>Boolean</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>jQuery.date.isLeapYear</td>
+                <td>date</td>
+                <td>
+                    判断指定的日期是否为闰年；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 可以是一个 日期(Date) 对象，也可以是表示日期的字符串，或者是一个表示年份的数字。<br />
+                    返回值：如果指定的日期是闰年，则返回 true，否则返回 false。
+                </td>
+                <td>Boolean</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.clone</td>
+                <td>date</td>
+                <td>
+                    创建一个新的 日期(Date) 对象，返回的值与当前 日期对象 的值相同；
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.compare</td>
+                <td>date1, date2</td>
+                <td>
+                    比较两个日期对象的大小；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date1: 第 1 个待比较的日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date2: 第 2 个待比较的日期对象；<br />
+                    返回值：如果 date1 > date2，则返回一个大于 0 的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 date1 < date2，则返回一个小于 0 的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 date1 == date2，则返回 0。
+                </td>
+                <td>Integer</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>jQuery.date.getQuarter</td>
+                <td>date</td>
+                <td>获取指定日期对象当前表示的季度（0 - 3）</td>
+                <td>Integer</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.getDayOfWeek</td>
+                <td>date</td>
+                <td>获取当前日期对象表示所在周的星期几（0 - 6）</td>
+                <td>Integer</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.getWeek</td>
+                <td>date</td>
+                <td>获取当前日期对象所在年的第几周计数。</td>
+                <td>Integer</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.getWeekOfMonth</td>
+                <td>date</td>
+                <td>获取当前日期对象所在月的第几周计数。</td>
+                <td>Integer</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addTime</td>
+                <td>date, millisec</td>
+                <td>
+                    给指定日期对象添加指定的毫秒数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;millisec: 要添加的毫秒数，可以是一个负数。<br />
+                    返回值：date 添加指定毫秒数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addDays</td>
+                <td>date, days</td>
+                <td>
+                    给指定日期对象添加指定的天数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;days: 要添加的天数，可以是一个负数。<br />
+                    返回值：date 添加指定天数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addHours</td>
+                <td>date, hours</td>
+                <td>
+                    给指定日期对象添加指定的小时数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hours: 要添加的小时数，可以是一个负数。<br />
+                    返回值：date 添加指定小时数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addMilliseconds</td>
+                <td>date, millisec</td>
+                <td>
+                    给指定日期对象添加指定的毫秒数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;millisec: 要添加的毫秒数，可以是一个负数。<br />
+                    返回值：date 添加指定毫秒数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addMinutes</td>
+                <td>date, minutes</td>
+                <td>
+                    给指定日期对象添加指定的分钟数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minutes: 要添加的分钟数，可以是一个负数。<br />
+                    返回值：date 添加指定分钟数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addWeeks</td>
+                <td>date, weeks</td>
+                <td>
+                    给指定日期对象添加指定的星期周数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weeks: 要添加的星期周数，可以是一个负数。<br />
+                    返回值：date 添加指定星期周数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addMonths</td>
+                <td>date, months</td>
+                <td>
+                    给指定日期对象添加指定的月数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;months: 要添加的月数，可以是一个负数。<br />
+                    返回值：date 添加指定月数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addSeconds</td>
+                <td>date, seconds</td>
+                <td>
+                    给指定日期对象添加指定的秒数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seconds: 要添加的秒数，可以是一个负数。<br />
+                    返回值：date 添加指定秒数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addTicks</td>
+                <td>date, ticks</td>
+                <td>
+                    给指定日期对象添加指定的百纳秒数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ticks: 要添加的百纳秒数，可以是一个负数。<br />
+                    返回值：date 添加指定百纳秒数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addYears</td>
+                <td>date, years</td>
+                <td>
+                    给指定日期对象添加指定的年数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;years: 要添加的年数，可以是一个负数。<br />
+                    返回值：date 添加指定年数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.addQuarters</td>
+                <td>date, quarters</td>
+                <td>
+                    给指定日期对象添加指定的季度数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quarters: 要添加的季度数，可以是一个负数。<br />
+                    返回值：date 添加指定季度数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.add</td>
+                <td>date, datepart, number</td>
+                <td>
+                    给指定日期对象添加指定日期部分的指定数，并返回一个新的日期对象；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;datepart: 指定的日期部分，字符串格式，可选的值限定为：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yy 或 yyyy:  表示年；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qq 或 q:     表示季度；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mm 或 m:     表示月；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dd 或 d:     表示日(天)；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wk 或 ww:    表示周；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hh:          表示小时；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mi 或 n:     表示分钟；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ss 或 s:     表示秒；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ms:          表示毫秒；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number: 要添加的指定日期部分的指定数量，可以是一个负数；<br />
+                    返回值：date 添加指定日期部分的指定数后的一个新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
+                </td>
+                <td>Date</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.diff</td>
+                <td>date, datepart, value</td>
+                <td>
+                    比较两个日期对象指定部分的差，并返回比较结果；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;datepart: 指定的日期部分，字符串格式，可选的值限定为：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yy 或 yyyy:  表示年；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qq 或 q:     表示季度；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mm 或 m:     表示月；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dd 或 d:     表示日(天)；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wk 或 ww:    表示周；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hh:          表示小时；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mi 或 n:     表示分钟；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ss 或 s:     表示秒；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ms:          表示毫秒；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: 要比较的日期对象；<br />
+                    返回值：返回 date 日期对象 和 value 日期对象 指定部分的数值的差。
+                </td>
+                <td>Number</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.part</td>
+                <td>date, datepart</td>
+                <td>
+                    返回指定日期对象的指定部分的值；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date: 源日期对象；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;datepart: 指定的日期部分，字符串格式，可选的值限定为：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yy 或 yyyy:  表示年；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qq 或 q:     表示季度；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mm 或 m:     表示月；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dd 或 d:     表示日(天)；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wk 或 ww:    表示周；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hh:          表示小时；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mi 或 n:     表示分钟；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ss 或 s:     表示秒；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ms:          表示毫秒；<br />
+                    返回值：返回指定日期对象的指定部分的值；
+                </td>
+                <td>Number</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.format</td>
+                <td>date, format</td>
+                <td>
+                    返回当前日期对象的格式化字符值；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date:   要进行格式化的日期对象
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format: 返回字符串格式定义
+                </td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.date.toLongDateTimeString</td>
+                <td>date</td>
+                <td>
+                    获取当前日期时间的长字符串格式，返回的日期时间字符串格式如 “2013年05月16日 星期四 夏季, 下午 15:38:11”
+                </td>
+                <td>String</td>
+                <td>Y</td>
+            </tr>
+        </table>
+    </li>
+    <li>
+        Number
+        <table class="doc-table">
+            <tr>
+                <th>Name</th>
+                <th>Parameters</th>
+                <th>Description</th>
+                <th>Returns</th>
+                <th>Component</th>
+            </tr>
+            <tr>
+                <td>jQuery.number.isNumber</td>
+                <td>object</td>
+                <td>
+                    判断对象是否是一个数值<br />
+                    等效于 jQuery.util.isNumeric 方法。
+                </td>
+                <td>Boolean</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>jQuery.number.round</td>
+                <td>num, precision</td>
+                <td>
+                    把一个数字/浮点数舍入为指定精度的数值；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num:    需要进行舍入计算的数值;<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;precision:  舍入操作保留的精度(意即保留多少为小数)，默认为 0;<br />
+                    返回值：返回被舍入后的数值
+                </td>
+                <td>返回被舍入后的数值</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>jQuery.number.precision</td>
+                <td>num, precision</td>
+                <td>
+                    获取或设置数值对象的精度；该函数定义如下重载：<br />
+                    重载一：function(num)，该重载用于获取数值的精度，该重载定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num:    需要获取精度的数值。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回值：返回数值 num 的精度(小数位数)。<br />
+                    重载二：function(num, precision)，该重载用于设置数值的精度(即进行数值舍入操作)，该重载定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num:    需要设置精度的数值。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;precision: 需要设置的精度。<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回值：返回数值 num 按照指定的精度进行舍入操作后的值；<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注：该重载会调用函数 coreNumber.round 进行数值舍入操作。
+                </td>
+                <td>Integer 或无返回值</td>
+                <td>Y</td>
+            </tr>
+        </table>
+    </li>
+    <li>
+        Html5
+        <table class="doc-table">
+            <tr>
+                <th>Name</th>
+                <th>Parameters</th>
+                <th>Description</th>
+                <th>Returns</th>
+            </tr>
+            <tr>
+                <td>jQuery.html5.testProp</td>
+                <td>propName, tagName</td>
+                <td>
+                    测试指定的 html 标签是否具备相应的属性；该函数定义如下参数：<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;propName:   待测试的属性名；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tagName:    被测试的 html 标签名。
+                    返回值：如果指定的标签名(tagName)所表示的 html 标签具备相应的属性名 propName，则返回 true，否则返回 false。
+                </td>
+                <td>Boolean</td>
+            </tr>
+        </table>
+    </li>
+</ul>
 
 
 
