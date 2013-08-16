@@ -1,0 +1,166 @@
+﻿<div>
+
+<h3>jQuery Easyui 基础功能扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.js 实现。</p>
+
+<h4>扩展概述</h4>
+<p>
+    扩展基于 jquery.easyui.min.js 实现；主要扩展功能体现在：
+    <ul>
+        <li>增加了 easyui-tooltip 组件的快速调用方式；通过快速调用的 easyui-tooltip 能自动释放；</li>
+        <li>重写了 easyui-messager 的 show、alert、confirm、prompt 等方法，使之功能更加强大并且方面调用；</li>
+        <li>增加了 easyui-messager 的扩展方法 solicit；</li>
+        <li>增加了命名空间  jQuery.easyui； </li>
+        <li>增加了扩展方法 jQuery.easyui.loading、jQuery.easyui.loaded，用以快速创建显示数据加载状态的遮蔽层；</li>
+        <li>封装了 jQuery 和 EasyUI 的通用 AJAX 错误处理；</li>
+        <li>通过 jQuery.ajaxSetup 重新配置了 dataFilter，使其能支持 XML 格式的 JSON 数据解析</li>
+    </ul>
+</p>
+
+
+<h4>依赖项</h4>
+<ul>
+    <li>jquery.jdirk.js</li>
+</ul>
+
+
+<h4>用法</h4>
+<p>
+    以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [16,17,18,19,23]" >
+        //  以下两行代码等效
+        $.messager.aler("操作提醒", "Hello word!");
+        $.messager.aler("Hello word!");
+
+        //  以下两行代码等效
+        $.messager.show({ title: "操作提醒", msg: "Hello word!" });
+        $.messager.show("Hello word!");
+
+        //  在顶层界面弹出消息框
+        $.easyui.messager.aler("Hello word!");
+
+        //  关于更多用法，请参见下面 API。
+    </textarea>
+</p>
+
+
+<h4>扩展的属性</h4>
+<p>该扩展增加定义了如下属性：</p>
+<table class="doc-table">
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+    </tr>
+    <tr>
+        <td>jQuery.easyui</td>
+        <td>Object</td>
+        <td>请勿直接使用该属性，而是使用附着于该属性下的其他属性；</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>jQuery.easyui.messager</td>
+        <td>Object</td>
+        <td>
+            提供可访问的顶级页面(同域)的 jQuery.messager 对象的快速访问方式；
+            <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [16,17,18,19,23]" >
+                //  在当前页面弹出消息框
+                $.messager.alert("操作提醒", "Hello Word!");
+                $.messager.show{ title: "操作提醒", msg: "Hello Word!" };
+
+                //在当前页面弹出消息框
+                $.easyui.messager.alert("操作提醒", "Hello Word!");
+                $.easyui.messager.show{ title: "操作提醒", msg: "Hello Word!" };
+            </textarea>
+            关于更多用法参见<a class="example" href="../examples/example.html?messager" target="_blank">示例</a>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>jQuery.easyui.tooltip</td>
+        <td>function</td>
+        <td>提供可访问的顶级页面(同域)的 jQuery.fn.tooltip 对象的快速访问方式；一般不需要直接使用该属性，而是使用附着于该属性上的方法 init。</td>
+        <td></td>
+    </tr>
+</table>
+
+
+
+<h4>扩展的方法</h4>
+<p>该扩展增加定义了如下方法：</p>
+<table class="doc-table">
+    <tr>
+        <th>Name</th>
+        <th>Parameters</th>
+        <th>Description</th>
+        <th>Returns</th>
+    </tr>
+    <tr>
+        <td>jQuery.easyui.tooltip.init</td>
+        <td>elem, options</td>
+        <td>
+            对某个元素设置 easyui-tooltip 属性；该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elem:     表示要设置 easyui-tooltip 的元素，可以是一个 jQuery 选择器字符串，也可以是一个 DOM 对象或者 jQuery 对象。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;options:    表示初始化 easyui-tooltip 的参数信息，为一个 JSON-Object；<br />
+            备注：通过该方法设置的 easyui-tooltip 属性，在触发 mouseover 事件时，加载 easyui-tooltip，在 tooltip-tip 隐藏时，easyui-tooltip 自动调用 destroy 销毁；<br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tooltip" target="_blank">示例</a>
+        </td>
+        <td>无</td>
+    </tr>
+    <tr>
+        <td>jQuery.easyui.loading</td>
+        <td>options</td>
+        <td>
+            显示类似于 easyui-datagrid 在加载远程数据时显示的 mask 状态层；该函数定义如下重载方式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function ()<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function (options)，其中 options 为一个格式为 { msg, locale, topMost } 的 JSON-Object；<br />
+            上述参数中：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg 表示加载显示的消息文本内容，默认为 "正在加载，请稍等..."；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;locale 表示加载的区域，可以是一个 jQuery 对象选择器字符串，也可以是一个 jQuery 对象或者 HTML-DOM 对象；默认为字符串 "body"。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topMost 为一个布尔类型参数，默认为 false，表示是否在顶级页面加载此 mask 状态层。<br />
+            返回值：返回表示弹出的数据加载框和层的 jQuery 对象。<br />
+            关于更多用法参见<a class="example" href="../examples/example.html?mask" target="_blank">示例</a>
+        </td>
+        <td>jQuery 对象</td>
+    </tr>
+    <tr>
+        <td>jQuery.easyui.loaded</td>
+        <td>locale, topMost</td>
+        <td>
+            关闭由 $.easyui.loading 方法显示的 "正在加载..." 状态层；该函数定义如下重载方式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function ()<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function (locale)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function (locale, topMost)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function (topMost, locale)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function (options)，其中 options 为一个格式为 { locale, topMost } 的 JSON-Object<br />
+            关于更多用法参见<a class="example" href="../examples/example.html?mask" target="_blank">示例</a>
+        </td>
+        <td>无</td>
+    </tr>
+    <tr>
+        <td>jQuery.easyui.ajaxError</td>
+        <td>callback</td>
+        <td>
+            获取或更改 jQuery EasyUI 部分组件的通用错误提示函数；该方法定义如下重载方式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function():         获取 jQuery EasyUI 部分组件的通用错误提示函数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function(callback): 更改 jQuery EasyUI 部分组件的通用错误提示函数；<br />
+            备注：该方法会设置如下组件的 onLoadError 事件；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easyui-form<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easyui-combobox<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easyui-combotree<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easyui-combogrid<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easyui-datagrid<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easyui-propertygrid<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easyui-tree<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;easyui-treegrid<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同时还会设置 jQuery-ajax 的通用错误事件 error。<br />
+            关于更多用法参见<a class="example" href="../examples/example.html?ajaxError" target="_blank">示例</a>
+        </td>
+        <td>无</td>
+    </tr>
+</table>
+<br />
+
+
+</div>

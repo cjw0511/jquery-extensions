@@ -60,8 +60,8 @@
     };
 
     $.easyui._showDialog = function (opts, currentFrame) {
-        if (opts.onApply == $.util.noop) { opts.onApply = opts.onSave; }
-        if (opts.onSave == $.util.noop) { opts.onSave = opts.onApply; }
+        if (opts.onApply == null || opts.onApply == undefined) { opts.onApply = opts.onSave; }
+        if (opts.onSave == null || opts.onSave == undefined) { opts.onSave = opts.onApply; }
 
         var _onClose = opts.onClose;
         opts.onClose = function () {
@@ -88,13 +88,17 @@
         var buttons = [];
         if (opts.enableApplyButton == true) {
             var btnApply = { text: opts.applyButtonText, iconCls: opts.applyButtonIconCls,
-                handler: function (dia) { opts.onApply.call(dia, dia); }
+                handler: function (dia) {
+                    if ($.isFunction(opts.onApply)) { opts.onApply.call(dia, dia); }
+                }
             };
             buttons.push(btnApply);
         }
         if (opts.enableSaveButton == true) {
             var btnSave = { text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
-                handler: function (dia) { if (opts.onSave.call(dia, dia) !== false) { dia.dialog("close"); } }
+                handler: function (dia) {
+                    if ($.isFunction(opts.onSave) && opts.onSave.call(dia, dia) !== false) { dia.dialog("close"); }
+                }
             };
             buttons.push(btnSave);
         }
@@ -201,13 +205,13 @@
         enableCloseButton: true,
 
         //  点击保存按钮触发的事件，如果该事件范围 false，则点击保存后窗口不关闭。
-        onSave: $.util.noop,
+        onSave: null,
 
         //  点击应用按钮触发的事件
-        onApply: $.util.noop,
+        onApply: null,
 
         //  关闭窗口时应触发的事件，easyui-dialog本身就有
-        onClose: $.util.noop,
+        onClose: null,
 
         //  保存按钮的文字内容
         saveButtonText: "保存",
@@ -239,7 +243,7 @@
     $.easyui.showOption = function (options, dialogOption) {
         options = options || "无数据显示。";
         dialogOption = dialogOption || {};
-        var opts = $.extend({}, $.easyui.showDialog.defaults, dialogOption), jq = opts.topMost ? $.util.$ : $;
+        var opts = $.extend({ topMost: $.easyui.showDialog.defaults.topMost }, dialogOption), jq = opts.topMost ? $.util.$ : $;
         var content = jq("<table></table>").css({ padding: "10px", width: "100%" }), type = jq.type(options);
         if ($.array.contains(["array", "object", "function"], type)) {
             for (var key in options) {

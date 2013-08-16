@@ -1,8 +1,12 @@
 ﻿jquery-extensions 发布及更新日志
 
+/******************** 2013-08-16(1.0.0 preview) ********************/
+1、修复 jeasyui.extensions.dialog.js 扩展中的部分细小 BUG；
+2、增加部分扩展功能的 API 文档。
+
 
 /******************** 2013-08-14(1.0.0 preview) ********************/
-1、修复 jeasyui-extensions.treegrid.js 扩展中的部分细小 BUG。
+1、修复 jeasyui.extensions.treegrid.js 扩展中的部分细小 BUG；
 2、增加自定义皮肤功能，额外提供 13 套皮肤模版；
 3、修复在 IE6/7/8 环境下不能查看 DEMO 源码的问题；
 4、"演示 DEMO" 菜单下所有扩展功能的 DEMO 已经基本完成

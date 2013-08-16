@@ -36,6 +36,10 @@
         return $.util.$ && $.util.$.fn && $.util.$.fn.tooltip ? $.util.$.fn.tooltip : $.fn.tooltip;
     };
     coreEasyui.tooltip = $.fn.tooltip;
+    //  对某个元素设置 easyui-tooltip 属性；该函数定义如下参数：
+    //      target:     表示要设置 easyui-tooltip 的元素，可以是一个 jQuery 选择器字符串，也可以是一个 DOM 对象或者 jQuery 对象。
+    //      options:    表示初始化 easyui-tooltip 的参数信息，为一个 JSON-Object；
+    //  备注：通过该方法设置的 easyui-tooltip 属性，在触发 mouseover 事件时，加载 easyui-tooltip，在 tooltip-tip 隐藏时，easyui-tooltip 自动调用 destroy 销毁；
     coreEasyui.tooltip.init = function (target, options) {
         var t = $.util.parseJquery(target);
         t.mouseover(function () {
@@ -62,6 +66,7 @@
     //                  centerLeft: 屏幕左侧中间，center: 屏幕正中间，centerRight: 屏幕右侧中间
     //                  bottomLeft: 屏幕左下角，bottomCenter: 屏幕下方中间，bottomRight: 屏幕右下角
     //          String: 以 icon: "info"、title: "操作提醒"、msg: options 为默认的方式调用上一重载。
+    //  返回值：返回弹出的消息框 easyui-window 对象
     $.messager.show = function (options) {
         var isString = $.util.isString(options) || $.util.isBoolean(options) || $.isNumeric(options);
         if (isString) {
@@ -93,6 +98,7 @@
     //      function (title, message, callback)
     //      function (title, message, icon)
     //      function (title, message, icon, callback)
+    //  返回值：返回弹出的消息框 easyui-window 对象
     $.messager.alert = function (title, msg, icon, fn) {
         if (arguments.length == 1) { return _alert(defaults.title, arguments[0], defaults.icon); }
         if (arguments.length == 2) {
@@ -115,6 +121,7 @@
     //      function (callback)
     //      function (message, callback)
     //      function (title, message)
+    //  返回值：返回弹出的消息框 easyui-window 对象
     $.messager.confirm = function (title, msg, fn) {
         if (arguments.length == 1) {
             return $.isFunction(arguments[0]) ? _confirm(defaults.title, defaults.confirm, arguments[0]) : _confirm(defaults.title, arguments[0]);
@@ -129,6 +136,7 @@
     //      该函数提供如下重载方式：
     //      function (message, callback)
     //      function (title, message, callback)
+    //  返回值：返回弹出的消息框 easyui-window 对象
     $.messager.solicit = function (title, msg, fn) {
         var options = $.extend({}, (arguments.length == 2) ? { title: defaults.title, msg: arguments[0], fn: arguments[1] }
             : { title: arguments[0], msg: arguments[1], fn: arguments[2] });
@@ -155,6 +163,7 @@
     //      function (message, callback)
     //      function (title, message)
     //      function (title, message, callback)
+    //  返回值：返回弹出的消息框 easyui-window 对象
     $.messager.prompt = function (title, msg, fn) {
         if (arguments.length == 1) {
             return $.isFunction(arguments[0]) ? _prompt(defaults.title, defaults.prompt, arguments[0]) : _prompt(defaults.title, defaults.prompt);
@@ -173,6 +182,7 @@
     //      msg 表示加载显示的消息文本内容，默认为 "正在加载，请稍等..."；
     //      locale 表示加载的区域，可以是一个 jQuery 对象选择器字符串，也可以是一个 jQuery 对象或者 HTML-DOM 对象；默认为字符串 "body"。
     //      topMost 为一个布尔类型参数，默认为 false，表示是否在顶级页面加载此 mask 状态层。
+    //  返回值：返回表示弹出的数据加载框和层的 jQuery 对象。
     coreEasyui.loading = function (options) {
         var opts = { msg: defaults.loading, locale: "body", topMost: false };
         options = options || {};
@@ -235,6 +245,16 @@
     //  获取或更改 jQuery EasyUI 部分组件的通用错误提示函数；该方法定义如下重载方式：
     //      function():         获取 jQuery EasyUI 部分组件的通用错误提示函数；
     //      function(callback): 更改 jQuery EasyUI 部分组件的通用错误提示函数；
+    //  备注：该方法会设置如下组件的 onLoadError 事件；
+    //          easyui-form
+    //          easyui-combobox
+    //          easyui-combotree
+    //          easyui-combogrid
+    //          easyui-datagrid
+    //          easyui-propertygrid
+    //          easyui-tree
+    //          easyui-treegrid
+    //      同时还会设置 jQuery-ajax 的通用错误事件 error。
     coreEasyui.ajaxError = function (callback) {
         if (!arguments.length) { return $.fn.form.defaults.onLoadError; }
         $.fn.form.defaults.onLoadError = callback;
@@ -243,7 +263,7 @@
         $.fn.combogrid.defaults.onLoadError = callback;
         $.fn.datagrid.defaults.onLoadError = callback;
         $.fn.propertygrid.defaults.onLoadError = callback;
-        $.fn.propertygrid.defaults.onLoadError = callback;
+        $.fn.tree.defaults.onLoadError = callback;
         $.fn.treegrid.defaults.onLoadError = callback;
         $.ajaxSetup({ error: callback });
     };
