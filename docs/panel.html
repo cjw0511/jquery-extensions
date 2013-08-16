@@ -1,20 +1,36 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery Eayui Panel 功能扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.panel.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+        <li>增加了 easyui-panel、easyui-window、easyui-dialog 组件在卸载时回收内存的处理，主要用于 layout、panel(及其继承组件) 使用 iframe 嵌入网页时的内存泄漏问题</li>
+        <li>增加了 easyui-panel 控件的 minWidth、maxWidth、minHeight、maxHeight 扩展属性，用来控制 easyui-panel 控件的最大/小的高度/宽度</li>
+        <li>重写了 easyui-panel 控件的 onResize 事件，用于扩展四个新增属性 minWidth、maxWidth、minHeight、maxHeight 的功能</li>
+        <li>增加了 easyui-panel 控件的 iniframe 扩展属性，该属性表示 href 加载的远程页面是否装载在一个 iframe 中</li>
+        <li>重写了 easyui-panel 控件的 refresh 方法，用于支持新增的 iniframe 属性</li>
+        <li>增加了 easyui-panel 控件的 inlayout、intabs、isWindow、isDialog 扩展方法，用来判断当前 easyui-panel 出于哪个 easyui 组件中</li>
+        <li>增加了 easyui-panel 控件的 iframe 扩展方法，用于获取当 iniframe: true 时当前 panel 控件中的 iframe 容器对象</li>
+        <li>重写了 easyui-panel 控件的 header 方法，支持位于 easyui-tabs 中的 tab-panel 部件获取 header 对象</li>
+        <li>重写了 easyui-panel 控件的 setTitle 方法，支持位于 easyui-tabs 中的 tab-panel 部件设置 title 操作</li>
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [16,17,18,19,23]" >
+        
+    </textarea></p>
 
 
 <h4>扩展的属性</h4>
@@ -27,10 +43,34 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>minWidth</td>
+        <td>number</td>
+        <td>表示 easyui-panel 面板的最小宽度</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>maxWidth</td>
+        <td>number</td>
+        <td>表示 easyui-panel 面板的最大宽度</td>
+        <td>10000</td>
+    </tr>
+    <tr>
+        <td>minHeight</td>
+        <td>number</td>
+        <td>表示 easyui-panel 面板的最小高度</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>maxHeight</td>
+        <td>number</td>
+        <td>表示 easyui-panel 面板的最大高度</td>
+        <td>10000</td>
+    </tr>
+    <tr>
+        <td>iniframe</td>
+        <td>boolean</td>
+        <td>表示 href 加载的远程页面是否装载在一个 iframe 中</td>
+        <td>false</td>
     </tr>
 </table>
 
@@ -42,13 +82,11 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
-        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>onResize</td>
+        <td>width,height</td>
+        <td>重写 onResize 事件，用于扩展四个新增属性 minWidth、maxWidth、minHeight、maxHeight 的功能。</td>
     </tr>
 </table>
 
@@ -60,10 +98,57 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
+        <th>Returns</th>
     </tr>
     <tr>
+        <td>inlayout</td>
+        <td>none</td>
+        <td>判断当前 easyui-panel 是否为 easyui-layout 的 panel 部件。
+        </td>
+        <td>如果当前 easyui-panel 是 easyui-layout 的 panel 部件，则返回 true，否则返回 false。</td>
+    </tr>
+    <tr>
+        <td>intabs</td>
+        <td>none</td>
+        <td>判断当前 easyui-panel 是否为 easyui-tabs 的选项卡。</td>
+        <td>如果当前 easyui-panel 是 easyui-tabs 的 panel 部件，则返回 true，否则返回 false。</td>
+    </tr>
+    <tr>
+        <td>isWindow</td>
+        <td>none</td>
+        <td>判断当前 easyui-panel 是否为 easyui-window 组件。</td>
+        <td>如果当前 easyui-panel 是 easyui-window 的 panel 组件，则返回 true，否则返回 false。</td>
+    </tr>
+    <tr>
+        <td>isDialog</td>
+        <td>none</td>
+        <td>判断当前 easyui-panel 是否为 easyui-dialog 组件。</td>
+        <td>如果当前 easyui-panel 是 easyui-dialog 的 panel 组件，则返回 true，否则返回 false。</td>
+    </tr>
+    <tr>
+        <td>iframe</td>
+        <td>none</td>
+        <td>获取当前在 iniframe: true 时当前 panel 控件中的 iframe 容器对象。
+        </td>
+        <td>如果 inirame: false，则该方法返回一个空的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>refresh</td>
+        <td>href</td>
+        <td>重写 easyui-panel 控件的 refresh 方法，用于支持 iniframe 属性。</td>
         <td></td>
-        <td></td>
+    </tr>
+    <tr>
+        <td>header</td>
+        <td>none</td>
+        <td>重写 easyui-panel 控件的 header 方法，支持位于 easyui-tabs 中的 tab-panel 部件获取 header 对象。
+        </td>
+        <td>如果该 panel 位于 easyui-tabs 中，则该方法返回 easyui-tabs 的 div.tabs-header div.tabs-wrap ul.tabs 中对应 tab-panel 的 li 对象。</td>
+    </tr>
+    <tr>
+        <td>setTitle</td>
+        <td>title</td>
+        <td>重写 easyui-panel 控件的 setTitle 方法，支持位于 easyui-tabs 中的 tab-panel 部件设置 title 操作。</td>
         <td></td>
     </tr>
 </table>

@@ -66,6 +66,7 @@
             toggleOnClick: true,
             selectOnContextMenu: true,
             smooth: false,
+            showOption: true,
             onClick: function (node) {
                 if (!node || !node.attributes || !node.attributes.href) { return; }
                 var opts = $.extend({ id: node.id, title: node.text, iconCls: node.iconCls }, node.attributes);
@@ -94,7 +95,7 @@
     window.mainpage.instMainMenus = function () {
         window.mainpage.loadNavMenus();
         window.mainpage.instNavTree();
-        var selectIndex = 0;
+        var selectIndex = 8;
         if (window.mainpage.navMenusData.length) {
             $(navMenuList).find("a").eq(selectIndex > -1 && selectIndex < window.mainpage.navMenusData.length ? selectIndex : 0).click();
         }
@@ -115,6 +116,7 @@
             lines: true,
             dnd: true,
             toggleOnClick: true,
+            showOption: true,
             onBeforeDrop: function (target, source, point) {
                 var node = $(this).tree("getNode", target);
                 if (point == "append" || !point) {

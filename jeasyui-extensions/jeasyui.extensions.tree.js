@@ -17,6 +17,9 @@
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 *   3、jeasyui.extensions.menu.js v1.0 beta late
+*   4、jeasyui.extensions.panel.js v1.0 beta late
+*   5、jeasyui.extensions.window.js v1.0 beta late
+*   6、jeasyui.extensions.dialog.js v1.0 beta late
 *
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -29,11 +32,27 @@
     /******************** initExtensions Methods Begin ********************/
 
     function isRootNode(treeTarget, target) {
-        var tree = $.util.parseJquery(treeTarget), target = $.util.parseJquery(target)[0];
-        return $.array.contains(tree.tree("getRoots"), target, function (t1, t2) {
+        var t = $.util.parseJquery(treeTarget);
+        target = $.util.parseJquery(target)[0];
+        return $.array.contains(t.tree("getRoots"), target, function (t1, t2) {
             return t1.target == t2;
         });
     };
+
+    function showOption(treeTarget, target) {
+        var t = $.util.parseJquery(treeTarget), opts, pos;
+        if (target) {
+            target = $.util.parseJquery(target)[0];
+            opts = t.tree("getNode", target);
+            pos = $.util.parseJquery(target).offset();
+        } else {
+            opts = t.tree("options");
+            pos = t.offset();
+        }
+        $.extend(pos, { left: pos.left + 25, top: pos.top + 15 });
+        $.easyui.showOption(opts, pos);
+    };
+
 
     function getLevel(treeTarget, target) {
         var t = $.util.parseJquery(treeTarget), node = $.util.parseJquery(target);
@@ -119,7 +138,7 @@
     };
 
     function getNears(treeTarget, target) {
-        var t = $.util.parseJquery(treeTarget), target = $.util.parseJquery(target)[0];
+        var t = $.util.parseJquery(treeTarget); target = $.util.parseJquery(target)[0];
         if (!target || t.tree("isRoot", target)) { return t.tree("getRoots"); }
         var p = t.tree("getParent", target);
         if (!p) { return t.tree("getRoots"); }
@@ -127,7 +146,7 @@
     };
 
     function getNearChildren(treeTarget, target) {
-        var t = $.util.parseJquery(treeTarget), target = $.util.parseJquery(target)[0],
+        var t = $.util.parseJquery(treeTarget); target = $.util.parseJquery(target)[0],
             children = t.tree("getChildren", target);
         return $.array.filter(children, function (val) { return t.tree("getParent", val.target).target == target; });
     };
@@ -204,6 +223,8 @@
         var mDown = { text: "下移", iconCls: "icon-standard-down", disabled: !(move == true || move.down == true), handler: function () { t.tree("shift", { point: "down", target: node.target }); } };
         var mDownLevel = { text: "下移一级", iconCls: "icon-standard-arrow-down", disabled: !(move == true || move.downLevel == true), handler: function () { t.tree("shift", { point: "downLevel", target: node.target }); } };
 
+        var mOpts = { text: "显示 option", iconCls: "icon-standard-application-form", disabled: !opts.showOption, handler: function () { t.tree("showOption"); } };
+
         var menus = [];
         var toggleMenu = [mExpandAll, mExpand, mCollapse, mCollapseAll], moveMenu = [mUpLevel, mUp, mDown, mDownLevel];
         if (t.tree("isRoot", node.target)) {
@@ -213,6 +234,7 @@
             ]);
         }
         if ($.array.likeArray(opts.contextMenu)) { $.array.merge(menus, opts.contextMenu, "-"); }
+        if (opts.showOption) { $.array.merge(menus, mOpts, "-"); }
         $.array.merge(menus, typeof toggle == "object" && !toggle.submenu
                     ? $.array.merge(toggleMenu, "-") : [{ text: "展开/折叠", iconCls: "", disabled: !toggle, children: toggleMenu }, "-"]);
         $.array.merge(menus, typeof move == "object" && !move.submenu
@@ -326,6 +348,11 @@
         //      target: 用于判断的 tree-node 的 jQuery 或 DOM 对象。
         //  返回值：如果指定的 jQuery 对象是该 easyui-tree 的根节点，则返回 true，否则返回 false。
         isRoot: function (jq, target) { return isRootNode(jq[0], target); },
+
+        //  扩展 easyui-tree 的自定义方法；用于显示指定节点或树控件的属性信息；该方法定义如下参数：
+        //      target: 要显示属性信息的 tree-node 的 jQuery 或 DOM 对象；该参数可选；如果不定义该参数，则显示树控件的属性信息；
+        //  返回值：返回表示当前 easyui-tree 组件的 jQuery 对象。
+        showOption: function (jq, target) { return jq.each(function () { showOption(this, target); }); },
 
         //  扩展 easyui-tree 的自定义方法；用于获取指定节点的级别；该方法的参数 target 表示要获取级别的 tree-node 节点的 jQuery 或 DOM 对象；
         //  返回值：如果 target 表示的 DOM 对象存在于此 easyui-tree，则返回表示其所在节点级别的数字(从 1 开始计数)，否则返回 0。
@@ -510,6 +537,10 @@
         //          上面四个属性，如果参数的值为函数，则函数的签名为 function(e, node, tree, item, menu)。
         //      这四个菜单点击时，会自动触发 easyui-tree 的 onDrop 事件。
         moveMenu: false,
+
+        //  扩展 easyui-tree 的自定义属性，该属性表示在启用右键菜单的情况下，右键菜单项中是否显示 "显示 Tree 的 Option" 菜单项
+        //  Boolean 类型值；默认为 false。
+        showOption: false,
 
         //  表示当执行远程请求获取数据时，被一并发送到服务器的查询参数，参考 easyui-datagrid 中的 queryParams 属性定义；
         //  这是一个 JSON-Object 类型参数对象，其中每一个属性的值可以是值类型，也可以是返回值的函数。
