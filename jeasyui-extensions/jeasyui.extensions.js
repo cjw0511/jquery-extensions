@@ -291,6 +291,25 @@
         }
     });
 
+
+
+    coreJquery.fn.currentPanel = function () { };
+
+    coreJquery.fn.currentWindow = function () { };
+
+    coreJquery.fn.currentTabPanel = function () { };
+
+    coreJquery.fn.currentTabs = function () { };
+
+
+
+
+
+
+
+
+
+
     $.union(coreJquery);
     $.fn.union(coreJquery.fn);
 

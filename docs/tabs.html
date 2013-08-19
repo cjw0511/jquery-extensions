@@ -1,7 +1,7 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery Eayui Tabs 功能扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.tabs.js 实现。</p>
 
 <h4>扩展概述</h4>
 <p>这里填写该扩展文件所扩展的功能的概述。</p>
@@ -9,12 +9,20 @@
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
+    <li>jeasyui.extensions.menu.js</li>
+    <li>jeasyui.extensions.panel.js</li>
+    <li>jeasyui.extensions.window.js</li>
+    <li>jeasyui.extensions.dialog.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [16,17,18,19,23]" >
+        
+    </textarea></p>
 
 
 <h4>扩展的属性</h4>
@@ -27,10 +35,47 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>lineHeight</td>
+        <td>number</td>
+        <td>表示当前选项卡标题栏和选项卡的 pane-body 之间的空白区域高(宽)度(px)。<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/lineHeight" target="_blank">示例</a></td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>enableConextMenu</td>
+        <td>boolean</td>
+        <td>是否启用点击选项卡头的右键菜单。</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>enableNewTabMenu</td>
+        <td>boolean</td>
+        <td>是否启用 “创建新选项卡” 的右键菜单。</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>contextMenu</td>
+        <td>Object</td>
+        <td>当 enableContextMenu 为 true 时，右键点击选项卡标题时候弹出的自定义右键菜单项内容。<br />
+            这是一个数组格式对象，数组中的每一项都是一个 menu-item 元素；该 menu-item 元素格式定义如下：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id:         表示菜单项的 id<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text:       表示菜单项的显示文本<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iconCls:    表示菜单项的左侧显示图标<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disabled:   表示菜单项是否被禁用(禁用的菜单项点击无效)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hideOnClick:    表示该菜单项点击后整个右键菜单是否立即自动隐藏<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bold:           Boolean 类型值，默认为 false；表示该菜单项是否字体加粗<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style:          JSON-Object 类型值，默认为 null；表示要附加到该菜单项的样式<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handler:    表示菜单项的点击事件，该事件函数格式为 function(e, title, index, tabs, item, menu)，其中 this 指向菜单项本身<br />
+            <br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/menus/default" target="_blank">示例1</a> <a class="example" href="../examples/example.html?tabs/menus/custome" target="_blank">示例2</a> <a class="example" href="../examples/example.html?tabs/menus/customeDynamic" target="_blank">示例3</a>
+        </td>
+        <td>null</td>
+    </tr>
+    <tr>
+        <td>showOption</td>
+        <td>boolean</td>
+        <td>表示当右键点击选项卡头时，是否显示 "显示该选项卡的 option" 菜单项。</td>
+        <td>false</td>
     </tr>
 </table>
 
@@ -42,13 +87,16 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
-        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>onRefresh</td>
+        <td>title,index</td>
+        <td>当调用 easyui-tabs 的 refresh 方法后，将触发该事件</td>
+    </tr>
+    <tr>
+        <td>onContextMenu</td>
+        <td>e,title,index</td>
+        <td>覆盖 easyui-tabs 的原生事件属性 onContextMenu，以支持相应扩展功能。</td>
     </tr>
 </table>
 
@@ -60,11 +108,274 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
+        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>update</td>
+        <td>param</td>
+        <td>覆盖 easyui-tabs 的原生方法 update，以支持扩展的功能。参数param包含两个属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tab: 更新的目标tab容器<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;options: tab容器的选项<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>refresh</td>
+        <td>which</td>
+        <td>刷新指定的选项卡，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 表示被刷新的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>isSelected</td>
+        <td>which</td>
+        <td>判断指定的选项卡是否被选中，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>如果指定的选项卡被选中，则返回 true，否则返回 false。</td>
+    </tr>
+    <tr>
+        <td>isClosable</td>
+        <td>which</td>
+        <td>判断指定的选项卡是否可关闭，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>如果指定的选项卡可被关闭(closable:true)，则返回 true，否则返回 false。</td>
+    </tr>
+    <tr>
+        <td>newTab</td>
+        <td>which</td>
+        <td>弹出一个 easyui-dialog，可以在该 dialog 中输入参数以在当前选项卡组件中创建一个新的选项卡，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which:  指定的选项卡的 索引号 或者 标题，可选，默认为 0。该参数用于指示弹出的 easyui-dialog 出现的位置。<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>repeat</td>
+        <td>which</td>
+        <td>创建一个和指定选项卡相同内容的新选项卡，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回值：返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>getTabOption</td>
+        <td>which</td>
+        <td>获取指定选项卡的属性值集合(option)，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 属性值集合。</td>
+    </tr>
+    <tr>
+        <td>getSelectedOption</td>
+        <td>none</td>
+        <td>获取当前选中的选项卡的属性值集合 (option)<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a></td>
+        <td>返回当前选项卡控件 easyui-tabs 中已选中的选项卡的 属性值集合。</td>
+    </tr>
+    <tr>
+        <td>getSelectedIndex</td>
+        <td>none</td>
+        <td>获取当前选中的选项卡的索引号。<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a></td>
+        <td>返回当前选项卡控件 easyui-tabs 中已选中的选项卡的 索引号。</td>
+    </tr>
+    <tr>
+        <td>getSelectedTitle</td>
+        <td>none</td>
+        <td>获取当前选中的选项卡的标题。<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a></td>
+        <td>返回当前选项卡控件 easyui-tabs 中已选中的选项卡的 标题。</td>
+    </tr>
+    <tr>
+        <td>leftTabs</td>
+        <td>which</td>
+        <td>获取指定选项卡的左侧所有选项卡元素，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回一个数组，数组中的每一项都是一个表示选项卡页的 panel(jQuery) 对象。如果指定选项卡左侧没有其他选项卡，则返回一个空数组。</td>
+    </tr>
+    <tr>
+        <td>rightTabs</td>
+        <td>which</td>
+        <td>获取指定选项卡的右侧所有选项卡元素，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回一个数组，数组中的每一项都是一个表示选项卡页的 panel(jQuery) 对象。如果指定选项卡右侧没有其他选项卡，则返回一个空数组。</td>
+    </tr>
+    <tr>
+        <td>otherTabs</td>
+        <td>which</td>
+        <td>获取当前选项卡控件中除指定选项卡页在的其他所有选项卡元素，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回一个数组，数组中的每一项都是一个表示选项卡页的 panel(jQuery) 对象。如果当前选项卡控件除指定的选项卡页外没有其他选项卡，则返回一个空数组。</td>
+    </tr>
+    <tr>
+        <td>closableTabs</td>
+        <td>none</td>
+        <td>获取所有可关闭的选项卡页元素集合。<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a></td>
+        <td>返回一个数组，数组中的每一项都是一个表示选项卡页的 panel(jQuery) 对象。如果没有可关闭的选项卡，则返回一个空数组。</td>
+    </tr>
+    <tr>
+        <td>leftClosableTabs</td>
+        <td>which</td>
+        <td>获取指定选项卡左侧的所有可关闭的选项卡元素，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回一个数组，数组中的每一项都是一个表示选项卡页的 panel(jQuery) 对象。如果指定选项卡左侧没有可关闭的选项卡，则返回一个空数组。</td>
+    </tr>
+    <tr>
+        <td>rightClosableTabs</td>
+        <td>which</td>
+        <td>获取指定选项卡右侧的所有可关闭的选项卡元素，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回一个数组，数组中的每一项都是一个表示选项卡页的 panel(jQuery) 对象。如果指定选项卡右侧没有可关闭的选项卡，则返回一个空数组。</td>
+    </tr>
+    <tr>
+        <td>otherClosableTabs</td>
+        <td>which</td>
+        <td>获取当前选项卡控件中除指定选项卡页在的其他所有可关闭的选项卡元素，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回一个数组，数组中的每一项都是一个表示选项卡页的 panel(jQuery) 对象。如果当前选项卡控件除指定的选项卡页外没有其他可关闭的选项卡，则返回一个空数组。</td>
+    </tr>
+    <tr>
+        <td>closeLeft</td>
+        <td>which</td>
+        <td>关闭指定选项卡左侧的所有选项卡，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>closeRight</td>
+        <td>which</td>
+        <td>关闭指定选项卡右侧的所有选项卡，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>closeOther</td>
+        <td>which</td>
+        <td>关闭除指定选项卡外的其他所有选项卡，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>closeAll</td>
+        <td>none</td>
+        <td>关闭所有选项卡。<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a></td>
+        <td>返回值：返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>closeClosable</td>
+        <td>which</td>
+        <td>关闭指定的选项卡，但是如果该选项卡不可被关闭(closable:false)，则不执行任何动作；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>closeLeftClosable</td>
+        <td>which</td>
+        <td>关闭指定的选项卡左侧的所有可关闭的选项卡；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>closeRightClosable</td>
+        <td>which</td>
+        <td>关闭指定的选项卡右侧的所有可关闭的选项卡；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>closeOtherClosable</td>
+        <td>which</td>
+        <td>关闭除指定选项卡外的所有可关闭的选项卡；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>closeAllClosable</td>
+        <td>none</td>
+        <td>关闭所有可关闭的选项卡<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a></td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>showOption</td>
+        <td>which</td>
+        <td>以 easyui-dialog 的方式弹出一个 dialog 对话框窗体，该窗体中显示指定选项卡的所有属性值(options)；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 指定的选项卡的 索引号 或者 标题<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>move</td>
+        <td>param</td>
+        <td>将指定的 easyui-tabs tab-panel 选项卡页移动至另一位置，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param:  这是一个 JSON-Object 对象，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: Integer 或 String 类型值，表示要移动的 tab-panel 的索引号或者标题 title 值<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: Integer 或 String 类型值，表示移动目标位置的 tab-panel 的索引号或者标题 title 值<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point:  移动到目标位置的方式，String 类型值，仅限于定义为如下值：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"before":   表示把 source 选项卡移动至 target 选项卡的前面，默认值<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"after":    表示把 source 选项卡移动至 target 选项卡的后面<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/move" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>insert</td>
+        <td>options</td>
+        <td>在当前 easyui-tabs 组件上创建一个新的选项卡，并将其移动至指定选项卡的前一格位置，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;options:  表示要创建的新选项卡的属性，是一个 JSON-Object 对象，该对象的各项属性参考 easyui-tabs 中 add 方法的参数 options，并在此基础上增加了如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: Integer 或 String 类型值，表示移动位置的 tab-panel 的索引号或者标题 title 值<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/move" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
+    </tr>
+    <tr>
+        <td>setTitle</td>
+        <td>param</td>
+        <td>重设指定选项卡的标题名，该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param:  这是一个 JSON-Object 对象，该对象定义如下属性：
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which: 需要重设标题名的选项卡的 索引号(index) 或者原标题名(title)
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 新的标题名<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?tabs/others" target="_blank">示例</a>
+        </td>
+        <td>返回当前选项卡控件 easyui-tabs 的 jQuery 对象。</td>
     </tr>
 </table>
 

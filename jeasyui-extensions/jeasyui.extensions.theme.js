@@ -69,14 +69,14 @@
 
     $.easyui.theme.dataSource = [
         { id: 1, name: "默认(天空蓝,推荐)", path: "default" },
-        { id: 2, name: "金属黑(推荐)", path: "standard-black" },
-        { id: 3, name: "银色(推荐)", path: "standard-bootstrap" },
-        { id: 4, name: "灰霾(推荐)", path: "standard-gray" },
+        { id: 2, name: "金属黑(推荐)", path: "black" },
+        { id: 3, name: "银色(推荐)", path: "bootstrap" },
+        { id: 4, name: "灰霾(推荐)", path: "gray" },
         { id: 5, name: "清泉", path: "jqueryui-cupertino" },
         { id: 6, name: "黑色蜂巢", path: "jqueryui-dark-hive" },
         { id: 7, name: "杏黄", path: "jqueryui-pepper-grinder" },
         { id: 8, name: "阳光", path: "jqueryui-sunny" },
-        { id: 9, name: "磁贴（白）", path: "metro-white" },
+        { id: 9, name: "磁贴（标准）", path: "metro-standard" },
         { id: 10, name: "磁贴（蓝）", path: "metro-blue" },
         { id: 11, name: "磁贴（灰）", path: "metro-gray" },
         { id: 12, name: "磁贴（绿）", path: "metro-green" },
