@@ -1,23 +1,38 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI form 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.form.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+
+        <li>增加了 easyui-form 控件的getData扩展方法，用于获取 easyui-form 控件容器内所有表单控件的 JSON 序列化数据</li>
+        <li>重写 easyui-form 控件的 submit 方法，用于除了支持 form 标签提交外，还支持 div 等其他容器标签的提交。</li>
+        <li>重写 easyui-form 控件的 load 方法，用于加载事件的处理</li>
+        
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [2]" >
+        // 获取 easyui-form 控件容器内所有表单控件的 JSON 序列化数据
+        var data = $("#form1").form("getData");
+        $.easyui.showOption(data, { title: "显示表单 FORM 的数据" });
+    </textarea>
+</p>
 
 
-<h4>扩展的属性</h4>
+<!--<h4>扩展的属性</h4>
 <p>该扩展增加定义了如下属性：</p>
 <table class="doc-table">
     <tr>
@@ -50,7 +65,7 @@
         <td></td>
         <td></td>
     </tr>
-</table>
+</table>-->
 
 
 <h4>扩展的方法</h4>
@@ -60,12 +75,50 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
+        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>getData</td>
+        <td>param</td>
+        <td>获取 easyui-form 控件容器内所有表单控件的 JSON 序列化数据；该方法的参数 param 可以定义为如下格式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、JSON-Object  ：该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onlyEnabled：表示返回的结果数据中是否仅包含启用(disabled == false)的 HTML 表单控件；Boolean 类型值，默认为 false。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transcript :    表示当范围内存在重名(name 相同时)的 DOM 元素时，对重复元素的取值规则；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一个 String 类型值，可选的值限定在以下范围：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cover  :    覆盖方式，只取后面元素 的值，丢弃前面元素的值；默认值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;discard:    丢弃后面元素的值，只取前面元素的值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay:    将所有元素的值进行叠加；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overtype   :    元素叠加方式，当 transcript 的值定义为 "overlay" 时，此属性方有效；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一个 String 类型值，可选的值限定在以下范围：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array  :    将所有重复的元素叠加为一个数组；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;append :    将所有的重复元素叠加为一个字符串；默认值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;separator  :    元素叠加的分隔符，定义将所有重名元素叠加为一个字符串时用于拼接字符串的分隔符；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一个 String 类型值，默认为 ","；当 transcript 的值定义为 "overlay" 且 overtype 的值定义为 "append" 时，此属性方有效。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、String 类型值:   表示当范围内存在重名(name 相同时)的 DOM 元素时，对重复元素的取值规则；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其取值范围和当参数格式为 JSON-Object 时的属性 transcript 一样。<br />
+            关于更多用法参见<a class="example" href="../examples/example.html?form/getData" target="_blank">示例</a>
+        </td>
+        <td>该方法返回一个 JSON Object，返回对象中的每个数据都表示一个表单控件值。</td>
     </tr>
+
+    <tr>
+        <td>submit</td>
+        <td>options</td>
+        <td>重写 easyui-form 控件的 submit 方法，使之除了支持 form 标签提交外，还支持 div 等其他容器标签的提交。<br />
+        关于更多用法参见<a class="example" href="../examples/example.html?form/getData" target="_blank">示例</a>
+        </td>
+        <td>无</td>
+    </tr>
+
+    <tr>
+        <td>load</td>
+        <td>data</td>
+        <td>重写 easyui-form 控件的 load 方法。<br />
+        关于更多用法参见<a class="example" href="../examples/example.html?form/getData" target="_blank">示例</a>
+        </td>
+        <td>无</td>
+    </tr>
+
 </table>
 
 

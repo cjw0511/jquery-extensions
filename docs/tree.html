@@ -1,20 +1,91 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI tree 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.tree.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+        <li>增加了 easyui-tree 的autoBindDblClick自定义扩展属性，用于表示当设定了属性 contextMenu 时，是否将双击数据行 onDblClick 事件的响应函数</li>
+        <li>增加了 easyui-tree 的dblClickMenuIndex自定义扩展属性，用于表示当设定了属性 autoBindDblClick: true，双击行数据触发的右键菜单项事件的索引号</li>
+        <li>扩展了 easyui-tree 的smooth自定义属性，用于表示当前 easyui-tree 控件是否支持平滑数据格式</li>
+        <li>扩展了 easyui-tree 的selectOnContextMenu自定义属性，用于表示当右键点击 tree-node 时，是否自动选择被点击的 tree-node 对象</li>
+        
+        <li>扩展了 easyui-tree 的toggleOnClick自定义属性，用于表示当左键点击带有子节点的条目时，是否自动展开/折叠相应节点</li>
+        <li>扩展了 easyui-tree 的onlyNodeExpand自定义属性，用于表示同一级菜单节点下，只允许一个节点被展开</li>
+        <li>扩展了 easyui-tree 的enableContextMenu自定义属性，用于表示是否启用当前 easyui-tree 组件的右键菜单</li>
+        <li>扩展了 easyui-tree 的contextMenu自定义属性，用于表示当前 easyui-tree 的右键菜单</li>
+
+        <li>扩展了 easyui-tree 的toggleMenu自定义属性，用于表示是否启用右键菜单中的“展开当前、折叠当前、展开当前所有、折叠当前所有”菜单项的功能</li>
+        <li>扩展了 easyui-tree 的moveMenu自定义属性，用于表示是否启用右键菜单中的“上移、下移、上移一级、下移一级”菜单项的功能</li>
+        <li>扩展了 easyui-tree 的showOption自定义属性，用于表示在启用右键菜单的情况下，右键菜单项中是否显示 "显示 Tree 的 Option" 菜单项</li>
+
+        <li>扩展了 easyui-tree 的isRoot自定义方法；用于判断制定的 tree-node 是否为根节点</li>
+        <li>扩展了 easyui-tree 的showOption自定义方法；用于显示指定节点或树控件的属性信息</li>
+        <li>扩展了 easyui-tree 的getLevel自定义方法；用于获取指定节点的级别</li>
+        <li>扩展了 easyui-tree 的move自定义方法；用于移动指定的节点到另一个位置</li>
+
+        <li>扩展了 easyui-tree 的shift自定义方法；用于移动指定节点的位置</li>
+        <li>扩展了 easyui-tree 的compare自定义方法；用于判断两个 tree-node 之间的关系</li>
+        <li>扩展了 easyui-tree 的isChild自定义方法；用于判断一个节点是否为另一个节点的子节点</li>
+        <li>扩展了 easyui-tree 的isParent自定义方法；用于判断一个节点是否为另一个节点的父节点</li>
+
+        <li>扩展了 easyui-tree 的isSibling自定义方法；用于判断一个节点是否和另一个节点为具有同一个父节点的平级节点</li>
+        <li>扩展了 easyui-tree 的next自定义方法；用于获取指定节点的平级下一格位置的 tree-node 节点</li>
+        <li>扩展了 easyui-tree 的prev自定义方法；用于获取指定节点的平级上一格位置的 tree-node 节点</li>
+        <li>扩展了 easyui-tree 的getNears自定义方法；获取指定节点的同级所有节点(包含自身)</li>
+
+        <li>扩展了 easyui-tree 的getNearChildren自定义方法；用于获取指定节点的下一级所有节点</li>
+        <li>扩展了 easyui-tree 的unselect自定义方法；用于取消指定树节点的选择状态</li>
+        <li>扩展了 easyui-tree 的load自定义方法；用于请求远程服务器地址并加载数据，并将返回的数据设置为当前 easyui-tree 的节点数据集</li>
+        
+
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
+    <li>jeasyui.extensions.menu.js</li>
+    <li>jeasyui.extensions.panel.js</li>
+    <li>jeasyui.extensions.window.js</li>
+    <li>jeasyui.extensions.dialog.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [18,19,20,21]" >
+        // 自定义EasyUI-Tree的动态菜单
+        $(function () {
+            $("#tree1").tree({
+                method: "get",
+                lines: true,
+                url: "tree/tree-data.json",
+                autoBindDblClick: false,
+                enableContextMenu: true,
+                contextMenu: [
+                    { text: "测试菜单1", iconCls: "icon-hamburg-address", disabled: false, handler: function () { alert("您点击了测试菜单1"); } },
+                    { text: "测试菜单2", children: [
+                        { text: "测试子菜单1", handler: function () { alert("aaa"); } },
+                        { text: "测试子菜单2", handler: function () { alert("bbb"); } }
+                    ]
+                    },
+                    "-",
+                    {
+                        text: function (e, node) { return "当前节点文本为：" + node.text; },
+                        iconCls: function () { return "icon-hamburg-pencil"; },
+                        disabled: function () { return false; },
+                        handler: function (e, node, tree) {
+                            alert("当前树控件的根节点一共有 " + tree.tree("getRoots").length + " 行数据");
+                        }
+                    }
+                ]
+            });
+        });
+    </textarea></p>
 
 
 <h4>扩展的属性</h4>
@@ -27,15 +98,178 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>autoBindDblClick</td>
+        <td>Boolean</td>
+        <td>该属性表示当设定了属性 contextMenu 时，是否将双击数据行 onDblClick 事件的响应函数<br />
+            设置为 contextMenu 的第一个菜单项的点击响应函数，并将该菜单项的字体加粗；<br />
+            备注：当设置了自定义属性 contextMenu 时候，该功能方有效。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动绑定的 onClick 的回调函数中将会调用 contextMenu 的第 "dblClickMenuIndex" 个菜单项的点击响应函数，但是回调函数中不能用到参数 e 和 menu。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?tree/menu/autoBindDblClick" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>dblClickMenuIndex</td>
+        <td>Number</td>
+        <td>该属性表示当设定了属性 autoBindDblClick: true，双击行数据触发的右键菜单项事件的索引号；<br />
+            意即触发第几个右键菜单项上的事件。<br />
+            备注：当设置了自定义属性 autoBindDblClick: true 时，该功能方有效；如果此索引值超出菜单数量范围，则无效。
+        </td>
+        <td>0</td>
+    </tr>
+
+    <tr>
+        <td>smooth</td>
+        <td>Boolean</td>
+        <td>表示当前 easyui-tree 控件是否支持平滑数据格式。<br />
+            当支持平滑数据格式时，数据元素中不需要通过指定 children 来指定子节点，而是支持通过 pid 属性来指示其父级节点。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?tree/simpleData" target="_blank">示例</a>
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>selectOnContextMenu</td>
+        <td>Boolean</td>
+        <td>表示当右键点击 tree-node 时，是否自动选择被点击的 tree-node 对象；
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>toggleOnClick</td>
+        <td>Boolean</td>
+        <td>表示当左键点击带有子节点的条目时，是否自动展开/折叠相应节点。<br />
+            备注：该功能不会影响到 easyui-tree 的原生事件 onClick。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?tree/autoToggle" target="_blank">示例</a>
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>onlyNodeExpand</td>
+        <td>Boolean</td>
+        <td>表示同一级菜单节点下，只允许一个节点被展开。<br />
+            当该属性设置为 true 时，建议同时把 animate 属性设置为 false，以免影响菜单联动折叠时的美观效果。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?tree/onlyNodeExpand" target="_blank">示例</a>
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>enableContextMenu</td>
+        <td>Boolean</td>
+        <td>表示是否启用当前 easyui-tree 组件的右键菜单。<br />
+            备注：该功能不会影响到 easyui-tree 的原生事件 onContextMenu。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?tree/menu/default" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>contextMenu</td>
+        <td>数组类型</td>
+        <td>表示当前 easyui-tree 的右键菜单；<br />
+            这是一个数组类型，数组中的每一个元素都是一个 JSON-Object，该 JSON-Object 定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id:         表示菜单项的 id；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text:       表示菜单项的显示文本；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iconCls:    表示菜单项的左侧显示图标；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disabled:   表示菜单项是否被禁用(禁用的菜单项点击无效)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hideOnClick:    表示该菜单项点击后整个右键菜单是否立即自动隐藏；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bold:           Boolean 类型值，默认为 false；表示该菜单项是否字体加粗；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style:          JSON-Object 类型值，默认为 null；表示要附加到该菜单项的样式；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handler:    表示菜单项的点击事件，该事件函数格式为 function(e, node, tree, item, menu)，其中 this 指向菜单项本身<br />
+            备注：当 enableContextMenu 属性设置为 true 时，该属性才有效。<br />
+            备注：该功能不会影响到 easyui-tree 的原生事件 onContextMenu。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?tree/menu/custome" target="_blank">示例</a>
+        </td>
+        <td>null</td>
+    </tr>
+
+    <tr>
+        <td>toggleMenu</td>
+        <td>Boolean或JSON-Object</td>
+        <td>表示是否启用右键菜单中的“展开当前、折叠当前、展开当前所有、折叠当前所有”菜单项的功能；<br />
+            该属性可以定义为以下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型，表示是否启用这四个菜单项；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSON-Object 类型，该 JSON-Object 可以包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;expand:     布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“展开当前”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;expandAll:  布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“展开当前所有”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collapse:   布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“折叠当前”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collapseAll: 布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“折叠当前所有”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;submenu:    表示这四个菜单项是否以子菜单方式呈现，默认为 true；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上面四个属性，如果参数的值为函数，则函数的签名为 function(e, node, tree, item, menu)。<br />
+            备注：当 enableContextMenu 属性设置为 true 时，该属性才有效。<br />
+            这四个菜单点击时，会自动触发 easyui-tree 的折叠/展开菜单项的相应事件。
+        </td>
         <td></td>
     </tr>
+
+    <tr>
+        <td>moveMenu</td>
+        <td>Boolean或JSON-Object</td>
+        <td>表示是否启用右键菜单中的“上移、下移、上移一级、下移一级”菜单项的功能；<br />
+            备注：当 enableContextMenu 属性设置为 true 时，该属性才有效。<br />
+            该属性可以定义为以下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型，表示是否启用这四个菜单项，默认为 false；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSON-Object 类型，该 JSON-Object 可以包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;up:         布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“上移”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upLevel:    布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“上移一级”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;down:       布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“下移”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;downLevel:  布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“下移一级”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;submenu:    表示这四个菜单项是否以子菜单方式呈现，默认为 true；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上面四个属性，如果参数的值为函数，则函数的签名为 function(e, node, tree, item, menu)。<br />
+            这四个菜单点击时，会自动触发 easyui-tree 的 onDrop 事件。
+        </td>
+        <td>Boolean或JSON-Object</td>
+    </tr>
+
+    <tr>
+        <td>showOption</td>
+        <td>Boolean</td>
+        <td>该属性表示在启用右键菜单的情况下，右键菜单项中是否显示 "显示 Tree 的 Option" 菜单项
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>queryParams</td>
+        <td>JSON-Object</td>
+        <td>表示当执行远程请求获取数据时，被一并发送到服务器的查询参数，参考 easyui-datagrid 中的 queryParams 属性定义；<br />
+            这是一个 JSON-Object 类型参数对象，其中每一个属性的值可以是值类型，也可以是返回值的函数。
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>loader</td>
+        <td>function</td>
+        <td>覆盖 easyui-tree 的原生属性 loader，以支持相应扩展功能
+        </td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td>loadFilter</td>
+        <td>function</td>
+        <td>覆盖 easyui-tree 的原生属性 loadFilter，以支持相应扩展功能(支持平滑数据格式)。
+        </td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td>onExpand</td>
+        <td>function</td>
+        <td>覆盖 easyui-tree 的原生事件 onExpand，以支持相应扩展功能。
+        </td>
+        <td></td>
+    </tr>
+
 </table>
 
 
-<h4>扩展的事件</h4>
+<!--<h4>扩展的事件</h4>
 <p>该扩展增加定义了如下事件：</p>
 <table class="doc-table">
     <tr>
@@ -50,7 +284,7 @@
         <td></td>
         <td></td>
     </tr>
-</table>
+</table>-->
 
 
 <h4>扩展的方法</h4>
@@ -60,12 +294,191 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
+        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>isRoot</td>
+        <td>target</td>
+        <td>判断制定的 tree-node 是否为根节点；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 用于判断的 tree-node 的 jQuery 或 DOM 对象。
+        </td>
+        <td>如果指定的 jQuery 对象是该 easyui-tree 的根节点，则返回 true，否则返回 false。</td>
     </tr>
+
+    <tr>
+        <td>showOption</td>
+        <td>target</td>
+        <td>用于显示指定节点或树控件的属性信息；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 要显示属性信息的 tree-node 的 jQuery 或 DOM 对象；该参数可选；如果不定义该参数，则显示树控件的属性信息；
+        </td>
+        <td>返回表示当前 easyui-tree 组件的 jQuery 对象。</td>
+    </tr>
+
+    <tr>
+        <td>getLevel</td>
+        <td>target</td>
+        <td>用于获取指定节点的级别；该方法的参数 target 表示要获取级别的 tree-node 节点的 jQuery 或 DOM 对象；
+        </td>
+        <td>如果 target 表示的 DOM 对象存在于此 easyui-tree，则返回表示其所在节点级别的数字(从 1 开始计数)，否则返回 0。</td>
+    </tr>
+
+    <tr>
+        <td>move</td>
+        <td>param</td>
+        <td>移动指定的节点到另一个位置；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param:   这是一个 JSON-Object，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 表示目标位置的 tree-node 的 jQuery 或 DOM 对象；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 表示要移动的 tree-node 的 jQuery 或 DOM 对象；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point:  表示移动到目标节点 target 的位置，String 类型，可选的值包括：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"append":   表示追加为目标节点 target 的子节点，默认值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"top":      表示移动到目标节点 target 的上一格位置；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"bottom":   表示追加为目标节点 target 的下一格位置；
+        </td>
+        <td>返回表示当前 easyui-tree 组件的 jQuery 对象。</td>
+    </tr>
+
+    <tr>
+        <td>shift</td>
+        <td>param</td>
+        <td>移动指定节点的位置；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param:  这是一个 JSON-Object，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 表示要移动的 tree-node 的 jQuery 或 DOM 对象；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point:  表示移动 target 的方式，String 类型，可选的值报错：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"up":       表示将 target 所表示的 tree-node 移动到上一格位置；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"upLevel":  表示将 target 所表示的 tree-node 移动到上一级的末尾；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"down":     表示将 target 所表示的 tree-node 移动到下一格位置；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"downLevel":表示将 target 所表示的 tree-node 移动到下一级的末尾；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义该值或者该值为空或该值不是上面四个之一，则不进行任何操作；
+        </td>
+        <td>返回表示当前 easyui-tree 组件的 jQuery 对象。</td>
+    </tr>
+
+    <tr>
+        <td>compare</td>
+        <td>param</td>
+        <td>判断两个 tree-node 之间的关系；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param：  这是一个 JSON-Object，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target1:    用于判断的第一个 tree-node 的 jQuery 或 DOM 对象；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target2:    用于判断的第二个 tree-node 的 jQuery 或 DOM 对象；
+        </td>
+        <td>返回一个 String 类型的值：<br />
+            如果 target1 是 target2 的子节点，则返回 "child"；<br />
+            如果 target1 是 target2 的父节点，则返回 "parent"；<br />
+            如果 target1 和 target2 是具有同一个父级节点的平级节点，则返回 "sibling"；<br />
+            如果 target1 和 target2 既不是父子级关系，也不是具有同一个父级节点的平级节点关系，则返回 "normal"；
+        </td>
+    </tr>
+
+    <tr>
+        <td>isChild</td>
+        <td>param</td>
+        <td>判断一个节点是否为另一个节点的子节点；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param：  这是一个 JSON-Object，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target1:    用于判断的第一个 tree-node 的 jQuery 或 DOM 对象；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target2:    用于判断的第二个 tree-node 的 jQuery 或 DOM 对象；
+        </td>
+        <td>如果 tree-node target1 是 tree-node target2 的子节点，则返回 true，否则返回 false。
+        </td>
+    </tr>
+
+    <tr>
+        <td>isParent</td>
+        <td>param</td>
+        <td>判断一个节点是否为另一个节点的父节点；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param：  这是一个 JSON-Object，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target1:    用于判断的第一个 tree-node 的 jQuery 或 DOM 对象；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target2:    用于判断的第二个 tree-node 的 jQuery 或 DOM 对象；
+        </td>
+        <td>如果 tree-node target1 是 tree-node target2 的父节点，则返回 true，否则返回 false。
+        </td>
+    </tr>
+
+    <tr>
+        <td>isSibling</td>
+        <td>param</td>
+        <td>判断一个节点是否和另一个节点为具有同一个父节点的平级节点；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param：  这是一个 JSON-Object，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target1:    用于判断的第一个 tree-node 的 jQuery 或 DOM 对象；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target2:    用于判断的第二个 tree-node 的 jQuery 或 DOM 对象；
+        </td>
+        <td>如果 tree-node target1 和 tree-node target2 是具有同一个父级节点的平级节点，则返回 true，否则返回 false。
+        </td>
+    </tr>
+
+    <tr>
+        <td>next</td>
+        <td>target</td>
+        <td>判断一个节点是否和另一个节点为具有同一个父节点的平级节点；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param：  这是一个 JSON-Object，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target1:    用于判断的第一个 tree-node 的 jQuery 或 DOM 对象；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target2:    用于判断的第二个 tree-node 的 jQuery 或 DOM 对象；
+        </td>
+        <td>返回 tree-node target 的同级别下一格位置的 tree-node 节点 node 对象；该 node 对象含有如下属性：<br />
+            id、text、iconCls、checked、state、attributes、target；<br />
+            如果该 tree-node target 为当前级别的最后一个节点即没有下一格节点；则返回 null。
+        </td>
+    </tr>
+
+    <tr>
+        <td>prev</td>
+        <td>target</td>
+        <td>获取指定节点的平级上一格位置的 tree-node 节点；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:  指定的表示 tree-node 的 jQuery 或 DOM 对象。
+        </td>
+        <td>返回 tree-node target 的同级别上一格位置的 tree-node 节点对象；该 tree-node 对象含有如下属性：<br />
+            id、text、iconCls、checked、state、attributes、target；<br />
+            如果该 tree-node target 为当前级别的第一个节点即没有上一格节点；则返回 null。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getNears</td>
+        <td>target</td>
+        <td>获取指定节点的同级所有节点(包含自身)；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:  指定的表示 tree-node 的 jQuery 或 DOM 对象。
+        </td>
+        <td>返回 tree-node target 的同级别(具有和当前 target 同一个父级节点)所有节点构成的一个数组对象；<br />
+            数组中每一个元素都是一个包含属性 id、text、iconCls、checked、state、attributes、target 的 tree-node 对象。<br />
+            如果传入的参数 target 是根节点或者未定义 target 参数，则该方法和 getRoots 方法返回的值相同；
+        </td>
+    </tr>
+
+    <tr>
+        <td>getNearChildren</td>
+        <td>target</td>
+        <td>获取指定节点的下一级所有节点；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:  指定的表示 tree-node 的 jQuery 或 DOM 对象。<br />
+            备注：该方法和 getChildren 的不同之处在于，getChildren 方法返回的是 target 下的所有子节点内容；
+        </td>
+        <td>返回 tree-node target 的下一级所有节点构成的一个数组对象；<br />
+            数组中每一个元素都是一个包含属性 id、text、iconCls、checked、state、attributes、target 的 tree-node 对象。<br />
+            如果传入的参数 target 没有子节点，则返回一个包含 0 个元素的数组。
+        </td>
+    </tr>
+
+    <tr>
+        <td>unselect</td>
+        <td>target</td>
+        <td>用于取消指定树节点的选择状态；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:  指定的表示 tree-node 的 jQuery 或 DOM 对象。
+        </td>
+        <td>返回表示当前 easyui-tree 组件的 jQuery 对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>load</td>
+        <td>param</td>
+        <td>请求远程服务器地址并加载数据，并将返回的数据设置为当前 easyui-tree 的节点数据集；该方法定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param：表示要进行远程请求的方式，该参数可以定义为以下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 类型值：表示作为远程数据请求的目标 url 地址；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSON-Object 类型值：表示发送至远程服务器的查询参数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果未定义参数 param，则相当于直接执行不带参数 { id } 的 reload 方法(reload 方法的执行默认会将指定节点的 id 作为参数发送到远程服务器地址)。
+        </td>
+        <td>返回表示当前 easyui-tree 组件的 jQuery 对象。
+        </td>
+    </tr>
+
 </table>
 
 

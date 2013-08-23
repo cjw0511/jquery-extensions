@@ -1,20 +1,59 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI window 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.window.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+        <li>扩展了 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口对象是否在屏幕大小调整的情况下自动进行左右居中</li>
+        <li>扩展了 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口对象是否在屏幕大小调整的情况下自动进行上下居中</li>
+        <li>扩展了 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口对象是否在按下 ESC</li>
+        <li>扩展了 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口是否在双击头部时自动最大化</li>
+        <li>扩展了 easyui-window 以及 easyui-dialog 控件的自定义属性，表示是否启用该窗口的右键菜单</li>
+        <li>扩展了 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口的右键菜单</li>
+        <li>扩展了 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口是否无法移除父级对象边界</li>
+        <li>重写了 easyui-window 以及 easyui-dialog 控件的原生事件 onMove，以支持相应扩展功能</li>
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
+    <li>jeasyui.extensions.menu.js</li>
+    <li>jeasyui.extensions.panel.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4,5,14,15,16,17]" >
+        // 自定义右键动态菜单
+        $("#win1").window({
+        title: "test window1", top: 100, left: 180, width: 300, height: 200,
+            enableHeaderContextMenu: true,
+            headerContextMenu: [
+                { text: "测试菜单1", iconCls: "icon-hamburg-address", disabled: false, handler: function () { alert("您点击了测试菜单1"); } },
+                { text: "测试菜单2", children: [
+                    { text: "测试子菜单1", handler: function () { alert("aaa"); } },
+                    { text: "测试子菜单2", handler: function () { alert("bbb"); } }
+                ]
+                },
+                "-",
+                {
+                    text: function (e, win, item, menu) { return "当前窗口标题为：" + win.window("options").title; },
+                    iconCls: function () { return "icon-hamburg-pencil"; },
+                    disabled: function () { return false; },
+                    handler: function (e, win, item, menu) {
+                        alert("您点击了窗口'" + win.window("options").title + "'的标题");
+                    }
+                }
+            ]
+        });
+
+    </textarea></p>
 
 
 <h4>扩展的属性</h4>
@@ -27,11 +66,70 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>autoHCenter</td>
+        <td>Boolean</td>
+        <td>表示该窗口对象是否在屏幕大小调整的情况下自动进行左右居中<br />
+        关于更多用法参见<a class="example" href="../examples/example.html?window/autoCenter" target="_blank">示例</a></td>
+        <td>true</td>
     </tr>
+
+    <tr>
+        <td>autoVCenter</td>
+        <td>Boolean</td>
+        <td>表示该窗口对象是否在屏幕大小调整的情况下自动进行上下居中<br />
+        关于更多用法参见<a class="example" href="../examples/example.html?window/autoCenter" target="_blank">示例</a></td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>autoCloseOnEsc</td>
+        <td>Boolean</td>
+        <td>表示该窗口对象是否在按下 ESC<br />
+        关于更多用法参见<a class="example" href="../examples/example.html?window/escClose" target="_blank">示例</a></td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>autoRestore</td>
+        <td>Boolean</td>
+        <td>表示该窗口是否在双击头部时自动最大化<br />
+        关于更多用法参见<a class="example" href="../examples/example.html?window/autoRestore" target="_blank">示例</a></td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>enableHeaderContextMenu</td>
+        <td>Boolean</td>
+        <td>表示是否启用该窗口的右键菜单<br />
+        关于更多用法参见<a class="example" href="../examples/example.html?window/menu/default" target="_blank">示例</a></td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>headerContextMenu</td>
+        <td>数组格式对象</td>
+        <td>表示该窗口的右键菜单；<br />
+            这是一个数组格式对象，数组中的每一项都是一个 menu-item 元素；该 menu-item 元素格式定义如下：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id:         表示菜单项的 id；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text:       表示菜单项的显示文本；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iconCls:    表示菜单项的左侧显示图标；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disabled:   表示菜单项是否被禁用(禁用的菜单项点击无效)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hideOnClick:    表示该菜单项点击后整个右键菜单是否立即自动隐藏；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bold:           Boolean 类型值，默认为 false；表示该菜单项是否字体加粗；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style:          JSON-Object 类型值，默认为 null；表示要附加到该菜单项的样式；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handler:    表示菜单项的点击事件，该事件函数格式为 function(e, win, item, menu)，其中 this 指向菜单项本身<br />
+            关于更多用法参见<a class="example" href="../examples/example.html?window/menu/customeDynamic" target="_blank">示例</a></td>
+        <td>null</td>
+    </tr>
+
+    <tr>
+        <td>inContainer</td>
+        <td>Boolean</td>
+        <td>表示该窗口是否无法移除父级对象边界<br />
+        关于更多用法参见<a class="example" href="../examples/example.html?window/inContainer" target="_blank">示例</a></td>
+        <td>true</td>
+    </tr>
+
 </table>
 
 
@@ -45,15 +143,15 @@
         <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>onMove</td>
+        <td>function</td>
+        <td>重写 easyui-window 以及 easyui-dialog 控件的原生事件 onMove，以支持相应扩展功能</td>
+        <td>null</td>
     </tr>
 </table>
 
 
-<h4>扩展的方法</h4>
+<!--<h4>扩展的方法</h4>
 <p>该扩展增加定义了如下方法：</p>
 <table class="doc-table">
     <tr>
@@ -66,7 +164,7 @@
         <td></td>
         <td></td>
     </tr>
-</table>
+</table>-->
 
 
 

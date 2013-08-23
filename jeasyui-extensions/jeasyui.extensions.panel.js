@@ -89,6 +89,11 @@
         return panels.hasClass("tabs-panels") && container.hasClass("tabs-container");
     };
 
+    var inaccordion = function (target) {
+        var t = $.util.parseJquery(target), panel = t.panel("panel"), container = panel.parent();
+        return (container.hasClass("accordion") && $.data(container[0], "accordion")) ? true : false;
+    };
+
     var isWindow = function (target) {
         var t = $.util.parseJquery(target), body = t.panel("body");
         return body.hasClass("window-body") && body.parent().hasClass("window");
@@ -183,6 +188,9 @@
 
         //  判断当前 easyui-panel 是否为 easyui-tabs 的选项卡。
         intabs: function (jq) { return intabs(jq[0]); },
+
+        //  判断当前 easyui-panel 是否为 easyui-accordion 中的一个折叠面板。
+        inaccordion: function (jq) { return inaccordion(jq[0]); },
 
         //  增加 easyui-panel 控件的扩展方法；该方法用于获取当前在 iniframe: true 时当前 panel 控件中的 iframe 容器对象；
         //  备注：如果 inirame: false，则该方法返回一个空的 jQuery 对象。

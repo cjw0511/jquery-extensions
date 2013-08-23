@@ -293,20 +293,129 @@
 
 
 
-    coreJquery.fn.currentPanel = function () { };
+    coreJquery.fn.currentPagination = function () {
+        var p = this.closest(".pagination");
+        while (!$.data(p[0], "pagination")) { p = p.closest(".pagination"); }
+        return p;
+    };
 
-    coreJquery.fn.currentWindow = function () { };
+    coreJquery.fn.currentProgressbar = function () {
+        var p = this.closest(".progressbar");
+        while (!$.data(p[0], "progressbar")) { p = p.closest(".progressbar"); }
+        return p;
+    };
 
-    coreJquery.fn.currentTabPanel = function () { };
+    coreJquery.fn.currentPanel = function () {
+        var p = this.closest(".panel-body");
+        while (!$.data(p[0], "panel")) { p = p.closest(".panel-body"); }
+        return p;
+    };
 
-    coreJquery.fn.currentTabs = function () { };
+    coreJquery.fn.currentTabPanel = function () {
+        var p = this.closest(".panel-body"), panel = p.parent(), panels = panel.parent(), container = panels.parent();
+        while (!($.data(p[0], "panel") && panel.hasClass("panel") && panels.hasClass("tabs-panels") && container.hasClass("tabs-container"))) {
+            p = p.closest(".panel-body");
+            panel = p.parent();
+            panels = panel.parent();
+            container = panels.parent();
+        }
+        return p;
+    };
 
+    coreJquery.fn.currentTabs = function () {
+        var p = this.closest(".tabs-container");
+        while (!$.data(p[0], "tabs")) { p = p.closest(".tabs-container"); }
+        return p;
+    };
 
+    coreJquery.fn.currentAccordion = function () {
+        var p = this.closest(".accordion");
+        while (!$.data(p[0], "accordion")) { p = p.closest(".accordion"); }
+        return p;
+    };
 
+    coreJquery.fn.currentAccPanel = function () {
+        var p = this.closest(".panel-body"), panel = p.parent(), container = panels.parent();
+        while (!($.data(p[0], "panel") && panel.hasClass("panel") && container.hasClass("accordion") && $.data(container[0], "accordion"))) {
+            p = p.closest(".panel-body");
+            panel = p.parent();
+            container = panels.parent();
+        }
+        return p;
+    };
 
+    coreJquery.fn.currentLayout = function () {
+        var layout = this.closest(".layout");
+        while (!$.data(layout[0], "layout")) { layout = layout.closest(".layout"); }
+        return layout;
+    };
 
+    coreJquery.fn.currentRegion = function () {
+        var p = this.closest(".panel.layout-panel"), layout = p.parent(), body = p.children(".panel-body");
+        while (!(layout.hasClass("layout") && $.data(body[0], "panel"))) {
+            p = p.closest(".panel.layout-panel");
+            layout = p.parent();
+            body = p.children(".panel-body");
+        }
+        return body;
+    };
 
+    coreJquery.fn.currentLinkbutton = function () {
+        var btn = this.closest(".l-btn");
+        while (!$.data(btn[0], "linkbutton")) { btn = btn.closest(".layout"); }
+        return btn;
+    };
 
+    coreJquery.fn.currentCalendar = function () {
+        var c = this.closest(".calendar");
+        while (!$.data(c[0], "calendar")) { c = c.closest(".calendar"); }
+        return c;
+    };
+
+    coreJquery.fn.currentWindow = function () {
+        var p = this.closest(".panel-body.window-body");
+        while (!$.data(p[0], "window")) { p = c.closest(".panel-body.window-body"); }
+        return p;
+    };
+
+    coreJquery.fn.currentDialog = function () {
+        var p = this.closest(".panel-body.window-body");
+        while (!$.data(p[0], "dialog")) { p = c.closest(".panel-body.window-body"); }
+        return p;
+    };
+
+    coreJquery.fn.currentDatagrid = function () {
+        var p = this.closest(".datagrid-wrap.panel-body"), dg = p.find(">.datagrid-view>eq(2)");
+        while (!$.data(dg[0], "datagrid")) {
+            p = p.closest(".datagrid-wrap.panel-body");
+            dg = p.find(">.datagrid-view>eq(2)");
+        }
+        return dg;
+    };
+
+    coreJquery.fn.currentPropertygrid = function () {
+        var p = this.closest(".datagrid-wrap.panel-body"), pg = p.find(">.datagrid-view>eq(2)");
+        while (!$.data(pg[0], "propertygrid")) {
+            p = p.closest(".datagrid-wrap.panel-body");
+            pg = p.find(">.datagrid-view>eq(2)");
+        }
+        return pg;
+    };
+
+    coreJquery.fn.currentTree = function () {
+        var t = this.closest(".tree");
+        while (!$.data(t[0], "tree")) { t = t.closest(".tree"); }
+        return t;
+    };
+
+    coreJquery.fn.currentTreegrid = function () {
+        var p = this.closest(".datagrid-wrap.panel-body"), tg = p.find(">.datagrid-view>eq(2)");
+        while (!$.data(tg[0], "treegrid")) {
+            p = p.closest(".datagrid-wrap.panel-body");
+            tg = p.find(">.datagrid-view>eq(2)");
+        }
+        return tg;
+    };
 
 
 

@@ -1,20 +1,46 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI dialog 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.dialog.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+        <li>修复了 easyui-dialog 组件的 options 方法返回的 width 和 height 属性不正确的 BUG</li>
+        <li>扩展了 easyui-dialog 控件的自定义方法contentPanel，用于获取当前 easyui-dialog 控件的内容面板 panel 对象</li>
+        <li>重写了 easyui-panel 控件的自定义方法 iframe，用于获取当前 easyui-dialog 控件内容面板 panel 对象中的 iframe 对象</li>
+        <li>重写 easyui-dialog 控件的 refresh 方法，用于支持 iniframe 属性</li>
+        
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
+    <li>jeasyui.extensions.menu.js</li>
+    <li>jeasyui.extensions.panel.js</li>
+    <li>jeasyui.extensions.window.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4,8]" >
+        // 快速创建Dialog
+        $(function () {
+            $("#btnCreateDialog").click(function () {
+                $.easyui.showDialog({
+                    title: "快速创建的 Dialog",
+                    top: 130, left: 170, width: 400, height: 200,
+                    content: "这是通过 $.easyui.showDialog 方法创建的 Dialog",
+                    topMost: false
+                });
+            });
+        });
+
+    </textarea></p>
 
 
 <h4>扩展的属性</h4>
@@ -27,11 +53,106 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>jQuery.easyui.parent</td>
+        <td>Object</td>
+        <td>仅可以在通过 jQuery.easyui.showDialog 打开的 easyui-dialog 中的 iframe 中使用</td>
         <td></td>
     </tr>
+
+    <tr>
+        <td>locale</td>
+        <td>String或者Object</td>
+        <td>表示将要打开的 easyui-dialog 的父级容器，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用<br />
+            注意：如果设置了该参数，则 topMost 属性将自动设置为 false。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果为 null 或者 undefined 则表示父级容器为 body 标签。
+        </td>
+        <td>null</td>
+    </tr>
+
+    <tr>
+        <td>topMost</td>
+        <td>Boolean</td>
+        <td>是否在顶级窗口打开此 easyui-dialog 组件，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>iniframe</td>
+        <td>Boolean</td>
+        <td>是否在iframe加载远程 href 页面数据，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>enableSaveButton</td>
+        <td>Boolean</td>
+        <td>是否启用保存按钮，保存按钮点击后会关闭模式对话框，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>enableApplyButton</td>
+        <td>Boolean</td>
+        <td>是否启用应用按钮，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>enableCloseButton</td>
+        <td>Boolean</td>
+        <td>是否启用关闭按钮，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>enableCloseButton</td>
+        <td>Boolean</td>
+        <td>是否启用关闭按钮，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>saveButtonText</td>
+        <td>String</td>
+        <td>应用按钮的文字内容，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>保存</td>
+    </tr>
+
+    <tr>
+        <td>applyButtonText</td>
+        <td>String</td>
+        <td>保存按钮的文字内容，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>应用</td>
+    </tr>
+
+    <tr>
+        <td>closeButtonText</td>
+        <td>String</td>
+        <td>关闭按钮的文字内容，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>关闭</td>
+    </tr>
+
+    <tr>
+        <td>saveButtonIconCls</td>
+        <td>String</td>
+        <td>保存按钮的图标样式，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>icon-save</td>
+    </tr>
+
+    <tr>
+        <td>applyButtonIconCls</td>
+        <td>String</td>
+        <td>应用按钮的图标样式，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>icon-ok</td>
+    </tr>
+
+    <tr>
+        <td>closeButtonIconCls</td>
+        <td>String</td>
+        <td>关闭按钮的图标样式，该属性定义仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>icon-cancel</td>
+    </tr>
+
 </table>
 
 
@@ -45,11 +166,26 @@
         <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>onSave</td>
+        <td>无</td>
+        <td>点击保存按钮触发的事件，如果该事件范围 false，则点击保存后窗口不关闭，该触发事件仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>null</td>
     </tr>
+
+    <tr>
+        <td>onApply</td>
+        <td>无</td>
+        <td>关闭窗口时应触发的事件，easyui-dialog本身就有，该触发事件仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>null</td>
+    </tr>
+
+    <tr>
+        <td>onClose</td>
+        <td>无</td>
+        <td>点击应用按钮触发的事件，该触发事件仅在方法 jQuery.easyui.showDialog 中被调用</td>
+        <td>null</td>
+    </tr>
+
 </table>
 
 
@@ -60,12 +196,79 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
+        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>options</td>
+        <td>无</td>
+        <td>修复 easyui-dialog 组件的 options 方法返回的 width 和 height 属性不正确的 BUG</td>
+        <td>无</td>
     </tr>
+
+    <tr>
+        <td>contentPanel</td>
+        <td>无</td>
+        <td>获取当前 easyui-dialog 控件的内容面板 panel 对象</td>
+        <td>无</td>
+    </tr>
+
+    <tr>
+        <td>iframe</td>
+        <td>无</td>
+        <td>获取当前 easyui-dialog 控件内容面板 panel 对象中的 iframe 对象。<br />
+        注：如果 inirame: false，则该方法返回一个空的 jQuery 对象</td>
+        <td>无</td>
+    </tr>
+
+    <tr>
+        <td>refresh</td>
+        <td>href</td>
+        <td>用于支持 iniframe 属性</td>
+        <td>无</td>
+    </tr>
+
+
+    <tr>
+        <td>jQuery.easyui.parent.closeDialog</td>
+        <td>无</td>
+        <td>仅可以在通过 $.easyui.showDialog 打开的 easyui-dialog 中的 iframe 中使用</td>
+        <td>无</td>
+    </tr>
+
+    <tr>
+        <td>jQuery.easyui.showDialog</td>
+        <td>options</td>
+        <td>以 easyui-dialog 方法在当前浏览器窗口的顶级(可访问)窗体中弹出对话框窗口；该函数定义如下参数：<br />
+            options:    一个 JSON Object，具体格式参考 easyui-dialog 官方 api 中的属性列表。<br />
+            该参数在 easyui-dialog 官方 api 所有原属性列表基础上，增加如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iniframe:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enableSaveButton:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enableApplyButton:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enableCloseButton:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onSave:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClose:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;saveButtonText:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;applyButtonText:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;closeButtonText:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;saveButtonIconCls:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;applyButtonIconCls:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;closeButtonIconCls:
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?dialog/easy/topMost" target="_blank">示例</a>
+        </td>
+        <td>返回弹出的 easyui-dialog 的 jQuery 对象</td>
+    </tr>
+
+    <tr>
+        <td>jQuery.easyui.showOption </td>
+        <td>options, dialogOption</td>
+        <td>通过调用 $.easyui.showDialog 方法，以 easyui-dialog 的方式显示一个 JSON - Object 对象的所有属性值；该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;options:    需要显示的 JSON - Object；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dialogOption:  该参数可选，表示要打开的 easyui-dialog 的 options。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注：该方法一般用于对象值显示，例如可以用于项目开发过程中的参数显示调试。<br />
+        </td>
+        <td>返回弹出的 easyui-dialog 的 jQuery 对象</td>
+    </tr>
+
 </table>
 
 

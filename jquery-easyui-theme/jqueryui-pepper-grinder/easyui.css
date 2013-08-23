@@ -721,8 +721,6 @@ a.l-btn .l-btn-focus{
 	position:relative;
 	margin:0;
 	padding:0;
-	height:22px;
-	line-height:20px;
 	overflow:hidden;
 	font-size:12px;
 	cursor:pointer;
@@ -730,6 +728,8 @@ a.l-btn .l-btn-focus{
 	_border:1px solid #f0f0f0;
 }
 .menu-text{
+	height:22px;
+	line-height:20px;
 	position:absolute;
 	left:28px;
 	top:0px;

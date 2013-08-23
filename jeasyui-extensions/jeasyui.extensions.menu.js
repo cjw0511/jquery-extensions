@@ -78,8 +78,9 @@
                         });
                         item[0].itemName = itemOpts.name || '';
                         item[0].itemHref = itemOpts.href || '';
+
                         //  添加了下一行代码，以实现将 menu-item 的 hideOnClick 绑定到菜单项上
-                        item[0].hideOnClick = itemOpts.hideOnClick || true;
+                        item[0].hideOnClick = (itemOpts.hideOnClick == undefined || itemOpts.hideOnClick == null ? true : itemOpts.hideOnClick);
 
                         var text = item.addClass('menu-item').html();
                         item.empty().append($('<div class="menu-text"></div>').html(text));
@@ -113,7 +114,7 @@
             left: -10000
         });
 
-        menu.find('div.menu-item')._outerHeight(22);
+        //  menu.find('div.menu-item')._outerHeight(22);
         var width = 0;
         menu.find('div.menu-text').each(function () {
             var item = $(this);
@@ -160,9 +161,9 @@
             // only the sub menu clicked can hide all menus
             if (!this.submenu) {
                 //hideAll(target);
-                //  注释掉上面一行代码，并添加下面两行代码，以实现当 menu-item 的属性 hideOnClick 为 false 的情况下，点击菜单项不自动隐藏菜单控件。
-                var hideOnClick = t.attr("hideOnClick"); hideOnClick = String(hideOnClick).toLowerCase() == "true" ? true : false;
-                if (hideOnClick) { hideAll(target); }
+                //  注释掉上面一行代码，并添加下面一行代码，以实现当 menu-item 的属性 hideOnClick 为 false 的情况下，点击菜单项不自动隐藏菜单控件。
+                if (this.hideOnClick) { hideAll(target); }
+
                 var href = t.attr('href');
                 if (href) {
                     location.href = href;
@@ -443,6 +444,8 @@
                 //  name: t.attr('name'),
                 name: itemEl.itemName,
                 href: itemEl.itemHref,
+                //  增加下面一行代码，使得通过 getItem 方法返回的 menu-item 中包含其 hideOnClick 属性
+                hideOnClick: itemEl.hideOnClick,
                 onclick: itemEl.onclick
             }
             var icon = t.children('div.menu-icon');
@@ -494,7 +497,7 @@
         var guid = $.util.guid("N", 12), id = "easyui_menu_id_" + guid, name = "easyui_menu_name_" + guid;
         var opts = $.extend({}, $.fn.menu.defaults, {
             id: id, name: name, left: window.event ? window.event.clientX : 0, top: window.event ? window.event.clientY : 0,
-            items: null, hideDisabledMenu: false, hideOnMouseLeave: false
+            items: null, hideDisabledMenu: false, hideOnMouseLeave: false, minWidth: 140
         }, options || {});
         opts.items = $.array.isArray(opts.items) ? opts.items : [];
         var menu = $("<div></div>").attr({ id: id, name: name }).appendTo("body");

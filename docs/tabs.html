@@ -4,7 +4,22 @@
 <p>该部分扩展由文件 jeasyui.extensions.tabs.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+        <!--<li>增加了 easyui-panel、easyui-window、easyui-dialog 组件在卸载时回收内存的处理，主要用于 layout、panel(及其继承组件) 使用 iframe 嵌入网页时的内存泄漏问题</li>
+        <li>增加了 easyui-panel 控件的 minWidth、maxWidth、minHeight、maxHeight 扩展属性，用来控制 easyui-panel 控件的最大/小的高度/宽度</li>
+        <li>重写了 easyui-panel 控件的 onResize 事件，用于扩展四个新增属性 minWidth、maxWidth、minHeight、maxHeight 的功能</li>
+        <li>增加了 easyui-panel 控件的 iniframe 扩展属性，该属性表示 href 加载的远程页面是否装载在一个 iframe 中</li>-->
+        
+        <li>增加了 easyui-tabs 控件的lineHeight扩展属性，用于控制当前选项卡标题栏和选项卡的 pane-body 之间的空白区域高(宽)度(px)</li>
+        <li>增加了 easyui-tabs 控件的扩展属性enableContextMenu、enableNewTabMenu，用于判断是否启用点击选项卡投的右键菜单以及是否启用“创建新选项卡”的右键菜单</li>
+        <li>增加了 easyui-tabs 控件的contextMenu扩展属性，用于右键点击选项卡标题时候弹出的自定义右键菜单项内容</li>
+        <li>增加了 easyui-tabs 控件的showOption扩展属性，用于当右键选项卡头时，是否显示“显示该选项卡的option”菜单项</li>
+        <li>增加了 easyui-tabs 控件的onRefresh扩展事件，用于当调用 easyui-tabs 的 refresh 方法后，将触发该事件</li>
+        <li>增加了 easyui-tabs 控件的onContextMenu扩展事件，用于覆盖easyui-tabs的原生事件属性onContextMenu，以支持相应扩展功能</li>
+        
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
@@ -20,8 +35,14 @@
 
 <h4>用法</h4>
 <p>以下为示例代码
-    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [16,17,18,19,23]" >
-        
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [2,3,4,7]" >
+        // 在指定的选项卡前面添加一个新的选项卡，且通过iframe加载。
+        t.tabs("insert", {
+            title: 'aaaaaa', href: 'http://www.baidu.com', iniframe: true, closable: true, target: 2
+        });
+
+        // 把源选项卡移动到目标选项卡后面。
+        t.tabs("move", { source: 0, target: 2, point: "after" });
     </textarea></p>
 
 
@@ -44,13 +65,17 @@
     <tr>
         <td>enableConextMenu</td>
         <td>boolean</td>
-        <td>是否启用点击选项卡头的右键菜单。</td>
+        <td>是否启用点击选项卡头的右键菜单。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?tabs/menus/default" target="_blank">示例</a>
+        </td>
         <td>true</td>
     </tr>
     <tr>
         <td>enableNewTabMenu</td>
         <td>boolean</td>
-        <td>是否启用 “创建新选项卡” 的右键菜单。</td>
+        <td>是否启用 “创建新选项卡” 的右键菜单。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?tabs/menus/custome" target="_blank">示例</a>
+        </td>
         <td>false</td>
     </tr>
     <tr>
@@ -74,7 +99,9 @@
     <tr>
         <td>showOption</td>
         <td>boolean</td>
-        <td>表示当右键点击选项卡头时，是否显示 "显示该选项卡的 option" 菜单项。</td>
+        <td>表示当右键点击选项卡头时，是否显示 "显示该选项卡的 option" 菜单项。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?tabs/menus/custome" target="_blank">示例</a>
+        </td>
         <td>false</td>
     </tr>
 </table>

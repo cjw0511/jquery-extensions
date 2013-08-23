@@ -1,20 +1,121 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI datagrid 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.datagrid.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+        <li>扩展了 easyui-datagrid 的isChecked自定义方法；用于判断指定的 data-row(数据行) 是否被 check；</li>
+        <li>扩展了 easyui-datagrid 的isSelected自定义方法；用于判断指定的 data-row(数据行) 是否被 select；</li>
+        <li>扩展了 easyui-datagrid 的freezeColumn自定义方法；冻结指定的列；</li>
+        <li>扩展了 easyui-datagrid 的unfreezeColumn自定义方法；取消冻结指定的列；</li>
+        
+        <li>扩展了 easyui-datagrid 的moveRow自定义方法；移动 easyui-datagrid 中的指定 data-row(数据行) ；</li>
+        <li>扩展了 easyui-datagrid 的shiftRow自定义方法；移动 easyui-datagrid 中的指定 data-row(数据行) 一行位置；</li>
+        <li>扩展了 easyui-datagrid 的nextRow自定义方法；获取指定行的下一行数据；</li>
+        <li>扩展了 easyui-datagrid 的prevRow自定义方法；获取指定行的上一行数据；</li>
+
+        <li>扩展了 easyui-datagrid 的popRow自定义方法；从 easyui-datagrid 当前页中删除指定的行，并返回该行数据；</li>
+        <li>扩展了 easyui-datagrid 的enableRowDnd自定义方法；启用当前表格的行拖动功能；</li>
+        <li>扩展了 easyui-datagrid 的disableRowDnd自定义方法；禁用当前表格的行拖动功能；</li>
+        <li>扩展了 easyui-datagrid 的moveColumn自定义方法；移动指定的列到另一位置；</li>
+
+        <li>扩展了 easyui-datagrid 的shiftColumn自定义方法；移动指定的列挪动一格位置；</li>
+        <li>扩展了 easyui-datagrid 的nextColumn自定义方法；获取指定列的下一格位置列的 列属性(columnOption) 信息；</li>
+        <li>扩展了 easyui-datagrid 的prevColumn自定义方法；获取指定列的上一格位置列的 列属性(columnOption) 信息；</li>
+        <li>扩展了 easyui-datagrid 的deleteColumn自定义方法；删除指定的列；</li>
+        <li>扩展了 easyui-datagrid 的popColumn自定义方法；删除指定的列并返回该列的 ColumnOption 值；</li>
+
+        <li>增加了 easyui-datagrid 的offset自定义扩展属性，该属性表示当屏幕大小调整时候随屏幕大小尺寸调整而自身大小调整的偏移量；</li>
+        <li>增加了 easyui-datagrid 的exportMenu自定义扩展属性，该属性表示是否启用右键点击表头或者行数据时候弹出菜单中具有 "导出数据" 菜单的功能；</li>
+        <li>增加了 easyui-datagrid 的selectOnRowContextMenu自定义扩展属性，Boolean 类型值，该属性表示是否启用；</li>
+        <li>增加了 easyui-datagrid 的hideDisabledMenu自定义扩展属性，Boolean 类型值，该属性表示是否启用</li>
+        <li>增加了 easyui-datagrid 的headerContextMenu自定义扩展属性，该属性表示表列头右键菜单</li>
+        <li>增加了 easyui-datagrid 的rowContextMenu自定义扩展属性，该属性表示数据行右键菜单</li>
+
+        <li>增加了 easyui-datagrid 的enableHeaderClickMenu自定义扩展属性，该属性表示是否启用 easyui-datagrid 的表头列点击按钮菜单；</li>
+        <li>增加了 easyui-datagrid 的enableHeaderContextMenu自定义扩展属性，该属性表示是否启用 easyui-datagrid 的表头右键菜单；</li>
+        <li>增加了 easyui-datagrid 的enableRowContextMenu自定义扩展属性，该属性表示是否启用 easyui-datagrid 的行右键菜单；</li>
+        <li>扩展了 easyui-datagrid 的moveMenu自定义属性，表示是否启用右键菜单中的“上移、下移”菜单项的功能；</li>
+        <li>增加了 easyui-datagrid 的pagingMenu自定义扩展属性，该属性表示是否启用右键菜单中的“翻页”菜单项的功能；</li>
+        <li>增加了 easyui-datagrid 的dndRow自定义扩展属性，该属性表示是否启用表格的行节点拖动功能；</li>
+
+        <li>增加了 easyui-datagrid 的rowTooltip自定义扩展属性，该属性表示是否启用行数据的 tooltip 功能；</li>
+        <li>增加了 easyui-datagrid 的columnFilter自定义扩展属性，该属性表示当前表格的列过滤器设置参数；</li>
+        <li>扩展了 easyui-datagrid 的onBeforeDeleteColumn自定义事件；该事件表示删除指定的列前触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onDeleteColumn自定义事件；该事件表示删除指定的列后触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onBeforeMoveColumn自定义事件；该事件表示移动指定的列前触发的动作；</li>
+
+
+        <li>扩展了 easyui-datagrid 的onMoveColumn自定义事件；该事件表示移动指定的列后触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onBeforeDrop自定义事件；该事件表示移动 data-row(数据行) 之前触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onDrop自定义事件；该事件表示移动 data-row(数据行) 之后触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onBeforeDrag自定义事件；该事件表示拖动 data-row(数据行) 之前触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onStartDrag自定义事件；该事件表示开始拖动 data-row(数据行) 时触发的动作；</li>
+
+        <li>扩展了 easyui-datagrid 的onStopDrag自定义事件；该事件表示结束拖动 data-row(数据行) 时触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onDragEnter自定义事件；该事件表示当有其他的 data-row(数据行) 被拖动至当前 data-row(数据行) 时所触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onDragOver自定义事件；该事件表示当有其他的 data-row(数据行) 被拖动至当前 data-row(数据行) 后并在上面移动时所触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onDragLeave自定义事件；该事件表示当有其他的 data-row(数据行) 被拖动至当前 data-row(数据行) 后并拖动离开时所触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onBeforeUpdateRow自定义事件；该事件表示执行 updateRow 方法前所触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onUpdateRow自定义事件；该事件表示执行 updateRow 方法后所触发的动作；</li>
+
+        <li>扩展了 easyui-datagrid 的onBeforeAppendRow自定义事件；该事件表示执行 appendRow 方法前所触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onAppendRow自定义事件；该事件表示执行 appendRow 方法后所触发的动作；</li>
+        <li>扩展了 easyui-datagrid 的onBeforeInsertRow自定义事件；该事件表示执行 insertRow 方法前所触发的动作；</li>
+  
+        <li>扩展了 easyui-datagrid 的onBeforeRow自定义事件；该事件表示执行 insertRow 方法后所触发的动作；</li>
+        
+
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
+    <li>jeasyui.extensions.menu.js</li>
+    <li>jeasyui.extensions.panel.js和jeasyui.extensions.window.js(可选)</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [24,25,26,27,28]" >
+        // EasyUI-DataGrid基本功能
+        $(function () {
+            $("#table1").datagrid({
+                title: 'my datagrid',
+                width: 1200,
+                height: 400,
+                method: "get",
+                url: "datagrid/datagrid-data.json",
+                idField: 'ID',
+                remoteSort: false,
+                frozenColumns: [[
+                    { field: 'ck', checkbox: true },
+                    { field: 'ID', title: 'ID', width: 80, sortable: true }
+                ]],
+                columns: [[
+                    { field: 'Code', title: '编号(Code)', width: 120, sortable: true },
+                    { field: 'Name', title: '名称(Name)', width: 140, sortable: true },
+                    { field: 'Age', title: '年龄(Age)', width: 120, sortable: true },
+                    { field: 'Height', title: '身高(Height)', width: 140, sortable: true },
+                    { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true },
+                    { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true },
+                    { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
+                ]],
+                enableHeaderClickMenu: false,
+                enableHeaderContextMenu: false,
+                dndRow: true,
+                moveMenu: { submenu: false, top: true, up: true, down: true, bottom: true },    //开始行右键菜单的移动列功能，此属性可丰富配置，详情见 API 文档
+                selectOnRowContextMenu: true,       //此属性开启当右键点击行时自动选择该行的功能
+                autoBindDblClickRow: false
+            });
+        });
+    </textarea></p>
 
 
 <h4>扩展的属性</h4>
@@ -27,11 +128,346 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>offset</td>
+        <td>Object</td>
+        <td>该属性表示当屏幕大小调整时候随屏幕大小尺寸调整而自身大小调整的偏移量；<br />
+            该参数为一个 JSON 格式对象，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: 表示相对于浏览器窗口宽度的偏移量，如果是正数则其宽度比浏览器窗口大，反之则其宽度比浏览器窗口小，int类型；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height: 表示相对于浏览器窗口高度的偏移量，如果是正数则其高度比浏览器窗口大，反之则其高度比浏览器窗口小，int类型；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注：该参数默认为 null，表示不随屏幕尺寸大小调整而调整；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果未定义 width 或者 width: 0，则表示屏幕大小调整时 easyui-datagrid 的 width 属性撑满屏幕宽度；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果未定义 height 或者 height: 0，则表示屏幕大小调整时 easyui-datagrid 的 height 属性撑满屏幕宽度；
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/offset" target="_blank">示例</a>
+        </td>
+        <td>null</td>
+    </tr>
+
+    <tr>
+        <td>loadFilter</td>
+        <td>function</td>
+        <td>覆盖 easyui-datagrid 的原生属性 loadFilter，以支持相应扩展功能</td>
         <td></td>
     </tr>
+
+    <tr>
+        <td>autoBindDblClickRow</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示当设定了属性 rowContextMenu 时，是否将双击数据行 onDblClickRow 事件的响应函数<br />
+            设置为 rowContextMenu 的第 "dblClickRowMenuIndex" 个菜单项的点击响应函数，并将该菜单项的字体加粗；<br />
+            备注：当设置了有效的属性 rowContextMenu 时候，该功能方有效。<br />
+            自动绑定的 onDblClickRow 的回调函数中将会调用 rowContextMenu 的第 "dblClickRowMenuIndex" 个菜单项的点击响应函数，但是回调函数中不能用到参数 e 和 menu。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/rowMenu/autoBindDblClick" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>dblClickRowMenuIndex</td>
+        <td>Number</td>
+        <td>
+            该属性表示当设定了属性 autoBindDblClickRow: true，双击行数据触发的右键菜单项事件的索引号；<br />
+            意即触发第几个右键菜单项上的事件。<br />
+            Number 类型值，从 0 开始计数<br />
+            备注：当设置了自定义属性 autoBindDblClickRow: true并且设置了有效的属性 rowContextMenu 时，该功能方有效；<br />
+            如果此索引值超出菜单数量范围，则无效。
+        </td>
+        <td>0</td>
+    </tr>
+
+    <tr>
+        <td>exportMenu</td>
+        <td>Boolean</td>
+        <td>
+            该属性可以定义为以下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型值，表示是否启用右键菜单中的“导出数据”菜单项功能，默认为 false。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSON-Object 类型，该 JSON-Object 可以包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current:   Boolean 类型值，表示是否启用“导出当前页”的菜单项，默认为 true；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all:   Boolean 类型值，表示是否启用“导出全部”的菜单项，默认为 true；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;submenu:    表示这四个菜单项是否以子菜单方式呈现，默认为 true；<br />
+            备注：当 enableRowContextMenu 属性设置为 true 时，该属性才有效。<br />
+            导出数据功能的方法尚未实现，所以...就让它保持默认为 false 吧。
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>selectOnRowContextMenu</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示是否启用：<br />
+            当右键单击行数据时选择右键当前单击的行的功能，默认为 true；<br />
+            注意：当此参数设置为 true 时，右键点击行会对性能产生一定影响；当时数据量大(单页数据超过 100 行)时不建议使用。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/rowDraggable/base" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>hideDisabledMenu</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示是否启用：<br />
+            右键(表头右键或行右键)点击时弹出的菜单项，如果是 disabled: true ，则不显示的功能，默认为 false；
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>headerContextMenu</td>
+        <td>Array 对象</td>
+        <td>
+            该属性表示表列头右键菜单，为一个 Array 对象；数组中的每一个元素都具有如下属性:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id:         表示菜单项的 id；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text:       表示菜单项的显示文本；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iconCls:    表示菜单项的左侧显示图标；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disabled:   表示菜单项是否被禁用(禁用的菜单项点击无效)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hideOnClick:    表示该菜单项点击后整个右键菜单是否立即自动隐藏；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bold:           Boolean 类型值，默认为 false；表示该菜单项是否字体加粗；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style:          JSON-Object 类型值，默认为 null；表示要附加到该菜单项的样式；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handler:    表示菜单项的点击事件，该事件函数格式为 function(e, field, eventData, grid, item, menu)，其中 this 指向菜单项本身<br />
+            备注：具体格式参考 easyui-datagrid 的 toolbar 属性为 Array 对象类型的格式<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/headerMenu/custome" target="_blank">示例</a>
+        </td>
+        <td>null</td>
+    </tr>
+
+    <tr>
+        <td>rowContextMenu</td>
+        <td>Array 对象</td>
+        <td>
+            该属性表示数据行右键菜单，为一个 Array 对象；数组中的每一个元素都具有如下属性:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id:         表示菜单项的 id；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text:       表示菜单项的显示文本；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iconCls:    表示菜单项的左侧显示图标；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disabled:   表示菜单项是否被禁用(禁用的菜单项点击无效)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hideOnClick:    表示该菜单项点击后整个右键菜单是否立即自动隐藏；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bold:           Boolean 类型值，默认为 false；表示该菜单项是否字体加粗；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style:          JSON-Object 类型值，默认为 null；表示要附加到该菜单项的样式；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handler:    表示菜单项的点击事件，该事件函数格式为 function(e, rowIndex, rowData, eventData, grid, item, menu)，其中 this 指向菜单项本身<br />
+            备注：具体格式参考 easyui-datagrid 的 toolbar 属性为 Array 对象类型的格式
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/rowMenu/custome" target="_blank">示例</a>
+        </td>
+        <td>null</td>
+    </tr>
+
+    <tr>
+        <td>enableHeaderClickMenu</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示是否启用 easyui-datagrid 的表头列点击按钮菜单<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/headerMenu/default" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>enableHeaderContextMenu</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示是否启用 easyui-datagrid 的表头右键菜单<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/headerMenu/default" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>enableRowContextMenu</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示是否启用 easyui-datagrid 的行右键菜单<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/rowMenu/default" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>moveMenu</td>
+        <td>Boolean或JSON-Object</td>
+        <td>
+            表示是否启用右键菜单中的“上移、下移”菜单项的功能；<br />
+            该属性可以定义为以下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型，表示是否启用这四个菜单项，默认为 false；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSON-Object 类型，该 JSON-Object 可以包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top:        布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“移至最上”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;up:         布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“上移”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;down:       布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“下移”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottom:     布尔类型的值，也可是一个返回布尔值的函数，表示是否显示“移至最上”菜单；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;submenu:    表示这四个菜单项是否以子菜单方式呈现，默认为 true；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上面四个属性，如果参数的值为函数，则函数的签名为 function(e, node, datagrid, item, menu)。<br />
+            备注：当 enableRowContextMenu 属性设置为 true 时，该属性才有效。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这四个菜单点击时，会自动触发 easyui-datagrid 的 onDrop 事件。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/rowMenu/custome" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>pagingMenu</td>
+        <td>Boolean或JSON-Object</td>
+        <td>
+            该属性表示是否启用右键菜单中的“翻页”菜单项的功能；<br />
+            该属性可以定义为以下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型值，表示是否启用右键菜单中的“翻页”菜单项功能，默认为 true。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSON-Object 类型，该 JSON-Object 可以包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disabled:   Boolean 类型值，表示是否禁用右键菜单中的“翻页”菜单项功能，默认为 false；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ubmenu:    表示这四个菜单项是否以子菜单方式呈现，默认为 true；<br />
+            备注：当 enableRowContextMenu 属性设置为 true 时，该属性才有效。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/rowMenu/default" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>dndRow</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示是否启用表格的行节点拖动功能
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/rowDraggable/base" target="_blank">示例</a>
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>rowTooltip</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示是否启用行数据的 tooltip 功能；<br />
+            该属性可以是一个 Boolean 类型值；也可以是一个格式为 function(rowIndex, rowData) 的回调函数；<br />
+            如果该参数是一个回调函数，则表示启用行数据的 tooltip 功能，并且该函数的返回值为 tooltip 的 content 值。<br />
+            默认为 Boolean 类型，值为 false。<br />
+            注意：当启用该配置属性后，所有列的 tootip 属性就会自动失效。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/tooltip/row" target="_blank">示例</a>
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>extEditing</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示在触发 beginEdit 事件后，是否构建仿 ext-grid-rowediting 行编辑的“保存”和“取消”按钮面板
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/extEditing/singleEdit" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>autoEditing</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示在双击 data-row(数据行) 时，是否自动启用该行的编辑功能(执行 beginEdit 操作)；<br />
+            注意：当 autoBindDblClickRow 属性设置为 true 且菜单项满足其触发条件时，autoEditing 的双击行时自动启用编辑效果将不会触发。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/extEditing/singleEdit" target="_blank">示例</a>
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>singleEditing</td>
+        <td>Boolean</td>
+        <td>
+            该属性表示是否在一个时刻只允许一行数据开启编辑状态(当某行数据开启编辑状态时，其他正在编辑的行将会被自动执行 endEdit 操作)
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/extEditing/singleEdit" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>columnFilter</td>
+        <td>JSON-Object</td>
+        <td>
+            该属性表示当前表格的列过滤器设置参数；该参数是一个 JSON 格式的对象，该对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panelHeight: 列过滤器控件面板的高度，默认为 100，该值最小为 80；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position:   表示列过滤器的位置，String 类型，可以填入的值限定在以下范围：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"top":  表示列过滤器被放置在表头的上方；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"bottom":   表示列过滤器被放置在表头的下方；默认值。<br />
+            备注：关于列过滤器组件中每个列具体的过滤效果设置，参见扩展的 ColumnOption 属性(见本源码文件后面注释)；<br />
+            注意：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、如果不定义该参数，则表示当前 easyui-datagrid 控件不启用列过滤器功能；该参数不影响表头右键过滤功能；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、该功能支持多行表头；但不保证在多行表头情况下布局不会出现排版错误；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、该功能仅实现本地数据过滤，也就是说该插件不会在处理远程数据请求时将过滤参数信息发送到远程服务器；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4、当启用该功能时，easyui-datagrid 的属性 fitColumns 请保持默认值为 false，否则列头过滤器组件可能导致表头列不能对齐而布局混乱。<br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/columnFilter/simple" target="_blank">示例</a>
+        </td>
+        <td>null</td>
+    </tr>
+
+    <tr>
+        <td>loader</td>
+        <td>function</td>
+        <td>
+            覆盖 easyui-datagrid 的原生属性 loader，以支持相应扩展功能，调用者请勿在自己的代码中使用该属性，否则扩展功能无效
+        </td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td>tooltip</td>
+        <td>Boolean或function</td>
+        <td>
+            这是easyui-datagrid 中列 columnOption的自定义属性，可以是一个 Boolean 类型，也可以是一个回调函数类型，表示是否启用该列的 tooptip 效果；<br />
+            如果该属性为 Boolean 类型，表示是否启用该列的 tooltip；<br />
+            如果该属性为 Function 类型，则其格式为 function (value, rowIndex, rowData)，表示为该列启用 tooltip 的方式；<br />
+            该回调函数返回一个 String 类型值，表示 tooltip 的 content 内容。
+        </td>
+        <td>false</td>
+    </tr>
+
+    <tr>
+        <td>filterable</td>
+        <td>Boolean</td>
+        <td>
+            这是easyui-datagrid 中列 columnOption的自定义属性，表示是否禁用该列右键菜单中的 "过滤/显示" 菜单
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>hidable</td>
+        <td>Boolean</td>
+        <td>
+            这是easyui-datagrid 中列 columnOption的自定义属性，表示该列是否可隐藏
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>filter</td>
+        <td>String</td>
+        <td>
+            这是easyui-datagrid 中列 columnOption的自定义属性，表示该列的过滤器组件的类型；可选的值限定在以下范围：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"checkbox": 表示过滤器的类型为一组 checkbox 复选框，默认值。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"livebox":     表示过滤器的类型为模糊查询过滤方式；即过滤器组件为一个输入框，改变该输入框的值后，对该列进行按输入值的过滤匹配。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"caps":     表示过滤器的类型为 slider 拖动条控件，且过滤的结果为只显示小于或等于 slider 选定的值；只有该列全部为数值数据时，才能设置为该类型。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"lower":    表示过滤器的类型为 slider 拖动条控件，且过滤的结果为只显示大于或等于 slider 选定的值；只有该列全部为数值数据时，才能设置为该类型。<br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/columnFilter/complex" target="_blank">示例</a>
+        </td>
+        <td>true</td>
+    </tr>
+
+    <tr>
+        <td>precision</td>
+        <td>Number</td>
+        <td>
+            这是easyui-datagrid 中列 columnOption的自定义属性，表示过滤器类型(filter)为 caps 或 lower 时候，slider 组合控件的输入框的改变值的精度(保留的小数位数)。
+        </td>
+        <td>1</td>
+    </tr>
+
+    <tr>
+        <td>step</td>
+        <td>Number</td>
+        <td>
+            表示过滤器类型(filter)为 caps 或 lower 时候，移动 slider 控件时值的改变值的精度(最小改变的刻度)。
+        </td>
+        <td>1</td>
+    </tr>
+
+    <tr>
+        <td colspan="4">备注： 当 filterable 的值设置为 true 时，参数 filter 方有效；当 filterable 的值设置为 true 且 filter 的值为 "caps" 或 "lower" 时，参数 precision 和 step 方有效。</td>
+    </tr>
+
 </table>
 
 
@@ -42,14 +478,273 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
-        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>onLoadSuccess</td>
+        <td>无</td>
+        <td>覆盖 easyui-datagrid 的原生属性事件 onLoadSuccess，以支持相应扩展功能。<br />
+            注意：如果调用者需要在自己的代码中使用该事件，请以覆盖方式重写，而非直接重写。<br />
+            覆盖方式重写示例：<br />
+            <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [2]" >
+            grid.datagrid({
+                onLoadSuccess: function(data) {
+                    $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
+                    ...                                     //这里是调用者的其他附加逻辑代码
+                }
+            });
+            </textarea>
+            
+        </td>
     </tr>
+
+    <tr>
+        <td>onResizeColumn</td>
+        <td>无</td>
+        <td>覆盖 easyui-datagrid 的原生属性事件 onResizeColumn，以支持相应扩展功能<br />
+            注意：如果调用者需要在自己的代码中使用该事件，请以覆盖方式重写，而非直接重写<br />
+            覆盖方式重写示例：<br />
+            <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [2]" >
+            grid.datagrid({
+                onResizeColumn: function(data) {
+                    $.fn.datagrid.extensions.onResizeColumn.apply(this, arguments);  //这句一定要加上
+                    ...                                     //这里是调用者的其他附加逻辑代码
+                }
+            });
+            </textarea>
+        </td>
+    </tr>
+
+    <tr>
+        <td>onBeforeEdit</td>
+        <td>无</td>
+        <td>
+            覆盖 easyui-datagrid 的原生属性事件 onBeforeEdit，以支持相应扩展功能
+        </td>
+    </tr>
+
+    <tr>
+        <td>onAfterEdit</td>
+        <td>无</td>
+        <td>覆盖 easyui-datagrid 的原生属性事件 onAfterEdit，以支持相应扩展功能<br />
+            注意：如果调用者需要在自己的代码中使用该事件，请以覆盖方式重写，而非直接重写<br />
+            覆盖方式重写示例：<br />
+            <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [2]" >
+            grid.datagrid({
+                onAfterEdit: function(data) {
+                    $.fn.datagrid.extensions.onAfterEdit.apply(this, arguments);  //这句一定要加上
+                    ...                                     //这里是调用者的其他附加逻辑代码
+                }
+            });
+            </textarea>
+        </td>
+    </tr>
+
+    <tr>
+        <td>onCancelEdit</td>
+        <td>无</td>
+        <td>
+            覆盖 easyui-datagrid 的原生属性事件 onCancelEdit，以支持相应扩展功能
+        </td>
+    </tr>
+
+    <tr>
+        <td>onBeforeDeleteColumn</td>
+        <td>field</td>
+        <td>该事件表示删除指定的列前触发的动作；该事件回调函数提供如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  表示要被删除的列的 field 值。<br />
+            备注：如果该事件回调函数返回 false，则不进行删除列的操作。<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
+    <tr>
+        <td>onDeleteColumn</td>
+        <td>field</td>
+        <td>扩展 easyui-datagrid 的自定义事件；该事件表示删除指定的列后触发的动作；该事件回调函数提供如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  表示要被删除的列的 field 值。<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
+    <tr>
+        <td>onBeforeMoveColumn</td>
+        <td>source, target, point</td>
+        <td>该事件表示移动指定的列前触发的动作；该事件回调函数提供如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source:  表示要被移动的列的 field 值。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:  表示目标位置的列的 field 值。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point :  表示移动的方式；这是一个 String 类型值，可能的值包括：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"before":   表示将列 source 移动至列 target 的前一格位置；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"after" :   表示将列 source 移动至列 target 的后一格位置；<br />
+            备注：如果该事件回调函数返回 false，则不进行删除列的操作。<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
+    <tr>
+        <td>onMoveColumn</td>
+        <td>source, target, point</td>
+        <td>该事件表示移动指定的列后触发的动作；该事件回调函数提供如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source:  表示要被移动的列的 field 值。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:  表示目标位置的列的 field 值。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point :  表示移动的方式；这是一个 String 类型值，可能的值包括：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"before":   表示将列 source 移动至列 target 的前一格位置；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"after" :   表示将列 source 移动至列 target 的后一格位置；<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
+    <tr>
+        <td>onBeforeDrop</td>
+        <td>source, target, point</td>
+        <td>该事件表示移动 data-row(数据行) 之前触发的动作；该事件回调函数提供如下三个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 表示目标位置的 data-row(数据行) 索引号(从 0 开始计数)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 表示要移动的 data-row(数据行) 索引号(从 0 开始计数)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point:  表示移动到目标节点 target 的位置，String 类型，可能的值包括：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"top":      表示移动到目标位置 target 的上一格位置；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"bottom":   表示追加为目标位置 target 的下一格位置；<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)；<br />
+            如果该事件函数返回 false，则会立即停止移动数据行操作；
+        </td>
+    </tr>
+
+    <tr>
+        <td>onDrop</td>
+        <td>source, target, point</td>
+        <td>该事件表示移动 data-row(数据行) 之后触发的动作；该事件回调函数提供如下三个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 表示目标位置的 data-row(数据行) 索引号(从 0 开始计数)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 表示要移动的 data-row(数据行) 索引号(从 0 开始计数)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point:  表示移动到目标节点 target 的位置，String 类型，可能的值包括：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"top":      表示移动到目标位置 target 的上一格位置；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"bottom":   表示追加为目标位置 target 的下一格位置；<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/rowDraggable/event" target="_blank">示例</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>onBeforeDrag</td>
+        <td>index, row</td>
+        <td>该事件表示拖动 data-row(数据行) 之前触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示被拖动的 data-row(数据行) 的索引号，从 0 开始计数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row:    表示被拖动的 data-row(数据行) 的行数据对象，是一个 JSON-Object。<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)；<br />
+            备注：如果该事件函数返回 false，则取消当前的拖动 data-row(数据行) 操作。
+        </td>
+    </tr>
+
+    <tr>
+        <td>onStartDrag</td>
+        <td>index, row</td>
+        <td>该事件表示开始拖动 data-row(数据行) 时触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示被拖动的 data-row(数据行) 的索引号，从 0 开始计数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row:    表示被拖动的 data-row(数据行) 的行数据对象，是一个 JSON-Object。<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
+    <tr>
+        <td>onStopDrag</td>
+        <td>index, row</td>
+        <td>该事件表示结束拖动 data-row(数据行) 时触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示被拖动的 data-row(数据行) 的索引号，从 0 开始计数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row:    表示被拖动的 data-row(数据行) 的行数据对象，是一个 JSON-Object。<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
+    <tr>
+        <td>onDragEnter</td>
+        <td>target, source</td>
+        <td>该事件表示当有其他的 data-row(数据行) 被拖动至当前 data-row(数据行) 时所触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 表示当前 data-row(数据行) 的行数据对象，是一个 JSON-Object；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 表示拖动过来的 data-row(数据行) 行数据对象，是一个 JSON-Object。<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)；<br />
+            备注：如果该事件函数返回 false，则立即取消当前的 data-row(数据行) 接收拖动过来对象的操作，并禁用当前 data-row(数据行) 的 droppable 效果
+        </td>
+    </tr>
+
+    <tr>
+        <td>onDragOver</td>
+        <td>target, source</td>
+        <td>该事件表示当有其他的 data-row(数据行) 被拖动至当前 data-row(数据行) 后并在上面移动时所触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 表示当前 data-row(数据行) 的行数据对象，是一个 JSON-Object；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 表示拖动过来的 data-row(数据行) 行数据对象，是一个 JSON-Object。<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)；<br />
+            备注：如果该事件函数返回 false，则立即取消当前的 data-row(数据行) 接收拖动过来对象的操作，并禁用当前 data-row(数据行) 的 droppable 效果
+        </td>
+    </tr>
+
+    <tr>
+        <td>onDragLeave</td>
+        <td>target, source</td>
+        <td>该事件表示当有其他的 data-row(数据行) 被拖动至当前 data-row(数据行) 后并拖动离开时所触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 表示当前 data-row(数据行) 的行数据对象，是一个 JSON-Object；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 表示拖动过来的 data-row(数据行) 行数据对象，是一个 JSON-Object。<br />
+            该事件函数中的 this 指向当前 easyui-datagrid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
+    <tr>
+        <td>onBeforeUpdateRow</td>
+        <td>index, row</td>
+        <td>该事件表示执行 updateRow 方法前所触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示要进行 updateRow 的行的索引号，从 0 开始计数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row:    表示要进行更新操作的新的行数据对象；<br />
+            该事件函数中的 this 指向当前 easyui-datarid 的 DOM 对象(非 jQuery 对象)；<br />
+            备注：如果该事件回调函数返回 false，则立即取消即将要执行的 updateRow 操作。
+        </td>
+    </tr>
+
+    <tr>
+        <td>onUpdateRow</td>
+        <td>index, row</td>
+        <td>该事件表示执行 updateRow 方法后所触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示要进行 updateRow 的行的索引号，从 0 开始计数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row:    表示要进行更新操作的新的行数据对象；<br />
+            该事件函数中的 this 指向当前 easyui-datarid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
+    <tr>
+        <td>onBeforeAppendRow</td>
+        <td>row</td>
+        <td>该事件表示执行 appendRow 方法前所触发的动作；该事件回调函数提供如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row:    表示要进行添加行操作的新的行数据对象；<br />
+            该事件函数中的 this 指向当前 easyui-datarid 的 DOM 对象(非 jQuery 对象)；<br />
+            备注：如果该事件回调函数返回 false，则立即取消即将要执行的 appendRow 操作。
+        </td>
+    </tr>
+
+    <tr>
+        <td>onAppendRow</td>
+        <td>row</td>
+        <td>该事件表示执行 appendRow 方法后所触发的动作；该事件回调函数提供如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row:    表示要进行添加行操作的新的行数据对象；<br />
+            该事件函数中的 this 指向当前 easyui-datarid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
+    <tr>
+        <td>onBeforeInsertRow</td>
+        <td>index,row</td>
+        <td>该事件表示执行 insertRow 方法前所触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示要进行 insertRow 的行的索引号，从 0 开始计数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row:    表示要进行插入行操作的新的行数据对象；<br />
+            该事件函数中的 this 指向当前 easyui-datarid 的 DOM 对象(非 jQuery 对象)；<br />
+            备注：如果该事件回调函数返回 false，则立即取消即将要执行的 insertRow 操作。
+        </td>
+    </tr>
+
+    <tr>
+        <td>onBeforeRow</td>
+        <td>index,row</td>
+        <td>该事件表示执行 insertRow 方法后所触发的动作；该事件回调函数提供如下两个参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示要进行 insertRow 的行的索引号，从 0 开始计数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row:    表示要进行插入行操作的新的行数据对象；<br />
+            该事件函数中的 this 指向当前 easyui-datarid 的 DOM 对象(非 jQuery 对象)
+        </td>
+    </tr>
+
 </table>
 
 
@@ -60,12 +755,664 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
+        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
+        <td>updateRow</td>
+        <td>param</td>
+        <td>覆盖 easyui-datagrid 的原生方法，以支持相应属性、事件和扩展功能</td>
         <td></td>
     </tr>
+
+    <tr>
+        <td>appendRow</td>
+        <td>row</td>
+        <td>覆盖 easyui-datagrid 的原生方法，以支持相应属性、事件和扩展功能</td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td>insertRow</td>
+        <td>param</td>
+        <td>覆盖 easyui-datagrid 的原生方法，以支持相应属性、事件和扩展功能</td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td>isChecked</td>
+        <td>index</td>
+        <td>判断指定的 data-row(数据行) 是否被 check；该方法的参数 index 表示要判断的行的索引号，从 0 开始计数</td>
+        <td>如果参数 index 所表示的 data-row(数据行) 被 check，则返回 true，否则返回 false。</td>
+    </tr>
+
+    <tr>
+        <td>isSelected</td>
+        <td>index</td>
+        <td>判断指定的 data-row(数据行) 是否被 select；该方法的参数 index 表示要判断的行的索引号，从 0 开始计数</td>
+        <td>如果参数 index 所表示的 data-row(数据行) 被 select，则返回 true，否则返回 false</td>
+    </tr>
+
+    <tr>
+        <td>freezeColumn</td>
+        <td>field</td>
+        <td>冻结指定的列，该方法的参数 field 表示要冻结的列的 field 值<br />
+        注意：此方法在多行表头情况下无效<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前表格在执行此方法前必须存在至少一个冻结列，否则此方法无效
+        <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/freeze" target="_blank">示例</a>
+        </td>
+        <td>返回表示当前 easyui-datagrid 的 jQuery 链式对象。</td>
+    </tr>
+
+    <tr>
+        <td>unfreezeColumn</td>
+        <td>field</td>
+        <td>取消冻结指定的列，该方法的参数 field 表示要取消冻结的列的 field 值<br />
+        注意：此方法在多行表头情况下无效<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前表格在执行此方法前必须存在至少一个非冻结列，否则此方法无效
+        <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/freeze" target="_blank">示例</a>
+        </td>
+        <td>返回表示当前 easyui-datagrid 的 jQuery 链式对象。</td>
+    </tr>
+
+    <tr>
+        <td>moveRow</td>
+        <td>param</td>
+        <td>移动 easyui-datagrid 中的指定 data-row(数据行) ；该方法的参数 param 为 JSON-Object 类型，包含如下属性定义：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 表示目标位置的 data-row(数据行) 索引号(从 0 开始计数)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 表示要移动的 data-row(数据行) 索引号(从 0 开始计数)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point:  表示移动到目标节点 target 的位置，String 类型，可能的值包括：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"top":      表示移动到目标位置 target 的上一格位置；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"bottom":   表示追加为目标位置 target 的下一格位置<br />
+            备注：该方法会触发移动行数据的相应事件
+        </td>
+        <td>返回表示当前 easyui-datagrid 的 jQuery 链式对象</td>
+    </tr>
+
+    <tr>
+        <td>shiftRow</td>
+        <td>param</td>
+        <td>移动 easyui-datagrid 中的指定 data-row(数据行) 一行位置；该方法的参数 param 为 JSON-Object 类型，包含如下属性定义：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: 表示要移动的 data-row(数据行) 索引号(从 0 开始计数)；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point:  表示移动到目标节点 target 的位置，String 类型，可能的值包括：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"up":      表示移动到目标位置 target 的上一格位置；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"down":   表示追加为目标位置 target 的下一格位置；<br />
+            备注：该方法会触发移动行数据的相应事件
+        </td>
+        <td>返回表示当前 easyui-datagrid 的 jQuery 链式对象</td>
+    </tr>
+
+    <tr>
+        <td>nextRow</td>
+        <td>index</td>
+        <td>获取指定行的下一行数据；该方法的参数 index 表示指定行的行号(从 0 开始)
+        </td>
+        <td>返回指定行的下一行数据，返回值是一个 JSON-Object 对象,如果指定的行没有下一行数据 (例如该行为最后一行的情况下)，则返回 null。</td>
+    </tr>
+
+    <tr>
+        <td>prevRow</td>
+        <td>index</td>
+        <td>获取指定行的上一行数据；该方法的参数 index 表示指定行的行号(从 0 开始)
+        </td>
+        <td>返回指定行的上一行数据，返回值是一个 JSON-Object 对象,如果指定的行没有上一行数据 (例如该行为第一行的情况下)，则返回 null。</td>
+    </tr>
+
+    <tr>
+        <td>popRow</td>
+        <td>index</td>
+        <td>从 easyui-datagrid 当前页中删除指定的行，并返回该行数据，该方法的参数 index 表示指定行的行号(从 0 开始)；
+        </td>
+        <td>返回 index 所表示的行的数据，返回值是一个 JSON-Object 对象,如果不存在指定的行(例如 easyui-datagrid 当前页没有数据或者 index 超出范围)，则返回 null。</td>
+    </tr>
+
+    <tr>
+        <td>enableRowDnd</td>
+        <td>无</td>
+        <td>启用当前表格的行拖动功能；该方法无参数
+        </td>
+        <td>返回表示当前 easyui-datagrid 的 jQuery 链式对象</td>
+    </tr>
+
+    <tr>
+        <td>disableRowDnd</td>
+        <td>无</td>
+        <td>禁用当前表格的行拖动功能；该方法无参数
+        </td>
+        <td>返回表示当前 easyui-datagrid 的 jQuery 链式对象</td>
+    </tr>
+
+    <tr>
+        <td>moveColumn</td>
+        <td>param</td>
+        <td>该方法的参数 param 为一个 JSON-Object，定义包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: 表示目标位置列的 field 值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 表示要移动的列的 field 值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point:  表示移动到目标列的位置，String 类型，可选的值包括：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before: 表示将 source 列移动至 target 列的左侧；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;after:  表示将 source 列移动值 target 列的右侧；<br />
+            注意：此方法在多行表头情况下无效
+        </td>
+        <td>返回表示当前 easyui-datagrid 的 jQuery 链式对象</td>
+    </tr>
+
+    <tr>
+        <td>shiftColumn</td>
+        <td>param</td>
+        <td>移动指定的列挪动一格位置；该方法的参数 param 为一个 JSON-Object，定义包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  表示要挪动的列的 field 值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point: 表示挪动 field 列的方式，String 类型，可选的值包括：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before: 表示将该列向左挪动一格；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;after:  表示将该列向右挪动一格；<br />
+            注意：此方法在多行表头情况下无效。
+        </td>
+        <td>返回表示当前 easyui-datagrid 的 jQuery 链式对象</td>
+    </tr>
+
+    <tr>
+        <td>nextColumn</td>
+        <td>field</td>
+        <td>获取指定列的下一格位置列的 列属性(columnOption) 信息；该方法的参数 field 表示指定列的 field 值。
+        </td>
+        <td>当前指定列的下一格位置的列的 列属性(columnOption) 信息，如果不存在指定的列，或者指定列的下一格位置没有其他列，则返回 null。</td>
+    </tr>
+
+    <tr>
+        <td>prevColumn</td>
+        <td>field</td>
+        <td>获取指定列的上一格位置列的 列属性(columnOption) 信息；该方法的参数 field 表示指定列的 field 值。
+        </td>
+        <td>当前指定列的上一格位置的列的 列属性(columnOption) 信息，如果不存在指定的列，或者指定列的上一格位置没有其他列，则返回 null。</td>
+    </tr>
+
+    <tr>
+        <td>deleteColumn</td>
+        <td>field</td>
+        <td>删除指定的列；该方法的参数 field 表示要删除的列的 field 值；
+        </td>
+        <td>返回表示当前 easyui-datagrid 的 jQuery 链式对象。</td>
+    </tr>
+
+    <tr>
+        <td>popColumn</td>
+        <td>field</td>
+        <td>删除指定的列并返回该列的 ColumnOption 值；该方法的参数 field 表示要删除的列的 field 值；
+        </td>
+        <td>返回参数 field 值所表示的列的 ColumnOption 值。如果当前 easyui-datagrid 不存在该列，则返回 null。</td>
+    </tr>
+
+    <tr>
+        <td>getColumnDom</td>
+        <td>param</td>
+        <td>获取 easyui-datagrid 中当前页指定列的 DOM-jQuery 元素对象；该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param: 该参数可以定位以下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 类型：表示要获取的 DOM-jQuery 元素所在的列的 field 名；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSON-Object 类型：如果定义为该类型，则该参数定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  表示要获取的 DOM-jQuery 元素所在的列的 field 名；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header: Boolean 类型值，默认为 false，表示返回的 DOM-jQuery 对象中是否包含 field 表示的列的表头
+        </td>
+        <td>如果当前页存在 field 值指定的列，则返回该列中指定行的 DOM-jQuery 对象，该对象中包含的 DOM 节点级别为一个 td[field=field] 对象，否则返回一个空的 jQuery 对象；<br />
+            如果 param 参数定义为 JSON-Object 类型，且 param.header = true，则返回的 DOM-jQuery 对象中将会包含列的表头元素；<br />
+            如果 param 参数定义为 String 类型或者即使定义为 JSON-Object 类型但 param.header = false，则返回的 DOM-jQuery 对象中不包含列的表头元素。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getColumnData</td>
+        <td>field</td>
+        <td>获取 easyui-datagrid 中当前也指定列所有行的单元格数据所构成的一个数组；该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field: 要获取的数据的列的 field 名；
+        </td>
+        <td>
+            返回一个数组，数组中每一个元素都是其数据行的该列的值，数组的长度等于 grid.datagrid("getRows") 的长度；<br />
+            如果传入的列名不存在，则返回数组的长度同样等于 grid.datagrid("getRows") 的长度，只是每个元素的值都为 undefined。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getRowDom</td>
+        <td>index</td>
+        <td>获取 easyui-datagrid 中当前页指定行的 DOM-jQuery 对象元素集合，该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: 表示要获取的 DOM-Jquery 对象元素集合所在当前页的行索引号；
+        </td>
+        <td>
+            如果当前页存在 index 指示的行，则返回该行的 DOM-jQuery 对象集合，该集合中包含的 DOM 节点级别为一组 tr class="datagrid-row" 对象，否则返回一个空的 jQuery 对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getRowData</td>
+        <td>index</td>
+        <td>获取 easyui-datagrid 中当前页指定行的 rowData；该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index: 表示要获取的 rowData 所在当前页的行索引号，从 0 开始；
+        </td>
+        <td>
+            如果当前页存在 index 指示的行，则返回该行的行数据对象（JSON Object 格式），否则返回 undefined。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getCellDom</td>
+        <td>pos</td>
+        <td>获取 easyui-datagrid 中当前页指定单元格的 Dom-jQuery 对象元素；该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos：表示单元格的位置，为一个 JSON-Object 对象，该 JSON 定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  表示要获取的单元格位于哪个列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示要获取的单元格位于哪个行的行索引号，从 0 开始；
+        </td>
+        <td>
+            如果当前页存在指定列的指定行，则返回该列中指定行的 DOM-jQuery 对象，该对象中包含的 DOM 节点级别为一个 div class="datagrid-cell" 对象，否则返回一个空的 jQuery 对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getCellData</td>
+        <td>pos</td>
+        <td>获取 easyui-datagrid 中当前页指定单元格的数据；该函数定义如下参数：
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos：表示单元格的位置，为一个 JSON-Object 对象，该 JSON 定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  表示要获取的单元格位于哪个列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示要获取的单元格位于哪个行的行索引号，从 0 开始；<br />
+        </td>
+        <td>
+            如果当前页存在指定列的指定行，则返回该列中指定行及指定列的单元格数据，否则返回 undefined。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getCellDisplay</td>
+        <td>pos</td>
+        <td>获取 easyui-datagrid 中当前页指定单元格的显示数据(经过 formatter 格式化后的显示数据)；该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos：表示单元格的位置，为一个 JSON-Object 对象，该 JSON 定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  表示要获取的单元格位于哪个列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index:  表示要获取的单元格位于哪个行的行索引号，从 0 开始；
+        </td>
+        <td>
+            如果当前页存在指定列的指定行，则返回该列中指定行的单元格的显示数据(经过 formatter 格式化后的显示数据)，否则返回 undefined。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getColumnFields</td>
+        <td>frozen</td>
+        <td>获取 easyui-datagrid 所有列的 field 所组成的一个数组集合；参数 frozen 可以定义为如下格式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型值：如果是 true，则表示返回的结果集中包含 frozen(冻结)列，如果是 false 则表示返回的结果集中不包含 frozen(冻结)列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 类型值：如果该参数定义为任意 String 类型值，则返回所有列信息(包括 frozen 冻结列和非冻结列)；
+        </td>
+        <td>
+            如果 frozen 参数定义为 Boolean 且为 true，则返回所有 frozen(冻结) 列的 field 所构成的一个 Array 数组对象；<br />
+            如果 frozen 参数定义为 false，则返回所有非 frozen(非冻结) 列的 field 所构成的一个 Array 数组对象；<br />
+            如果 frozen 定义为任意的 String 类型值，则返回所有列的 field 所构成的一个 Array 数组对象。
+            <br /><br />关于更多用法参见<a class="example" href="../examples/example.html?datagrid/freeze" target="_blank">示例</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>getDistinctRows</td>
+        <td>field</td>
+        <td>获取 easyui-datagrid 按指定列的去重复项后的行数据集合，该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  要获取的数据的列的 field 名；
+        </td>
+        <td>
+            返回一个数组，数组中每一个元素都表示一个行数据；<br />
+            其结果相当于当前 easyui-datagrid 控件调用 getRows 返回后并经过对指定列去重复项后的结果；<br />
+            如果传入的列名不存在，则返回一个长度为 0 的数组对象.
+        </td>
+    </tr>
+
+    <tr>
+        <td>getDistinctColumnData</td>
+        <td>field</td>
+        <td>获取 easyui-datagrid 指定列的值去重复项后的数据集合；该函数定义如下参数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  要获取的数据的列的 field 名；
+        </td>
+        <td>
+            返回一个数组，数组中的每一个元素都表示某一行的相应 field 属性的值；<br />
+            其结果相当于当前 easyui-datagrid 控件调用 getColumnData 返回后并经过对指定列去重复项后的结果；<br />
+            如果传入的列名不存在，则返回一个长度为 0 的数组对象.
+        </td>
+    </tr>
+
+    <tr>
+        <td>getColumns</td>
+        <td>frozen</td>
+        <td>获取 easyui-datagrid 所有列的 columnOption 所组成的一个数组集合；参数 frozen 可以定义为如下格式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型值：如果是 true，则表示返回的结果集中包含 frozen(冻结)列，如果是 false 则表示返回的结果集中不包含 frozen(冻结)列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 类型值：如果该参数定义为任意 String 类型值，则返回所有列信息(包括 frozen 冻结列和非冻结列)；
+        </td>
+        <td>
+            如果 frozen 参数定义为 Boolean 且为 true，则返回所有 frozen(冻结) 列的 columnOption 所构成的一个 Array 数组对象；<br />
+            如果 frozen 参数定义为 false，则返回所有非 frozen(非冻结) 列的 columnOption 所构成的一个 Array 数组对象；<br />
+            如果 frozen 定义为任意的 String 类型值，则返回所有列的 columnOption 所构成的一个 Array 数组对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getHiddenColumns</td>
+        <td>frozen</td>
+        <td>获取 easyui-datagrid 所有列的 columnOption 所组成的一个数组集合；参数 frozen 可以定义为如下格式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型值：如果是 true，则表示返回的结果集中包含 frozen(冻结)列，如果是 false 则表示返回的结果集中不包含 frozen(冻结)列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 类型值：如果该参数定义为任意 String 类型值，则返回所有列信息(包括 frozen 冻结列和非冻结列)；
+        </td>
+        <td>
+            仅返回列的 columnOption.hidden 值为 true 的列。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getVisibleColumns</td>
+        <td>frozen</td>
+        <td>获取 easyui-datagrid 所有列的 columnOption 所组成的一个数组集合；参数 frozen 可以定义为如下格式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型值：如果是 true，则表示返回的结果集中包含 frozen(冻结)列，如果是 false 则表示返回的结果集中不包含 frozen(冻结)列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 类型值：如果该参数定义为任意 String 类型值，则返回所有列信息(包括 frozen 冻结列和非冻结列)；
+        </td>
+        <td>
+            仅返回列的 columnOption.hidden 值为 false 的列。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getHiddenColumnFields</td>
+        <td>frozen</td>
+        <td>获取 easyui-datagrid 所有列的 field 所组成的一个数组集合；参数 frozen 可以定义为如下格式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型值：如果是 true，则表示返回的结果集中包含 frozen(冻结)列，如果是 false 则表示返回的结果集中不包含 frozen(冻结)列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 类型值：如果该参数定义为任意 String 类型值，则返回所有列信息(包括 frozen 冻结列和非冻结列)；
+        </td>
+        <td>
+            仅返回列的 columnOption.hidden 值为 true 的列。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getVisibleColumnFields</td>
+        <td>frozen</td>
+        <td>获取 easyui-datagrid 所有列的 field 所组成的一个数组集合；参数 frozen 可以定义为如下格式：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型值：如果是 true，则表示返回的结果集中包含 frozen(冻结)列，如果是 false 则表示返回的结果集中不包含 frozen(冻结)列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 类型值：如果该参数定义为任意 String 类型值，则返回所有列信息(包括 frozen 冻结列和非冻结列)；
+        </td>
+        <td>
+            仅返回列的 columnOption.hidden 值为 false 的列。
+        </td>
+    </tr>
+
+    <tr>
+        <td>showRow</td>
+        <td>param</td>
+        <td>显示当前 easyui-datagrid 当前页数据中指定行的数据；该方法的参数 param 可以是以下两种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待查找的行数据的 idField(主键) 字段值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-datagrid 调用 getRows 返回的结果集；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 param 参数为 function 类型，则 findRow 方法会对当前 easyui-datagrid 的当前页的每一行数据调用该回调函数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当回调函数返回 true 时，则表示找到需要查找的结果，立即停止循环调用并显示该行数据；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果回调函数始终未返回 true，则该回调函数会一直遍历 rows 直到最后。
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>hideRow</td>
+        <td>param</td>
+        <td>隐藏当前 easyui-datagrid 当前页数据中指定行的数据；该方法的参数 param 可以是以下两种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待查找的行数据的 idField(主键) 字段值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-datagrid 调用 getRows 返回的结果集；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 param 参数为 function 类型，则 findRow 方法会对当前 easyui-datagrid 的当前页的每一行数据调用该回调函数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当回调函数返回 true 时，则表示找到需要查找的结果，立即停止循环调用并隐藏该行数据；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果回调函数始终未返回 true，则该回调函数会一直遍历 rows 直到最后。
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>showRows</td>
+        <td>param</td>
+        <td>显示当前 easyui-datagrid 当前页数据中指定多行的数据；该方法的参数 param 可以是以下三种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-datagrid 调用 getRows 返回的结果集；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 param 参数为 Function 类型，则 showRows 方法会对当前 easyui-datagrid 的当前页的每一行数据调用该回调函数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当回调函数返回 true 时，则该行数据将会被显示；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Array 类型，数组中的每一项都可以定义为如下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待查找的行数据的 idField(主键) 字段值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function 类型；具体回调函数签名参考 showRow 方法中 param 参数为 function 类型时的定义；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当 param 参数定义为 Array 类型时，则 showRows 方法会对数组中的每一项循环调用 showRow 方法；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型且为 true：则 showRows 将会显示 easyui-datagrid 当前页的所有数据。<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/columnFilter/operate" target="_blank">示例</a>
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>hideRows</td>
+        <td>param</td>
+        <td>隐藏当前 easyui-datagrid 当前页数据中指定多行的数据；该方法的参数 param 可以是以下三种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-datagrid 调用 getRows 返回的结果集；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 param 参数为 Function 类型，则 hideRows 方法会对当前 easyui-datagrid 的当前页的每一行数据调用该回调函数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当回调函数返回 true 时，则该行数据将会被隐藏；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Array 类型，数组中的每一项都可以定义为如下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待查找的行数据的 idField(主键) 字段值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function 类型；具体回调函数签名参考 hideRow 方法中 param 参数为 function 类型时的定义；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当 param 参数定义为 Array 类型时，则 hideRows 方法会对数组中的每一项循环调用 hideRow 方法；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean 类型且为 true：则 hideRows 将会隐藏 easyui-datagrid 当前页的所有数据。<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/columnFilter/operate" target="_blank">示例</a>
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>getHiddenRows</td>
+        <td>无</td>
+        <td>获取当前 easyui-datagrid 当前页所有隐藏的行数据所构成的一个 Array 对象。
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td>getVisibleRows</td>
+        <td>无</td>
+        <td>获取当前 easyui-datagrid 当前页所有显示的行数据所构成的一个 Array 对象。
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td>highlightColumn</td>
+        <td>field</td>
+        <td>使当前 easyui-datagrid 中指定的列 DOM 对象高亮显示；该函数定义如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field: 要高亮显示的列的 field 名；
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>livesearch</td>
+        <td>param</td>
+        <td>对当前 easyui-datagrid 中进行高亮关键词查询；该方法的 param 可以定义为如下两种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、String 类型值：表示要对所有列进行的高亮查询关键词；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、JSON-Object：表示对特定列进行高亮查询的参数，该对象类型参数包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:      表示要进行高亮查询的列；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value:      表示要进行高亮查询的关键词；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;regular:    Boolean 类型值，默认为 false；指示该关键词是否为正则表达式；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ignoreCase: Boolean 类型值，默认为 true；指示高亮查询时是否忽略大小写。
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/livesearch" target="_blank">示例</a>
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>hasMuliRowHeader</td>
+        <td>无</td>
+        <td>检测当前 easyui-datagrid 控件是否存在多行表头；
+        </td>
+        <td>
+            如果当前 easyui-datagrid 控件设置了多行表头，则返回 true，否则返回 false。
+        </td>
+    </tr>
+
+    <tr>
+        <td>findRow</td>
+        <td>param</td>
+        <td>查找当前数据页上的行数据，返回的是一个 JSON 对象；参数 param 表示查找的内容；该方法的参数 param 可以是以下两种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待查找的行数据的 idField(主键) 字段值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-datagrid 调用 getRows 返回的结果集；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 param 参数为 function 类型，则 findRow 方法会对当前 easyui-datagrid 的当前页的每一行数据调用该回调函数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当回调函数返回 true 时，则表示找到需要查找的结果，立即停止循环调用并返回该行数据；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果回调函数始终未返回 true，则该回调函数会一直遍历 rows 直到最后并返回 null。
+        </td>
+        <td>
+            返回一个 JSON-Object，表示一个行数据对象；如果未找到相应数据，则返回 null。
+        </td>
+    </tr>
+
+    <tr>
+        <td>findRows</td>
+        <td>param</td>
+        <td>查找当前数据页上的行数据；该方法的参数 param 可以是以下两种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-datagrid 调用 getRows 返回的结果集；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 param 参数为 Function 类型，则 findRows 方法会对当前 easyui-datagrid 的当前页的每一行数据调用该回调函数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当回调函数返回 true 时，则返回的结果集中将会包含该行数据；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果该回调函数始终未返回 true，则该方法最终返回一个长度为 0 的数组对象。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Array 类型，数组中的每一项都可以定义为如下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待查找的行数据的 idField(主键) 字段值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function 类型；具体回调函数签名参考 findRow 方法中 param 参数为 function 类型时的定义；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当 param 参数定义为 Array 类型时，则 findRows 方法会对数组中的每一项循环调用 findRow 方法，并过滤掉 findRow 方法返回 null 的结果行；
+        </td>
+        <td>
+            返回一个 Array 数组对象；数组中的每一项都是 JSON-Object 类型，表示一个行数据对象；如果未找到相应数据，则返回一个长度为 0 的数组对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>deleteRow</td>
+        <td>param</td>
+        <td>删除一行数据，重写 easyui-datagrid 本身的 deleteRow 方法；参数 param 表示要删除的内容；该参数可以是以下三种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number 类型，表示要删除的行索引号；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表示要删除的行数据的 idField(主键) 字段值，或者行数据对象；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-datagrid 调用 getRows 返回的结果集；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 param 参数为 Function 类型，则 deleteRow 方法会对当前 easyui-datagrid 的当前页的每一行数据调用该回调函数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当回调函数返回 true 时，则表示查找到了需要被删除的行，deleteRow 方法将会删除该行数据并立即停止和跳出循环操作；
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>deleteRows</td>
+        <td>param</td>
+        <td>删除多行数据，参数 param 表示要删除的内容；该参数可以是以下两种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-datagrid 调用 getRows 返回的结果集；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 param 参数为 Function 类型，则 deleteRows 方法会对当前 easyui-datagrid 的当前页的每一行数据调用该回调函数；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当回调函数返回 true 时，则表示查找到了需要被删除的行，deleteRows 方法将会删除该行数据，并遍历下一行数据直至数数据集的末尾；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Array 类型，数组中的每一项目均表示要删除的行的行索引号或者 idField(主键) 字段值或者行数据对象
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>sort</td>
+        <td>options</td>
+        <td>对数据列进行排序，参数 options 是一个 JSON 格式对象，该对象定义了如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortName: String 类型，执行排序的字段名，必须是存在于 columns 或者 frozenColumns 中某项的 field 值。<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortOrder: String 类型，排序方式，可设定的值限定为 "asc" 或 "desc"，默认为 "asc"
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>setColumnTitle</td>
+        <td>param</td>
+        <td>设置 easyui-datagrid 中列的标题；参数 param 是一个 json 对象，包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field: 列字段名称<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 列的新标题
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>setColumnWidth</td>
+        <td>param</td>
+        <td>设置 easyui-datagrid 中列的宽度；参数 param 是一个 JSON 对象，该 JSON 对象定义如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field: 要设置列宽的的列 field 值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: 要设置的列宽度，Number 类型值。
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>setOffset</td>
+        <td>offset</td>
+        <td>设置当前 easyui-datagrid 控件的 offset 属性；该操作能让 offset 即可随浏览器窗口大小调整而生效或禁用；<br />
+            备注： 参数 offset 格式参考扩展属性 offset。
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>setColumnFilter</td>
+        <td>columnFilter</td>
+        <td>设置当前 easyui-datagrid 控件的表头过滤器；该函数提供如下参数：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnFilter: 参见属性 columnFilter<br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/columnFilter/operate" target="_blank">示例</a>
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>columnFilterSelect</td>
+        <td>param</td>
+        <td>对当前 easyui-datagrid 控件按特定条件进行行过滤/显示操作；该方法的参数 param 可以定义为如下两种类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、Boolean 类型：如果定义为该类型，则：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果值定义为 true，则表示选中所有的数据全部不过滤；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果值定义为 false，则表示清空所有的数据全部过滤掉而不显示；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、JSON-Object 类型：如果定义为该类型，则该参数定义包含如下属性：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:  String 类型，表示要操作的列的 field 值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selected：Boolean，表示要对 field 所指示的列进行过滤操作的类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果定义为 true，则表示进行选中操作；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果定义为 false，则表示进行过滤操作；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value:  表示要对 field 所指示的列进行过滤操作的值，该参数可以定义为如下类型：<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Array 类型：表示一组要进行过滤操作的值；<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非 Array 类型：表示要进行过滤操作的值；<br /><br />
+            关于更多用法参见<a class="example" href="../examples/example.html?datagrid/columnFilter/operate" target="_blank">示例</a>
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
+    <tr>
+        <td>exportExcel</td>
+        <td>isAll</td>
+        <td>将当前表格数据导出为 excel 文件；该函数定义了一个参数 isAll；<br />
+            参数 isAll 指示是否导出全部而非仅当前页数据，如果不传入该参数默认为 false 即导出当前页数据。<br />
+            当参数 isAll 为 true 并且 remotePaging 为 true 时，需要当前 easyui-datagrid 控件的 url 属性指示的服务器数据源支持查询所有数据（以 rows: 0 方式不分页查询所有数据）。
+        </td>
+        <td>
+            返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
+        </td>
+    </tr>
+
 </table>
 
 

@@ -1,20 +1,39 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI combo 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.combo.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+
+        <li>增加了 easyui-combo 的自定义扩展属性iconCls，表示该 combo 组件的 iconCls 图标样式类</li>
+        <li>增加了 easyui-combo 的自定义扩展属性autoShowPanel，表示该 combox 组件是否在 textbox 文本显示框获取焦点时自动执行 showPanel 方法显示下拉 panel 面板</li>
+        <li>增加了 easyui-combo 组件的自定义方法setIcon，用于设置 easyui-combo 控件的右侧显示图标</li>
+        <li>增加了 easyui-combo 组件的自定义方法setRequired，用于设置启用或者禁用 easyui-combo 控件的表单验证功能</li>
+        
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4,6]" >
+        // easyui-combox 组件在 textbox 文本显示框获取焦点时自动执行 showPanel 方法显示下拉 panel 面板
+        var sex = $("#selSex").combo({
+            width: 120,
+            autoShowPanel: true
+        });
+        sex.combo("textbox").focus();
+    </textarea>
+</p>
 
 
 <h4>扩展的属性</h4>
@@ -27,15 +46,32 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>iconCls</td>
+        <td>String</td>
+        <td>表示该 easyui-combo 组件的 iconCls 图标样式类</td>
+        <td>null</td>
     </tr>
+
+    <tr>
+        <td>autoShowPanel</td>
+        <td>Boolean</td>
+        <td>表示该 easyui-combo 组件是否在 textbox 文本显示框获取焦点时自动执行 showPanel 方法显示下拉 panel 面板<br />
+        <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4]" >
+            // easyui-combox 组件在 textbox 文本显示框获取焦点时自动执行 showPanel 方法显示下拉 panel 面板
+            var sex = $("#selSex").combo({
+                width: 120,
+                autoShowPanel: true
+            });
+            sex.combo("textbox").focus();
+        </textarea>
+        关于更多用法参见<a class="example" href="../examples/example.html?combo/autoShowPanel" target="_blank">示例</a></td>
+        <td>true</td>
+    </tr>
+
 </table>
 
 
-<h4>扩展的事件</h4>
+<!--<h4>扩展的事件</h4>
 <p>该扩展增加定义了如下事件：</p>
 <table class="doc-table">
     <tr>
@@ -50,7 +86,7 @@
         <td></td>
         <td></td>
     </tr>
-</table>
+</table>-->
 
 
 <h4>扩展的方法</h4>
@@ -60,12 +96,22 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
+        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>setIcon</td>
+        <td>iconCls</td>
+        <td>表示需要设置的图标的 css 类样式名，例如 "icon-ok", "icon-save"</td>
+        <td>返回表示当前 easyui-combo 控件的 jQuery 链式对象</td>
     </tr>
+
+    <tr>
+        <td>setRequired</td>
+        <td>required</td>
+        <td>表示启用或者禁用 easyui-combo 控件的表单验证功能</td>
+        <td>返回表示当前 easyui-combo 控件的 jQuery 链式对象</td>
+    </tr>
+
 </table>
 
 

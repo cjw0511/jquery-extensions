@@ -1,20 +1,38 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI combogrid 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.combogrid.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+
+        <li>增加了 easyui-datagrid 中 editors 属性对 easyui-combogrid 的支持</li>
+        <li>覆盖 easyui-combogrid 的事件 onLoadSuccess 以支持 easyui-datagrid 的自定义扩展功能</li>
+        <li>覆盖 easyui-combogrid 的事件 onResizeColumn 以支持 easyui-datagrid 的自定义扩展功能</li>
+        
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
+    <li>jeasyui.extensions.menu.js</li>
+    <li>jeasyui.extensions.datagrid.js</li>
+    <li>jeasyui.extensions.panel.js</li>
+    <li>jeasyui.extensions.window.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+        // 敬请期待
+        
+    </textarea>
+</p>
 
 
 <h4>扩展的属性</h4>
@@ -27,10 +45,10 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>editors</td>
+        <td>无</td>
+        <td>此属性用于对 easyui-combogrid 的支持</td>
+        <td>null</td>
     </tr>
 </table>
 
@@ -45,15 +63,23 @@
         <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>onLoadSuccess</td>
+        <td>data</td>
+        <td>支持 easyui-datagrid 的自定义扩展功能</td>
+        <td>null</td>
     </tr>
+
+    <tr>
+        <td>onResizeColumn</td>
+        <td>field,width</td>
+        <td>支持 easyui-datagrid 的自定义扩展功能</td>
+        <td>null</td>
+    </tr>
+
 </table>
 
 
-<h4>扩展的方法</h4>
+<!--<h4>扩展的方法</h4>
 <p>该扩展增加定义了如下方法：</p>
 <table class="doc-table">
     <tr>
@@ -66,7 +92,7 @@
         <td></td>
         <td></td>
     </tr>
-</table>
+</table>-->
 
 
 

@@ -1,20 +1,39 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI validatebox 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.validatebox.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+
+        <li>增加了 easyui-validatebox 的扩展属性 prompt，用于验证输入框的提示文本</li>
+        <li>增加了 easyui-validatebox 的自定义扩展方法setPrompt，用于设置当前 easyui-validatebox 控件的 prompt 值</li>
+        <li>重写了 easyui-form 控件的 原生方法validate，用于支持相应扩展功能或属性</li>
+        <li>重写了 easyui-form 控件的 原生方法isValid，用于支持相应扩展功能或属性</li>
+        
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>以下为示例代码
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4,6]" >
+        // 表示验证输入框的提示文本
+        var name = $("#txtName").validatebox({
+            required: true,
+            prompt: "请输入姓名"
+         });
+         name.validatebox("validate");
+    </textarea>
+</p>
 
 
 <h4>扩展的属性</h4>
@@ -27,15 +46,25 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>prompt</td>
+        <td>String</td>
+        <td>该属性功能类似于 easyui-searchbox 的 prompt 属性。<br />
+        表示该验证输入框的提示文本。<br />
+        <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4]" >
+        // 表示验证输入框的提示文本
+        var name = $("#txtName").validatebox({
+            required: true,
+            prompt: "请输入姓名"
+         });
+         name.validatebox("validate");
+        </textarea>
+        关于更多用法参见<a class="example" href="../examples/example.html?validatebox/prompt" target="_blank">示例</a></td>
+        <td>null</td>
     </tr>
 </table>
 
 
-<h4>扩展的事件</h4>
+<!--<h4>扩展的事件</h4>
 <p>该扩展增加定义了如下事件：</p>
 <table class="doc-table">
     <tr>
@@ -45,12 +74,12 @@
         <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>setPrompt</td>
+        <td>prompt</td>
+        <td>扩展 easyui-validatebox 的自定义扩展方法；设置当前 easyui-validatebox 控件的 prompt 值；该方法的参数 prompt 表示将被设置的 prompt 值；</td>
+        <td>返回表示当前 easyui-validatebox 的 jQuery 链式对象。</td>
     </tr>
-</table>
+</table>-->
 
 
 <h4>扩展的方法</h4>
@@ -60,12 +89,30 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
+        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>setPrompt</td>
+        <td>prompt</td>
+        <td>设置当前 easyui-validatebox 控件的 prompt 值；该方法的参数 prompt 表示将被设置的 prompt 值</td>
+        <td>返回表示当前 easyui-validatebox 的 jQuery 链式对象。</td>
     </tr>
+
+    <tr>
+        <td>validate</td>
+        <td>无</td>
+        <td>重写 easyui-validatebox 的原生方法；以支持相应扩展功能或属性。<br />
+        关于更多用法参见<a class="example" href="../examples/example.html?validatebox/prompt" target="_blank">示例</a></td>
+        <td>返回表示当前 easyui-validatebox 的 jQuery 链式对象。</td>
+    </tr>
+
+    <tr>
+        <td>isValid</td>
+        <td>无</td>
+        <td>重写 easyui-validatebox 的原生方法；以支持相应扩展功能或属性。</td>
+        <td>返回布尔类型的值</td>
+    </tr>
+
 </table>
 
 

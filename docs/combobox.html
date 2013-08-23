@@ -1,20 +1,35 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI combobox 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.combobox.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+
+        <li>增加了 easyui-combobox 控件默认参数 queryParams，该参数表示从远程服务器调取数据时发送的额外查询参数，该参数应该定义为一个 JSON 对象</li>
+        <li>重新定义 easyui-combobox 控件的默认属性 loader，使之能处理 queryParams 参数</li>
+        <li>扩展了 easyui-combobox 的自定义方法getItem，该方法用于获取当前选择了的项</li>
+        <li>扩展了 easyui-combobox 的自定义方法getItems，该方法用于获取当前选择了的所有项集合</li>
+        
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+        // 敬请期待
+        
+    </textarea>
+</p>
 
 
 <h4>扩展的属性</h4>
@@ -27,15 +42,23 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>queryParams</td>
+        <td>JSON-Object</td>
+        <td>表示从远程服务器调取数据时发送的额外查询参数</td>
+        <td>null</td>
     </tr>
+
+    <tr>
+        <td>loader</td>
+        <td>function</td>
+        <td>可以处理 queryParams 参数</td>
+        <td>null</td>
+    </tr>
+
 </table>
 
 
-<h4>扩展的事件</h4>
+<!--<h4>扩展的事件</h4>
 <p>该扩展增加定义了如下事件：</p>
 <table class="doc-table">
     <tr>
@@ -50,7 +73,7 @@
         <td></td>
         <td></td>
     </tr>
-</table>
+</table>-->
 
 
 <h4>扩展的方法</h4>
@@ -60,12 +83,29 @@
         <th>Name</th>
         <th>Parameters</th>
         <th>Description</th>
+        <th>Returns</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>load</td>
+        <td>param(参数类型可以是String或者JSON Object类型)</td>
+        <td>以指定的参数查询重新加载远程数据</td>
+        <td>null</td>
     </tr>
+
+    <tr>
+        <td>getItem</td>
+        <td>无</td>
+        <td>用于获取当前选择了的项</td>
+        <td>返回一个 JSON-Object，该 JSON-Object 为当前 easyui-combobox 数据源中的一个子项，包含 idField 和 textField 的值；<br />如果当前 easyui-combobox 没有选中任何值，则返回 null</td>
+    </tr>
+
+    <tr>
+        <td>getItems</td>
+        <td>无</td>
+        <td>用于获取当前选择了的所有项集合</td>
+        <td>返回一个 Array，数组中的每个元素都是一个 JSON-Object 为当前 easyui-combobox 数据源中的一个子项，包含 idField 和 textField 的值；<br />如果当前 easyui-combobox 没有选中任何值，则返回一个空数组。</td>
+    </tr>
+
 </table>
 
 

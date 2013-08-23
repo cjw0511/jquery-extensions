@@ -1,20 +1,36 @@
 ﻿<div>
 
-<h3>xxxx 功能扩展</h3>
-<p>该部分扩展由文件 jeasyui.extensions.xxxx.js 实现。</p>
+<h3>jQuery EasyUI combotree 组件扩展</h3>
+<p>该部分扩展由文件 jeasyui.extensions.combotree.js 实现。</p>
 
 <h4>扩展概述</h4>
-<p>这里填写该扩展文件所扩展的功能的概述。</p>
+<p>扩展基于jquery.easyui.min.js实现，主要扩展功能体现在：
+    <ul>
+
+        <li>更改继承于 easyui-tree 的自定义属性 toggleOnClick 的默认值，使得 easyui-combotree 中 tree 组件的页节点在点击后不自动展开/折叠子节点</li>
+        <li>更改继承于 easyui-tree 的自定义属性 autoBindDblClick 的默认值，使得 easyui-combotree 中 tree 组件的页节点在双击后不触发第一个右键菜单项的事件</li>
+        
+    </ul>
+</p>
 
 
 <h4>依赖项</h4>
 <ul>
-    <li></li>
+    <li>jquery.jdirk.js</li>
+    <li>jeasyui.extensions.js</li>
+    <li>jeasyui.extensions.menu.js</li>
+    <li>jeasyui.extensions.combo.js</li>
+    <li>jeasyui.extensions.tree.js</li>
 </ul>
 
 
 <h4>用法</h4>
-<p>这里填写该扩展文件中功能的用法描述。</p>
+<p>
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+        // 敬请期待
+        
+    </textarea>
+</p>
 
 
 <h4>扩展的属性</h4>
@@ -27,15 +43,23 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>toggleOnClick</td>
+        <td>Boolean</td>
+        <td>更改继承于 easyui-tree 的自定义属性 toggleOnClick 的默认值，使得 easyui-combotree 中 tree 组件的页节点在点击后不自动展开/折叠子节点</td>
+        <td>false</td>
     </tr>
+
+    <tr>
+        <td>autoBindDblClick</td>
+        <td>Boolean</td>
+        <td>更改继承于 easyui-tree 的自定义属性 autoBindDblClick 的默认值，使得 easyui-combotree 中 tree 组件的页节点在双击后不触发第一个右键菜单项的事件</td>
+        <td>false</td>
+    </tr>
+
 </table>
 
 
-<h4>扩展的事件</h4>
+<!--<h4>扩展的事件</h4>
 <p>该扩展增加定义了如下事件：</p>
 <table class="doc-table">
     <tr>
@@ -50,10 +74,10 @@
         <td></td>
         <td></td>
     </tr>
-</table>
+</table>-->
 
 
-<h4>扩展的方法</h4>
+<!--<h4>扩展的方法</h4>
 <p>该扩展增加定义了如下方法：</p>
 <table class="doc-table">
     <tr>
@@ -66,7 +90,7 @@
         <td></td>
         <td></td>
     </tr>
-</table>
+</table>-->
 
 
 
