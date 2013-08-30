@@ -784,7 +784,7 @@
             }),
             columnFilter = opts.columnFilter = $.extend({ panelHeight: 100, position: "top" }, opts.columnFilter),
             position = $.array.contains(["top", "bottom"], columnFilter.position) ? columnFilter.position : "top",
-            panelHeight = columnFilter.panelHeight = $.isNumeric(columnFilter.panelHeight) && columnFilter.panelHeight >= 80 ? columnFilter.panelHeight : 80,
+            panelHeight = columnFilter.panelHeight = $.isNumeric(columnFilter.panelHeight) && columnFilter.panelHeight >= 60 ? columnFilter.panelHeight : 60,
             height = header.height(), rows = t.datagrid("getRows");
         headerFields.each(function () {
             var td = $(this).addClass("datagrid-header-filter").removeClass("datagrid-header-filter-top datagrid-header-filter-bottom"),
@@ -2028,7 +2028,7 @@
         singleEditing: true,
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示当前表格的列过滤器设置参数；该参数是一个 JSON 格式的对象，该对象定义如下属性：
-        //      panelHeight: 列过滤器控件面板的高度，默认为 100，该值最小为 80；
+        //      panelHeight: 列过滤器控件面板的高度，默认为 100，该值最小为 60；
         //      position:   表示列过滤器的位置，String 类型，可以填入的值限定在以下范围：
         //          "top":  表示列过滤器被放置在表头的上方；
         //          "bottom":   表示列过滤器被放置在表头的下方；默认值。

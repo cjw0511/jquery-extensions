@@ -1,15 +1,70 @@
 ﻿<div>
 
 <h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [5,9,13,17,21,25,29,33,37,38,39,40]" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    $(function () {
+        var btn = $("#A1");
+
+        $("#Button1").click(function () {
+            btn.linkbutton("setIcon", "icon-hamburg-busy");
+        });
+
+        $("#Button2").click(function () {
+            btn.linkbutton("setIcon", null);
+        });
+
+        $("#Button3").click(function () {
+            btn.linkbutton("setText", "自定义按钮1");
+        });
+
+        $("#Button4").click(function () {
+            btn.linkbutton("setText", null);
+        });
+
+        $("#Button5").click(function () {
+            btn.linkbutton("setIconAlign", "left");
+        });
+
+        $("#Button6").click(function () {
+            btn.linkbutton("setIconAlign", "right");
+        });
+
+        $("#Button7").click(function () {
+            btn.linkbutton("setPlain", true);
+        });
+
+        $("#Button8").click(function () {
+            btn.linkbutton("setPlain", false);
+        });
+
+        $("#Button9").click(function () {
+            btn.linkbutton("setStyler", {
+                backgroundColor: "Red",
+                color: "Blue"
+            });
+        });
+    });
 
 </textarea>
 <h2>HTML 代码：</h2>
 <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
     
-    //  该扩展功能的 DEMO 尚未编写，敬请期待！ 
+    <input id="Button1" type="button" value="设置图标" style="background" />
+    <input id="Button2" type="button" value="清除图标" />
+
+    <input id="Button3" type="button" value="设置文字" />
+    <input id="Button4" type="button" value="清除文字" />
+    <br /><br />
+    <input id="Button5" type="button" value="设置图标位置-左" />
+    <input id="Button6" type="button" value="设置图标位置-右" />
+
+    <input id="Button7" type="button" value="设置Plain-true" />
+    <input id="Button8" type="button" value="设置Plain-false" />
+    <br /><br />
+    <input id="Button9" type="button" value="添加自定义样式" />
+    <hr />
+    <a id="A1" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-hamburg-config', iconAlign: 'left'" >按钮1</a>
 
 </textarea>
 

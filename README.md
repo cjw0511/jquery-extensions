@@ -51,6 +51,7 @@ http://www.chenjianwei.org
                         <li>
                             对 jeasyui 的现有插件进行了功能扩展；已经功能扩展的插件包括(在目录 "jeasyui-extensions" 的 js 文件名以 "jeasyui.extensions" 开头)：
                             <ul>
+                                <li>linkbutton</li>
                                 <li>validatebox</li>
                                 <li>combo</li>
                                 <li>combobox</li>
@@ -72,6 +73,7 @@ http://www.chenjianwei.org
                             <ul>
                                 <li>gridselector 和 dblgridselector</li>
                                 <li>toolbar(所在目录为 "jeasyui-extensions/jquery-easyui-toolbar")；</li>
+                                <li>theme；</li>
                                 <li>my97；</li>
                                 <li>ckeditor；</li>
                                 <li>uploadify；</li>

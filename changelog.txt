@@ -1,6 +1,12 @@
 ﻿jquery-extensions 发布及更新日志
 
 
+/******************** 2013-08-30(1.0.0 preview) ********************/
+1、增加扩展插件 jeasyui.extensions.linkbutton.js；
+2、修复 index.html 主页面布局存在的细小 BUG；
+3、修复 jquery.jdirk.js 中存在的部分细小 BUG；
+
+
 /******************** 2013-08-23(1.0.0 preview) ********************/
 1、修复了四套 jquery-ui 风格皮肤中的 menu 样式中菜单项高度过大的问题；
 2、修复了 jeasyui.exensions.menu.js 的部分细小 BUG；

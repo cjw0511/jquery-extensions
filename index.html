@@ -13,6 +13,7 @@
     <script src="jquery.jdirk.js" type="text/javascript"></script>
     <script src="jeasyui-extensions/jeasyui.extensions.js" type="text/javascript"></script>
 
+    <script src="jeasyui-extensions/jeasyui.extensions.linkbutton.js" type="text/javascript"></script>
     <script src="jeasyui-extensions/jeasyui.extensions.validatebox.js" type="text/javascript"></script>
     <script src="jeasyui-extensions/jeasyui.extensions.combo.js" type="text/javascript"></script>
     <script src="jeasyui-extensions/jeasyui.extensions.combobox.js" type="text/javascript"></script>
@@ -59,8 +60,8 @@
         #navTab>div.tabs-header { border-right-width: 0px; }
         #navMenu_list { padding: 0px; margin: 0px; }
         #navMenu_list>li { line-height: 26px; list-style-type: none; }
-        #navMenu_list>li>div.panel-header { height: 26px; line-height: 26px; padding: 0px; margin: 0px; font-weight: normal; }
-        #navMenu_list>li:last-child>div.panel-header { border-bottom-width: 0px; }
+        #navMenu_list>li>div.panel-header { height: 26px; line-height: 26px; padding: 0px; margin: 0px; font-weight: normal; border-top-width: 1px; border-bottom-width: 0px; }
+        #navMenu_list>li:first-child>div.panel-header { border-top-width: 0px; }
         #navMenu_list>li>div.panel-header a { width: 100%; height: 100%; color: inherit; padding: 0px; margin: 0px; text-decoration: none; display: inline-block; }
         
         .nav-menu { padding-left: 10px; }
@@ -127,7 +128,7 @@
                 <span class="icon-hamburg-user" style="padding-left: 25px; background-position: left center;">此处可以放置登录用户账户信息</span>
             </div>
             <div id="searchbar">
-                <input id="topSearchbox" class="easyui-searchbox" data-options="width: 350, height: 25, prompt: '您输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
+                <input id="topSearchbox" class="easyui-searchbox" data-options="width: 350, height: 25, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
                 <div id="topSearchboxMenu" style="width: 85px;">
                     <div data-options="name:'0', iconCls: 'icon-hamburg-zoom'">查询类型</div>
 		            <div data-options="name:'1'">测试类型1</div>

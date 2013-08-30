@@ -36,11 +36,12 @@
             }, function () {
                 if (!a.hasClass("selected")) { $(this).removeClass("tree-node-selected"); }
             }).click(function () {
-                if (a.is(".tree-node-selected.selected")) { return; }
+                if (a.is(".tree-node-selected.selected") || a.attr("disabled")) { return; }
                 a.closest("ul").find("a").removeClass("tree-node-selected selected");
                 a.addClass("tree-node-selected selected");
                 window.mainpage.loadMenu(item.id);
             }).appendTo(pp);
+            $.data(a[0], "menu-item", item);
             var span = $("<span></span>").addClass("nav-menu").appendTo(a);
             $("<span></span>").addClass("nav-menu-icon" + (item.iconCls ? " " + item.iconCls : "")).text(item.text).appendTo(span);
         });

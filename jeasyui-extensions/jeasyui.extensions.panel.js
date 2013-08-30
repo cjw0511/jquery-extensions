@@ -208,22 +208,22 @@
         setTitle: function (jq, title) { return jq.each(function () { setTitle(this, title); }); }
     };
     var defaults = $.fn.panel.extensions.defaults = {
-        //  表示 easyui-panel 面板的最小宽度。
+        //  增加 easyui-panel 控件的自定义属性，表示 easyui-panel 面板的最小宽度。
         minWidth: 10,
 
-        //  表示 easyui-panel 面板的最大宽度。
+        //  增加 easyui-panel 控件的自定义属性，表示 easyui-panel 面板的最大宽度。
         maxWidth: 10000,
 
-        //  表示 easyui-panel 面板的最小高度。
+        //  增加 easyui-panel 控件的自定义属性，表示 easyui-panel 面板的最小高度。
         minHeight: 10,
 
-        //  表示 easyui-panel 面板的最大高度。
+        //  增加 easyui-panel 控件的自定义属性，表示 easyui-panel 面板的最大高度。
         maxHeight: 10000,
 
-        //  重新定义的 onResize 事件。用于扩展四个新增属性 minWidth、maxWidth、minHeight、maxHeight 的功能。
+        //  增加 easyui-panel 控件的自定义属性，重新定义的 onResize 事件。用于扩展四个新增属性 minWidth、maxWidth、minHeight、maxHeight 的功能。
         onResize: onResize,
 
-        //  增加 easyui-panel 控件的扩展属性；该属性表示 href 加载的远程页面是否装载在一个 iframe 中。
+        //  增加 easyui-panel 控件的自定义属性，增加 easyui-panel 控件的扩展属性；该属性表示 href 加载的远程页面是否装载在一个 iframe 中。
         iniframe: false
     };
 

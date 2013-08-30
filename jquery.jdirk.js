@@ -141,7 +141,7 @@
     coreUtil.isPlainObject = $.isPlainObject;
 
     //  测试对象是否是 jQuery 对象。
-    coreUtil.isJqueryObject = function (obj) { return obj && obj.constructor === $$.constructor; };
+    coreUtil.isJqueryObject = function (obj) { return obj != null && obj != undefined && obj.constructor === $$.constructor; };
 
     //  判断对象是否是一个空的 jQuery 对象(不包含任何 DOM 元素，即 length = 0)。
     coreUtil.isEmptyJquery = coreUtil.isEmptyJqueryObject = function (obj) { return coreUtil.isJqueryObject(obj) && !obj.length; };
@@ -390,11 +390,11 @@
     //  在指定的毫秒数后调用函数或计算表达式；该函数定义如下参数：
     //      code:       必需。要调用的函数后要执行的 JavaScript 代码串。
     //      millisec:   可选。在执行代码前需等待的毫秒数。
-    //  模拟 setTimeout 方法。
+    //  模拟 setTimeout/setImmediate 方法。
     coreUtil.call = function (code, millisec) {
         if (coreUtil.isString(code) && coreString.isNullOrWhiteSpace(code)) { return; }
-        if (millisec == undefined) { delay = 0; }
-        setTimeout(code, millisec);
+        if (millisec == null || millisec == undefined) { millisec = 0; }
+        return millisec == 0 && window.setImmediate ? window.setImmediate(code) : window.setTimeout(code, millisec);
     };
 
 
@@ -512,7 +512,7 @@
         } else {
             for (var key in data) {
                 var value = proxy.call(data, key);
-                value = value ? value : "$nbsp;";
+                value = (value == null || value == undefined) ? "$nbsp;" : value;
                 str = str.replace(new RegExp("\\{" + key + "}", "gm"), value);
             }
         }
@@ -2587,7 +2587,7 @@
         var val = null;
         args = coreUtil.parseMapFunction(args);
         $.ajax({
-            url: url, data: args, async: false,
+            url: url, type: "POST", data: args, async: false,
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 throw XMLHttpRequest.responseText;
             }, success: function (data, textStatus, jqXHR) { val = data; }
@@ -2602,8 +2602,8 @@
     //  备注：该方法为 $.ajax 方法的快捷调用，采用 post 方式提交，并且 async 属性设置为 false；
     //      如果需要更加丰富的 ajax 调用，请使用 $.ajax 方法。
     coreUtil.requestAjaxBoolean = function (url, args) {
-        var data = coreUtil.requestAjaxData(url, args);
-        if (typeof data == "object" || (typeof data == "string" && data.charAt(0) === "<" && data.charAt(data.length - 1) === ">" && data.length >= 3)) { data = $(data).text(); }
+        var data = coreUtil.requestAjaxData(url, args), type = typeof data;
+        if (type == "object" || (type == "string" && data.charAt(0) === "<" && data.charAt(data.length - 1) === ">" && data.length >= 3)) { data = $(data).text(); }
         return coreString.toBoolean(data);
     };
 

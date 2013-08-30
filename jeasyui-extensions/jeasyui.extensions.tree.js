@@ -11,7 +11,7 @@
 * jQuery EasyUI tree 组件扩展
 * jeasyui.extensions.tree.js
 * 二次开发 陈建伟
-* 最近更新：2013-70-20
+* 最近更新：2013-08-20
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
