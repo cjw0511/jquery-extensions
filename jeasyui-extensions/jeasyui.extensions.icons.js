@@ -44,7 +44,7 @@
         opts.title = opts.title + ", 尺寸:" + opts.size;
         var content = $("<div></div>"), value = opts.selected,
             north = $("<div></div>").attr("data-options", "region: 'north', split: false, border: false").appendTo(content),
-            center = $("<div></div>").attr("data-options", "region: 'center', title: '可选的图标风格', border: false").appendTo(content),
+            center = $("<div></div>").attr("data-options", "region: 'center', border: false").appendTo(content),
             toolbar = $("<div></div>").appendTo(north).toolbar(),
             tabs = $("<div></div>").appendTo(center);
         var refreshView = function () {
