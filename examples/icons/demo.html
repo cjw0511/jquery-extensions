@@ -2,12 +2,42 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#Button1").click(function () {
+            $.easyui.icons.showSelector({
+                onSelect: function (val) { alert(val); }
+            });
+        });
+
+        $("#Button2").click(function () {
+            $.easyui.icons.showSelector({
+                size: "32",
+                onSelect: function (val) { alert(val); }
+            });
+        });
+
+        $("#Button3").click(function () {
+            $.easyui.icons.showSelector({
+                multiple: true,
+                onSelect: function (val) { alert(val); }
+            });
+        });
+
+        $("#Button4").click(function () {
+            $.easyui.icons.showSelector({
+                multiple: true,
+                size: "32",
+                onSelect: function (val) { alert(val); }
+            });
+        });
     });
 </script>
 
-<h2>jEasyUI xxxx Plugin Extensions</h2>
-<p>该部分扩展由文件 jquery.xxx.js 实现。</p>
+<h2>jEasyUI Icons Plugin Extensions</h2>
+<p>该部分扩展由文件 jeasyui.extensions.icons.js 实现。</p>
 <hr />
-<h2>该扩展功能尚未完整实现，敬请期待！</h2>
+<input id="Button1" type="button" value="ShowSelector-单选-16" />
+<input id="Button2" type="button" value="ShowSelector-单选-32" />
+<input id="Button3" type="button" value="ShowSelector-多选-16" />
+<input id="Button4" type="button" value="ShowSelector-多选-32" />
 
 </div>

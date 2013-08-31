@@ -391,6 +391,7 @@
     //      code:       必需。要调用的函数后要执行的 JavaScript 代码串。
     //      millisec:   可选。在执行代码前需等待的毫秒数。
     //  模拟 setTimeout/setImmediate 方法。
+    //  备注：如果不传入参数 millisec 或该参数值为 0，则自动调用 setImmediate(该方法可以有效降低浏览器资源开销) 方法；
     coreUtil.call = function (code, millisec) {
         if (coreUtil.isString(code) && coreString.isNullOrWhiteSpace(code)) { return; }
         if (millisec == null || millisec == undefined) { millisec = 0; }

@@ -732,7 +732,8 @@
                    在指定的毫秒数后调用函数或计算表达式；该函数定义如下参数：<br />
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code:       必需。要调用的函数后要执行的 JavaScript 代码串。<br />
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;millisec:   可选。在执行代码前需等待的毫秒数。<br />
-                   模拟 setTimeout 方法。
+                   模拟 setTimeout/setImmediate 方法。<br />
+                   备注：如果不传入参数 millisec 或该参数值为 0，则自动调用 setImmediate(该方法可以有效降低浏览器资源开销) 方法；
                 </td>
                 <td>无返回值</td>
             </tr>
@@ -776,14 +777,14 @@
                    比较两个 javascript 对象的大小，该函数定义如下参数：<br />
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item1: 待比较的对象1；<br />
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item2: 待比较的对象2，用于和对象1进行比较；<br />
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 比较函数，该函数被循环调用，用于比较 array 中没两项的大小；这是一个可选参数；
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名为 function (a, b) { }，参数 a、b 分别表示源数组中的待比较大小的项；该函数必须返回一个数值表示比较后的结果；
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a > b ，则返回一个 大于 0 的值；
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a < b ，则返回一个 小于 0 的值；
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a == b，则返回 0；
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义该参数，则默认将 array 中的每一项当作数字来进行比较。
-                   返回值：如果 item1 > item2 ，则返回一个 大于 0 的值；
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 item1 < item2 ，则返回一个 小于 0 的值；
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compare: 比较函数，该函数被循环调用，用于比较 array 中没两项的大小；这是一个可选参数；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数的签名为 function (a, b) { }，参数 a、b 分别表示源数组中的待比较大小的项；该函数必须返回一个数值表示比较后的结果；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a > b ，则返回一个 大于 0 的值；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a < b ，则返回一个 小于 0 的值；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 a == b，则返回 0；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不定义该参数，则默认将 array 中的每一项当作数字来进行比较。<br />
+                   返回值：如果 item1 > item2 ，则返回一个 大于 0 的值；<br />
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 item1 < item2 ，则返回一个 小于 0 的值；<br />
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果 item1 == item2，则返回 0；
                 </td>
                 <td>Inetger</td>
@@ -793,7 +794,7 @@
                 <td>element</td>
                 <td>
                     获取 HTML DOM 对象的 GUID 值；该函数定义如下参数：<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要获取 uniqueID 属性的 DOM 对象；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要获取 uniqueID 属性的 DOM 对象；<br />
                     返回值：返回 element 元素的 uniqueID 值；如果该元素未定义该值，则返回 undefined。
                 </td>
                 <td>String 或 undefined</td>
@@ -803,7 +804,7 @@
                 <td>element</td>
                 <td>
                     判断 HTML DOM 对象是否具有 uniqueID 属性；该函数定义如下参数：<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要判断是否具有 uniqueID 属性的 DOM 对象。
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要判断是否具有 uniqueID 属性的 DOM 对象。<br />
                     返回值：如果 element 元素具有 uniqueID 属性，则返回 true，否则返回 false。
                 </td>
                 <td>Boolean</td>
@@ -813,7 +814,7 @@
                 <td>element, uniqueID</td>
                 <td>
                     给 HTML DOM 对象设置一个新的 uniqueID 值；该函数定义如下参数：<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要设置 uniqueID 属性的 DOM 对象；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要设置 uniqueID 属性的 DOM 对象；<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uniqueID:   可选，表示要给 element 元素设置的 uniqueID 值；如果不定义该值，则会调用 coreUtil.guid 方法自动生成一个 uniqueID 值。
                 </td>
                 <td>无返回值</td>
@@ -823,7 +824,7 @@
                 <td>element</td>
                 <td>
                     初始化 HTML DOM 对象的 uniqueID 值；该函数定义如下参数：<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要初始化 uniqueID 属性的 DOM 对象；
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element:    必须，表示需要初始化 uniqueID 属性的 DOM 对象；<br />
                     备注：该方法判断 element 元素是否具有 uniqueID 属性值，如果有则不进行任何更改；如果没有则为期设置一个新的 uniqueID 值。
                 </td>
                 <td>无返回值</td>

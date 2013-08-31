@@ -44,18 +44,8 @@
     function wrapItems(target) {
         var t = $.util.parseJquery(target), state = $.data(target, "toolbar"),
             toolbar = state.toolbar, opts = state.options, cc = toolbar.children();
-        state.wrapper = $("<table></table>").attr({ cellspacing: 0, cellpadding: 0 }).addClass("toolbar-wrapper").appendTo(toolbar);
-        var tr = $("<tr></tr>").appendTo(state.wrapper);
-        cc.each(function () {
-            //            var item = $(this);
-            //            if (/^(?:div|span)$/i.test(this.nodeName) && item.text() == "-") {
-            //                item.addClass("dialog-tool-separator").text("");
-            //            }
-            //            $("<td></td>").append(item).appendTo(tr);
-
-            appendItem(target, this, true);
-        });
-        toolbar[0].appendChild(state.wrapper[0]);
+        state.wrapper = $("<table><tr></tr></table>").attr({ cellspacing: 0, cellpadding: 0 }).addClass("toolbar-wrapper").appendTo(toolbar);
+        appendItem(target, cc, true);
     };
 
     function setSize(target, size) {
@@ -117,10 +107,15 @@
             if ($.isFunction(fn)) { item.click(fn); }
         } else if ($.isFunction(item)) {
             return appendItem(target, item.call(target));
+        } else if ($.array.likeArray(item)) {
+            var ret = $.each(item, function () { appendItem(target, this, true); });
+            doSize();
+            return ret;
         }
         var td = $("<td></td>").append(item);
         state.wrapper.find("tr:last").append(td);
-        if (opts.align == "center" && !dontSize) { setAlign(target, "center"); }
+        doSize();
+        function doSize() { if (!dontSize) { setSize(target); } }
         function buildSeparator(item) {
             if (/^(?:div|span)$/i.test(item[0].nodeName) && item.text() == "-") {
                 item.addClass("dialog-tool-separator").text("");
@@ -162,7 +157,11 @@
 
         valign: function (jq, valign) { return jq.each(function () { setValign(this, valign); }); },
 
-        append: function (jq, item) { return jq.each(function () { appendItem(this, item); }); }
+        append: function (jq, item) { return jq.each(function () { appendItem(this, item); }); },
+
+        wrapper: function (jq) { return $.data(jq[0], "toolbar").wrapper; },
+
+        toolbar: function (jq) { return $.data(jq[0], "toolbar").toolbar; }
     };
 
     $.fn.toolbar.defaults = {

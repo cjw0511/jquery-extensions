@@ -1,6 +1,10 @@
 ﻿jquery-extensions 发布及更新日志
 
 
+/******************** 2013-08-31(1.0.0 preview) ********************/
+1、增加两个新的扩展插件 jquery.toolbar.js 和 jeasyui.extensions.icons.js；
+
+
 /******************** 2013-08-30(1.0.0 preview) ********************/
 1、增加扩展插件 jeasyui.extensions.linkbutton.js；
 2、修复 index.html 主页面布局存在的细小 BUG；
