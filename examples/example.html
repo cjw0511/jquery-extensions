@@ -60,7 +60,7 @@
             var ajaxError = $.easyui.ajaxError();
             $.easyui.ajaxError(function (XMLHttpRequest, status, error) {
                 if (XMLHttpRequest.status == 404 && $.util.browser.chrome && !XMLHttpRequest.responseText) {
-                    alert("Chrome 浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
+                    alert("WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
                 } else {
                     if ($.isFunction(ajaxError)) { ajaxError.apply(this, arguments); }
                 }
@@ -81,7 +81,7 @@
 <body>
     <div id="tabsContainer" class="easyui-tabs" data-options="fit: true, border: false, showOption: true, enableNewTabMenu: true, tabPosition: 'left', headerWidth: 100">
         <div id="demo" class="panel-container" data-options="title: '功能演示', iconCls: 'icon-hamburg-advertising', selected: true" style="position: relative;">
-            <p>Chrome 浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
+            <p>WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
         </div>
         <div id="code" class="panel-container" data-options="title: '源代码', iconCls: 'icon-standard-script-code'">
         </div>

@@ -56,7 +56,7 @@
     //  关闭当前页面所在的 easyui-dialog 窗体。
     $.easyui.parent.closeDialog = $.easyui.closeCurrentDialog = function () {
         if ($.util.isTopMost) { return; }
-        $.easyui.parent.$($.util.currentFrame).parent().parent().parent().dialog("close");
+        $.easyui.parent.$($.util.currentFrame).closest("div.window-body").dialog("close");
     };
 
     $.easyui._showDialog = function (opts, currentFrame) {

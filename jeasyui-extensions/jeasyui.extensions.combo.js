@@ -72,10 +72,7 @@
     var _combo = $.fn.combo;
     $.fn.combo = function (options, param) {
         if (typeof options == "string") { return _combo.apply(this, arguments); }
-        options = options || {};
-        return this.each(function () {
-            var jq = $.util.parseJquery(this), opts = $.extend({}, $.fn.combo.parseOptions(this), options);
-            _combo.call(jq, opts);
+        return _combo.apply(this, arguments).each(function () {
             initialize(this);
         });
     };

@@ -27,7 +27,10 @@
     function initialize(target) {
         var t = $.util.parseJquery(target), opts = t.linkbutton("options"),
             exts = opts.extensions ? opts.extensions : opts.extensions = {};
-        if (!exts._initialized) { setStyler(target, opts.styler); }
+        if (!exts._initialized) {
+            setStyler(target, opts.styler);
+            exts._initialized = true;
+        }
     };
 
     function setIcon(target, iconCls) {
@@ -78,10 +81,7 @@
     var _linkbutton = $.fn.linkbutton;
     $.fn.linkbutton = function (options, param) {
         if (typeof options == "string") { return _linkbutton.apply(this, arguments); }
-        options = options || {};
-        return this.each(function () {
-            var jq = $.util.parseJquery(this), opts = $.extend({}, $.fn.linkbutton.parseOptions(this), options);
-            _linkbutton.call(jq, opts);
+        return _linkbutton.apply(this, arguments).each(function () {
             initialize(this);
         });
     };

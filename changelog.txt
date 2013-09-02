@@ -3,7 +3,8 @@
 
 /******************** 2013-09-02(1.0.10 preview) ********************/
 1、修复 jeasyui.extensions.icons.js 中，对于调用 $.easyui.icons.showSelector 打开的图标选择框，调整其窗口大小后，窗口内的 Layout 不能自动 resize 的问题；
-2、修复 jeasyui.extensions.dialog 中，对于调用 $.easyui.showDialog 打开的对话框，在未定义 onSave 和 onApply 参数时，点击 "保存" 按钮不能关闭对话框的问题；
+2、修复 jeasyui.extensions.dialog.js 中，对于调用 $.easyui.showDialog 打开的对话框，在未定义 onSave 和 onApply 参数时，点击 "保存" 按钮不能关闭对话框的问题；
+3、修复 jeasyui.extensions.linkbutton.js 扩展和 easyui-paginaion 插件冲突的 BUG。
 
 
 /******************** 2013-08-31(1.0.9 preview) ********************/
