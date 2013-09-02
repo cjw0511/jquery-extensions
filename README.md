@@ -2,9 +2,9 @@ jquery-extensions
 ====================
 <p>
 jQuery && jEasyUI 扩展功能集合<br />
-该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.3 实现<br />
+该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.4 实现<br />
 <br />
-jQuery EasyUI 1.3.3<br />
+jQuery EasyUI 1.3.4<br />
 Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.<br />
 <br />
 Licensed under the GPL or commercial licenses<br />
@@ -15,10 +15,10 @@ To use it on other terms please contact us: jeasyui@gmail.com<br />
 <br />
 <br />
 jqueyr-extensions<br />
-二次开发 陈建伟<br />
+二次开发：陈建伟<br />
 <br />
 Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
-http://www.chenjianwei.org
+<a href="http://www.chenjianwei.org" target="_blank">http://www.chenjianwei.org</a>
 </p>
 <h3>使用本扩展前请仔细阅读本文件。</h3>
 <ul>
@@ -101,7 +101,9 @@ http://www.chenjianwei.org
               ├─icons                       图标库，包含整理好的约 3600 个图标及其符合 jeasyui 图标格式要求的 css 定义、数据源 javascript 脚本定义<br />
               ├─jeasyui-extensions          该扩展项目的插件扩展源代码主目录<br />
               ├─jquery                      该目录用于存放 jquery 基础库<br />
-              ├─jquery-easyui-1.3.3         该目录用于存放 jquery-easyui 插件基础库<br />
+              ├─jquery-easyui-1.3.3         该目录用于存放 jquery-easyui 插件基础库 1.3.3 版<br />
+              ├─jquery-easyui-1.3.4         该目录用于存放 jquery-easyui 插件基础库 1.3.4 版<br />
+              ├─jquery-easyui-theme         该目录用于存放本扩展中的所有皮肤文件<br />
               ├─syntaxhighlighter_3.0.83    syntaxhighlighter插件，用于在文档DEMO中对代码的显示提供格式化支持<br />
               │<br />
               ├─changelog.txt               该扩展项目的更新日志<br />
@@ -130,8 +132,15 @@ http://www.chenjianwei.org
     <li>
         其他：
         <ul>
+            <li>源码下载：<a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
+            <li>在线演示地址：<a href="http://webdev.sturgeon.mopaas.com/jquery-extensions/" target="_blank">http://webdev.sturgeon.mopaas.com/jquery-extensions/</a></li>
             <li>
-                关于 jquery-easyui-datagrid 相关API，参见：
+                对于本扩展有任何意见或者建议，欢迎大家及时向我反馈，可以发邮件至我信箱 <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>；
+                在时间允许的情况下我会尽可能的给大家回复。
+            </li>
+            <li>转载请注明出处；如需在您自己的项目用引用本扩展集合，请遵循 gpl-v3 协议；</li>
+            <li>
+                关于 jquery-easyui 相关API，参见：
                 <ul>
                     <li>官方 API(英文)：<a href="http://www.jeasyui.com/documentation/index.php" target="_blank">http://www.jeasyui.com/documentation/index.php</a></li>
                     <li>中文社区 API  ：<a href="http://api.btboys.com/" target="_blank">http://api.btboys.com/</a></li>
@@ -145,13 +154,6 @@ http://www.chenjianwei.org
                 </ul>
             </li>
             <li>jEasyUI 中文社区 QQ 群号：70168958</li>
-            <li>源码下载：<a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
-            <li>在线演示地址：<a href="http://webdev.sturgeon.mopaas.com/jquery-extensions/" target="_blank">http://webdev.sturgeon.mopaas.com/jquery-extensions/</a></li>
-            <li>
-                对于本扩展有任何意见或者建议，欢迎大家及时向我反馈，可以发邮件至我信箱 <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>；
-                在时间允许的情况下我会尽可能的给大家回复。
-            </li>
-            <li>转载请注明出处；如需在您自己的项目用引用本扩展集合，请遵循 gpl-v3 协议；</li>
         </ul>
     </li>
 </ul>

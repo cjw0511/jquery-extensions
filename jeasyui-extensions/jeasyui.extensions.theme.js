@@ -11,7 +11,7 @@
 * jQuery EasyUI theme 组件扩展
 * jeasyui.extensions.theme.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-13
+* 最近更新：2013-08-19
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late

@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 陈建伟
-* 最近更新：2013-07-31
+* 最近更新：2013-08-31
 *
 * 依赖项：jquery-1.9.1.js late
 *

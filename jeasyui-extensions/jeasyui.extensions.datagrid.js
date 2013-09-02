@@ -11,7 +11,7 @@
 * jQuery EasyUI datagrid 组件扩展
 * jeasyui.extensions.datagrid.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-05
+* 最近更新：2013-08-30
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late

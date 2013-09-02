@@ -11,7 +11,7 @@
 * jQuery EasyUI 通用插件基础库
 * jeasyui.extensions.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-07
+* 最近更新：2013-08-21
 *
 * 依赖项：jquery.jdirk.js v1.0 beta late
 *

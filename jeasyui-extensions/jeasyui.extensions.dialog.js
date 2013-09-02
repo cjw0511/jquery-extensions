@@ -11,7 +11,7 @@
 * jQuery EasyUI dialog 组件扩展
 * jeasyui.extensions.dialog.js
 * 二次开发 陈建伟
-* 最近更新：2013-07-02
+* 最近更新：2013-09-02
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -97,7 +97,8 @@
         if (opts.enableSaveButton == true) {
             var btnSave = { text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
                 handler: function (dia) {
-                    if ($.isFunction(opts.onSave) && opts.onSave.call(dia, dia) !== false) { dia.dialog("close"); }
+                    var isFunc = $.isFunction(opts.onSave);
+                    if (!isFunc || isFunc && opts.onSave.call(dia, dia) !== false) { dia.dialog("close"); }
                 }
             };
             buttons.push(btnSave);
