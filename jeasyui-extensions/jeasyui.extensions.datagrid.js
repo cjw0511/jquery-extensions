@@ -465,10 +465,10 @@
     var sortGrid = function (target, options) {
         options = options || {};
         options = $.extend({ sortName: null, sortOrder: "asc" }, options);
-        var t = $.util.parseJquery(target);
-        var state = $.data(target, "datagrid");
-        var opts = state.options;
-        var col = t.datagrid("getColumnOption", options.sortName);
+        var t = $.util.parseJquery(target),
+            state = $.data(target, "datagrid"),
+            opts = t.datagrid("options"),
+            col = t.datagrid("getColumnOption", options.sortName);
         if (!col || $.isEmptyObject(col) || !col.sortable || state.resizing) { return; }
         opts.sortName = options.sortName;
         opts.sortOrder = options.sortOrder;

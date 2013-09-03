@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.3
+* jQuery EasyUI 1.3.4
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -30,6 +30,14 @@
 
     $.util.namespace("$.easyui.icons");
 
+    //  增加自定义扩展方法 $.easyui.icons.showSelector；该方法弹出一个图标选择框窗口；该方法定义如下参数：
+    //      options: 这是一个 JSON-Object 对象；具体格式参考 $.easyui.showDialog 方法的参数 options 的格式；
+    //               该参数格式在 $.easyui.showDialog 参数 options 格式基础上扩展了如下属性：
+    //          selected:
+    //          multiple:
+    //          size:
+    //          onSelect:
+    //  返回值：返回弹出窗口的 easyui-dialog 控件对象(jQuery-DOM 格式)。
     $.easyui.icons.showSelector = function (options) {
         var opts = $.extend({
             width: 580, height: 480,
@@ -120,6 +128,7 @@
                 }
             };
         });
+        return dia;
     };
 
 

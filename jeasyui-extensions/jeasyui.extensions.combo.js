@@ -31,15 +31,15 @@
     };
 
     function setIcon(target, iconCls) {
-        var t = $.util.parseJquery(target);
-        t.combo("textbox").parent().find(".combo-arrow").addClass(iconCls);
+        var t = $.util.parseJquery(target), state = $.data(target, "combo"), combo = state.combo;
+        var arrow = combo.find("span.combo-arrow").removeAttr("class").addClass("combo-arrow");
+        if (iconCls) { arrow.addClass(iconCls); }
         t.combo("options").iconCls = iconCls;
     }
 
     function setRequired(target, required) {
-        var t = $.util.parseJquery(target);
-        t.combo("textbox").validatebox("options").required = required;
-        t.combo("options").required = required;
+        var t = $.util.parseJquery(target), opts = t.combo("options"), textbox = t.combo("textbox");
+        opts.required = textbox.validatebox("options").required = required;
     };
 
 
@@ -47,7 +47,7 @@
 
     function initialize(target) {
         var t = $.util.parseJquery(target), state = $.data(target, "combo"),
-            opts = state.options, panel = state.panel,
+            opts = t.combo("options"), panel = state.panel,
             combo = state.combo, arrow = combo.find(".combo-arrow"),
             exts = opts.extensions ? opts.extensions : opts.extensions = {};
         if (!exts._initialized) {
@@ -99,6 +99,9 @@
         //  返回值：返回表示当前 easyui-combo 控件的 jQuery 链式对象。
         setRequired: function (jq, required) { return jq.each(function () { setRequired(this, required); }); },
 
+        //  扩展 easyui-combo 组件的自定义方法；用于设置该 combo 的 textbox 输入框的 prompt(输入提示文字) 值；该方法定义如下参数：
+        //      prompt: String 类型值，表示要被设置的 prompt 值；
+        //  返回值：返回表示当前 easyui-combo 控件的 jQuery 链式对象。
         setPrompt: function (jq, prompt) { return jq.each(function () { setPrompt(this, prompt); }); }
     };
     $.extend($.fn.combo.defaults, defaults);

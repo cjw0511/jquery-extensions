@@ -34,7 +34,7 @@
 
     var initialize = function (target) {
         var t = $.util.parseJquery(target);
-        var state = $.data(target, "window"), opts = state.options;
+        var state = $.data(target, "window"), opts = t.window("options");
         if (!opts._initialized) {
             t.window("header").on({
                 dblclick: function () {

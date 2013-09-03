@@ -66,11 +66,18 @@
         var _onClose = opts.onClose;
         opts.onClose = function () {
             if ($.isFunction(_onClose)) { _onClose.apply(this, arguments); }
+            if (opts.autoDestroy) {
+                $(this).dialog("destroy");
+            }
+        };
+
+        var _onBeforeDestroy = opts.onBeforeDestroy;
+        opts.onBeforeDestroy = function () {
             if (opts.iniframe) {
-                var iframe = $.util.parseJquery(this).dialog("iframe");
+                var iframe = $(this).dialog("iframe");
                 resetCache(iframe[0]);
             }
-            $.util.parseJquery(this).dialog("destroy");
+            if ($.isFunction(_onBeforeDestroy)) { _onBeforeDestroy.apply(this, arguments); }
         };
 
         if (opts.locale) { opts.inline = true; }
@@ -169,7 +176,7 @@
 
     //  定义 $.easyui.showDialog 方法打开 easyui-dialog 窗体的默认属性。
     //  备注：该默认属性定义仅在方法 $.easyui.showDialog 中被调用。
-    $.easyui.showDialog.defaults = {
+    $.easyui.showDialog.defaults = $.extend({}, $.fn.dialog.defaults, {
         title: "新建对话框",
         iconCls: "icon-standard-application-form",
         width: 600,
@@ -184,6 +191,10 @@
         minimizable: false,
 
         href: null,
+
+        //  表示弹出的 easyui-dialog 窗体是否在关闭时自动销毁并释放浏览器资源；
+        //  Boolean 类型值，默认为 true。
+        autoDestroy: true,
 
         //  表示将要打开的 easyui-dialog 的父级容器；可以是一个表示 jQuery 元素选择器的表达式字符串，也可以是一个 html-dom 或 jQuery-dom 对象。
         //  注意：如果设置了该参数，则 topMost 属性将自动设置为 false。
@@ -231,7 +242,7 @@
 
         //  关闭按钮的图标样式
         closeButtonIconCls: "icon-cancel"
-    };
+    });
 
 
 

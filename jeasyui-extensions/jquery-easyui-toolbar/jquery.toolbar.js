@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.3
+* jQuery EasyUI 1.3.4
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -7,8 +7,8 @@
 * http://www.gnu.org/licenses/gpl.txt
 * http://www.jeasyui.com/license_commercial.php
 *
-* jQuery EasyUI toolbar Extensions 1.0 beta
-* jQuery EasyUI toolbar 组件扩展
+* jQuery EasyUI toolbar Plugin Extensions 1.0 beta
+* jQuery EasyUI toolbar 插件扩展
 * jeasyui.plugins.toolbar.js
 * 二次开发 陈建伟
 * 最近更新：2013-08-31
@@ -143,7 +143,6 @@
     };
 
     $.fn.toolbar.parseOptions = function (target) {
-        var t = $.util.parseJquery(target);
         return $.extend({}, $.parser.parseOptions(target));
     };
 
@@ -184,10 +183,6 @@
         //  回调函数中的 this 表示当前 easyui-toolbar 的 DOM 对象。
         onResize: function (width, height) { }
     };
-
-
-
-    $.fn.toolbar.extensions = {};
 
 
 
