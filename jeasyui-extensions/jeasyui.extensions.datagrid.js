@@ -688,8 +688,7 @@
             var headerFields = panel.find(selector),
                 length = headerFields.length, i = 0;
             headerFields.slideUp("slow", function () {
-                i++;
-                if (i == length) {
+                if (++i == length) {
                     clearHeaderColumnFilter(t, opts);
                     opts.columnFilter = columnFilter;
                 }
