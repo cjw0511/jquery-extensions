@@ -256,14 +256,23 @@
     };
     window.mainpage.mainTabs.parseCreateTabArgs = function (args) {
         var ret = {};
-        if (args.length == 0) { $.extend(ret, window.mainpage.mainTabs.tabDefaultOption); }
-        if (args.length == 1) { $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, typeof args[0] == "object" ? args[0] : { href: args[0] }); }
-        if (args.length == 3) { $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1] }); }
-        if (args.length == 3) { $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2] }); }
-        if (args.length == 4) { $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3] }); }
-        if (args.length == 5) { $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4] }); }
-        if (args.length == 6) { $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5] }); }
-        if (args.length == 7) { $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5], selected: args[6] }); }
+        if (!args || !args.length) {
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption);
+        } else if (args.length == 1) {
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, typeof args[0] == "object" ? args[0] : { href: args[0] });
+        } else if (args.length == 2) {
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1] });
+        } else if (args.length == 3) {
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2] });
+        } else if (args.length == 4) {
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3] });
+        } else if (args.length == 5) {
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4] });
+        } else if (args.length == 6) {
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5] });
+        } else if (args.length >= 7) {
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5], selected: args[6] });
+        }
         return ret;
     };
 

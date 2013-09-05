@@ -174,78 +174,7 @@
         return fn(opts, currentFrame);
     };
 
-    //  定义 $.easyui.showDialog 方法打开 easyui-dialog 窗体的默认属性。
-    //  备注：该默认属性定义仅在方法 $.easyui.showDialog 中被调用。
-    $.easyui.showDialog.defaults = $.extend({}, $.fn.dialog.defaults, {
-        title: "新建对话框",
-        iconCls: "icon-standard-application-form",
-        width: 600,
-        height: 360,
-        modal: true,
-        collapsible: false,
-        maximizable: false,
-        closable: true,
-        draggable: true,
-        resizable: true,
-        shadow: true,
-        minimizable: false,
-
-        href: null,
-
-        //  表示弹出的 easyui-dialog 窗体是否在关闭时自动销毁并释放浏览器资源；
-        //  Boolean 类型值，默认为 true。
-        autoDestroy: true,
-
-        //  表示将要打开的 easyui-dialog 的父级容器；可以是一个表示 jQuery 元素选择器的表达式字符串，也可以是一个 html-dom 或 jQuery-dom 对象。
-        //  注意：如果设置了该参数，则 topMost 属性将自动设置为 false。
-        //      如果为 null 或者 undefined 则表示父级容器为 body 标签。
-        locale: null,
-
-        //  是否在顶级窗口打开此 easyui-dialog 组件。
-        topMost: true,
-
-        //  是否在iframe加载远程 href 页面数据
-        iniframe: false,
-
-        //  是否启用保存按钮，保存按钮点击后会关闭模式对话框
-        enableSaveButton: true,
-
-        //  是否启用应用按钮
-        enableApplyButton: true,
-
-        //  是否启用关闭按钮
-        enableCloseButton: true,
-
-        //  点击保存按钮触发的事件，如果该事件范围 false，则点击保存后窗口不关闭。
-        onSave: null,
-
-        //  点击应用按钮触发的事件
-        onApply: null,
-
-        //  关闭窗口时应触发的事件，easyui-dialog本身就有
-        onClose: null,
-
-        //  保存按钮的文字内容
-        saveButtonText: "保存",
-
-        //  应用按钮的文字内容
-        applyButtonText: "应用",
-
-        //  关闭按钮的文字内容
-        closeButtonText: "关闭",
-
-        //  保存按钮的图标样式
-        saveButtonIconCls: "icon-save",
-
-        //  应用按钮的图标样式
-        applyButtonIconCls: "icon-ok",
-
-        //  关闭按钮的图标样式
-        closeButtonIconCls: "icon-cancel"
-    });
-
-
-
+    
 
     //  通过调用 $.easyui.showDialog 方法，以 easyui-dialog 的方式显示一个 JSON - Object 对象的所有属性值；该函数定义如下参数：
     //      options:    需要显示的 JSON - Object；
@@ -354,5 +283,79 @@
 
     $.extend($.fn.dialog.defaults, defaults);
     $.extend($.fn.dialog.methods, methods);
+
+
+
+    //  定义 $.easyui.showDialog 方法打开 easyui-dialog 窗体的默认属性。
+    //  备注：该默认属性定义仅在方法 $.easyui.showDialog 中被调用。
+    $.easyui.showDialog.defaults = {
+        title: "新建对话框",
+        iconCls: "icon-standard-application-form",
+        width: 600,
+        height: 360,
+        modal: true,
+        collapsible: false,
+        maximizable: false,
+        closable: true,
+        draggable: true,
+        resizable: true,
+        shadow: true,
+        minimizable: false,
+
+        href: null,
+
+        //  表示弹出的 easyui-dialog 窗体是否在关闭时自动销毁并释放浏览器资源；
+        //  Boolean 类型值，默认为 true。
+        autoDestroy: true,
+
+        //  表示将要打开的 easyui-dialog 的父级容器；可以是一个表示 jQuery 元素选择器的表达式字符串，也可以是一个 html-dom 或 jQuery-dom 对象。
+        //  注意：如果设置了该参数，则 topMost 属性将自动设置为 false。
+        //      如果为 null 或者 undefined 则表示父级容器为 body 标签。
+        locale: null,
+
+        //  是否在顶级窗口打开此 easyui-dialog 组件。
+        topMost: true,
+
+        //  是否在iframe加载远程 href 页面数据
+        iniframe: false,
+
+        //  是否启用保存按钮，保存按钮点击后会关闭模式对话框
+        enableSaveButton: true,
+
+        //  是否启用应用按钮
+        enableApplyButton: true,
+
+        //  是否启用关闭按钮
+        enableCloseButton: true,
+
+        //  点击保存按钮触发的事件，如果该事件范围 false，则点击保存后窗口不关闭。
+        onSave: null,
+
+        //  点击应用按钮触发的事件
+        onApply: null,
+
+        //  关闭窗口时应触发的事件，easyui-dialog本身就有
+        onClose: null,
+
+        //  保存按钮的文字内容
+        saveButtonText: "保存",
+
+        //  应用按钮的文字内容
+        applyButtonText: "应用",
+
+        //  关闭按钮的文字内容
+        closeButtonText: "关闭",
+
+        //  保存按钮的图标样式
+        saveButtonIconCls: "icon-save",
+
+        //  应用按钮的图标样式
+        applyButtonIconCls: "icon-ok",
+
+        //  关闭按钮的图标样式
+        closeButtonIconCls: "icon-cancel"
+    };
+
+
 
 })(jQuery);

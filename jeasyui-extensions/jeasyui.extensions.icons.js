@@ -11,7 +11,7 @@
 * jQuery EasyUI icons 组件扩展
 * jeasyui.extensions.icons.js
 * 二次开发 陈建伟
-* 最近更新：2013-09-02
+* 最近更新：2013-09-04
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -51,7 +51,7 @@
             onSelect: function (value) { }
         }, options);
         opts.size = opts.size || "16";
-        opts.title = opts.title + ", 尺寸:" + opts.size;
+        opts.title = opts.title + ", " + (opts.multiple ? "多选" : "单选") + ", 尺寸:" + opts.size;
         var value = opts.selected,
             dia = $.easyui.showDialog($.extend({}, opts, {
                 content: "<div class=\"icons-layout\"><div data-options=\"region: 'north', split: false, border: false\" style=\"height: 33px; overflow: hidden;\"><div class=\"icons-toolbar\"></div></div><div data-options=\"region: 'center', border: false\"><div class=\"icons-tabs\"></div></div></div>",
@@ -86,6 +86,10 @@
                     li.toggleClass("selected");
                     refreshToolbar();
                 };
+            dia.setValue = function (val) {
+                value = val;
+                refreshToolbar();
+            };
             tabsOpts.onSelect = function (title, index) {
                 if ($.isFunction(onSelect)) { onSelect.apply(this, arguments); }
                 var tab = tabs.tabs("getTab", index);
@@ -115,10 +119,18 @@
                 if (value) {
                     if ($.isArray(value)) {
                         var title = value.join("\n"),
-                                tip = $("<span>，详情</span>").css({
-                                    color: "Blue"
-                                }).attr("title", title);
-                        toolbar.toolbar("append", ["当前共选中的图标数量为：", String(value.length), tip]);
+                            tip = $("<span>，详情</span>").css({
+                                color: "Blue"
+                            }).attr("title", title),
+                            clear = $("<div>清除选择</div>").css({
+                                color: "Blue", cursor: "pointer",
+                                width: 100,
+                                textAlign: "right"
+                            }).attr("title", "清除所有选择的项").click(function () {
+                                tabs.find("ul>li.selected").removeClass("selected");
+                                dia.setValue(null);
+                            });
+                        toolbar.toolbar("append", ["当前共选中的图标数量为：", String(value.length), tip, clear, clear]);
                     } else {
                         var icon = $("<a></a>").linkbutton({ plain: true, iconCls: value })
                         toolbar.toolbar("append", ["当前选中的图标值为：", icon, value]);

@@ -10,6 +10,7 @@
             url: "tree/tree-data-simple.json",
             smooth: true,       //该属性用以启用当前 easyui-tree 控件对平滑数据格式的支持
             toggleOnClick: false,
+            checkbox: true,
             enableContextMenu: false
         });
     });
@@ -25,13 +26,13 @@
 <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
     
     [
-        { "id": 1, "text": "根节点1", "state": "closed" },
+        { "id": 1, "text": "根节点1", "state": "open", "checked": true },
         { "id": 11, "text": "子节点11", "pid": 1 },
         { "id": 12, "text": "子节点12", "pid": 1 },
         { "id": 13, "text": "子节点13", "pid": 1 },
         { "id": 14, "text": "子节点14", "pid": 1 },
 
-        { "id": 2, "text": "根节点2", "state": "open" },
+        { "id": 2, "text": "根节点2", "state": "closed" },
         { "id": 21, "text": "子节点21", "pid": 2 },
         { "id": 211, "text": "子节点211", "pid": 21 },
         { "id": 212, "text": "子节点212", "pid": 21 },
@@ -48,8 +49,8 @@
         { "id": 24, "text": "子节点24", "pid": 2 },
 
         { "id": 3, "text": "根节点3" },
-        { "id": 4, "text": "根节点4", "state": "closed" },
-        { "id": 41, "text": "子节点41", "pid": 4 },
+        { "id": 4, "text": "根节点4", "state": "open" },
+        { "id": 41, "text": "子节点41", "pid": 4, "checked": true },
         { "id": 42, "text": "子节点42", "pid": 4 },
         { "id": 43, "text": "子节点43", "pid": 4 },
         { "id": 44, "text": "子节点44", "pid": 4 },

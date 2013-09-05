@@ -661,13 +661,24 @@
 
     var setColumnFilter = function (target, columnFilter) {
         var t = $.util.parseJquery(target), opts = t.treegrid("options"),
-            exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
+            exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {}),
+            panel = t.treegrid("getPanel"),
+            selector = "div.datagrid-view div.datagrid-header tr.datagrid-header-row div.datagrid-header-filter-container";
         if (!columnFilter) {
-            clearHeaderColumnFilter(t, opts);
-            opts.columnFilter = columnFilter;
+            var headerFields = panel.find(selector), length = headerFields.length, i = 0;
+            headerFields.slideUp("slow", function () {
+                i++;
+                if (i == length) {
+                    clearHeaderColumnFilter(t, opts);
+                    opts.columnFilter = columnFilter;
+                }
+            });
         } else {
             opts.columnFilter = columnFilter;
             initHeaderColumnFilterContainer(t, opts, exts);
+            $.util.call(function () {
+                panel.find(selector).hide().slideDown("slow");
+            });
         }
     };
 
@@ -752,7 +763,7 @@
                 container = $("<div></div>").attr("field", field).addClass("datagrid-header-filter-container").css({
                     height: columnFilter.panelHeight, width: colWidth
                 })[position == "top" ? "prependTo" : "appendTo"](this);
-            td.addClass(position == "top" ? "datagrid-header-filter-bottom" : "datagrid-header-filter-top");
+            td.addClass(position == "top" ? "datagrid-header-filter-top" : "datagrid-header-filter-bottom");
             if (field) { initColumnFilterField(t, opts, exts, container, colOpts, rows, headerFields); }
         });
         if (exts.filterData && exts.filterData.length) {
@@ -768,6 +779,7 @@
             var td = $(this), colspan = td.attr("colspan");
             return (!colspan || colspan == "1") && !td.find("div.datagrid-header-check,div.datagrid-header-rownumber").length ? true : false;
         });
+        headerFields.removeClass("datagrid-header-filter datagrid-header-filter-top datagrid-header-filter-bottom").find("div.datagrid-cell").removeClass("datagrid-header-filter-cell");
         headerFields.find("hr.datagrid-header-filter-line,div.datagrid-header-filter-container").remove();
         var fields = t.treegrid("getColumnFields", "all");
         t.datagrid("fixColumnSize", fields[fields.length - 1]);

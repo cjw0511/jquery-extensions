@@ -681,13 +681,25 @@
 
     var setColumnFilter = function (target, columnFilter) {
         var t = $.util.parseJquery(target),
-            opts = t.datagrid("options"), exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {});
+            opts = t.datagrid("options"), exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {}),
+            panel = t.datagrid("getPanel"),
+            selector = "div.datagrid-view div.datagrid-header tr.datagrid-header-row div.datagrid-header-filter-container";
         if (!columnFilter) {
-            clearHeaderColumnFilter(t, opts);
-            opts.columnFilter = columnFilter;
+            var headerFields = panel.find(selector),
+                length = headerFields.length, i = 0;
+            headerFields.slideUp("slow", function () {
+                i++;
+                if (i == length) {
+                    clearHeaderColumnFilter(t, opts);
+                    opts.columnFilter = columnFilter;
+                }
+            });
         } else {
             opts.columnFilter = columnFilter;
             initHeaderColumnFilterContainer(t, opts, exts);
+            $.util.call(function () {
+                panel.find(selector).hide().slideDown("slow");
+            });
         }
     };
 
@@ -794,7 +806,7 @@
                 container = $("<div></div>").attr("field", field).addClass("datagrid-header-filter-container").css({
                     height: columnFilter.panelHeight, width: colWidth
                 })[position == "top" ? "prependTo" : "appendTo"](this);
-            td.addClass(position == "top" ? "datagrid-header-filter-bottom" : "datagrid-header-filter-top");
+            td.addClass(position == "top" ? "datagrid-header-filter-top" : "datagrid-header-filter-bottom");
             if (field) { initColumnFilterField(t, opts, exts, container, colOpts, rows, headerFields); }
         });
         if (exts.filterData && exts.filterData.length) {
@@ -810,6 +822,7 @@
             var td = $(this), colspan = td.attr("colspan");
             return (!colspan || colspan == "1") && !td.find("div.datagrid-header-check,div.datagrid-header-rownumber").length ? true : false;
         });
+        headerFields.removeClass("datagrid-header-filter datagrid-header-filter-top datagrid-header-filter-bottom").find("div.datagrid-cell").removeClass("datagrid-header-filter-cell");
         headerFields.find("hr.datagrid-header-filter-line,div.datagrid-header-filter-container").remove();
         var fields = t.datagrid("getColumnFields", "all");
         t.datagrid("fixColumnSize", fields[fields.length - 1]);
@@ -2239,7 +2252,7 @@
         ".datagrid-header-cell-arrow { display: inline-block; float: right; cursor: pointer; border-left-style: dotted; border-left-width: 0px; filter: alpha(opacity=0); opacity: 0; }" +
         ".datagrid-header-cell-arrow-show { border-left-width: 1px; filter: alpha(opacity=80); opacity: 0.8; }" + ".datagrid-header-filter { overflow: auto; }" +
         ".datagrid-header-filter { text-align: center; }" +
-        ".datagrid-header-filter-top { vertical-align: bottom; }" +
+        ".datagrid-header-filter-top { vertical-align: top; }" +
         ".datagrid-header-filter-bottom { vertical-align: bottom; }" +
         ".datagrid-header-filter-cell { white-space: nowrap; }" +
         ".datagrid-header-filter-line { border-width: 0px; border-top-width: 1px; border-style: dotted; border-color: #ccc; margin-top: 3px; margin-bottom: 3px; }" +

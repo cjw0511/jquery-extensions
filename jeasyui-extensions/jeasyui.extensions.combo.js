@@ -42,6 +42,14 @@
         opts.required = textbox.validatebox("options").required = required;
     };
 
+    var _destroy = $.fn.combo.methods.destroy;
+    function destroy(target) {
+        var t = $(target), opts = t.combo("options");
+        if ($.isFunction(opts.onBeforeDestroy) && opts.onBeforeDestroy.call(target) == false) { return; }
+        _destroy.call(target, t);
+        if ($.isFunction(opts.onDestroy)) { opts.onDestroy.call(target); }
+    };
+
 
 
 
@@ -86,8 +94,13 @@
 
         //  增加 easyui-combo 的自定义扩展属性；表示该 combox 组件是否在 textbox 文本显示框获取焦点时自动执行 showPanel 方法显示下拉 panel 面板；
         //  Boolean 类型值，默认为 true。
-        autoShowPanel: true
+        autoShowPanel: true,
+
+        onBeforeDestroy: function () { },
+
+        onDestroy: function () { }
     };
+
     var methods = $.fn.combo.extensions.methods = {
         //  扩展 easyui-combo 组件的自定义方法；用于设置 easyui-combo 控件的右侧显示图标，该方法定义如下参数：
         //      iconCls:    String 类型的值，表示需要设置的图标的 css 类样式名，例如 "icon-ok", "icon-save"
@@ -102,7 +115,9 @@
         //  扩展 easyui-combo 组件的自定义方法；用于设置该 combo 的 textbox 输入框的 prompt(输入提示文字) 值；该方法定义如下参数：
         //      prompt: String 类型值，表示要被设置的 prompt 值；
         //  返回值：返回表示当前 easyui-combo 控件的 jQuery 链式对象。
-        setPrompt: function (jq, prompt) { return jq.each(function () { setPrompt(this, prompt); }); }
+        setPrompt: function (jq, prompt) { return jq.each(function () { setPrompt(this, prompt); }); },
+
+        destroy: function (jq) { return jq.each(function () { destroy(this); }); }
     };
     $.extend($.fn.combo.defaults, defaults);
     $.extend($.fn.combo.methods, methods);
