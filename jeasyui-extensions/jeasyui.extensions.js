@@ -295,26 +295,26 @@
 
     coreJquery.fn.currentPagination = function () {
         var p = this.closest(".pagination");
-        while (!$.data(p[0], "pagination")) { p = p.closest(".pagination"); }
+        while (p.length && !$.data(p[0], "pagination")) { p = p.parent().closest(".pagination"); }
         return p;
     };
 
     coreJquery.fn.currentProgressbar = function () {
         var p = this.closest(".progressbar");
-        while (!$.data(p[0], "progressbar")) { p = p.closest(".progressbar"); }
+        while (p.length && !$.data(p[0], "progressbar")) { p = p.parent().closest(".progressbar"); }
         return p;
     };
 
     coreJquery.fn.currentPanel = function () {
         var p = this.closest(".panel-body");
-        while (!$.data(p[0], "panel")) { p = p.closest(".panel-body"); }
+        while (p.length && !$.data(p[0], "panel")) { p = p.parent().closest(".panel-body"); }
         return p;
     };
 
     coreJquery.fn.currentTabPanel = function () {
         var p = this.closest(".panel-body"), panel = p.parent(), panels = panel.parent(), container = panels.parent();
-        while (!($.data(p[0], "panel") && panel.hasClass("panel") && panels.hasClass("tabs-panels") && container.hasClass("tabs-container"))) {
-            p = p.closest(".panel-body");
+        while (p.length && !($.data(p[0], "panel") && panel.hasClass("panel") && panels.hasClass("tabs-panels") && container.hasClass("tabs-container"))) {
+            p = p.parent().closest(".panel-body");
             panel = p.parent();
             panels = panel.parent();
             container = panels.parent();
@@ -322,22 +322,27 @@
         return p;
     };
 
+    coreJquery.fn.currentTabIndex = function () {
+        var panel = this.currentTabPanel();
+        return panel.length ? panel.panel("panel").index() : -1;
+    };
+
     coreJquery.fn.currentTabs = function () {
         var p = this.closest(".tabs-container");
-        while (!$.data(p[0], "tabs")) { p = p.closest(".tabs-container"); }
+        while (p.length && !$.data(p[0], "tabs")) { p = p.parent().closest(".tabs-container"); }
         return p;
     };
 
     coreJquery.fn.currentAccordion = function () {
         var p = this.closest(".accordion");
-        while (!$.data(p[0], "accordion")) { p = p.closest(".accordion"); }
+        while (p.length && !$.data(p[0], "accordion")) { p = p.parent().closest(".accordion"); }
         return p;
     };
 
     coreJquery.fn.currentAccPanel = function () {
         var p = this.closest(".panel-body"), panel = p.parent(), container = panels.parent();
-        while (!($.data(p[0], "panel") && panel.hasClass("panel") && container.hasClass("accordion") && $.data(container[0], "accordion"))) {
-            p = p.closest(".panel-body");
+        while (p.length && !($.data(p[0], "panel") && panel.hasClass("panel") && container.hasClass("accordion") && $.data(container[0], "accordion"))) {
+            p = p.parent().closest(".panel-body");
             panel = p.parent();
             container = panels.parent();
         }
@@ -346,14 +351,14 @@
 
     coreJquery.fn.currentLayout = function () {
         var layout = this.closest(".layout");
-        while (!$.data(layout[0], "layout")) { layout = layout.closest(".layout"); }
+        while (layout.length && !$.data(layout[0], "layout")) { layout = layout.closest(".layout"); }
         return layout;
     };
 
     coreJquery.fn.currentRegion = function () {
         var p = this.closest(".panel.layout-panel"), layout = p.parent(), body = p.children(".panel-body");
-        while (!(layout.hasClass("layout") && $.data(body[0], "panel"))) {
-            p = p.closest(".panel.layout-panel");
+        while (p.length && !(layout.hasClass("layout") && $.data(body[0], "panel"))) {
+            p = p.parent().closest(".panel.layout-panel");
             layout = p.parent();
             body = p.children(".panel-body");
         }
@@ -362,32 +367,32 @@
 
     coreJquery.fn.currentLinkbutton = function () {
         var btn = this.closest(".l-btn");
-        while (!$.data(btn[0], "linkbutton")) { btn = btn.closest(".layout"); }
+        while (btn.length && !$.data(btn[0], "linkbutton")) { btn = btn.parent().closest(".layout"); }
         return btn;
     };
 
     coreJquery.fn.currentCalendar = function () {
         var c = this.closest(".calendar");
-        while (!$.data(c[0], "calendar")) { c = c.closest(".calendar"); }
+        while (c.length && !$.data(c[0], "calendar")) { c = c.parent().closest(".calendar"); }
         return c;
     };
 
     coreJquery.fn.currentWindow = function () {
         var p = this.closest(".panel-body.window-body");
-        while (!$.data(p[0], "window")) { p = c.closest(".panel-body.window-body"); }
+        while (p.length && !$.data(p[0], "window")) { p = c.parent().closest(".panel-body.window-body"); }
         return p;
     };
 
     coreJquery.fn.currentDialog = function () {
         var p = this.closest(".panel-body.window-body");
-        while (!$.data(p[0], "dialog")) { p = c.closest(".panel-body.window-body"); }
+        while (p.length && !$.data(p[0], "dialog")) { p = c.parent().closest(".panel-body.window-body"); }
         return p;
     };
 
     coreJquery.fn.currentDatagrid = function () {
         var p = this.closest(".datagrid-wrap.panel-body"), dg = p.find(">.datagrid-view>eq(2)");
-        while (!$.data(dg[0], "datagrid")) {
-            p = p.closest(".datagrid-wrap.panel-body");
+        while (p.length && !$.data(dg[0], "datagrid")) {
+            p = p.parent().closest(".datagrid-wrap.panel-body");
             dg = p.find(">.datagrid-view>eq(2)");
         }
         return dg;
@@ -395,8 +400,8 @@
 
     coreJquery.fn.currentPropertygrid = function () {
         var p = this.closest(".datagrid-wrap.panel-body"), pg = p.find(">.datagrid-view>eq(2)");
-        while (!$.data(pg[0], "propertygrid")) {
-            p = p.closest(".datagrid-wrap.panel-body");
+        while (p.length && !$.data(pg[0], "propertygrid")) {
+            p = p.parent().closest(".datagrid-wrap.panel-body");
             pg = p.find(">.datagrid-view>eq(2)");
         }
         return pg;
@@ -404,14 +409,14 @@
 
     coreJquery.fn.currentTree = function () {
         var t = this.closest(".tree");
-        while (!$.data(t[0], "tree")) { t = t.closest(".tree"); }
+        while (t.length && !$.data(t[0], "tree")) { t = t.parent().closest(".tree"); }
         return t;
     };
 
     coreJquery.fn.currentTreegrid = function () {
         var p = this.closest(".datagrid-wrap.panel-body"), tg = p.find(">.datagrid-view>eq(2)");
-        while (!$.data(tg[0], "treegrid")) {
-            p = p.closest(".datagrid-wrap.panel-body");
+        while (p.length && !$.data(tg[0], "treegrid")) {
+            p = p.parent().closest(".datagrid-wrap.panel-body");
             tg = p.find(">.datagrid-view>eq(2)");
         }
         return tg;

@@ -11,7 +11,7 @@
 * jQuery EasyUI tree 组件扩展
 * jeasyui.extensions.tree.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-30
+* 最近更新：2013-09-36
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -138,17 +138,19 @@
     };
 
     function getNears(treeTarget, target) {
-        var t = $.util.parseJquery(treeTarget); target = $.util.parseJquery(target)[0];
-        if (!target || t.tree("isRoot", target)) { return t.tree("getRoots"); }
-        var p = t.tree("getParent", target);
-        if (!p) { return t.tree("getRoots"); }
-        return t.tree("getNearChildren", p.target);
+        var t = $.util.parseJquery(treeTarget); target = $.util.parseJquery(target);
+        if (!$.contains(t[0], target[0]) || !target.is("div.tree-node")) { return null; }
+        return target.closest("ul").find("li>div.tree-node").map(function () {
+            return t.tree("getNode", this);
+        });
     };
 
     function getNearChildren(treeTarget, target) {
-        var t = $.util.parseJquery(treeTarget); target = $.util.parseJquery(target)[0],
-            children = t.tree("getChildren", target);
-        return $.array.filter(children, function (val) { return t.tree("getParent", val.target).target == target; });
+        var t = $.util.parseJquery(treeTarget); target = $.util.parseJquery(target);
+        if (!$.contains(t[0], target[0]) || !target.is("div.tree-node")) { return null; }
+        return target.siblings("ul").find("li>div.tree-node").map(function () {
+            return t.tree("getNode", this);
+        });
     };
 
     function unselect(treeTarget, target) {
@@ -432,6 +434,7 @@
         //  返回值：返回 tree-node target 的同级别(具有和当前 target 同一个父级节点)所有节点构成的一个数组对象；
         //      数组中每一个元素都是一个包含属性 id、text、iconCls、checked、state、attributes、target 的 tree-node 对象。
         //      如果传入的参数 target 是根节点或者未定义 target 参数，则该方法和 getRoots 方法返回的值相同；
+        //      如果传入的参数 target 不是一个 div.tree-node 或者其不包含在当前 easyui-tree 中，则返回 null。
         getNears: function (jq, target) { return getNears(jq[0], target); },
 
         //  扩展 easyui-tree 的自定义方法；获取指定节点的下一级所有节点；该方法定义如下参数：
@@ -439,6 +442,7 @@
         //  返回值：返回 tree-node target 的下一级所有节点构成的一个数组对象；
         //      数组中每一个元素都是一个包含属性 id、text、iconCls、checked、state、attributes、target 的 tree-node 对象。
         //      如果传入的参数 target 没有子节点，则返回一个包含 0 个元素的数组。
+        //      如果传入的参数 target 不是一个 div.tree-node 或者其不包含在当前 easyui-tree 中，则返回 null。
         //  备注：该方法和 getChildren 的不同之处在于，getChildren 方法返回的是 target 下的所有子节点内容；
         getNearChildren: function (jq, target) { return getNearChildren(jq[0], target); },
 

@@ -11,7 +11,7 @@
 * jQuery EasyUI gridselector 组件扩展
 * jeasyui.extensions.gridselector.js
 * 二次开发 陈建伟
-* 最近更新：2013-09-04
+* 最近更新：2013-09-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -28,7 +28,25 @@
 
 
     $.easyui.showGridSelector = function (options) {
-        var opts = $.extend({}, options);
+        var opts = $.extend({
+            width: 580, height: 360,
+            title: "选择数据",
+            iconCls: "icon-hamburg-zoom",
+            maximizable: true,
+            collapsible: true,
+            selected: null,
+            multiple: false,
+            onSelect: function (value) { }
+        }, options);
+        var value = opts.selected,
+            dia = $.easyui.showDialog($.extend({}, opts, {
+                saveButtonText: "确定",
+                saveButtonIconCls: "icon-ok",
+                enableApplyButton: false,
+                topMost: true,
+                onSave: function () { if ($.isFunction(opts.onSelect)) { return opts.onSelect.call(this, value); } }
+            }));
+        return dia;
     };
 
     $.easyui.showDblGridSelector = function (options) { };
@@ -45,4 +63,4 @@
 
 
 
-});
+})(jQuery);

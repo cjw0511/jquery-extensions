@@ -28,7 +28,9 @@
 */
 (function ($, undefined) {
 
-    function createCombo(target) { };
+    function createCombo(target) {
+        
+    };
 
 
     $.fn.comboselector = function (options, param) {

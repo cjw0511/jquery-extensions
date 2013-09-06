@@ -1,6 +1,14 @@
 ﻿jquery-extensions 发布及更新日志
 
 
+/******************** 2013-09-06(1.0.12 preview) ********************/
+1、改进 jeasyui.extensions.tree.js 和 jeasyui.extensions.treegrid.js 部分扩展方法的算法，使之效率提升；
+2、增强 jquery.jdirk.js 中部分功能，将 Array 对象的所有可用实例方法扩展至 jQuery 对象中(对于重名方法，则不进行扩展)；
+3、增强 jeasyui.extensions.js 中部分功能，可以方便的获取某个 jQuery 对象的最近父级指定类型的 easyui 容器控件；
+4、增强 jeasyui.extensions.tabs.js 中部分功能
+    增加 $.fn.closeCurrentTab 方法，可以方便的关闭当前 jQuery 所处的父级选项卡(兼容 easyui-tabs 中的 tab-panel 通过 iniframe 加载的情况)；
+
+
 /******************** 2013-09-05(1.0.11 preview) ********************/
 1、增加插件 jquery.comboicons.js；
 2、增强 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 中关于表头过滤器动态显示和隐藏的功能，使其在进行显示/隐藏时具有动画效果；

@@ -153,14 +153,14 @@
         </div>
     </div>
 
-    <div data-options="region: 'west', title: '菜单导航栏', iconCls: 'icon-standard-map', split: true, minWidth: 250, maxWidth: 500" style="width: 260px; padding: 1px;">
+    <div data-options="region: 'west', title: '菜单导航栏', iconCls: 'icon-standard-map', split: true, minWidth: 240, maxWidth: 500" style="width: 250px; padding: 1px;">
         <div id="navTab" class="easyui-tabs" data-options="fit: true, border: true, tools: [{ id: 'navMenu_refresh', iconCls: 'icon-hamburg-refresh' }]">
             <div data-options="title: '导航菜单', iconCls: 'icon-standard-application-view-tile', refreshable: false, selected: true">
                 <div id="westLayout" class="easyui-layout" data-options="fit: true">
                     <div data-options="region: 'center', border: false" style="border-bottom-width: 1px;">
                         <div id="westCenterLayout" class="easyui-layout" data-options="fit: true">
-                            <div data-options="region: 'north', split: false, border: false">
-                                <div class="datagrid-toolbar">
+                            <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
+                                <div class="easyui-toolbar">
                                     <a id="navMenu_expand" class="easyui-splitbutton" data-options="iconCls: 'icon-metro-expand2', menu: '#navMenu_toggleMenu'">展开</a>
                                     <a id="navMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-add'">收藏</a>
                                     <a id="navMenu_Rename" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'">重命名</a>
@@ -187,8 +187,8 @@
             </div>
             <div data-options="title: '个人收藏', iconCls: 'icon-hamburg-star', refreshable: false">
                 <div id="westFavoLayout" class="easyui-layout" data-options="fit: true">
-                    <div data-options="region: 'north', split: false, border: false">
-                        <div class="datagrid-toolbar">
+                    <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
+                        <div class="easyui-toolbar">
                             <a id="favoMenu_expand" class="easyui-splitbutton" data-options="iconCls: 'icon-metro-expand2', menu: '#favoMenu_toggleMenu'">展开</a>
                             <a id="favoMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-delete'">取消收藏</a>
                             <a id="favoMenu_Rename" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'">重命名</a>
@@ -215,24 +215,25 @@
         <div id="mainTabs_tools">
             <table>
                 <tr>
-                    <td><a id="mainTabs_junmpHome" class="easyui-linkbutton easyui-tooltip" data-options="plain: true, iconCls: 'icon-hamburg-home', content: '跳转至主页选项卡'"></a></td>
+                    <td><a id="mainTabs_junmpHome" class="easyui-linkbutton easyui-tooltip" title="跳转至主页选项卡" data-options="plain: true, iconCls: 'icon-hamburg-home'"></a></td>
                     <td><div class="datagrid-btn-separator" ></div></td>
-                    <td><a id="mainTabs_closeTab" class="easyui-linkbutton easyui-tooltip" data-options="plain: true, iconCls: 'icon-standard-application-form-delete', content: '关闭当前选中的选项卡'"></a></td>
-                    <td><a id="mainTabs_closeOther" class="easyui-linkbutton easyui-tooltip" data-options="plain: true, iconCls: 'icon-standard-cancel', content: '关闭除当前选中外的其他所有选项卡'"></a></td>
+                    <td><a id="mainTabs_closeTab" class="easyui-linkbutton easyui-tooltip" title="关闭当前选中的选项卡" data-options="plain: true, iconCls: 'icon-standard-application-form-delete'"></a></td>
+                    <td><a id="mainTabs_closeOther" class="easyui-linkbutton easyui-tooltip" title="关闭除当前选中外的其他所有选项卡" data-options="plain: true, iconCls: 'icon-standard-cancel'"></a></td>
                     <td><div class="datagrid-btn-separator" ></div></td>
-                    <td><a id="mainTabs_closeLeft" class="easyui-linkbutton easyui-tooltip" data-options="plain: true, iconCls: 'icon-standard-tab-close-left', content: '关闭左侧所有选项卡'"></a></td>
-                    <td><a id="mainTabs_closeRight" class="easyui-linkbutton easyui-tooltip" data-options="plain: true, iconCls: 'icon-standard-tab-close-right', content: '关闭右侧所有选项卡'"></a></td>
+                    <td><a id="mainTabs_closeLeft" class="easyui-linkbutton easyui-tooltip" title="关闭左侧所有选项卡" data-options="plain: true, iconCls: 'icon-standard-tab-close-left'"></a></td>
+                    <td><a id="mainTabs_closeRight" class="easyui-linkbutton easyui-tooltip" title="关闭右侧所有选项卡" data-options="plain: true, iconCls: 'icon-standard-tab-close-right'"></a></td>
                     <td><div class="datagrid-btn-separator" ></div></td>
-                    <td><a id="mainTabs_closeAll" class="easyui-linkbutton easyui-tooltip" data-options="plain: true, iconCls: 'icon-standard-cross', content: '关闭所有选项卡'"></a></td>
+                    <td><a id="mainTabs_closeAll" class="easyui-linkbutton easyui-tooltip" title="关闭所有选项卡" data-options="plain: true, iconCls: 'icon-standard-cross'"></a></td>
                 </tr>
             </table>
         </div>
         <div id="mainTab" class="easyui-tabs" data-options="fit: true, border: true, showOption: true, enableNewTabMenu: true, repeatable: true, tools: '#mainTabs_tools'">
             <div id="homePanel" data-options="title: '主页', iconCls: 'icon-hamburg-home'">
                 <div class="easyui-layout" data-options="fit: true">
-                    <div data-options="region: 'north', split: false, border: false">
-                        <div class="datagrid-toolbar">
-                            <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">设置</a>
+                    <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
+                        <div class="easyui-toolbar">
+                            <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-for-job'">加载Loading</a>
+                            <span>-</span>
                             <a id="A2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-add'">添加一列</a>
                             <a id="A3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-delete'">删除一列</a>
                         </div>

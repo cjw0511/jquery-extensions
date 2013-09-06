@@ -54,7 +54,7 @@
         opts.title = opts.title + ", " + (opts.multiple ? "多选" : "单选") + ", 尺寸:" + opts.size;
         var value = opts.selected,
             dia = $.easyui.showDialog($.extend({}, opts, {
-                content: "<div class=\"icons-layout\"><div data-options=\"region: 'north', split: false, border: false\" style=\"height: 33px; overflow: hidden;\"><div class=\"icons-toolbar\"></div></div><div data-options=\"region: 'center', border: false\"><div class=\"icons-tabs\"></div></div></div>",
+                content: "<div class=\"icons-layout\"><div data-options=\"region: 'north', split: false, border: false\" style=\"height: 31px; overflow: hidden;\"><div class=\"icons-toolbar\"></div></div><div data-options=\"region: 'center', border: false\"><div class=\"icons-tabs\"></div></div></div>",
                 saveButtonText: "确定",
                 saveButtonIconCls: "icon-ok",
                 enableApplyButton: false,

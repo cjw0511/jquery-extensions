@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-31
+* 最近更新：2013-09-06
 *
 * 依赖项：jquery-1.9.1.js late
 *
@@ -2890,6 +2890,8 @@
     union(Array.prototype, coreArray.fn);
     union(Boolean, coreBoolean);
     union(Boolean.prototype, coreBoolean.fn);
+
+    union($.fn, Array.prototype);
 
     coreUtil.addCss(".jdirk-shine { filter: alpha(opacity=40); opacity: 0.4; }");
 

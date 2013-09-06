@@ -57,6 +57,7 @@
             opts.onLoad = function () {
                 if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
                 $(this).find("[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
+                document.title = p.find("h3:first").text();
             };
             p.panel("refresh", $.string.format("{0}.html", path));
 

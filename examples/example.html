@@ -70,10 +70,12 @@
                 }
             });
 
-            $("#tabsContainer").tabs("tabs").forEach(function (p) {
+            $("#tabsContainer").tabs("tabs").forEach(function (p, i) {
                 var opts = p.panel("options");
                 opts.onLoad = function () {
-                    $(this).find("[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
+                    var p = $(this);
+                    p.find("[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
+                    if (i == 0) { document.title = p.find("h2:first").text(); }
                 };
                 p.panel("refresh", $.string.format("{0}/{1}.html", path, opts.id));
             });

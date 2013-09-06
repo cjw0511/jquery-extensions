@@ -8,7 +8,7 @@
         });
 
         $("#Button2").click(function () {
-            tt.toolbar("resize", { width: $.fn.toolbar.defaults.width, height: $.fn.toolbar.defaults.height });
+            tt.toolbar("resize", { width: "auto", height: "auto" });
         });
 
         $("#Button3").click(function () { tt.toolbar("align", "left"); });
@@ -74,7 +74,7 @@
 <hr />
 <div id="tt" class="easyui-toolbar" data-options="" >
     <span>用户姓名：</span>
-    <input type="text" style="margin-left: 2px; margin-right: 2px;" />
+    <input type="text" style="margin-left: 2px; margin-right: 2px; padding-left: 2px; padding-right: 3px;" />
     <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-zoom'" >查询</a>
     <div class="dialog-tool-separator"></div>
     <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'" >配置</a>

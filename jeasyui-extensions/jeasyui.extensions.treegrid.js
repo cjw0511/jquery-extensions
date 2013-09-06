@@ -291,7 +291,8 @@
     };
 
     var getNearChildren = function (target, id) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"), children = t.treegrid("getChildren", id);
+        var t = $.util.parseJquery(target), opts = t.treegrid("options"),
+            children = t.treegrid("getChildren", id);
         return $.array.filter(children, function (val) { return t.treegrid("getParent", val[opts.idField])[opts.idField] == id; });
     };
 

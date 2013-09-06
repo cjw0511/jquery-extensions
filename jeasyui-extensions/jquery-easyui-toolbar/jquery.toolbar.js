@@ -43,7 +43,8 @@
 
     function wrapItems(target) {
         var t = $.util.parseJquery(target), state = $.data(target, "toolbar"),
-            toolbar = state.toolbar, opts = state.options, cc = toolbar.children();
+            toolbar = state.toolbar, opts = state.options,
+            cc = toolbar.children();
         state.wrapper = $("<table><tr></tr></table>").attr({ cellspacing: 0, cellpadding: 0 }).addClass("toolbar-wrapper").appendTo(toolbar);
         appendItem(target, cc, true);
     };
@@ -52,23 +53,22 @@
         var t = $.util.parseJquery(target), state = $.data(target, "toolbar"),
             toolbar = state.toolbar, opts = state.options;
         size = $.extend({ width: opts.width, height: opts.height }, size || {});
-        size.width = size.width || $.fn.toolbar.defaults.width;
-        size.height = size.height || $.fn.toolbar.defaults.height;
-        toolbar.css("width", size.width);
-        toolbar.css("height", size.height);
+        toolbar.css({
+            width: size.width, height: size.height
+        });
         $.extend(opts, size);
         $.util.call(function () {
             setAlign(target, opts.align);
             setValign(target, opts.valign);
         });
-        opts.onResize.call(target, $.isNumeric(size.width) ? size.width : toolbar.width(), size.height);
+        opts.onResize.call(target, $.isNumeric(size.width) ? size.width : toolbar.width(), $.isNumeric(size.height) ? size.height : toolbar.height());
     };
 
     function setAlign(target, align) {
         var t = $.util.parseJquery(target), state = $.data(target, "toolbar"),
             wrapper = state.wrapper, opts = state.options, left = 0;
         opts.align = align;
-        wrapper.removeClass("toolbar-align-left").removeClass("toolbar-align-center").removeClass("toolbar-align-right");
+        wrapper.removeClass("toolbar-align-left toolbar-align-center toolbar-align-right");
         wrapper.addClass("toolbar-align-" + align);
         if (align == "center") {
             var toolbar = state.toolbar, tWidth = toolbar.width(), width = wrapper.width();
@@ -96,7 +96,7 @@
         if ($.util.isJqueryObject(item) && item.length == 1) {
             buildSeparator(item);
         } else if ($.util.isString(item)) {
-            item = item == "-" ? $("<div></div>").addClass("dialog-tool-separator") : $("<span></span>").text(item);
+            item = item == "-" ? $("<div class='dialog-tool-separator'></div>") : $("<span></span>").text(item);
         } else if (item.nodeType == 1) {
             item = $(item);
             buildSeparator(item);
@@ -165,11 +165,11 @@
 
     $.fn.toolbar.defaults = {
 
-        //  表示 easyui-toolbar 控件的宽度，Number 类型数值；默认为 null 表示撑满 100% 宽度；
+        //  表示 easyui-toolbar 控件的宽度，Number 类型数值；默认为 auto；
         width: "auto",
 
-        //  表示 easyui-toolbar 控件的高度，Number 类型数值；默认高度为 28px；
-        height: 28,
+        //  表示 easyui-toolbar 控件的高度，Number 类型数值；默认为 auto；
+        height: "auto",
 
         //  表示 easyui-toolbar 控件的横向对齐方式，可选的值为 "left"、"center" 或 "right"；默认为 "left"；
         align: "left",
@@ -190,9 +190,11 @@
 
 
     var css =
-        ".toolbar { width: " + $.fn.toolbar.defaults.width + "; height: " + $.fn.toolbar.defaults.height + "px; }" +
         ".toolbar-f {}" +
+        ".toolbar { width: auto; height: auto; min-height: 26px; overflow: hidden; }" +
         ".toolbar-wrapper { position: relative; }" +
+        ".toolbar-wrapper td>div, .toolbar-wrapper td>span { height: 26px; line-height: 26px; }" +
+        ".toolbar-wrapper td .dialog-tool-separator { height: 22px; }"
         ".toolbar-align-left { float: left; }" +
         ".toolbar-align-center {}" +
         ".toolbar-align-right { float: right; }";

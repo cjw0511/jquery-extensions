@@ -2,6 +2,13 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#Button1").click(function () {
+            $(this).closeCurrentTab();
+        });
+
+        $("#Button2").click(function () {
+            $(this).closeCurrentTab(true);
+        });
     });
 </script>
 
@@ -9,5 +16,7 @@
 <p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
 <hr />
 <h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+<input id="Button1" type="button" value="CloseCurrentTab" />
+<input id="Button2" type="button" value="CloseCurrentTab-Parent" />
 
 </div>

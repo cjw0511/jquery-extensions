@@ -582,4 +582,37 @@
     $.extend($.fn.tabs.defaults, defaults);
     $.extend($.fn.tabs.methods, methods);
 
+
+
+
+    function closeCurrentTab(target, iniframe) {
+        iniframe = iniframe && !$.util.isTopMost ? true : false;
+        var current = $.util.parseJquery(target),
+            currentTabs = current.currentTabs(),
+            index;
+        if (!iniframe && currentTabs.length) {
+            index = current.currentTabIndex();
+            if (index > -1) { currentTabs.tabs("close", index); }
+        } else {
+            var jq = $.util.parent.$;
+            current = jq.util.parseJquery($.util.currentFrame);
+            currentTabs = current.currentTabs();
+            if (currentTabs.length) {
+                index = current.currentTabIndex();
+                if (index > -1) { currentTabs.tabs("close", index); }
+            }
+        }
+    };
+
+    $.fn.extend({
+        //  扩展 jQuery 对象的实例方法；用于关闭当前对象所在的 easyui-tabs 当前选项卡(支持当前选项卡页面为 iframe 加载的情况)。
+        //  该方法定义如下参数：
+        //      iniframe: Boolean 类型值，表示是否为关闭当前对象所在的父级页面的选项卡；默认为 false。
+        //          如果当前页面为顶级页面，
+        //          或者当前对象在 iframe 中但是不在当前iframe中的某个 easyui-tabs 内，则参数参数 inframe 无效。
+        //  返回值：返回当前 jQuery 链式对象。
+        closeCurrentTab: function (iniframe) { return this.each(function () { closeCurrentTab(this, iniframe); }); }
+    });
+
+
 })(jQuery);
