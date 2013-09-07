@@ -11,7 +11,7 @@
 * jQuery EasyUI validatebox 组件扩展
 * jeasyui.extensions.validatebox.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-01
+* 最近更新：2013-09-07
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -272,6 +272,7 @@
         var opts = t.validatebox("options");
         if (!opts._initialized) {
             setPrompt(target, opts.prompt, opts);
+            if (opts.autoFocus) { $.util.call(function () { t.focus(); }); }
             opts._initialized = true;
         }
     };
@@ -340,8 +341,12 @@
     };
     var defaults = $.fn.validatebox.extensions.defaults = {
         //  增加 easyui-validatebox 的扩展属性 prompt，该属性功能类似于 easyui-searchbox 的 prompt 属性。
-        //  表示该验证输入框的提示文本。
-        prompt: null
+        //  表示该验证输入框的提示文本；String 类型值，默认为 null。
+        prompt: null,
+
+        //  增加 easyui-validatebox 的扩展属性 autoFocus，该属性表示在当前页面加载完成后，该 easyui-validatebox 控件是否自动获得焦点。
+        //  Boolean 类型值，默认为 false。
+        autoFocus: false
     };
 
     $.extend($.fn.validatebox.defaults, defaults);

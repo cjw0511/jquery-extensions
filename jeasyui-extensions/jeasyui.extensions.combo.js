@@ -72,6 +72,9 @@
                 }
             });
             if (opts.iconCls) { t.combo("setIcon", opts.iconCls); }
+            if ($.util.browser.msie && combo._outerWidth() != opts.width) {
+                $.util.call(function () { t.combo("resize", opts.width); });
+            }
             exts._initialized = true;
         }
     }

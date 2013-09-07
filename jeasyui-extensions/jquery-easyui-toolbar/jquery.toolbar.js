@@ -90,6 +90,15 @@
     }
 
 
+    function createItem(options) {
+        var opts = $.extend({ plain: true }, options || {});
+        var fn = opts.onclick || opts.handler,
+            item = $("<a></a>").linkbutton(opts);
+        if ($.isFunction(fn)) { item.click(fn); }
+        return item;
+    };
+
+
     function appendItem(target, item, dontSize) {
         if (!item) { return; }
         var t = $.util.parseJquery(target), state = $.data(target, "toolbar"), opts = state.options;
@@ -101,10 +110,7 @@
             item = $(item);
             buildSeparator(item);
         } else if ($.isPlainObject(item)) {
-            item = $.extend({ plain: true }, item);
-            var fn = item.onclick || item.handler;
-            item = $("<a></a>").linkbutton(item);
-            if ($.isFunction(fn)) { item.click(fn); }
+            item = createItem(item);
         } else if ($.isFunction(item)) {
             return appendItem(target, item.call(target));
         } else if ($.array.likeArray(item)) {
@@ -195,7 +201,7 @@
         ".toolbar-wrapper { position: relative; }" +
         ".toolbar-wrapper td>div, .toolbar-wrapper td>span { height: 26px; line-height: 26px; }" +
         ".toolbar-wrapper td .dialog-tool-separator { height: 22px; }"
-        ".toolbar-align-left { float: left; }" +
+    ".toolbar-align-left { float: left; }" +
         ".toolbar-align-center {}" +
         ".toolbar-align-right { float: right; }";
     $.util.addCss(css);

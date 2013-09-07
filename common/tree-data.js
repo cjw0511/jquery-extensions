@@ -70,7 +70,8 @@
             { id: "110502", text: "Validatebox", pid: "1105", children: [
                 { id: "11050201", text: "增强的Rules", pid: "11050201", attributes: { href: "examples/example.html?validatebox/rules"} },
                 { id: "11050202", text: "输入提示文字", pid: "11050201", attributes: { href: "examples/example.html?validatebox/prompt"} },
-                { id: "11050203", text: "自定义验证样式", pid: "11050201", attributes: { href: "examples/example.html?validatebox/customeCss"} }
+                { id: "11050203", text: "自定义验证样式", pid: "11050201", attributes: { href: "examples/example.html?validatebox/customeCss"} },
+                { id: "11050204", text: "其他扩展功能", pid: "11050201", attributes: { href: "examples/example.html?validatebox/others"} }
             ]
             },
 
