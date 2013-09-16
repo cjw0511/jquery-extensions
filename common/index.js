@@ -5,7 +5,6 @@
     $.util.namespace("mainpage.nav");
     $.util.namespace("mainpage.favo");
     $.util.namespace("mainpage.mainTabs");
-    $.util.namespace("donate");
 
     var homePageTitle = "主页", homePageHref = null, navMenuList = "#navMenu_list",
         navMenuTree = "#navMenu_Tree", mainTab = "#mainTab", navTab = "#navTab", favoMenuTree = "#favoMenu_Tree",
@@ -515,24 +514,13 @@
     //初始化捐赠列表数据
     window.donate.init = function () {
         var donate = $("#donateList");
-        $.ajax({
-            url: "https://raw.github.com/cjw0511/jquery-extensions/master/common/donate-data.js",
-            method: "get",
-            dataType: "script",
-            success: function () {
-                $.each(window.donate.data, function (i, item) {
-                    var li = $("<li></li>").appendTo(donate);
-                    $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
-                    $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
-                    $("<span></span>").text("(").appendTo(li);
-                    $("<span></span>").addClass("donate-total").text(item.total).appendTo(li);
-                    $("<span></span>").text("元)").appendTo(li);
-                });
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                var li = $("<li></li>").appendTo(donate);
-                $("<span></span>").text("获取捐赠列表数据失败").appendTo(li);
-            }
+        $.each(window.donate.data, function (i, item) {
+            var li = $("<li></li>").appendTo(donate);
+            $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
+            $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
+            $("<span></span>").text("(").appendTo(li);
+            $("<span></span>").addClass("donate-total").text(item.total).appendTo(li);
+            $("<span></span>").text("元)").appendTo(li);
         });
     };
 
