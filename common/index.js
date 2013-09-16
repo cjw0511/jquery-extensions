@@ -516,11 +516,11 @@
     window.donate.init = function () {
         var donate = $("#donateList");
         $.ajax({
-            url: "https://raw.github.com/cjw0511/jquery-extensions/master/common/donate-data.json",
-            method: "GET",
-            dataType: "json",
-            success: function (data) {
-                $.each(data, function (i, item) {
+            url: "https://raw.github.com/cjw0511/jquery-extensions/master/common/donate-data.js",
+            method: "get",
+            dataType: "script",
+            success: function () {
+                $.each(window.donate.data, function (i, item) {
                     var li = $("<li></li>").appendTo(donate);
                     $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
                     $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
