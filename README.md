@@ -1,8 +1,8 @@
-jquery-extensions
+ï»¿jquery-extensions
 ====================
 <p>
-jQuery && jEasyUI À©Õ¹¹¦ÄÜ¼¯ºÏ<br />
-¸ÃÀ©Õ¹¹¦ÄÜ»ùÓÚ jQuery 1.9.x ºÍ jQuery EasyUI 1.3.4 ÊµÏÖ<br />
+jQuery && jEasyUI æ‰©å±•åŠŸèƒ½é›†åˆ<br />
+è¯¥æ‰©å±•åŠŸèƒ½åŸºäº jQuery 1.9.x å’Œ jQuery EasyUI 1.3.4 å®ç°<br />
 <br />
 jQuery EasyUI 1.3.4<br />
 Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.<br />
@@ -15,41 +15,41 @@ To use it on other terms please contact us: jeasyui@gmail.com<br />
 <br />
 <br />
 jqueyr-extensions<br />
-¶ş´Î¿ª·¢£º³Â½¨Î°<br />
+äºŒæ¬¡å¼€å‘ï¼šé™ˆå»ºä¼Ÿ<br />
 <br />
 Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
 <a href="http://www.chenjianwei.org" target="_blank">http://www.chenjianwei.org</a>
 </p>
-<h3>Ê¹ÓÃ±¾À©Õ¹Ç°Çë×ĞÏ¸ÔÄ¶Á±¾ÎÄ¼ş¡£</h3>
+<h3>ä½¿ç”¨æœ¬æ‰©å±•å‰è¯·ä»”ç»†é˜…è¯»æœ¬æ–‡ä»¶ã€‚</h3>
 <ul>
     <li>
-        À©Õ¹ËµÃ÷
+        æ‰©å±•è¯´æ˜
         <p>
-            ±¾À©Õ¹¼¯ºÏ°üº¬Á½´ó²¿·Ö£º
+            æœ¬æ‰©å±•é›†åˆåŒ…å«ä¸¤å¤§éƒ¨åˆ†ï¼š
             <ul>
                 <li>
-                    jquery »ù´¡¿âÀ©Õ¹£»ÓÉÎÄ¼ş jquery.jdirk.js ÊµÏÖ£»¸ÃÎÄ¼şÀ©³äÁË jquery µÄ»ù´¡¹¦ÄÜ£¬Ö÷ÒªÌåÏÖÔÚ£º
+                    jquery åŸºç¡€åº“æ‰©å±•ï¼›ç”±æ–‡ä»¶ jquery.jdirk.js å®ç°ï¼›è¯¥æ–‡ä»¶æ‰©å……äº† jquery çš„åŸºç¡€åŠŸèƒ½ï¼Œä¸»è¦ä½“ç°åœ¨ï¼š
                     <ul>
-                        <li>Ôö¼ÓÁË´óÁ¿µÄ jquery-utility£¬ÎªÇ°¶Ë¿ª·¢Ìá¹©Öî¶à±ãÀû£»</li>
-                        <li>¶Ô javascript µÄ»ù´¡¶ÔÏó String¡¢Date¡¢Array¡¢Number¡¢Boolean ½øĞĞÁË´óÁ¿µÄ¾²Ì¬ºÍÊµÀı·½·¨À©³ä£»</li>
-                        <li>Ôö¼ÓÁË jquery ¶Ô HTML5 ÊôĞÔÑéÖ¤µÄÖ§³Ö£»</li>
-                        <li>Ôö¼ÓÁËÔÚ IE6/7 »·¾³ÏÂ¶Ô JSON Êı¾İ¸ñÊ½µÄÖ§³Ö(ÕûºÏ json2.js)£»</li>
+                        <li>å¢åŠ äº†å¤§é‡çš„ jquery-utilityï¼Œä¸ºå‰ç«¯å¼€å‘æä¾›è¯¸å¤šä¾¿åˆ©ï¼›</li>
+                        <li>å¯¹ javascript çš„åŸºç¡€å¯¹è±¡ Stringã€Dateã€Arrayã€Numberã€Boolean è¿›è¡Œäº†å¤§é‡çš„é™æ€å’Œå®ä¾‹æ–¹æ³•æ‰©å……ï¼›</li>
+                        <li>å¢åŠ äº† jquery å¯¹ HTML5 å±æ€§éªŒè¯çš„æ”¯æŒï¼›</li>
+                        <li>å¢åŠ äº†åœ¨ IE6/7 ç¯å¢ƒä¸‹å¯¹ JSON æ•°æ®æ ¼å¼çš„æ”¯æŒ(æ•´åˆ json2.js)ï¼›</li>
                     </ul>
                 </li>
                 <li>
-                    jeasyui ¹¦ÄÜÀ©Õ¹£»¸Ã²¿·ÖÀ©Õ¹º­¸ÇËÄ¸ö²¿·Ö£º
+                    jeasyui åŠŸèƒ½æ‰©å±•ï¼›è¯¥éƒ¨åˆ†æ‰©å±•æ¶µç›–å››ä¸ªéƒ¨åˆ†ï¼š
                     <ul>
                         <li>
-                            jeasyui À©Õ¹»ù´¡¿â£»ÓÉ ÎÄ¼ş jeasyui.extensions.js ÊµÏÖ£»¸ÃÎÄ¼şÌá¹©µÄ¹¦ÄÜÖ÷ÒªÌåÏÖÔÚ£º
+                            jeasyui æ‰©å±•åŸºç¡€åº“ï¼›ç”± æ–‡ä»¶ jeasyui.extensions.js å®ç°ï¼›è¯¥æ–‡ä»¶æä¾›çš„åŠŸèƒ½ä¸»è¦ä½“ç°åœ¨ï¼š
                             <ul>
-                                <li>·â×°ÁË jeasyui µÄ ajax ´íÎó´¦Àí£»</li>
-                                <li>¸Ä½øÁË messager¡¢tooltip µÄµ÷ÓÃ·½Ê½£»</li>
-                                <li>ÔöÇ¿ÁË jeasyui ¿Ø¼ş´¦ÀíÍ¨¹ı ajax ÇëÇóµÄÔ¶³Ì json Êı¾İµÄÈİ´íĞÔ£»</li>
-                                <li>Ôö¼ÓÁË²¿·Ö jeasyui Ö§³ÖµÄÆäËû»ù´¡·½·¨£»</li>
+                                <li>å°è£…äº† jeasyui çš„ ajax é”™è¯¯å¤„ç†ï¼›</li>
+                                <li>æ”¹è¿›äº† messagerã€tooltip çš„è°ƒç”¨æ–¹å¼ï¼›</li>
+                                <li>å¢å¼ºäº† jeasyui æ§ä»¶å¤„ç†é€šè¿‡ ajax è¯·æ±‚çš„è¿œç¨‹ json æ•°æ®çš„å®¹é”™æ€§ï¼›</li>
+                                <li>å¢åŠ äº†éƒ¨åˆ† jeasyui æ”¯æŒçš„å…¶ä»–åŸºç¡€æ–¹æ³•ï¼›</li>
                             </ul>
                         </li>
                         <li>
-                            ¶Ô jeasyui µÄÏÖÓĞ²å¼ş½øĞĞÁË¹¦ÄÜÀ©Õ¹£»ÒÑ¾­¹¦ÄÜÀ©Õ¹µÄ²å¼ş°üÀ¨(ÔÚÄ¿Â¼ "jeasyui-extensions" µÄ js ÎÄ¼şÃûÒÔ "jeasyui.extensions" ¿ªÍ·)£º
+                            å¯¹ jeasyui çš„ç°æœ‰æ’ä»¶è¿›è¡Œäº†åŠŸèƒ½æ‰©å±•ï¼›å·²ç»åŠŸèƒ½æ‰©å±•çš„æ’ä»¶åŒ…æ‹¬(åœ¨ç›®å½• "jeasyui-extensions" çš„ js æ–‡ä»¶åä»¥ "jeasyui.extensions" å¼€å¤´)ï¼š
                             <ul>
                                 <li>linkbutton</li>
                                 <li>validatebox</li>
@@ -69,20 +69,20 @@ Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
                             </ul>
                         </li>
                         <li>
-                            ĞÂÔö²¿·Ö jeasyui ²å¼ş£¬°üÀ¨£º
+                            æ–°å¢éƒ¨åˆ† jeasyui æ’ä»¶ï¼ŒåŒ…æ‹¬ï¼š
                             <ul>
-                                <li>gridselector ºÍ dblgridselector</li>
-                                <li>toolbar(ËùÔÚÄ¿Â¼Îª "jeasyui-extensions/jquery-easyui-toolbar")£»</li>
-                                <li>theme£»</li>
-                                <li>my97£»</li>
-                                <li>ckeditor£»</li>
-                                <li>uploadify£»</li>
+                                <li>gridselector å’Œ dblgridselector</li>
+                                <li>toolbar(æ‰€åœ¨ç›®å½•ä¸º "jeasyui-extensions/jquery-easyui-toolbar")ï¼›</li>
+                                <li>themeï¼›</li>
+                                <li>my97ï¼›</li>
+                                <li>ckeditorï¼›</li>
+                                <li>uploadifyï¼›</li>
                             </ul>
                         </li>
                         <li>
-                            ¶Ô jeasyui ¹Ù·½Ìá¹©µÄ²¿·ÖÀ©Õ¹²å¼ş½øĞĞÁË´úÂëÖØ¹¹»ò BUG ĞŞ¸´£¬²¢ÔöÇ¿Æä²¿·Ö¹¦ÄÜ£»Õâ²¿·Ö²å¼ş°üÀ¨£º
+                            å¯¹ jeasyui å®˜æ–¹æä¾›çš„éƒ¨åˆ†æ‰©å±•æ’ä»¶è¿›è¡Œäº†ä»£ç é‡æ„æˆ– BUG ä¿®å¤ï¼Œå¹¶å¢å¼ºå…¶éƒ¨åˆ†åŠŸèƒ½ï¼›è¿™éƒ¨åˆ†æ’ä»¶åŒ…æ‹¬ï¼š
                             <ul>
-                                <li>portal(ËùÔÚÄ¿Â¼Îª "jeasyui-extensions/jquery-easyui-portal")£»</li>
+                                <li>portal(æ‰€åœ¨ç›®å½•ä¸º "jeasyui-extensions/jquery-easyui-portal")ï¼›</li>
                             </ul>
                         </li>
                     </ul>
@@ -92,68 +92,69 @@ Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
     </li>
 
     <li>
-        ÎÄ¼şÄ¿Â¼ËµÃ÷
+        æ–‡ä»¶ç›®å½•è¯´æ˜
         <p>
-            ©¤jquery-extensions               ¸ÃÀ©Õ¹ÏîÄ¿µÄ¸ùÄ¿Â¼<br />
-              ©À©¤common                      Ìá¹© index.html Ò³ÃæÔËĞĞµÄ²¿·ÖÖ§³Ö javascript ÎÄ¼ş<br />
-              ©À©¤docs                        ¹ØÓÚ¸ÃÀ©Õ¹ÏîÄ¿µÄÎÄµµÄ¿Â¼<br />
-              ©À©¤examples                    ¹ØÓÚ¸ÃÀ©Õ¹ÏîÄ¿µÄ DEMO Ä¿Â¼<br />
-              ©À©¤icons                       Í¼±ê¿â£¬°üº¬ÕûÀíºÃµÄÔ¼ 3600 ¸öÍ¼±ê¼°Æä·ûºÏ jeasyui Í¼±ê¸ñÊ½ÒªÇóµÄ css ¶¨Òå¡¢Êı¾İÔ´ javascript ½Å±¾¶¨Òå<br />
-              ©À©¤jeasyui-extensions          ¸ÃÀ©Õ¹ÏîÄ¿µÄ²å¼şÀ©Õ¹Ô´´úÂëÖ÷Ä¿Â¼<br />
-              ©À©¤jquery                      ¸ÃÄ¿Â¼ÓÃÓÚ´æ·Å jquery »ù´¡¿â<br />
-              ©À©¤jquery-easyui-1.3.3         ¸ÃÄ¿Â¼ÓÃÓÚ´æ·Å jquery-easyui ²å¼ş»ù´¡¿â 1.3.3 °æ<br />
-              ©À©¤jquery-easyui-1.3.4         ¸ÃÄ¿Â¼ÓÃÓÚ´æ·Å jquery-easyui ²å¼ş»ù´¡¿â 1.3.4 °æ<br />
-              ©À©¤jquery-easyui-theme         ¸ÃÄ¿Â¼ÓÃÓÚ´æ·Å±¾À©Õ¹ÖĞµÄËùÓĞÆ¤·ôÎÄ¼ş<br />
-              ©À©¤syntaxhighlighter_3.0.83    syntaxhighlighter²å¼ş£¬ÓÃÓÚÔÚÎÄµµDEMOÖĞ¶Ô´úÂëµÄÏÔÊ¾Ìá¹©¸ñÊ½»¯Ö§³Ö<br />
-              ©¦<br />
-              ©À©¤changelog.txt               ¸ÃÀ©Õ¹ÏîÄ¿µÄ¸üĞÂÈÕÖ¾<br />
-              ©À©¤index.html                  ¸ÃÀ©Õ¹ÏîÄ¿µÄÑİÊ¾Ö÷ÎÄ¼ş(ÔËĞĞÑİÊ¾ DEMO£¬ÓÃ WEB ä¯ÀÀÆ÷´ò¿ª´ËÎÄ¼ş¼´¿É)<br />
-              ©À©¤jquery.jdirk.js             jquery.jdirk.js À©Õ¹¿âÔ´´úÂëÎÄ¼ş<br />
-              ©À©¤LICENSE                     ¸ÃÀ©Õ¹ÏîÄ¿×ñÑ­µÄ GPL-v3 Ğ­ÒéËµÃ÷ÎÄ¼ş<br />
-              ©¸©¤README.md                   ¸ÃÀ©Õ¹ÏîÄ¿µÄ README.md ÎÄ¼ş(±¾ÎÄ¼ş)<br />
+            â”€jquery-extensions               è¯¥æ‰©å±•é¡¹ç›®çš„æ ¹ç›®å½•<br />
+              â”œâ”€common                      æä¾› index.html é¡µé¢è¿è¡Œçš„éƒ¨åˆ†æ”¯æŒ javascript æ–‡ä»¶<br />
+              â”œâ”€docs                        å…³äºè¯¥æ‰©å±•é¡¹ç›®çš„æ–‡æ¡£ç›®å½•<br />
+              â”œâ”€examples                    å…³äºè¯¥æ‰©å±•é¡¹ç›®çš„ DEMO ç›®å½•<br />
+              â”œâ”€icons                       å›¾æ ‡åº“ï¼ŒåŒ…å«æ•´ç†å¥½çš„çº¦ 3600 ä¸ªå›¾æ ‡åŠå…¶ç¬¦åˆ jeasyui å›¾æ ‡æ ¼å¼è¦æ±‚çš„ css å®šä¹‰ã€æ•°æ®æº javascript è„šæœ¬å®šä¹‰<br />
+              â”œâ”€jeasyui-extensions          è¯¥æ‰©å±•é¡¹ç›®çš„æ’ä»¶æ‰©å±•æºä»£ç ä¸»ç›®å½•<br />
+              â”œâ”€jquery                      è¯¥ç›®å½•ç”¨äºå­˜æ”¾ jquery åŸºç¡€åº“<br />
+              â”œâ”€jquery-easyui-1.3.3         è¯¥ç›®å½•ç”¨äºå­˜æ”¾ jquery-easyui æ’ä»¶åŸºç¡€åº“ 1.3.3 ç‰ˆ<br />
+              â”œâ”€jquery-easyui-1.3.4         è¯¥ç›®å½•ç”¨äºå­˜æ”¾ jquery-easyui æ’ä»¶åŸºç¡€åº“ 1.3.4 ç‰ˆ<br />
+              â”œâ”€jquery-easyui-theme         è¯¥ç›®å½•ç”¨äºå­˜æ”¾æœ¬æ‰©å±•ä¸­çš„æ‰€æœ‰çš®è‚¤æ–‡ä»¶<br />
+              â”œâ”€syntaxhighlighter_3.0.83    syntaxhighlighteræ’ä»¶ï¼Œç”¨äºåœ¨æ–‡æ¡£DEMOä¸­å¯¹ä»£ç çš„æ˜¾ç¤ºæä¾›æ ¼å¼åŒ–æ”¯æŒ<br />
+              â”‚<br />
+              â”œâ”€changelog.txt               è¯¥æ‰©å±•é¡¹ç›®çš„æ›´æ–°æ—¥å¿—<br />
+              â”œâ”€index.html                  è¯¥æ‰©å±•é¡¹ç›®çš„æ¼”ç¤ºä¸»æ–‡ä»¶(è¿è¡Œæ¼”ç¤º DEMOï¼Œç”¨ WEB æµè§ˆå™¨æ‰“å¼€æ­¤æ–‡ä»¶å³å¯)<br />
+              â”œâ”€jquery.jdirk.js             jquery.jdirk.js æ‰©å±•åº“æºä»£ç æ–‡ä»¶<br />
+              â”œâ”€LICENSE                     è¯¥æ‰©å±•é¡¹ç›®éµå¾ªçš„ GPL-v3 åè®®è¯´æ˜æ–‡ä»¶<br />
+              â””â”€README.md                   è¯¥æ‰©å±•é¡¹ç›®çš„ README.md æ–‡ä»¶(æœ¬æ–‡ä»¶)<br />
         </p>
     </li>
 
     <li>
-        ÒıÓÃ·½Ê½
-        <p>Çë²Î¿¼ API ÎÄµµÖĞµÄËµÃ÷£»</p>
+        å¼•ç”¨æ–¹å¼
+        <p>è¯·å‚è€ƒ API æ–‡æ¡£ä¸­çš„è¯´æ˜ï¼›</p>
     </li>
 
     <li>
-        ×¢ÒâÊÂÏî
-        <p>ÇëÎğĞŞ¸Ä±¾ÎÄ¼ş¼ĞÏÂÈÎºÎÎÄ¼şµÄÃû³Æ£¬ÇëÎğÉ¾³ı±¾ÎÄ¼ş¼ĞÏÂÈÎºÎÎÄ¼ş£»</p>
+        æ³¨æ„äº‹é¡¹
+        <p>è¯·å‹¿ä¿®æ”¹æœ¬æ–‡ä»¶å¤¹ä¸‹ä»»ä½•æ–‡ä»¶çš„åç§°ï¼Œè¯·å‹¿åˆ é™¤æœ¬æ–‡ä»¶å¤¹ä¸‹ä»»ä½•æ–‡ä»¶ï¼›</p>
     </li>
 
     <li>
-        API ºÍ DEMO ÎÄµµ
-        <p>¹ØÓÚ±¾À©Õ¹¼¯ºÏµÄ API ºÍ DEMO ÎÄµµ£¬Çë½«±¾²å¼ş´ò°üÏÂÔØºó£¬´ò¿ª±¾ÎÄ¼ş¼ĞÖĞµÄ index.html ²é¿´¡£</p>
+        API å’Œ DEMO æ–‡æ¡£
+        <p>å…³äºæœ¬æ‰©å±•é›†åˆçš„ API å’Œ DEMO æ–‡æ¡£ï¼Œè¯·å°†æœ¬æ’ä»¶æ‰“åŒ…ä¸‹è½½åï¼Œæ‰“å¼€æœ¬æ–‡ä»¶å¤¹ä¸­çš„ index.html æŸ¥çœ‹ã€‚</p>
     </li>
 
     <li>
-        ÆäËû£º
+        å…¶ä»–ï¼š
         <ul>
-            <li>Ô´ÂëÏÂÔØ£º<a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
-            <li>ÔÚÏßÑİÊ¾µØÖ·£º<a href="http://webdev.sturgeon.mopaas.com/jquery-extensions/" target="_blank">http://webdev.sturgeon.mopaas.com/jquery-extensions/</a></li>
+            <li>æºç ä¸‹è½½ï¼š<a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
+            <li>åœ¨çº¿æ¼”ç¤ºåœ°å€ï¼š<a href="http://webdev.sturgeon.mopaas.com/jquery-extensions/" target="_blank">http://webdev.sturgeon.mopaas.com/jquery-extensions/</a></li>
             <li>
-                ¶ÔÓÚ±¾À©Õ¹ÓĞÈÎºÎÒâ¼û»òÕß½¨Òé£¬»¶Ó­´ó¼Ò¼°Ê±ÏòÎÒ·´À¡£¬¿ÉÒÔ·¢ÓÊ¼şÖÁÎÒĞÅÏä <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>£»
-                ÔÚÊ±¼äÔÊĞíµÄÇé¿öÏÂÎÒ»á¾¡¿ÉÄÜµÄ¸ø´ó¼Ò»Ø¸´¡£
+                å¯¹äºæœ¬æ‰©å±•æœ‰ä»»ä½•æ„è§æˆ–è€…å»ºè®®ï¼Œæ¬¢è¿å¤§å®¶åŠæ—¶å‘æˆ‘åé¦ˆï¼Œå¯ä»¥å‘é‚®ä»¶è‡³æˆ‘ä¿¡ç®±
+                <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>(æ ‡é¢˜è¯·æ³¨æ˜ jEasyUI æ‰©å±•ç›¸å…³)ï¼›<br />
+                åœ¨æ—¶é—´å…è®¸çš„æƒ…å†µä¸‹æˆ‘ä¼šå°½å¯èƒ½çš„ç»™å¤§å®¶å›å¤ã€‚
             </li>
-            <li>×ªÔØÇë×¢Ã÷³ö´¦£»ÈçĞèÔÚÄú×Ô¼ºµÄÏîÄ¿ÓÃÒıÓÃ±¾À©Õ¹¼¯ºÏ£¬Çë×ñÑ­ gpl-v3 Ğ­Òé£»</li>
+            <li>è½¬è½½è¯·æ³¨æ˜å‡ºå¤„ï¼›å¦‚éœ€åœ¨æ‚¨è‡ªå·±çš„é¡¹ç›®ç”¨å¼•ç”¨æœ¬æ‰©å±•é›†åˆï¼Œè¯·éµå¾ª gpl-v3 åè®®ï¼›</li>
             <li>
-                ¹ØÓÚ jquery-easyui Ïà¹ØAPI£¬²Î¼û£º
+                å…³äº jquery-easyui ç›¸å…³APIï¼Œå‚è§ï¼š
                 <ul>
-                    <li>¹Ù·½ API(Ó¢ÎÄ)£º<a href="http://www.jeasyui.com/documentation/index.php" target="_blank">http://www.jeasyui.com/documentation/index.php</a></li>
-                    <li>ÖĞÎÄÉçÇø API  £º<a href="http://api.btboys.com/" target="_blank">http://api.btboys.com/</a></li>
+                    <li>å®˜æ–¹ API(è‹±æ–‡)ï¼š<a href="http://www.jeasyui.com/documentation/index.php" target="_blank">http://www.jeasyui.com/documentation/index.php</a></li>
+                    <li>ä¸­æ–‡ç¤¾åŒº API  ï¼š<a href="http://api.btboys.com/" target="_blank">http://api.btboys.com/</a></li>
                 </ul>
             </li>
             <li>
-                jEasyUI ÖĞÎÄÉçÇø£º
+                jEasyUI ä¸­æ–‡ç¤¾åŒºï¼š
                 <ul>
                     <li><a href="http://www.jeasyuicn.com/" target="_blank">http://www.jeasyuicn.com/</a></li>
                     <li><a href="http://bbs.jeasyuicn.com/" target="_blank">http://bbs.jeasyuicn.com/</a></li>
                 </ul>
             </li>
-            <li>jEasyUI ÖĞÎÄÉçÇø QQ ÈººÅ£º70168958</li>
+            <li>jEasyUI ä¸­æ–‡ç¤¾åŒº QQ ç¾¤å·ï¼š70168958</li>
         </ul>
     </li>
 </ul>

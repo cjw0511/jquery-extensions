@@ -98,24 +98,6 @@
     $.union($.fn.window, _window);
 
 
-    var _onWindowMove = $.fn.window.defaults.onMove;
-    var _onDialogMove = $.fn.dialog.defaults.onMove;
-    var onMove = function (left, top) {
-        var win = $.util.parseJquery(this), isDialog = win.window("isDialog");
-        if (isDialog) { _onDialogMove.apply(this, arguments) } else { _onWindowMove.apply(this, arguments); }
-        var opts = win.panel("options"), panel = win.window("panel"), width = opts.width, height = opts.height;
-        if (opts.maximized) { win.window("restore"); return; }
-        if (!opts.inContainer) { return; }
-        var parent = panel.parent(), isRoot = parent.is("body"),
-            scope = $.extend({}, isRoot ? $.util.windowSize() : { width: parent.innerWidth(), height: parent.innerHeight() });
-        var moveable = false;
-        if (left < 0) { left = 0; moveable = true; }
-        if (top < 0) { top = 0; moveable = true; }
-        if (moveable) { return win.window("move", { left: left, top: top }); }
-        if (left + width > scope.width && left > 0) { left = scope.width - width; moveable = true; }
-        if (top + height > scope.height && top > 0) { top = scope.height - height; moveable = true; }
-        if (moveable) { return win.window("move", { left: left, top: top }); }
-    };
 
     var methods = $.fn.window.extensions.methods = {};
     var defaults = $.fn.window.extensions.defaults = $.extend({}, $.fn.panel.extensions.defaults, {
@@ -145,13 +127,7 @@
         //      bold:           Boolean 类型值，默认为 false；表示该菜单项是否字体加粗；
         //      style:          JSON-Object 类型值，默认为 null；表示要附加到该菜单项的样式；
         //      handler:    表示菜单项的点击事件，该事件函数格式为 function(e, win, item, menu)，其中 this 指向菜单项本身
-        headerContextMenu: null,
-
-        //  扩展 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口是否无法移除父级对象边界，默认为 true。
-        inContainer: true,
-
-        //  重写 easyui-window 以及 easyui-dialog 控件的原生事件 onMove，以支持相应扩展功能。
-        onMove: onMove
+        headerContextMenu: null
     });
 
     $.extend($.fn.window.defaults, defaults);

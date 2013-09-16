@@ -11,7 +11,7 @@
         <li>重写了 easyui-panel 控件的 onResize 事件，用于扩展四个新增属性 minWidth、maxWidth、minHeight、maxHeight 的功能</li>
         <li>增加了 easyui-panel 控件的 iniframe 扩展属性，该属性表示 href 加载的远程页面是否装载在一个 iframe 中</li>
         <li>重写了 easyui-panel 控件的 refresh 方法，用于支持新增的 iniframe 属性</li>
-        <li>增加了 easyui-panel 控件的 inlayout、intabs、isWindow、isDialog 扩展方法，用来判断当前 easyui-panel 出于哪个 easyui 组件中</li>
+        <li>增加了 easyui-panel 控件的 inLayout、inTabs、inAccordion、isWindow、isDialog 扩展方法，用来判断当前 easyui-panel 出于哪个 easyui 组件中</li>
         <li>增加了 easyui-panel 控件的 iframe 扩展方法，用于获取当 iniframe: true 时当前 panel 控件中的 iframe 容器对象</li>
         <li>重写了 easyui-panel 控件的 header 方法，支持位于 easyui-tabs 中的 tab-panel 部件获取 header 对象</li>
         <li>重写了 easyui-panel 控件的 setTitle 方法，支持位于 easyui-tabs 中的 tab-panel 部件设置 title 操作</li>
@@ -107,7 +107,7 @@
         <th>Returns</th>
     </tr>
     <tr>
-        <td>inlayout</td>
+        <td>inLayout</td>
         <td>none</td>
         <td>判断当前 easyui-panel 是否为 easyui-layout 的 panel 部件。<br />
             关于更多用法参见<a class="example" href="../examples/example.html?panel/useiframe" target="_blank">示例</a>
@@ -115,7 +115,7 @@
         <td>如果当前 easyui-panel 是 easyui-layout 的 panel 部件，则返回 true，否则返回 false。</td>
     </tr>
     <tr>
-        <td>intabs</td>
+        <td>inTabs</td>
         <td>none</td>
         <td>判断当前 easyui-panel 是否为 easyui-tabs 的选项卡。<br />
             关于更多用法参见<a class="example" href="../examples/example.html?panel/useiframe" target="_blank">示例</a></td>

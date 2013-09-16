@@ -35,14 +35,13 @@
     var onBeforeDestroy = function () {
         $("iframe,frame", this).each(function () {
             try {
-                if (this.contentWindow && this.contentWindow.close) {
+                if (this.contentWindow && this.contentWindow.document && this.contentWindow.close) {
                     this.contentWindow.document.write("");
                     this.contentWindow.close();
                 }
-                $(this).remove();
                 if ($.isFunction(window.CollectGarbage)) { window.CollectGarbage(); }
             } catch (ex) { }
-        });
+        }).remove();
     };
     $.fn.panel.defaults.onBeforeDestroy = onBeforeDestroy;
     $.fn.window.defaults.onBeforeDestroy = onBeforeDestroy;
@@ -52,18 +51,18 @@
     $.fn.treegrid.defaults.onBeforeDestroy = onBeforeDestroy;
 
 
-    var _onPanelResize = $.fn.panel.defaults.onResize;
-    var _onWindowResize = $.fn.panel.defaults.onResize;
-    var _onDialogResize = $.fn.panel.defaults.onResize;
+    var _onResize = {
+        panel: $.fn.panel.defaults.onResize,
+        window: $.fn.window.defaults.onResize,
+        dialog: $.fn.dialog.defaults.onResize
+    };
     var onResize = function (width, height) {
-        var panel = $.util.parseJquery(this), isDia = isDialog(this), isWin = isWindow(this);
-        if (isDia) {
-            _onDialogResize.apply(this, arguments);
-        } else if (isWin) { _onWindowResize.apply(this, arguments); } else {
-            _onPanelResize.apply(this, arguments);
-        }
-        if (!inlayout(panel)) {
-            var opts = panel.panel("options");
+        var p = $.util.parseJquery(this), isWin = p.panel("isWindow"), isDia = p.panel("isDialog"),
+            plugin = isDia ? "dialog" : (isWin ? "window" : "panel"),
+            _onResizeFn = _onResize[plugin];
+        if ($.isFunction(_onResizeFn)) { _onResizeFn.apply(this, arguments); }
+        if (!p.panel("inLayout")) {
+            var opts = p[plugin]("options");
             opts.minWidth = $.isNumeric(opts.minWidth) ? opts.minWidth : defaults.minHeight;
             opts.maxWidth = $.isNumeric(opts.maxWidth) ? opts.maxWidth : defaults.maxWidth;
             opts.minHeight = $.isNumeric(opts.minHeight) ? opts.minHeight : defaults.minHeight;
@@ -74,22 +73,49 @@
             if (height > opts.maxHeight) { height = opts.maxHeight; resizable = true; }
             if (height < opts.minHeight) { height = opts.minHeight; resizable = true; }
             if (resizable && !opts.fit) {
-                panel[isDia ? "dialog" : (isWin ? "window" : "panel")]("resize", { width: width, height: height });
+                p[plugin]("resize", { width: width, height: height });
             }
         }
     };
 
-    var inlayout = function (target) {
+    var _onMove = {
+        panel: $.fn.panel.defaults.onMove,
+        window: $.fn.window.defaults.onMove,
+        dialog: $.fn.dialog.defaults.onMove
+    };
+    var onMove = function (left, top) {
+        var p = $.util.parseJquery(this), isWin = p.panel("isWindow"), isDia = p.panel("isDialog"),
+            plugin = isDia ? "dialog" : (isWin ? "window" : "panel"),
+            _onMoveFn = _onMove[plugin], opts = p[plugin]("options");
+        if ($.isFunction(_onMoveFn)) { _onMoveFn.apply(this, arguments); }
+        if (opts.maximized) { return p[plugin]("restore"); }
+        if (!opts.inContainer) { return; }
+        var panel = p[plugin]("panel"), parent = panel.parent(), isRoot = parent.is("body"),
+            width = $.isNumeric(opts.width) ? opts.width : p.width(),
+            height = $.isNumeric(opts.height) ? opts.height : p.height(),
+            scope = $.extend({}, isRoot ? $.util.windowSize() : { width: parent.innerWidth(), height: parent.innerHeight() }),
+            moveable = false;
+        if (left < 0) { left = 0; moveable = true; }
+        if (top < 0) { top = 0; moveable = true; }
+        if (moveable) { return p[plugin]("move", { left: left, top: top }); }
+        if (left + width > scope.width && left > 0) { left = scope.width - width; moveable = true; }
+        if (top + height > scope.height && top > 0) { top = scope.height - height; moveable = true; }
+        if (moveable) { return p[plugin]("move", { left: left, top: top }); }
+    };
+
+
+
+    var inLayout = function (target) {
         var t = $.util.parseJquery(target), body = t.panel("body"), panel = t.panel("panel");
         return body.hasClass("layout-body") && panel.hasClass("layout-panel");
     };
 
-    var intabs = function (target) {
+    var inTabs = function (target) {
         var t = $.util.parseJquery(target), panel = t.panel("panel"), panels = panel.parent(), container = panels.parent();
         return panels.hasClass("tabs-panels") && container.hasClass("tabs-container");
     };
 
-    var inaccordion = function (target) {
+    var inAccordion = function (target) {
         var t = $.util.parseJquery(target), panel = t.panel("panel"), container = panel.parent();
         return (container.hasClass("accordion") && $.data(container[0], "accordion")) ? true : false;
     };
@@ -160,7 +186,7 @@
     var _header = $.fn.panel.methods.header;
     function getHeader(target) {
         var t = $.util.parseJquery(target);
-        if (!intabs(target)) { return _header.call(t, t); }
+        if (!inTabs(target)) { return _header.call(t, t); }
         var panel = t.panel("panel"), index = panel.index(), tabs = panel.closest(".tabs-container");
         return tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li").eq(index);
     };
@@ -168,29 +194,30 @@
     var _setTitle = $.fn.panel.methods.setTitle;
     function setTitle(target, title) {
         var t = $.util.parseJquery(target);
-        if (!intabs(target)) { return _setTitle.call(t, t, title); }
+        if (!inTabs(target)) { return _setTitle.call(t, t, title); }
         if (!title) { return; }
         var opts = t.panel("options"), header = t.panel("header");
         opts.title = title;
         header.find(">a.tabs-inner>span.tabs-title").text(title);
     };
 
+
     var methods = $.fn.panel.extensions.methods = {
         //  判断当前 easyui-panel 是否为 easyui-layout 的 panel 部件；
         //  返回值：如果当前 easyui-panel 是 easyui-layout 的 panel 部件，则返回 true，否则返回 false。
-        inlayout: function (jq) { return inlayout(jq[0]); },
+        inLayout: function (jq) { return inLayout(jq[0]); },
+
+        //  判断当前 easyui-panel 是否为 easyui-tabs 的选项卡。
+        inTabs: function (jq) { return inTabs(jq[0]); },
+
+        //  判断当前 easyui-panel 是否为 easyui-accordion 中的一个折叠面板。
+        inAccordion: function (jq) { return inAccordion(jq[0]); },
 
         //  判断当前 easyui-panel 是否为 easyui-window 组件；
         isWindow: function (jq) { return isWindow(jq[0]); },
 
         //  判断当前 easyui-panel 是否为 easyui-dialog 组件；
         isDialog: function (jq) { return isDialog(jq[0]); },
-
-        //  判断当前 easyui-panel 是否为 easyui-tabs 的选项卡。
-        intabs: function (jq) { return intabs(jq[0]); },
-
-        //  判断当前 easyui-panel 是否为 easyui-accordion 中的一个折叠面板。
-        inaccordion: function (jq) { return inaccordion(jq[0]); },
 
         //  增加 easyui-panel 控件的扩展方法；该方法用于获取当前在 iniframe: true 时当前 panel 控件中的 iframe 容器对象；
         //  备注：如果 inirame: false，则该方法返回一个空的 jQuery 对象。
@@ -208,6 +235,10 @@
         setTitle: function (jq, title) { return jq.each(function () { setTitle(this, title); }); }
     };
     var defaults = $.fn.panel.extensions.defaults = {
+
+        //  增加 easyui-panel 控件的自定义属性，增加 easyui-panel 控件的扩展属性；该属性表示 href 加载的远程页面是否装载在一个 iframe 中。
+        iniframe: false,
+
         //  增加 easyui-panel 控件的自定义属性，表示 easyui-panel 面板的最小宽度。
         minWidth: 10,
 
@@ -223,8 +254,11 @@
         //  增加 easyui-panel 控件的自定义属性，重新定义的 onResize 事件。用于扩展四个新增属性 minWidth、maxWidth、minHeight、maxHeight 的功能。
         onResize: onResize,
 
-        //  增加 easyui-panel 控件的自定义属性，增加 easyui-panel 控件的扩展属性；该属性表示 href 加载的远程页面是否装载在一个 iframe 中。
-        iniframe: false
+        //  扩展 easyui-panel、easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口是否无法移除父级对象边界，默认为 true。
+        inContainer: true,
+
+        //  重写 easyui-panel、easyui-window 以及 easyui-dialog 控件的原生事件 onMove，以支持相应扩展功能。
+        onMove: onMove
     };
 
     $.extend($.fn.panel.defaults, defaults);

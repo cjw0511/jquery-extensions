@@ -5,6 +5,7 @@
     $.util.namespace("mainpage.nav");
     $.util.namespace("mainpage.favo");
     $.util.namespace("mainpage.mainTabs");
+    $.util.namespace("donate");
 
     var homePageTitle = "主页", homePageHref = null, navMenuList = "#navMenu_list",
         navMenuTree = "#navMenu_Tree", mainTab = "#mainTab", navTab = "#navTab", favoMenuTree = "#favoMenu_Tree",
@@ -69,9 +70,7 @@
             smooth: false,
             showOption: true,
             onClick: function (node) {
-                if (!node || !node.attributes || !node.attributes.href) { return; }
-                var opts = $.extend({ id: node.id, title: node.text, iconCls: node.iconCls }, node.attributes);
-                window.mainpage.mainTabs.addModule(opts);
+                window.mainpage.addModuleTab(node);
             },
             onLoadSuccess: function (node, data) {
                 $.util.call(function () { $(navMenuList).find("a").removeAttr("disabled"); });
@@ -80,8 +79,7 @@
             },
             contextMenu: [
                 { text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) {
-                    if (!node || !node.attributes || !node.attributes.href) { return; }
-                    window.mainpage.mainTabs.addModule(node.attributes);
+                    window.mainpage.addModuleTab(node);
                 }
                 }, "-",
                 { text: "添加至个人收藏", iconCls: "icon-standard-feed-add", disabled: function (e, node) { return !t.tree("isLeaf", node.target); }, handler: function (e, node) { window.mainpage.nav.addFavo(node.id); } },
@@ -126,9 +124,7 @@
             },
             selectOnContextMenu: true,
             onClick: function (node) {
-                if (!node || !node.attributes || !node.attributes.href) { return; }
-                var opts = $.extend({ id: node.id, title: node.text, iconCls: node.iconCls }, node.attributes);
-                window.mainpage.mainTabs.addModule(opts);
+                window.mainpage.addModuleTab(node);
             },
             onLoadSuccess: function (node, data) {
                 window.mainpage.instTreeStatus(this);
@@ -136,8 +132,7 @@
             },
             contextMenu: [
                 { text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) {
-                    if (!node || !node.attributes || !node.attributes.href) { return; }
-                    window.mainpage.mainTabs.addModule(node.attributes);
+                    window.mainpage.addModuleTab(node);
                 }
                 }, "-",
                 { text: "添加目录", iconCls: "icon-standard-folder-add", handler: function (e, node) { window.mainpage.favo.addFolder(node); } }, "-",
@@ -238,6 +233,11 @@
 
     window.mainpage.showNorth = function () { $(mainLayout).layout("expand", "north"); };
 
+    window.mainpage.addModuleTab = function (node) {
+        var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);
+        if (!opts.href) { return; }
+        window.mainpage.mainTabs.addModule(opts);
+    };
 
     //  判断指定的选项卡是否存在于当前主页面的选项卡组中；
     //  返回值：返回的值可能是以下几种：
@@ -515,13 +515,24 @@
     //初始化捐赠列表数据
     window.donate.init = function () {
         var donate = $("#donateList");
-        $.each(window.donate.data, function (i, item) {
-            var li = $("<li></li>").appendTo(donate);
-            $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
-            $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
-            $("<span></span>").text("(").appendTo(li);
-            $("<span></span>").addClass("donate-total").text(item.total).appendTo(li);
-            $("<span></span>").text("元)").appendTo(li);
+        $.ajax({
+            url: "https://raw.github.com/cjw0511/jquery-extensions/master/common/donate-data.json",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    var li = $("<li></li>").appendTo(donate);
+                    $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
+                    $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
+                    $("<span></span>").text("(").appendTo(li);
+                    $("<span></span>").addClass("donate-total").text(item.total).appendTo(li);
+                    $("<span></span>").text("元)").appendTo(li);
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                var li = $("<li></li>").appendTo(donate);
+                $("<span></span>").text("获取捐赠列表数据失败").appendTo(li);
+            }
         });
     };
 

@@ -28,7 +28,7 @@
         var t = $.util.parseJquery(target), opts = t.linkbutton("options"),
             exts = opts.extensions ? opts.extensions : opts.extensions = {};
         if (!exts._initialized) {
-            setStyler(target, opts.styler);
+            setStyle(target, opts.style);
             exts._initialized = true;
         }
     };
@@ -63,9 +63,9 @@
         opts.iconAlign = iconAlign;
     }
 
-    function setStyler(target, styler) {
-        if (styler) {
-            $.util.parseJquery(target).css(styler);
+    function setStyle(target, style) {
+        if (style) {
+            $.util.parseJquery(target).css(style);
         }
     };
 
@@ -90,7 +90,7 @@
 
     var defaults = $.fn.linkbutton.extensions.defaults = {
         //  增加 easyui-linkbutton 控件的自定义属性；表示 linkbutton 按钮的自定义样式。
-        styler: null
+        style: null
     };
 
     var methods = $.fn.linkbutton.extensions.methods = {
@@ -110,9 +110,9 @@
         setIconAlign: function (jq, iconAlign) { return jq.each(function () { setIconAlign(this, iconAlign); }); },
 
         //  增加 easyui-linkbutton 控件的自定义扩展方法；设置 linkbutton 按钮的自定义样式；该方法定义如下参数：
-        //      styler:   JSON-Object 类型，表示要设置的按钮的样式
+        //      style:   JSON-Object 类型，表示要设置的按钮的样式
         //  返回值：返回表示当前 easyui-linkbutton 控件的 jQuery 链式对象；
-        setStyler: function (jq, styler) { return jq.each(function () { setStyler(this, styler); }); },
+        setStyle: function (jq, style) { return jq.each(function () { setStyle(this, style); }); },
 
         //  增加 easyui-linkbutton 控件的自定义扩展方法；设置 linkbutton 按钮的 plain 属性；该方法定义如下参数：
         //      plain:   Boolean 类型，表示要设置的按钮的 plain 属性值

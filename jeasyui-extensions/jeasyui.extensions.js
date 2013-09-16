@@ -19,8 +19,9 @@
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
-    var coreEasyui = {};
-    var coreJquery = function () { return $.apply(this, arguments); };
+
+    var coreEasyui = {},
+        coreJquery = function () { return $.apply(this, arguments); };
 
     coreJquery.fn = coreJquery.prototype = {};
     coreJquery.easyui = coreEasyui;
@@ -290,6 +291,25 @@
             return $.util.isString(type) && type.toLowerCase(type) == "json" ? $.string.toJSONString(data) : data;
         }
     });
+
+
+    //  判断当前 jQuery 对象是否是指定名称的已经初始化好的 easyui 插件；该方法定义如下参数：
+    //      pluginName：要判断的插件名称，例如 "panel"、"dialog"、"datagrid" 等；
+    //  返回值：如果当前 jQuery 对象中的第一个 DOM 元素为 pluginName 参数所示的 easyui 插件且已经被初始化，则返回 true，否则返回 false。
+    coreJquery.fn.isEasyUI = function (pluginName) {
+        if (!$.array.contains($.parser.plugins, pluginName)) { $.error($.string.format("传入的参数 pluginName: {0} 不是 easyui 插件名。")); }
+        if (!this.length) { return false; }
+        var state = $.data(this[0], pluginName);
+        return state && state.options ? true : false;
+    };
+
+    //  判断当前 jQuery 对象是否是指定名称的已经初始化好的 easyui 插件；该方法定义如下参数：
+    //      selector:   jQuery 对象选择器，或者 DOM 对象，或者 jQuery 对象均可；
+    //      pluginName：要判断的插件名称，例如 "panel"、"dialog"、"datagrid" 等；
+    //  返回值：如果 selector 所表示的 jQuery 对象中的第一个 DOM 元素为 pluginName 参数所示的 easyui 插件且已经被初始化，则返回 true，否则返回 false。
+    coreEasyui.isEasyUI = function (selector, pluginName) {
+        return $.util.parseJquery(selector).isEasyUI(pluginName);
+    };
 
 
 

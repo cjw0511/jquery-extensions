@@ -11,7 +11,7 @@
 * jQuery EasyUI icons 组件扩展
 * jeasyui.extensions.icons.js
 * 二次开发 陈建伟
-* 最近更新：2013-09-04
+* 最近更新：2013-09-14
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -89,6 +89,7 @@
             dia.setValue = function (val) {
                 value = val;
                 refreshToolbar();
+                refreshCheckedStatus();
             };
             tabsOpts.onSelect = function (title, index) {
                 if ($.isFunction(onSelect)) { onSelect.apply(this, arguments); }
@@ -130,13 +131,23 @@
                                 tabs.find("ul>li.selected").removeClass("selected");
                                 dia.setValue(null);
                             });
-                        toolbar.toolbar("append", ["当前共选中的图标数量为：", String(value.length), tip, clear, clear]);
+                        toolbar.toolbar("append", ["当前共选中的图标数量为：", String(value.length), tip, clear]);
                     } else {
                         var icon = $("<a></a>").linkbutton({ plain: true, iconCls: value })
                         toolbar.toolbar("append", ["当前选中的图标值为：", icon, value]);
                     }
                 } else {
                     toolbar.toolbar("append", "当前没有选中图标");
+                }
+            };
+            function refreshCheckedStatus() {
+                var li = dia.dialog("body").find("ul.icon-selector-ul li").removeClass("selected");
+                if ($.isArray(value)) {
+                    $.each(value, function (i, n) {
+                        if (n) { li.find("span." + n).parent().addClass("selected"); }
+                    });
+                } else {
+                    if (value) { li.find("span." + value).parent().addClass("selected"); }
                 }
             };
         });

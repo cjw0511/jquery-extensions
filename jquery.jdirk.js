@@ -141,7 +141,7 @@
     coreUtil.isPlainObject = $.isPlainObject;
 
     //  测试对象是否是 jQuery 对象。
-    coreUtil.isJqueryObject = function (obj) { return obj != null && obj != undefined && obj.constructor === $$.constructor; };
+    coreUtil.isJqueryObject = function (obj) { return obj != null && obj != undefined && (obj.jquery || obj.constructor === $$.constructor); };
 
     //  判断对象是否是一个空的 jQuery 对象(不包含任何 DOM 元素，即 length = 0)。
     coreUtil.isEmptyJquery = coreUtil.isEmptyJqueryObject = function (obj) { return coreUtil.isJqueryObject(obj) && !obj.length; };
@@ -490,6 +490,13 @@
     coreString.isNullOrWhiteSpace = function (str) { return coreString.isNullOrEmpty(str) || coreString.trim(String(str)) === ""; };
     coreString.prototype.isNullOrWhiteSpace = function () { return coreString.isNullOrWhiteSpace(this); };
 
+    //  判断传入的字符串是否为 HTML 代码段。
+    coreString.isHtmlText = function (str) {
+        str = coreString.isNullOrEmpty(str) ? "" : String(str);
+        return str.length >= 3 && str.charAt(0) === "<" && str.charAt(str.length - 1) === ">";
+    };
+    coreString.prototype.isHtmlText = function () { return coreString.isHtmlText(this); };
+
     //  用新字符串替换与给定字符串匹配的所有子串；该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。
     coreString.replaceAll = function (str, substr, replacement, ignoreCase) {
         if (!substr || !replacement || substr == replacement) { return str; }
@@ -507,13 +514,13 @@
             data = (isArray && !coreUtil.isString(arg1)) || coreUtil.isObject(arg1) ? arg1 : coreArray.range(arguments, 1);
         if (isArray) {
             for (var i = 0; i < data.length; i++) {
-                value = data[i] ? data[i] : "$nbsp;";
+                value = data[i] ? data[i] : "";
                 str = str.replace(new RegExp("\\{" + i + "}", "gm"), value);
             }
         } else {
             for (var key in data) {
                 var value = proxy.call(data, key);
-                value = (value == null || value == undefined) ? "$nbsp;" : value;
+                value = (value == null || value == undefined) ? "" : value;
                 str = str.replace(new RegExp("\\{" + key + "}", "gm"), value);
             }
         }
@@ -2264,7 +2271,15 @@
 
 
 
-
+    //  判断指定的对象是否为一个 HTML-DOM 对象；该函数定义如下参数：
+    //      obj：    要判断的对象；
+    //      doc：    该参数可选；表示 obj 所在页面的 document；如果不定义该参数，则默认使用当前页面的 document；
+    //  返回值：如果 obj 是一个 HTML-DOM 对象且存在于指定的 document 中，则返回 true；否则返回 false。
+    coreUtil.isDOM = function (obj, doc) {
+        if (!obj) { return false; }
+        doc = doc || document;
+        return obj.nodeName && obj.nodeType == 1 && obj.ownerDocument == doc;
+    };
 
 
 

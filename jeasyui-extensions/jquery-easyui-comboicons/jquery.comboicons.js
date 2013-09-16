@@ -62,18 +62,21 @@
                     var textbox = t.combo("textbox"), offset = textbox.offset();
                     state.dialog.dialog("move", $.extend(offset, { top: offset.top + textbox.outerHeight() + 2 }))
                 }
+                if ($.isFunction(opts.onShowPanel)) { opts.onShowPanel.apply(this, arguments); }
             },
             onHidePanel: function () {
                 if (state.dialog) {
                     var dopts = state.dialog.dialog("options");
                     if (!dopts.closed) { state.dialog.dialog("close"); }
                 }
+                if ($.isFunction(opts.onHidePanel)) { opts.onHidePanel.apply(this, arguments); }
             },
             onDestroy: function () {
                 if (state.dialog) {
                     state.dialog.dialog("destroy");
                     state.dialog = null;
                 }
+                if ($.isFunction(opts.onDestroy)) { opts.onDestroy.apply(this, arguments); }
             }
         }));
     };

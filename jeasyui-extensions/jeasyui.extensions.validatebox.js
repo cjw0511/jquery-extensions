@@ -272,7 +272,9 @@
         var opts = t.validatebox("options");
         if (!opts._initialized) {
             setPrompt(target, opts.prompt, opts);
-            if (opts.autoFocus) { $.util.call(function () { t.focus(); }); }
+            if (opts.autoFocus) {
+                $.util.call(function () { t.focus(); });
+            }
             opts._initialized = true;
         }
     };
@@ -300,7 +302,6 @@
                 t.blur(opts.promptBlur);
             }
             if ($.string.isNullOrEmpty(t.val())) {
-                //$.util.call(function () { t.addClass("validatebox-prompt").val(opts.prompt); });
                 t.addClass("validatebox-prompt").val(opts.prompt);
             }
         }

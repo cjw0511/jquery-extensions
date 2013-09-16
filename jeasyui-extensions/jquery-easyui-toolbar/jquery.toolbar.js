@@ -45,8 +45,8 @@
         var t = $.util.parseJquery(target), state = $.data(target, "toolbar"),
             toolbar = state.toolbar, opts = state.options,
             cc = toolbar.children();
-        state.wrapper = $("<table><tr></tr></table>").attr({ cellspacing: 0, cellpadding: 0 }).addClass("toolbar-wrapper").appendTo(toolbar);
-        appendItem(target, cc, true);
+        state.wrapper = $("<table class='toolbar-wrapper' cellspacing='0' cellpadding='0' ></table>").appendTo(toolbar);
+        appendItem(target, cc);
     };
 
     function setSize(target, size) {
@@ -75,7 +75,8 @@
             left = Math.max((tWidth - width) / 2, 0);
         }
         wrapper.css("left", left);
-    }
+    };
+
     function setValign(target, valign) {
         var t = $.util.parseJquery(target), state = $.data(target, "toolbar"),
             toolbar = state.toolbar, wrapper = state.wrapper, opts = state.options,
@@ -87,46 +88,318 @@
             case "bottom": top = tHeight - height; break;
         }
         wrapper.css("top", Math.max(top, 0));
-    }
-
-
-    function createItem(options) {
-        var opts = $.extend({ plain: true }, options || {});
-        var fn = opts.onclick || opts.handler,
-            item = $("<a></a>").linkbutton(opts);
-        if ($.isFunction(fn)) { item.click(fn); }
-        return item;
     };
 
 
-    function appendItem(target, item, dontSize) {
-        if (!item) { return; }
-        var t = $.util.parseJquery(target), state = $.data(target, "toolbar"), opts = state.options;
-        if ($.util.isJqueryObject(item) && item.length == 1) {
-            buildSeparator(item);
-        } else if ($.util.isString(item)) {
-            item = item == "-" ? $("<div class='dialog-tool-separator'></div>") : $("<span></span>").text(item);
-        } else if (item.nodeType == 1) {
-            item = $(item);
-            buildSeparator(item);
-        } else if ($.isPlainObject(item)) {
-            item = createItem(item);
-        } else if ($.isFunction(item)) {
-            return appendItem(target, item.call(target));
-        } else if ($.array.likeArray(item)) {
-            var ret = $.each(item, function () { appendItem(target, this, true); });
-            doSize();
-            return ret;
-        }
-        var td = $("<td></td>").append(item);
-        state.wrapper.find("tr:last").append(td);
-        doSize();
-        function doSize() { if (!dontSize) { setSize(target); } }
-        function buildSeparator(item) {
-            if (/^(?:div|span)$/i.test(item[0].nodeName) && item.text() == "-") {
-                item.addClass("dialog-tool-separator").text("");
+    var itemTypes = {
+        separator: {
+            init: function (container) {
+                return $("<div class='dialog-tool-separator'></div>").appendTo(container);
+            }
+        },
+        label: {
+            defaults: { text: " " },
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {});
+                return $("<span class='toolbar-item-label'></span>").text(opts.text).appendTo(container);
+            }
+        },
+        button: {
+            defaults: { plain: true, iconCls: "icon-ok" },
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    fn = $.isFunction(opts.onclick) ? opts.onclick : ($.isFunction(opts.handler) ? opts.handler : null),
+                    btn = $("<a class='toolbar-item-button'></a>").appendTo(container).linkbutton(opts);
+                if ($.isFunction(fn)) { btn.click(function () { fn.call(this, container); }); }
+                return btn;
+            },
+            enable: function (target) {
+                $(target).linkbutton("enable");
+            },
+            disable: function (target) {
+                $(target).linkbutton("disable");
+            }
+        },
+        textbox: {
+            defaults: { value: null, disabled: false, width: null },
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container);
+                if (opts.value) { this.setValue(box[0], opts.value); }
+                if (opts.disabled) { this.disable(box[0]); }
+                if (opts.width) { this.resize(box[0], opts.width); }
+                return box;
+            },
+            setValue: function (target, value) {
+                $(target).val(value);
+            },
+            getValue: function (target) {
+                return $(target).val();
+            },
+            resize: function (target, width) {
+                $(target)._outerWidth(width);
+            },
+            enable: function (target) {
+                $(target).attr("disabled", true);
+            },
+            disable: function (target) {
+                $(target).removeAttr("disabled", true);
+            }
+        },
+        checkbox: {
+            defaults: { checked: false, disabled: false, text: " " },
+            init: function (container, options) {
+                options = options || {};
+                var opts = $.extend({}, this.defaults, $.util.isString(options) ? { text: options} : options),
+                    label = $("<label class='toolbar-item-checkbox'></label>").appendTo(container),
+                    box = $("<input type='checkbox' class='toolbar-item-checkbox-input' />").appendTo(label),
+                    span = $("<span class='toolbar-item-checkbox-text'></span>").text(opts.text).appendTo(label);
+                if (opts.checked) { this.setValue(box[0], opts.checked); }
+                if (opts.disabled) { this.disable(box[0]); }
+                return box;
+            },
+            setValue: function (target, value) {
+                $(target).attr("checked", value ? true : false);
+            },
+            getValue: function (target) {
+                return $(target)[0].checked;
+            },
+            enable: function (target) {
+                var box = $(target), label = box.parent();
+                box.removeAttr("disabled");
+                label.find(">span.toolbar-item-checkbox-text").removeClass("toolbar-item-checkbox-disabled");
+            },
+            disable: function (target) {
+                var box = $(target), label = box.parent();
+                box.attr("disabled", true);
+                label.find(">span.toolbar-item-checkbox-text").addClass("toolbar-item-checkbox-disabled");
+            }
+        },
+        validatebox: {
+            defaults: { value: null, disabled: false, width: null },
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).validatebox(opts);
+                if (opts.value) { this.setValue(box[0], opts.value); }
+                if (opts.disabled) { this.disable(box[0]); }
+                if (opts.width) { this.resize(box[0], opts.width); }
+                return box;
+            },
+            setValue: function (target, value) {
+                $(target).val(value);
+            },
+            getValue: function (target) {
+                return $(target).val();
+            },
+            resize: function (target, width) {
+                $(target)._outerWidth(width);
+            },
+            enable: function (target) {
+                $(target).removeAttr("disabled");
+            },
+            disable: function (target) {
+                $(target).attr("disabled", true);
+            }
+        },
+        numberbox: {
+            defaults: { width: null },
+            init: function (container, options) {
+                var box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).numberbox(options);
+                if (options.width) { this.resize(box[0], options.width); }
+                return box;
+            },
+            destroy: function (target) {
+                $(target).numberbox("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).numberbox("setValue", value);
+            },
+            getValue: function (target) {
+                return $(target).numberbox("getValue");
+            },
+            resize: function (target, width) {
+                $(target)._outerWidth(width);
+            },
+            enable: function (target) {
+                $(target).numberbox("enable");
+            },
+            disable: function (target) {
+                $(target).numberbox("disable");
+            }
+        },
+        datebox: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).datebox(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).datebox("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).datebox("setValue", value);
+            },
+            getValue: function (target) {
+                return $(target).datebox("getValue");
+            },
+            resize: function (target, width) {
+                $(target).datebox("resize", width);
+            },
+            enable: function (target) {
+                $(target).datebox("enable");
+            },
+            disable: function (target) {
+                $(target).datebox("disable");
+            }
+        },
+        combobox: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).combobox(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).combobox("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).combobox($.isArray(value) ? "setValues" : "setValue", value);
+            },
+            getValue: function (target) {
+                var combo = $(target), opts = combo.combobox("options");
+                return $(target).combobox(opts.multiples ? "getValues" : "getValue");
+            },
+            resize: function (target, width) {
+                $(target).combobox("resize", width);
+            },
+            enable: function (target) {
+                $(target).combobox("enable");
+            },
+            disable: function (target) {
+                $(target).combobox("disable");
+            }
+        },
+        combotree: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).combotree(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).combotree("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).combotree($.isArray(value) ? "setValues" : "setValue", value);
+            },
+            getValue: function (target) {
+                var combo = $(target), opts = combo.combotree("options");
+                return $(target).combotree(opts.multiples ? "getValues" : "getValue");
+            },
+            resize: function (target, width) {
+                $(target).combotree("resize", width);
+            },
+            enable: function (target) {
+                $(target).combotree("enable");
+            },
+            disable: function (target) {
+                $(target).combotree("disable");
+            }
+        },
+        combogrid: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).combogrid(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).combogrid("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).combogrid($.isArray(value) ? "setValues" : "setValue", value);
+            },
+            getValue: function (target) {
+                var combo = $(target), opts = combo.combogrid("options");
+                return $(target).combogrid(opts.multiples ? "getValues" : "getValue");
+            },
+            resize: function (target, width) {
+                $(target).combogrid("resize", width);
+            },
+            enable: function (target) {
+                $(target).combogrid("enable");
+            },
+            disable: function (target) {
+                $(target).combogrid("disable");
             }
         }
+    };
+    var itemOptions = {
+        id: null,
+        type: "button",
+        options: null,
+        style: null,
+        itemCls: null,
+        width: null,
+        align: null
+    };
+
+
+    function appendItemDOM(target, item) {
+        var t = $.util.parseJquery(target), state = $.data(target, "toolbar"),
+            tr = state.wrapper.find("tr:last"),
+            cell = $(item).addClass("toolbar-item"),
+            text = cell.text();
+        if (!tr.length) { tr = $("<tr class='toolbar-row'></tr>").appendTo(state.wrapper); }
+        if (/^(?:div|span)$/i.test(cell[0].nodeName) && $.array.contains(["-", "—", "|"], text)) {
+            cell.addClass("dialog-tool-separator").text("");
+        }
+        $("<td class='toolbar-item-container'></td>").append(cell).appendTo(tr);
+    };
+    function appendItemString(target, str) {
+        if (!str) { return; }
+        if ($.array.contains(["-", "—", "|"], str)) {
+            appendItemDOM(target, $("<span>-</span>")[0]);
+        } else if ($.string.isHtmlText(str)) {
+            $(str).each(function () { appendItemDOM(target, this); });
+        } else {
+            appendItemObject(target, { type: "label", options: { text: str} });
+        }
+    };
+    function appendItemObject(target, options) {
+        var opts = $.extend({}, itemOptions, options || {}),
+            t = $.util.parseJquery(target), state = $.data(target, "toolbar"),
+            tr = state.wrapper.find("tr:last");
+        if (!tr.length) { tr = $("<tr class='toolbar-row'></tr>").appendTo(state.wrapper); }
+        var td = $("<td class='toolbar-item-container'></td>").appendTo(tr),
+            container = td[0],
+            builder = state.options.itemTypes[opts.type];
+        var item = builder.init(container, opts.options || opts).addClass("toolbar-item");
+        if (opts.id != null && opts.id != undefined) { item.attr("id", opts.id); }
+        if (opts.itemCls) { td.addClass(opts.itemCls); }
+        if (opts.style) { td.css(opts.style); }
+        if (opts.width) { td.css("width", opts.width); }
+        if (opts.align) { td.css("text-align", opts.align); }
+        $.data(item[0], "toolbar-item-builder", builder);
+    }
+
+    function appendItem(target, item, dontSize) {
+        if (!item) { return; }
+        if ($.util.isJqueryObject(item) && item.length) {
+            item.each(function () { appendItemDOM(target, this); });
+        } else if ($.util.isDOM(item)) {
+            appendItemDOM(target, item);
+        } else if ($.util.isString(item)) {
+            appendItemString(target, item);
+        } else if ($.util.likeArray(item)) {
+            $.each(item, function (i, n) { appendItem(target, n, true); });
+        } else if ($.isFunction(item)) {
+            appendItem(target, item.call(target), true);
+        } else {
+            appendItemObject(target, item);
+        }
+        if (!dontSize) { setSize(target); }
     };
 
 
@@ -149,7 +422,7 @@
     };
 
     $.fn.toolbar.parseOptions = function (target) {
-        return $.extend({}, $.parser.parseOptions(target));
+        return $.extend({}, $.parser.parseOptions(target, ["width", "height", "align", "valign", "itemTypes"]));
     };
 
     $.fn.toolbar.methods = {
@@ -162,11 +435,33 @@
 
         valign: function (jq, valign) { return jq.each(function () { setValign(this, valign); }); },
 
+        //  在当前的 easyui-toolbar 中增加一个工具栏项；该方法的参数 item 可以定义为如下类型：
+        //      1、jQuery-DOM 对象：
+        //      2、HTML-DOM 对象：
+        //      3、String 类型：可以为以下类型：
+        //          a："-"、"—"、"|"，表示分割线的 separator
+        //          b："<" 开头和 ">" 结尾切字符串度大于等于3，表示 HTML 代码段；
+        //          c："\t"、"\n"，表示换行
+        //          d：其他长度大于 0 的字符串，表示 label。
+        //      4、JSON-Object 对象：
+        //          id      : 
+        //          type    : $.fn.toolbar.defaults.itemTypes 中定义的工具栏项类型，例如 separator、label、button、textbox、checkbox、numberbox、validatebox、combobox、combotree、combogrid 等；
+        //          options : 初始化该工具栏项的参数；
+        //          style   :
+        //          itemCls :
+        //          width   :
+        //          align   :
+        //      5、Array 数组类型：
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         append: function (jq, item) { return jq.each(function () { appendItem(this, item); }); },
 
         wrapper: function (jq) { return $.data(jq[0], "toolbar").wrapper; },
 
-        toolbar: function (jq) { return $.data(jq[0], "toolbar").toolbar; }
+        toolbar: function (jq) { return $.data(jq[0], "toolbar").toolbar; },
+
+        enableItem: function (jq, item) { },
+
+        disableItem: function (jq, item) { }
     };
 
     $.fn.toolbar.defaults = {
@@ -187,7 +482,24 @@
         //      width: 被设置的新的宽度；
         //      height: 被设置的新的告诉。
         //  回调函数中的 this 表示当前 easyui-toolbar 的 DOM 对象。
-        onResize: function (width, height) { }
+        onResize: function (width, height) { },
+
+        //  定义 easyui-toolbar 插件能够添加的工具栏项类型；
+        //  开发人员可以通过扩展 $.fn.toolbar.defaults.itemTypes 属性来实现其自定义的 easyui-toolbar 工具栏项类型；
+        //      就像扩展 $.fn.datagrid.defaults.editors 一样。
+        //  已经内置的工具栏项类型有：
+        //      separator   :
+        //      label       :
+        //      button      :
+        //      textbox     :
+        //      checkbox    :
+        //      validatebox :
+        //      numberbox   :
+        //      datebox     :
+        //      combobox    :
+        //      combotree   :
+        //      combogrid   :
+        itemTypes: itemTypes
     };
 
 
@@ -199,11 +511,22 @@
         ".toolbar-f {}" +
         ".toolbar { width: auto; height: auto; min-height: 26px; overflow: hidden; }" +
         ".toolbar-wrapper { position: relative; }" +
-        ".toolbar-wrapper td>div, .toolbar-wrapper td>span { height: 26px; line-height: 26px; }" +
-        ".toolbar-wrapper td .dialog-tool-separator { height: 22px; }"
-    ".toolbar-align-left { float: left; }" +
+        ".toolbar-wrapper td .dialog-tool-separator { height: 22px; margin-left: 2px; margin-right: 2px; }" +
+        ".toolbar-align-left { float: left; }" +
         ".toolbar-align-center {}" +
-        ".toolbar-align-right { float: right; }";
+        ".toolbar-align-right { float: right; }" +
+
+        ".toolbar-row {}" +
+        ".toolbar-item-container {}" +
+        ".toolbar-item {}" +
+        ".toolbar-item-label {}" +
+        ".toolbar-item-input {}" +
+        ".toolbar-item-button {}" +
+        ".toolbar-item-checkbox {}" +
+        ".toolbar-item-checkbox-input { vertical-align: middle; }" +
+        ".toolbar-item-checkbox-text { vertical-align: middle; }" +
+        ".toolbar-item-checkbox-disabled {}" +
+        "";
     $.util.addCss(css);
 
 })(jQuery);

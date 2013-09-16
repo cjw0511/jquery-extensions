@@ -25,30 +25,65 @@
 
         var i = 1;
         $("#Button9").click(function () {
-            var btn = $("<a></a>").linkbutton({ plain: false, text: "按钮" + i++, iconCls: "icon-hamburg-lock" });
+            var btn = $("<a></a>").linkbutton({
+                plain: false,
+                text: "按钮" + i++,
+                iconCls: "icon-hamburg-lock"
+            }).click(function () {
+                alert($(this).text());
+            });
             tt.toolbar("append", btn);
         });
 
         $("#Button10").click(function () {
             tt.toolbar("append", {
-                iconCls: "icon-hamburg-lock",
-                text: "按钮" + i++,
-                handler: function () { alert($(this).text()); }
+                type: "button",
+                options: {
+                    iconCls: "icon-hamburg-lock",
+                    text: "按钮" + i++,
+                    handler: function () { alert($(this).text()); }
+                },
+                style: {
+                    width: 200, textAlign: "center"
+                }
             });
         });
 
         $("#Button11").click(function () {
             tt.toolbar("append", function () {
                 return {
-                    iconCls: "icon-hamburg-lock",
-                    text: "按钮" + i++,
-                    handler: function () { alert($(this).text()); }
+                    options: {
+                        iconCls: "icon-hamburg-lock",
+                        text: "按钮" + i++,
+                        handler: function () { alert($(this).text()); }
+                    }
                 };
             });
         });
 
         $("#Button12").click(function () {
             tt.toolbar("append", "-");
+        });
+
+        $("#Button13").click(function () {
+            tt.toolbar("append", {
+                type: "numberbox",
+                options: {
+                    min: 1, max: 100, width: 100, prompt: "请输入年龄"
+                }
+            });
+        });
+
+        $("#Button14").click(function () {
+            tt.toolbar("append", {
+                type: "datebox", options: { prompt: "请输入日期" }
+            });
+        });
+
+        $("#Button15").click(function () {
+            tt.toolbar("append", {
+                type: "combotree", options: { prompt: "请输入日期", url: "tree/tree-data.json", method: "get", multiple: true }
+            });
         });
     });
 </script>
@@ -71,6 +106,9 @@
     <input id="Button10" type="button" value="增加一个按钮2" />
     <input id="Button11" type="button" value="增加一个按钮3" />
     <input id="Button12" type="button" value="增加一个分割线" />
+    <input id="Button13" type="button" value="增加一个 numberbox" />
+    <input id="Button14" type="button" value="增加一个 datebox" />
+    <input id="Button15" type="button" value="增加一个 combotree" />
 <hr />
 <div id="tt" class="easyui-toolbar" data-options="" >
     <span>用户姓名：</span>
@@ -81,4 +119,21 @@
     <span>-</span>
     <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'" >编辑</a>
     <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-busy'" >删除</a>
+</div>
+<br /><br /><br /><br />
+<div class="easyui-toolbar">
+    <input class="easyui-validatebox" data-options="prompt: '拟定企业名称'" style="width: 100px;" />
+    <span>-</span>
+    <input class="easyui-validatebox" data-options="prompt: '企业类型'" style="width: 100px;" />
+    <span>-</span>
+    <input class="easyui-validatebox" data-options="prompt: '法人'" style="width: 100px;" />
+    <span>-</span>
+    <input class="easyui-datebox" data-options="prompt: '核查有效期', width: 100" />
+    <span>-</span>
+    <label>
+        <input type="checkbox" disabled="disabled" style="vertical-align: middle;" />
+        <span style="vertical-align: middle;">选择我</span>
+    </label>
+    <span>-</span>
+    <span>asdfasdfasdf</span>
 </div>

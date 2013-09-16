@@ -50,6 +50,10 @@
         if ($.isFunction(opts.onDestroy)) { opts.onDestroy.call(target); }
     };
 
+    function getCombo(target) {
+        return $.data(target, "combo").combo;
+    };
+
 
 
 
@@ -120,7 +124,9 @@
         //  返回值：返回表示当前 easyui-combo 控件的 jQuery 链式对象。
         setPrompt: function (jq, prompt) { return jq.each(function () { setPrompt(this, prompt); }); },
 
-        destroy: function (jq) { return jq.each(function () { destroy(this); }); }
+        destroy: function (jq) { return jq.each(function () { destroy(this); }); },
+
+        combo: function (jq) { return getCombo(jq[0]); }
     };
     $.extend($.fn.combo.defaults, defaults);
     $.extend($.fn.combo.methods, methods);
