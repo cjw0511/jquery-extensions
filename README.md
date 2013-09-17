@@ -8,7 +8,7 @@ jQuery EasyUI 1.3.4<br />
 Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.<br />
 <br />
 Licensed under the GPL or commercial licenses<br />
-To use it on other terms please contact us: jeasyui@gmail.com<br />
+To use it on other terms please contact author: jeasyui@gmail.com<br />
 <a href="http://www.gnu.org/licenses/gpl.txt" target="_blank">http://www.gnu.org/licenses/gpl.txt</a>
 <br />
 <a href="http://www.jeasyui.com/license_commercial.php" target="_blank">http://www.jeasyui.com/license_commercial.php</a>
@@ -133,7 +133,7 @@ Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
         其他：
         <ul>
             <li>源码下载：<a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
-            <li>在线演示地址：<a href="http://webdev.sturgeon.mopaas.com/jquery-extensions/" target="_blank">http://webdev.sturgeon.mopaas.com/jquery-extensions/</a></li>
+            <li>在线演示地址：<a href="http://jqext.sinaapp.com/" target="_blank">http://jqext.sinaapp.com/</a></li>
             <li>
                 对于本扩展有任何意见或者建议，欢迎大家及时向我反馈，可以发邮件至我信箱
                 <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>(标题请注明 jEasyUI 扩展相关)；<br />

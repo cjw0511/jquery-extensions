@@ -32,11 +32,11 @@
             }).click(function () {
                 alert($(this).text());
             });
-            tt.toolbar("append", btn);
+            tt.toolbar("appendItem", btn);
         });
 
         $("#Button10").click(function () {
-            tt.toolbar("append", {
+            tt.toolbar("appendItem", {
                 type: "button",
                 options: {
                     iconCls: "icon-hamburg-lock",
@@ -50,7 +50,7 @@
         });
 
         $("#Button11").click(function () {
-            tt.toolbar("append", function () {
+            tt.toolbar("appendItem", function () {
                 return {
                     options: {
                         iconCls: "icon-hamburg-lock",
@@ -62,11 +62,11 @@
         });
 
         $("#Button12").click(function () {
-            tt.toolbar("append", "-");
+            tt.toolbar("appendItem", "-");
         });
 
         $("#Button13").click(function () {
-            tt.toolbar("append", {
+            tt.toolbar("appendItem", {
                 type: "numberbox",
                 options: {
                     min: 1, max: 100, width: 100, prompt: "请输入年龄"
@@ -75,13 +75,13 @@
         });
 
         $("#Button14").click(function () {
-            tt.toolbar("append", {
+            tt.toolbar("appendItem", {
                 type: "datebox", options: { prompt: "请输入日期" }
             });
         });
 
         $("#Button15").click(function () {
-            tt.toolbar("append", {
+            tt.toolbar("appendItem", {
                 type: "combotree", options: { prompt: "请输入日期", url: "tree/tree-data.json", method: "get", multiple: true }
             });
         });
@@ -120,7 +120,7 @@
     <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'" >编辑</a>
     <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-busy'" >删除</a>
 </div>
-<br /><br /><br /><br />
+<br /><br />
 <div class="easyui-toolbar">
     <input class="easyui-validatebox" data-options="prompt: '拟定企业名称'" style="width: 100px;" />
     <span>-</span>
@@ -137,3 +137,9 @@
     <span>-</span>
     <span>asdfasdfasdf</span>
 </div>
+<br /><br />
+<span>
+    下面的这个 Toolbar 是通过 url 动态加载的数据生成的
+</span>
+<br /><br />
+<div class="easyui-toolbar" data-options=""></div>

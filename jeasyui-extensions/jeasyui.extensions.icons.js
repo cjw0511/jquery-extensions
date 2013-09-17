@@ -3,7 +3,7 @@
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
-* To use it on other terms please contact us: jeasyui@gmail.com
+* To use it on other terms please contact author: jeasyui@gmail.com
 * http://www.gnu.org/licenses/gpl.txt
 * http://www.jeasyui.com/license_commercial.php
 *
@@ -131,13 +131,13 @@
                                 tabs.find("ul>li.selected").removeClass("selected");
                                 dia.setValue(null);
                             });
-                        toolbar.toolbar("append", ["当前共选中的图标数量为：", String(value.length), tip, clear]);
+                        toolbar.toolbar("appendItem", ["当前共选中的图标数量为：", String(value.length), tip, clear]);
                     } else {
                         var icon = $("<a></a>").linkbutton({ plain: true, iconCls: value })
-                        toolbar.toolbar("append", ["当前选中的图标值为：", icon, value]);
+                        toolbar.toolbar("appendItem", ["当前选中的图标值为：", icon, value]);
                     }
                 } else {
-                    toolbar.toolbar("append", "当前没有选中图标");
+                    toolbar.toolbar("appendItem", "当前没有选中图标");
                 }
             };
             function refreshCheckedStatus() {

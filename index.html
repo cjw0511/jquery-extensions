@@ -74,6 +74,8 @@
         #mainTabs_tools table{ border-width: 0px; border-collapse: collapse; border-spacing: 0px; }
         #mainTabs_tools table td{ padding: 0px; }
         
+        .portlet-list { padding-left: 20px; margin: 5px; line-height: 20px; }
+        
         .donate-name 
         {
             font-weight: bold;
@@ -110,7 +112,7 @@
                 portal.portal("removeColumn", portal.portal("columns") - 1);
             });
 
-            
+
             //            var array = [], eventName = "onResize", length = 2;
             //            $.parser.plugins.forEach(function (val) {
             //                var plugin = $.fn[val], defaults = plugin ? plugin.defaults : null,
@@ -251,7 +253,31 @@
                         <div id="portal" class="easyui-portal" data-options="fit: true, border: false">
                             <div style="width: 33%;">
                                 <div data-options="title: '更新日志', height: 400, iniframe: true, href: 'changelog.txt', collapsible: true, closable: true"></div>
-                                <div data-options="title: '项目根目录', height: 220, iniframe: true, href: '/', collapsible: true, closable: true"></div>
+                                <div data-options="title: '项目简介', height: 220, collapsible: true, closable: true">
+                                    <div class="portlet-list">
+                                        <b>本扩展集合包含两大部分：</b>
+                                    </div>
+                                    <ul class="portlet-list" style="list-style-type: decimal;">
+                                        <li>
+                                            <span>jquery 基础库扩展；由文件 jquery.jdirk.js 实现；该文件扩充了 jquery 的基础功能，主要体现在：</span>
+                                            <ul style="list-style-type: lower-alpha;">
+                                                <li>增加了大量的 jquery-utility，为前端开发提供诸多便利；</li>
+                                                <li>对 javascript 的基础对象 String、Date、Array、Number、Boolean 进行了大量的静态和实例方法扩充；</li>
+                                                <li>增加了 jquery 对 HTML5 属性验证的支持；</li>
+                                                <li>增加了在 IE6/7 环境下对 JSON 数据格式的支持(整合 json2.js)；</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span>jeasyui 功能扩展；该部分扩展涵盖四个部分：</span>
+                                            <ul style="list-style-type: lower-alpha;">
+                                                <li>jeasyui 扩展基础库；</li>
+                                                <li>对 jeasyui 的现有插件进行了功能扩展；</li>
+                                                <li>新增部分 jeasyui 插件；</li>
+                                                <li>对 jeasyui 官方提供的部分扩展插件进行了代码重构或 BUG 修复，并增强其部分功能；</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <div style="width: 34%;">
                                 <div data-options="title: 'LICENSE', height: 300, iniframe: true, href: 'LICENSE.txt', collapsible: true, closable: true"></div>
@@ -263,7 +289,7 @@
                                     Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.<br />
                                     <br />
                                     Licensed under the GPL or commercial licenses<br />
-                                    To use it on other terms please contact us: jeasyui@gmail.com<br />
+                                    To use it on other terms please contact author: jeasyui@gmail.com<br />
                                     <a href="http://www.gnu.org/licenses/gpl.txt" target="_blank">http://www.gnu.org/licenses/gpl.txt</a>
                                     <br />
                                     <a href="http://www.jeasyui.com/license_commercial.php" target="_blank">http://www.jeasyui.com/license_commercial.php</a>
@@ -294,9 +320,9 @@
                                     <ul id="donateList" style="padding-left: 20px; line-height: 20px;"></ul>
                                 </div>
                                 <div data-options="title: '更多信息...', height: 320, collapsible: true, closable: true">
-                                    <ul style="padding-left: 20px; margin: 5px; line-height: 20px;">
+                                    <ul class="portlet-list">
                                         <li>源码下载：<a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
-                                        <li>在线演示地址：<a href="http://webdev.sturgeon.mopaas.com/jquery-extensions/" target="_blank">http://webdev.sturgeon.mopaas.com/jquery-extensions/</a></li>
+                                        <li>在线演示地址：<a href="http://jqext.sinaapp.com/" target="_blank">http://jqext.sinaapp.com/</a></li>
                                         <li>
                                             对于本扩展有任何意见或者建议，欢迎大家及时向我反馈，可以发邮件至我信箱
                                             <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>(标题请注明 jEasyUI 扩展相关)；<br />
@@ -338,6 +364,10 @@
             <a href="https://www.google.com/intl/zh-CN/chrome/browser/" target="_blank" style="text-decoration: none;">Chrome</a>/
             <a href="http://firefox.com.cn/download/" target="_blank" style="text-decoration: none;">Firefox</a>
             &nbsp;系列浏览器。
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_5654850'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5654850%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+            </script>
         </div>
     </div>
 </body>

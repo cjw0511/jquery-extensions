@@ -3,7 +3,7 @@
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
-* To use it on other terms please contact us: jeasyui@gmail.com
+* To use it on other terms please contact author: jeasyui@gmail.com
 * http://www.gnu.org/licenses/gpl.txt
 * http://www.jeasyui.com/license_commercial.php
 *

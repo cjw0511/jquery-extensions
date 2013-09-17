@@ -3,7 +3,7 @@
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
-* To use it on other terms please contact us: jeasyui@gmail.com
+* To use it on other terms please contact author: jeasyui@gmail.com
 * http://www.gnu.org/licenses/gpl.txt
 * http://www.jeasyui.com/license_commercial.php
 *
@@ -30,7 +30,8 @@
 (function ($, undefined) {
 
     function createCombo(target) {
-        var t = $.util.parseJquery(target), state = $.data(target, "comboicons"), opts = state.options
+        var t = $.util.parseJquery(target).addClass("comboicons-f"),
+            state = $.data(target, "comboicons"), opts = state.options
         return t.combo($.extend({}, opts, {
             onShowPanel: function () {
                 t.combo("panel").hide();
@@ -77,8 +78,23 @@
                     state.dialog = null;
                 }
                 if ($.isFunction(opts.onDestroy)) { opts.onDestroy.apply(this, arguments); }
+            },
+            onChange: function (newValue, oldValue) {
+                if ($.isFunction(opts.onChange)) {
+                    opts.onChange.apply(this, arguments);
+                }
             }
         }));
+    };
+
+    function setValues(target, values) {
+        values = $.isArray(values) ? values : [values];
+        var text = values.join(", ");
+        $(target).combo("setValues", values).combo("setText", text);
+    };
+
+    function setValue(target, value) {
+        $(target).combo("setValue", value).combo("setText", value);
     };
 
 
@@ -116,7 +132,11 @@
                 disabled: copts.disabled,
                 readonly: copts.readonly
             });
-        }
+        },
+
+        setValues: function (jq, values) { return jq.each(function () { setValues(this, values); }); },
+
+        setValue: function (jq, value) { return jq.each(function () { setValue(this, value); }); }
     };
 
     $.fn.comboicons.defaults = $.extend({}, $.fn.combo.defaults, {
@@ -127,5 +147,8 @@
 
     $.parser.plugins.push("comboicons");
 
+    if ($.fn.form && $.isArray($.fn.form.comboList)) {
+        $.fn.form.comboList.push("comboicons");
+    }
 
 })(jQuery);
