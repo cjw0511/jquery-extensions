@@ -3,7 +3,7 @@
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
-* To use it on other terms please contact author: jeasyui@gmail.com
+* To use it on other terms please contact author: info@jeasyui.com
 * http://www.gnu.org/licenses/gpl.txt
 * http://www.jeasyui.com/license_commercial.php
 *
@@ -11,7 +11,7 @@
 * jQuery EasyUI panel 组件扩展
 * jeasyui.extensions.panel.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-30
+* 最近更新：2013-09-22
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -62,7 +62,7 @@
             _onResizeFn = _onResize[plugin];
         if ($.isFunction(_onResizeFn)) { _onResizeFn.apply(this, arguments); }
         if (!p.panel("inLayout")) {
-            var opts = p[plugin]("options");
+            var opts = p.panel("options");
             opts.minWidth = $.isNumeric(opts.minWidth) ? opts.minWidth : defaults.minHeight;
             opts.maxWidth = $.isNumeric(opts.maxWidth) ? opts.maxWidth : defaults.maxWidth;
             opts.minHeight = $.isNumeric(opts.minHeight) ? opts.minHeight : defaults.minHeight;
@@ -86,14 +86,14 @@
     var onMove = function (left, top) {
         var p = $.util.parseJquery(this), isWin = p.panel("isWindow"), isDia = p.panel("isDialog"),
             plugin = isDia ? "dialog" : (isWin ? "window" : "panel"),
-            _onMoveFn = _onMove[plugin], opts = p[plugin]("options");
+            _onMoveFn = _onMove[plugin], opts = p.panel("options");
         if ($.isFunction(_onMoveFn)) { _onMoveFn.apply(this, arguments); }
         if (opts.maximized) { return p[plugin]("restore"); }
         if (!opts.inContainer) { return; }
-        var panel = p[plugin]("panel"), parent = panel.parent(), isRoot = parent.is("body"),
-            width = $.isNumeric(opts.width) ? opts.width : p.width(),
-            height = $.isNumeric(opts.height) ? opts.height : p.height(),
+        var panel = p.panel("panel"), parent = panel.parent(), isRoot = parent.is("body"),
             scope = $.extend({}, isRoot ? $.util.windowSize() : { width: parent.innerWidth(), height: parent.innerHeight() }),
+            width = $.isNumeric(opts.width) ? opts.width : panel.outerWidth(),
+            height = $.isNumeric(opts.height) ? opts.height : panel.outerHeight(),
             moveable = false;
         if (left < 0) { left = 0; moveable = true; }
         if (top < 0) { top = 0; moveable = true; }
@@ -236,7 +236,7 @@
     };
     var defaults = $.fn.panel.extensions.defaults = {
 
-        //  增加 easyui-panel 控件的自定义属性，增加 easyui-panel 控件的扩展属性；该属性表示 href 加载的远程页面是否装载在一个 iframe 中。
+        //  增加 easyui-panel 控件的自定义属性，该属性表示 href 加载的远程页面是否装载在一个 iframe 中。
         iniframe: false,
 
         //  增加 easyui-panel 控件的自定义属性，表示 easyui-panel 面板的最小宽度。

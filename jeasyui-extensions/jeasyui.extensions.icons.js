@@ -3,7 +3,7 @@
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
-* To use it on other terms please contact author: jeasyui@gmail.com
+* To use it on other terms please contact author: info@jeasyui.com
 * http://www.gnu.org/licenses/gpl.txt
 * http://www.jeasyui.com/license_commercial.php
 *
@@ -11,7 +11,7 @@
 * jQuery EasyUI icons 组件扩展
 * jeasyui.extensions.icons.js
 * 二次开发 陈建伟
-* 最近更新：2013-09-14
+* 最近更新：2013-09-22
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -91,6 +91,9 @@
                 refreshToolbar();
                 refreshCheckedStatus();
             };
+            dia.getValue = function () {
+                return value;
+            };
             tabsOpts.onSelect = function (title, index) {
                 if ($.isFunction(onSelect)) { onSelect.apply(this, arguments); }
                 var tab = tabs.tabs("getTab", index);
@@ -106,7 +109,7 @@
                 });
                 if (opts.size == "32") { ul.addClass("icon-selector-ul-32"); }
             };
-            refreshToolbar();
+            $.util.call(function () { dia.setValue(value); });
             $.each(iconStyles, function () {
                 var style = this.name;
                 tabs.tabs("add", {
@@ -147,7 +150,7 @@
                         if (n) { li.find("span." + n).parent().addClass("selected"); }
                     });
                 } else {
-                    if (value) { li.find("span." + value).parent().addClass("selected"); }
+                    if (value) { last = li.find("span." + value).parent().addClass("selected"); }
                 }
             };
         });

@@ -3,7 +3,7 @@
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
-* To use it on other terms please contact author: jeasyui@gmail.com
+* To use it on other terms please contact author: info@jeasyui.com
 * http://www.gnu.org/licenses/gpl.txt
 * http://www.jeasyui.com/license_commercial.php
 *
@@ -11,7 +11,7 @@
 * jQuery EasyUI window 组件扩展
 * jeasyui.extensions.window.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-10
+* 最近更新：2013-09-22
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -63,8 +63,8 @@
         if (opts.draggable) {
             var dragOpts = state.window.draggable("options");
             var _onStartDrag = dragOpts.onStartDrag, _onStopDrag = dragOpts.onStopDrag;
-            dragOpts.onStartDrag = function () { _onStartDrag.apply(this, arguments); t.window("body").addClass("window-body-hidden").children().hide(); };
-            dragOpts.onStopDrag = function () { _onStopDrag.apply(this, arguments); t.window("body").removeClass("window-body-hidden").children().show(); };
+            dragOpts.onStartDrag = function () { _onStartDrag.apply(this, arguments); t.window("body").addClass("window-body-hidden").children().addClass("window-body-hidden-proxy"); };
+            dragOpts.onStopDrag = function () { _onStopDrag.apply(this, arguments); t.window("body").removeClass("window-body-hidden").children().removeClass("window-body-hidden-proxy"); };
         }
     };
 
@@ -168,6 +168,7 @@
 
     var css =
         ".window-body-hidden { background-color: #95b8e7; filter: alpha(opacity=60); opacity: 0.6; }" +
+        ".window-body-hidden-proxy { visibility: hidden; }" +
         ".window-proxy { background-color: #0e2d5f; filter: alpha(opacity=60); opacity: 0.6; }";
     $.util.addCss(css);
 

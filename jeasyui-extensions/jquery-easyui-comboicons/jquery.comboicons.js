@@ -3,7 +3,7 @@
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
-* To use it on other terms please contact author: jeasyui@gmail.com
+* To use it on other terms please contact author: info@jeasyui.com
 * http://www.gnu.org/licenses/gpl.txt
 * http://www.jeasyui.com/license_commercial.php
 *
@@ -35,30 +35,23 @@
         return t.combo($.extend({}, opts, {
             onShowPanel: function () {
                 t.combo("panel").hide();
-                if (!state.dialog) {
-                    state.dialog = $.easyui.icons.showSelector({
-                        size: opts.size,
-                        selected: opts.value,
-                        multiple: opts.multiple,
-                        autoDestroy: false,
-                        onSelect: function (val) {
-                            if (val) {
-                                var isArray = $.isArray(val), text = isArray ? val.join(", ") : val;
-                                t.combo(isArray ? "setValues" : "setValue", val).combo("setText", text);
-                            } else {
-                                t.combo("clear");
-                            }
-                        },
-                        onClose: function () {
-                            var state = $.data(target, "combo");
-                            if (state && state.options) { t.combo("hidePanel"); }
+                state.dialog = $.easyui.icons.showSelector({
+                    size: opts.size,
+                    selected: t.combo(opts.multiple ? "getValues" : "getValue"),
+                    multiple: opts.multiple,
+                    onSelect: function (val) {
+                        if (val) {
+                            var isArray = $.isArray(val), text = isArray ? val.join(", ") : val;
+                            t.combo(isArray ? "setValues" : "setValue", val).combo("setText", text);
+                        } else {
+                            t.combo("clear");
                         }
-                    });
-                } else {
-                    if (state.dialog.dialog("options").closed) {
-                        state.dialog.dialog("open").setValue(t.combo(opts.multiple ? "getValues" : "getValue"));
+                    },
+                    onClose: function () {
+                        var state = $.data(target, "combo");
+                        if (state && state.options) { t.combo("hidePanel"); }
                     }
-                }
+                });
                 if ($.util.isTopMost) {
                     var textbox = t.combo("textbox"), offset = textbox.offset();
                     state.dialog.dialog("move", $.extend(offset, { top: offset.top + textbox.outerHeight() + 2 }))
@@ -67,8 +60,9 @@
             },
             onHidePanel: function () {
                 if (state.dialog) {
-                    var dopts = state.dialog.dialog("options");
-                    if (!dopts.closed) { state.dialog.dialog("close"); }
+                    var dia = state.dialog, dopts = dia.dialog("options");
+                    state.dialog = null;
+                    if (!dopts.closed) { dia.dialog("close"); }
                 }
                 if ($.isFunction(opts.onHidePanel)) { opts.onHidePanel.apply(this, arguments); }
             },

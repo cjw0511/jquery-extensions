@@ -1,13 +1,14 @@
 ﻿jquery-extensions 发布及更新日志
 
-/******************** 2013-09-17(1.0.14 preview) ********************/
+/******************** 2013-09-22(1.0.14 preview) ********************/
 1、增强 jeasyui.extensions.js 中部分功能；增加方法 $.fn.isEasyUI 用于判断某个 jQuery 对象是否为已初始化的 easyui 组件；
 2、修复扩展功能后的 easyui-window、easyui-dialog 插件，当其属性 width、height 设置为非 Number 类型值时，限定移除边界功能失效的 BUG；
 3、修复 DEMO 中 index.html 页面双击 westNorthPanel 位置的子节点 tree-node 会导致重复打开功能选项卡 "新建选项卡" 的 BUG；
 4、修复 jquery.comboicons.js 中部分 BUG；
-5、重要更新：调整 jeasyui.extensions.panel.js 中方法部分扩展方法的命名(inlayout、intabs、inaccordion 调整为 inLayout、inTabs、inAccordion)；
-6、重要更新：调整 jeasyui.extensions.linkbutton.js 的自定义扩展属性 styler 的命名，修改为 style；
-7、重要更新：增强 jquery.toolbar.js 插件，使之：
+5、修复 jeasyui.extensions.panel.js 和 jeasyui.extensions.window.js 中的部分 BUG；
+6、重要更新：调整 jeasyui.extensions.panel.js 中方法部分扩展方法的命名(inlayout、intabs、inaccordion 调整为 inLayout、inTabs、inAccordion)；
+7、重要更新：调整 jeasyui.extensions.linkbutton.js 的自定义扩展属性 styler 的命名，修改为 style；
+8、重要更新：增强 jquery.toolbar.js 插件，使之：
     A、增加 method、url、data、loadFilter 属性以及load、reload、loadData 方法，使其支持远程数据或本地数据直接加载为工具栏项；
     B、增强原有方法 append 的功能，使其支持多种类型工具栏项的添加操作，这些工具栏项类型包括但不限于：
         例如 separator、label、button、textbox、checkbox、numberbox、validatebox、combobox、combotree、combogrid 等；

@@ -384,20 +384,24 @@
         $.data(item[0], "toolbar-item-builder", builder);
     }
 
-    function appendItem(target, item, dontSize) {
+    function appendItem(target, item, dontSize, index) {
         if (!item) { return; }
         if ($.util.isJqueryObject(item) && item.length) {
-            item.each(function () { appendItemDOM(target, this); });
+            item.each(function () {
+                appendItemDOM(target, this, index);
+            });
         } else if ($.util.isDOM(item)) {
-            appendItemDOM(target, item);
+            appendItemDOM(target, item, index);
         } else if ($.util.isString(item)) {
-            appendItemString(target, item);
+            appendItemString(target, item, index);
         } else if ($.util.likeArray(item)) {
-            $.each(item, function (i, n) { appendItem(target, n, true); });
+            $.each(item, function (i, n) {
+                appendItem(target, n, true, index);
+            });
         } else if ($.isFunction(item)) {
-            appendItem(target, item.call(target), true);
+            appendItem(target, item.call(target), true, index);
         } else {
-            appendItemObject(target, item);
+            appendItemObject(target, item, index);
         }
         if (!dontSize) { setSize(target); }
     };
