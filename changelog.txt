@@ -1,5 +1,10 @@
 ﻿jquery-extensions 发布及更新日志
 
+/******************** 2013-09-24(1.0.15 preview) ********************/
+1、index.html 页面中顶部右侧，增加“意见/BUG提交”、“致信作者”、“退出系统”按钮；方便用户进行意见反馈和BUG提交等操作；
+2、
+
+
 /******************** 2013-09-22(1.0.14 preview) ********************/
 1、增强 jeasyui.extensions.js 中部分功能；增加方法 $.fn.isEasyUI 用于判断某个 jQuery 对象是否为已初始化的 easyui 组件；
 2、修复扩展功能后的 easyui-window、easyui-dialog 插件，当其属性 width、height 设置为非 Number 类型值时，限定移除边界功能失效的 BUG；
