@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>jQuery EasyUI Extensions</title>
+    <title>jQuery EasyUI Extensions,jQuery,EasyUI,插件,扩展,datagrid,tree,treegrid,panel,tabs,form,validatebox,menu,linkbutton,combo,window,dialog</title>
     <meta name="keywords" content="jquery,easyui,datagrid,tree,treegrid,messager,menu,panel,tabs,layout,window,dialog,form,validatebox,linkbutton,combo,jqext,jquery-extensions,plugin,扩展,插件" />
-    <meta name="description" content="jquery-extensions,基于jQuery和EasyUI的丰富插件扩展功能集合,提供包含jEasyUI中诸多插件如panel、tabs、layout、menu、linkbutton、menu、form、validatebox、combo、window、dialog、datagrid、tree、treegrid等的扩展功能集合。" />
+    <meta name="description" content="jquery-extensions,基于jQuery和EasyUI的丰富插件扩展功能集合,提供包含jEasyUI中诸多插件如 panel、tabs、layout、menu、linkbutton、menu、form、validatebox、combo、window、dialog、datagrid、tree、treegrid 等的扩展功能集合。" />
 
     <link href="jquery-easyui-theme/default/easyui.css" rel="stylesheet" type="text/css" />
     <link href="jquery-easyui-theme/icon.css" rel="stylesheet" type="text/css" />
@@ -53,7 +53,7 @@
         body{font-size: 12px;}
         
         .top-bar { position: absolute; width: 100%; height: 52px; top: 0px; left: 0px; }
-        .top-bar-left { position: absolute; width: 800px; height: 52px; }
+        .top-bar-left { position: absolute; width: 500px; height: 52px; }
         .top-bar-right { position: absolute; width: 400px; height: 52px; right: 0px; }
         .top-bar-right #timerSpan { position: absolute; padding-top: 5px; right: 10px; }
         .top-bar-right #themeSpan { position: absolute; width: 350px; top: 22px; right: 5px; text-align: right; }
@@ -115,14 +115,17 @@
                 portal.portal("removeColumn", portal.portal("columns") - 1);
             });
 
+            $("#btnBugReport").click(function () {
+                window.open("http://liuyan.cnzz.com/index.php?tid=5654850", "jQuery-Extensions BUG 提交");
+            });
 
-            //            var array = [], eventName = "onResize", length = 2;
-            //            $.parser.plugins.forEach(function (val) {
-            //                var plugin = $.fn[val], defaults = plugin ? plugin.defaults : null,
-            //                    event = defaults ? defaults[eventName] : null;
-            //                if ($.isFunction(event) && event.length == length) { array.push(val); }
-            //            });
-            //            alert(array);
+            $("#btnContact").click(function () { window.location.href = "mailto:cjw0511@qq.com"; });
+
+            $("#btnExit").click(function () {
+                $.easyui.messager.confirm("操作提醒", "您确定要退出当前程序并关闭该网页？", function (c) {
+                    if (c) { $.util.closeWindowNoConfirm(); }
+                });
+            });
         });
     </script>
 </head>
@@ -156,13 +159,13 @@
                 </div>
             </div>
             <div id="buttonbar">
-                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-address'">按钮1</a>
-                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-advertising'">按钮2</a>
+                <a id="btnBugReport" class="easyui-linkbutton easyui-tooltip" title="如果您在使用该 DEMO 或者查阅该项目的 API 文档过程中，发现有任何 BUG，欢迎您点击此处向作者进行 BUG 提交。" data-options="plain: true, iconCls: 'icon-hamburg-bug'">意见/BUG提交</a>
+                <a id="btnContact" class="easyui-linkbutton easyui-tooltip" title="您有什么想对作者说的话，例如仰慕作者、想请作者把妹或吃饭，就通过这里告诉作者吧！" data-options="plain: true, iconCls: 'icon-hamburg-contact'">致信作者</a>
                 <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-archives'">按钮3</a>
                 <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-attibutes'">按钮4</a>
                 <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-bank'">按钮5</a>
-                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-basket'">按钮6</a>
-                <a id="btnShowNorth" class="easyui-linkbutton" data-options="plain: true, iconCls: 'layout-button-down'" style="display: none;"></a>
+                <a id="btnExit" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-sign-out'">退出系统</a>
+                <a id="btnShowNorth" class="easyui-linkbutton easyui-tooltip" title="" data-options="plain: true, iconCls: 'layout-button-down'" style="display: none;"></a>
             </div>
         </div>
     </div>

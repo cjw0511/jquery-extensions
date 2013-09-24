@@ -1,4 +1,6 @@
-﻿(function ($) {
+﻿
+
+(function ($) {
 
     $.util.namespace("mainpage.nav");
 
