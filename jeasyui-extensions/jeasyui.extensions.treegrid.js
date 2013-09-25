@@ -968,7 +968,7 @@
 
     function initHeaderCellClickMenu(t, opts, exts, cell) {
         cell = $.util.parseJquery(cell); cell.off(".hoverArrow");
-        var arrow = $("<span></span>").addClass("s-btn-downarrow").addClass("datagrid-header-cell-arrow").click(function (e) {
+        var arrow = $("<span class='s-btn-downarrow datagrid-header-cell-arrow'>&nbsp;</span>").click(function (e) {
             var span = $(this), offset = span.offset(), height = span.outerHeight(),
                     field = span.parent().parent().attr("field"),
                     eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, e),
@@ -982,7 +982,7 @@
                 onHide.apply(this, arguments);
             };
             return false;
-        }).appendTo(cell);
+        }).prependTo(cell);
         cell.on({
             "mouseenter.hoverArrow": function () { arrow.addClass("datagrid-header-cell-arrow-show"); },
             "mouseleave.hoverArrow": function () { if (!$.util.isBoolean(arrow.hidable) || arrow.hidable) { arrow.removeClass("datagrid-header-cell-arrow-show"); } }

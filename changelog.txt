@@ -1,19 +1,26 @@
 ﻿jquery-extensions 发布及更新日志
+[+]：新增 [-]：删除 [^]：升级 [#]：修复 【】：重要
+
+
+/******************** 2013-09-25(1.0.15 preview) ********************/
+1、[#] 调整 index.html 页面中主页 portal 在 chrome 浏览器下可能会出现多余滚动条的问题；
+2、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 插件的表头右键菜单中箭头点击菜单的箭头按钮在 Firefox 中位置显示不正确的问题；
+
 
 /******************** 2013-09-24(1.0.15 preview) ********************/
-1、index.html 页面中顶部右侧，增加“意见/BUG提交”、“致信作者”、“退出系统”按钮；方便用户进行意见反馈和BUG提交等操作；
-2、
+1、[+] index.html 页面中顶部右侧，增加“意见/BUG提交”、“致信作者”、“退出系统”按钮；方便用户进行意见反馈和BUG提交等操作；
+2、【-】废弃 icons 文件夹下的 "pretty" 风格图标；
 
 
 /******************** 2013-09-22(1.0.14 preview) ********************/
-1、增强 jeasyui.extensions.js 中部分功能；增加方法 $.fn.isEasyUI 用于判断某个 jQuery 对象是否为已初始化的 easyui 组件；
-2、修复扩展功能后的 easyui-window、easyui-dialog 插件，当其属性 width、height 设置为非 Number 类型值时，限定移除边界功能失效的 BUG；
-3、修复 DEMO 中 index.html 页面双击 westNorthPanel 位置的子节点 tree-node 会导致重复打开功能选项卡 "新建选项卡" 的 BUG；
-4、修复 jquery.comboicons.js 中部分 BUG；
-5、修复 jeasyui.extensions.panel.js 和 jeasyui.extensions.window.js 中的部分 BUG；
-6、重要更新：调整 jeasyui.extensions.panel.js 中方法部分扩展方法的命名(inlayout、intabs、inaccordion 调整为 inLayout、inTabs、inAccordion)；
-7、重要更新：调整 jeasyui.extensions.linkbutton.js 的自定义扩展属性 styler 的命名，修改为 style；
-8、重要更新：增强 jquery.toolbar.js 插件，使之：
+1、[^] 增强 jeasyui.extensions.js 中部分功能；增加方法 $.fn.isEasyUI 用于判断某个 jQuery 对象是否为已初始化的 easyui 组件；
+2、[#] 修复扩展功能后的 easyui-window、easyui-dialog 插件，当其属性 width、height 设置为非 Number 类型值时，限定移除边界功能失效的 BUG；
+3、[#] 修复 DEMO 中 index.html 页面双击 westNorthPanel 位置的子节点 tree-node 会导致重复打开功能选项卡 "新建选项卡" 的 BUG；
+4、[#] 修复 jquery.comboicons.js 中部分 BUG；
+5、[#] 修复 jeasyui.extensions.panel.js 和 jeasyui.extensions.window.js 中的部分 BUG；
+6、【^】调整 jeasyui.extensions.panel.js 中方法部分扩展方法的命名(inlayout、intabs、inaccordion 调整为 inLayout、inTabs、inAccordion)；
+7、【^】调整 jeasyui.extensions.linkbutton.js 的自定义扩展属性 styler 的命名，修改为 style；
+8、【^】增强 jquery.toolbar.js 插件，使之：
     A、增加 method、url、data、loadFilter 属性以及load、reload、loadData 方法，使其支持远程数据或本地数据直接加载为工具栏项；
     B、增强原有方法 append 的功能，使其支持多种类型工具栏项的添加操作，这些工具栏项类型包括但不限于：
         例如 separator、label、button、textbox、checkbox、numberbox、validatebox、combobox、combotree、combogrid 等；
@@ -21,71 +28,71 @@
 
 
 /******************** 2013-09-07(1.0.13 preview) ********************/
-1、增强 jeasyui.extensions.validatebox.js 中部分功能：扩展 easyui-validatebox 的自定义属性 autoFocus，表示在页面加载完成后该控件是否自动获取焦点；
-2、修复 jeasyui.extensions.combo.js 插件在极少数情况下导致 easyui-combo 组件在加载后宽度异常的问题；
+1、[^] 增强 jeasyui.extensions.validatebox.js 中部分功能：扩展 easyui-validatebox 的自定义属性 autoFocus，表示在页面加载完成后该控件是否自动获取焦点；
+2、[#] 修复 jeasyui.extensions.combo.js 插件在极少数情况下导致 easyui-combo 组件在加载后宽度异常的问题；
 
 
 /******************** 2013-09-06(1.0.12 preview) ********************/
-1、改进 jeasyui.extensions.tree.js 和 jeasyui.extensions.treegrid.js 部分扩展方法的算法，使之效率提升；
-2、增强 jquery.jdirk.js 中部分功能，将 Array 对象的所有可用实例方法扩展至 jQuery 对象中(对于重名方法，则不进行扩展)；
-3、增强 jeasyui.extensions.js 中部分功能，可以方便的获取某个 jQuery 对象的最近父级指定类型的 easyui 容器控件；
-4、增强 jeasyui.extensions.tabs.js 中部分功能：
-    增加 $.fn.closeCurrentTab 方法，可以方便的关闭当前 jQuery 所处的父级选项卡(即 easyui-tabs 的 tab-panel，兼容 easyui-tabs 中的 tab-panel 通过 iniframe 加载的情况)；
-5、修复 jquery.toolbar.js 中存在的部分 BUG；
+1、[^] 改进 jeasyui.extensions.tree.js 和 jeasyui.extensions.treegrid.js 部分扩展方法的算法，使之效率提升；
+2、[^] 增强 jquery.jdirk.js 中部分功能，将 Array 对象的所有可用实例方法扩展至 jQuery 对象中(对于重名方法，则不进行扩展)；
+3、[^] 增强 jeasyui.extensions.js 中部分功能，可以方便的获取某个 jQuery 对象的最近父级指定类型的 easyui 容器控件；
+4、[^] 增强 jeasyui.extensions.tabs.js 中部分功能：
+   [+] 增加 $.fn.closeCurrentTab 方法，可以方便的关闭当前 jQuery 所处的父级选项卡(即 easyui-tabs 的 tab-panel，兼容 easyui-tabs 中的 tab-panel 通过 iniframe 加载的情况)；
+5、[#] 修复 jquery.toolbar.js 中存在的部分 BUG；
 
 
 /******************** 2013-09-05(1.0.11 preview) ********************/
-1、增加插件 jquery.comboicons.js；
-2、增强 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 中关于表头过滤器动态显示和隐藏的功能，使其在进行显示/隐藏时具有动画效果；
-3、将 jquery.comboicon.js 插件重命名为 jquery.comboicons.js；
+1、[+] 增加插件 jquery.comboicons.js；
+2、[^] 增强 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 中关于表头过滤器动态显示和隐藏的功能，使其在进行显示/隐藏时具有动画效果；
+3、【^】 将 jquery.comboicon.js 插件重命名为 jquery.comboicons.js；
 
 
 /******************** 2013-09-02(1.0.10 preview) ********************/
-1、修复 jeasyui.extensions.icons.js 中，对于调用 $.easyui.icons.showSelector 打开的图标选择框，调整其窗口大小后，窗口内的 Layout 不能自动 resize 的问题；
-2、修复 jeasyui.extensions.dialog.js 中，对于调用 $.easyui.showDialog 打开的对话框，在未定义 onSave 和 onApply 参数时，点击 "保存" 按钮不能关闭对话框的问题；
-3、修复 jeasyui.extensions.linkbutton.js 扩展和 easyui-paginaion 插件冲突的 BUG。
+1、[#] 修复 jeasyui.extensions.icons.js 中，对于调用 $.easyui.icons.showSelector 打开的图标选择框，调整其窗口大小后，窗口内的 Layout 不能自动 resize 的问题；
+2、[#] 修复 jeasyui.extensions.dialog.js 中，对于调用 $.easyui.showDialog 打开的对话框，在未定义 onSave 和 onApply 参数时，点击 "保存" 按钮不能关闭对话框的问题；
+3、[#] 修复 jeasyui.extensions.linkbutton.js 扩展和 easyui-paginaion 插件冲突的 BUG。
 
 
 /******************** 2013-08-31(1.0.9 preview) ********************/
-1、增加两个新的扩展插件 jquery.toolbar.js 和 jeasyui.extensions.icons.js；
+1、[+] 增加两个新的扩展插件 jquery.toolbar.js 和 jeasyui.extensions.icons.js；
 
 
 /******************** 2013-08-30(1.0.8 preview) ********************/
-1、增加扩展插件 jeasyui.extensions.linkbutton.js；
-2、修复 index.html 主页面布局存在的细小 BUG；
-3、修复 jquery.jdirk.js 中存在的部分细小 BUG；
+1、[+] 增加扩展插件 jeasyui.extensions.linkbutton.js；
+2、[#] 修复 index.html 主页面布局存在的细小 BUG；
+3、[#] 修复 jquery.jdirk.js 中存在的部分细小 BUG；
 
 
 /******************** 2013-08-23(1.0.7 preview) ********************/
-1、修复了四套 jquery-ui 风格皮肤中的 menu 样式中菜单项高度过大的问题；
-2、修复了 jeasyui.exensions.menu.js 的部分细小 BUG；
-3、增加了部分扩展功能的 API 文档。
+1、[#] 修复了四套 jquery-ui 风格皮肤中的 menu 样式中菜单项高度过大的问题；
+2、[#] 修复了 jeasyui.exensions.menu.js 的部分细小 BUG；
+3、[+] 增加了部分扩展功能的 API 文档。
 
 
 /******************** 2013-08-19(1.0.6 preview) ********************/
-1、将 jquery-easyui 基础库版本升级至 1.3.4；
-2、增加了部分扩展功能的 API 文档；
-3、调整了该扩展集合中皮肤文件的存放目录，并对 jeasyui.extensions.theme.js 中的皮肤数据源进行了细小调整。
+1、[^] 将 jquery-easyui 基础库版本升级至 1.3.4；
+2、[+] 增加了部分扩展功能的 API 文档；
+3、[^] 调整了该扩展集合中皮肤文件的存放目录，并对 jeasyui.extensions.theme.js 中的皮肤数据源进行了细小调整。
 
 
 /******************** 2013-08-16(1.0.5 preview) ********************/
-1、修复 jeasyui.extensions.dialog.js 扩展中的部分细小 BUG；
-2、增加部分扩展功能的 API 文档。
+1、[#] 修复 jeasyui.extensions.dialog.js 扩展中的部分细小 BUG；
+2、[+] 增加部分扩展功能的 API 文档。
 
 
 /******************** 2013-08-14(1.0.4 preview) ********************/
-1、修复 jeasyui.extensions.treegrid.js 扩展中的部分细小 BUG；
-2、增加自定义皮肤功能，额外提供 13 套皮肤模版；
-3、修复在 IE6/7/8 环境下不能查看 DEMO 源码的问题；
-4、"演示 DEMO" 菜单下所有扩展功能的 DEMO 已经基本完成
+1、[#] 修复 jeasyui.extensions.treegrid.js 扩展中的部分细小 BUG；
+2、[+] 增加自定义皮肤功能，额外提供 13 套皮肤模版；
+3、[#] 修复在 IE6/7/8 环境下不能查看 DEMO 源码的问题；
+4、[+] "演示 DEMO" 菜单下所有扩展功能的 DEMO 已经基本完成
 
 
 /******************** 2013-08-07(1.0.3 preview) ********************/
-1、修复 jeasyui.extensions.treegrid.js 扩展中 showRow 和 hideRow 方法中存在的部分 BUG；
+1、[#] 修复 jeasyui.extensions.treegrid.js 扩展中 showRow 和 hideRow 方法中存在的部分 BUG；
 
 
 /******************** 2013-08-06(1.0.2 preview) ********************/
-1、修复 jeasyui.extensions.tabs.js 扩展的 Tab 刷新按钮功能在 Firefox 浏览器中不兼容的问题；
+1、[#] 修复 jeasyui.extensions.tabs.js 扩展的 Tab 刷新按钮功能在 Firefox 浏览器中不兼容的问题；
 
 
 /******************** 2013-08-05(1.0.1 preview) ********************/

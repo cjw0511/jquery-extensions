@@ -40,7 +40,7 @@
     //  返回值：返回弹出窗口的 easyui-dialog 控件对象(jQuery-DOM 格式)。
     $.easyui.icons.showSelector = function (options) {
         var opts = $.extend({
-            width: 580, height: 480,
+            width: 520, height: 360,
             title: "选择图标",
             iconCls: "icon-hamburg-zoom",
             maximizable: true,
