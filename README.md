@@ -18,7 +18,8 @@ jqueyr-extensions<br />
 二次开发：陈建伟<br />
 <br />
 Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
-<a href="http://www.chenjianwei.org" target="_blank">http://www.chenjianwei.org</a>
+<a href="http://www.chenjianwei.org" target="_blank">http://www.chenjianwei.org</a><br />
+<a href="http://cjw0511.cnblogs.com" target="_blank">http://cjw0511.cnblogs.com</a>
 </p>
 <h3>使用本扩展前请仔细阅读本文件。</h3>
 <ul>
