@@ -24,13 +24,14 @@
                 { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
             ]],
             rowContextMenu: [
+                { text: "查看数据", iconCls: "icon-hamburg-zoom", disabled: false, handler: function (e, index, row) { $.easyui.showOption(row); } },
                 { text: "测试菜单1", iconCls: "icon-hamburg-address", disabled: false, handler: function () { alert(1); } },
                 { text: "测试菜单2", iconCls: "icon-hamburg-busy", disabled: false, handler: function (e, index, row) { alert($.string.format("您点击了{0}", row.Name)); } }
             ],
             enableHeaderClickMenu: false,
             enableHeaderContextMenu: false,
             enableRowContextMenu: true,         //此属性开启表头列名称右键点击菜单
-            pagingMenu: { submenu: false},      //开启行右键菜单的翻页功能，此属性可丰富配置，详情见 API 文档
+            pagingMenu: { submenu: false },      //开启行右键菜单的翻页功能，此属性可丰富配置，详情见 API 文档
             moveMenu: true,                     //开始行右键菜单的移动列功能，此属性可丰富配置，详情见 API 文档
             autoBindDblClickRow: true           //此属性开启设置将第一个自定的右键菜单事件自动绑定为双击行事件，并且使第一个右键自定菜单文字加粗显示；此属性默认值为 true
         });

@@ -11,7 +11,7 @@
 * jQuery EasyUI icons 图标样式完整库数据
 * jeasyui.extensions.iconsData.all.js
 * 二次开发 陈建伟
-* 最近更新：2013-07-29
+* 最近更新：2013-09-24
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
