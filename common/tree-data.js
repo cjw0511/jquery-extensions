@@ -5,14 +5,13 @@
     $.util.namespace("mainpage.nav");
 
     window.mainpage.navMenusData = [
-        { id: "1", text: "百度一下", iconCls: "icon-hamburg-docs", attributes: { href: "http://www.baidu.com", iniframe: true, closable: true, refreshable: true, selected: true} },
-        { id: "2", text: "测试菜单 1", iconCls: "icon-standard-accept" },
-        { id: "3", text: "测试菜单 2", iconCls: "icon-standard-add" },
-        { id: "4", text: "测试菜单 3", iconCls: "icon-standard-anchor" },
-        { id: "5", text: "测试菜单 4", iconCls: "icon-standard-application" },
-        { id: "6", text: "测试菜单 5", iconCls: "icon-standard-application-add" },
-        { id: "8", text: "测试菜单 6", iconCls: "icon-standard-application-cascade" },
-        { id: "9", text: "测试菜单 7", iconCls: "icon-standard-application-delete" },
+        { id: "0", text: "百度一下", iconCls: "icon-hamburg-docs", attributes: { href: "http://www.baidu.com", iniframe: true, closable: true, refreshable: true, selected: true} },
+        { id: "1", text: "测试菜单 1", iconCls: "icon-standard-accept" },
+        { id: "2", text: "测试菜单 2", iconCls: "icon-standard-add" },
+        { id: "3", text: "测试菜单 3", iconCls: "icon-standard-anchor" },
+        { id: "4", text: "测试菜单 4", iconCls: "icon-standard-application" },
+        { id: "5", text: "测试菜单 5", iconCls: "icon-standard-application-add" },
+        { id: "6", text: "测试菜单 6", iconCls: "icon-standard-application-cascade" },
         { id: "10", text: "扩展 API 文档", iconCls: "icon-hamburg-docs" },
         { id: "11", text: "演示 DEMO", iconCls: "icon-hamburg-product-design" }
     ];

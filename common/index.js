@@ -61,7 +61,9 @@
 
     //  初始化 westSouthPanel 位置的“导航菜单”区域子菜单 ul 控件(仅初始化 easyui-tree 对象，不加载数据)。
     window.mainpage.instNavTree = function () {
-        var t = $(navMenuTree).tree({
+        var t = $(navMenuTree);
+        if (t.isEasyUI("tree")) { return; }
+        t.tree({
             animate: true,
             lines: true,
             toggleOnClick: true,
@@ -77,9 +79,10 @@
                 $.easyui.loaded(westCenterLayout);
             },
             contextMenu: [
-                { text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) {
-                    window.mainpage.addModuleTab(node);
-                }
+                {
+                    text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) {
+                        window.mainpage.addModuleTab(node);
+                    }
                 }, "-",
                 { text: "添加至个人收藏", iconCls: "icon-standard-feed-add", disabled: function (e, node) { return !t.tree("isLeaf", node.target); }, handler: function (e, node) { window.mainpage.nav.addFavo(node.id); } },
                 { text: "重命名", iconCls: "icon-hamburg-pencil", handler: function (e, node) { t.tree("beginEdit", node.target); } }, "-",
@@ -93,23 +96,23 @@
     window.mainpage.instMainMenus = function () {
         window.mainpage.loadNavMenus();
         window.mainpage.instNavTree();
-        var selectIndex = 8;
+        var selectId = 11;
         if (window.mainpage.navMenusData.length) {
-            $(navMenuList).find("a").eq(selectIndex > -1 && selectIndex < window.mainpage.navMenusData.length ? selectIndex : 0).click();
+            var list = $(navMenuList).find("a");
+            if (!list.length) { return; }
+            var menu = list.filter(function () { var item = $.data(this, "menu-item"); return item && item.id == selectId; }),
+                target = menu.length ? menu : list.eq(0);
+            target.click();
         }
     };
 
 
-    //  将指定的根节点数据集合数据加载至左侧面板中“个人收藏”的 ul 控件中；该方法定义如下参数：
-    //      menus:  为一个 Array 对象；数组中的每一个元素都是一个表示根节点菜单数据的 JSON-Object。
-    window.mainpage.loadFavoMenus = function () {
-        $.easyui.loading({ locale: westFavoLayout });
-        $(favoMenuTree).tree("loadData", window.mainpage.navMenusData);
-    };
 
     //  初始化 westSouthPanel 位置“个人收藏”的 ul 控件(仅初始化 easyui-tree 对象，不加载数据)。
     window.mainpage.instFavoTree = function () {
-        var t = $(favoMenuTree).tree({
+        var t = $(favoMenuTree);
+        if (t.isEasyUI("tree")) { return; }
+        t.tree({
             animate: true,
             lines: true,
             dnd: true,
@@ -130,9 +133,10 @@
                 $.easyui.loaded(westFavoLayout);
             },
             contextMenu: [
-                { text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) {
-                    window.mainpage.addModuleTab(node);
-                }
+                {
+                    text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) {
+                        window.mainpage.addModuleTab(node);
+                    }
                 }, "-",
                 { text: "添加目录", iconCls: "icon-standard-folder-add", handler: function (e, node) { window.mainpage.favo.addFolder(node); } }, "-",
                 { text: "从个人收藏删除", iconCls: "icon-standard-feed-delete", handler: function (e, node) { window.mainpage.favo.removeFavo(node.id); } },
@@ -143,11 +147,19 @@
         });
     };
 
+    //  将指定的根节点数据集合数据加载至左侧面板中“个人收藏”的 ul 控件中；该方法定义如下参数：
+    //      menus:  为一个 Array 对象；数组中的每一个元素都是一个表示根节点菜单数据的 JSON-Object。
+    window.mainpage.loadFavoMenus = function () {
+        $.easyui.loading({ locale: westFavoLayout });
+        $(favoMenuTree).tree("loadData", window.mainpage.navMenusData);
+    };
+
     //  初始化应用程序主界面左侧面板中“个人收藏”的数据。
     window.mainpage.instFavoMenus = function () {
         window.mainpage.instFavoTree();
         window.mainpage.loadFavoMenus();
     };
+
 
 
     window.mainpage.instTimerSpan = function () {
@@ -192,8 +204,8 @@
 
     window.mainpage.setTheme = function (theme) {
         $.easyui.theme(true, theme, function (item) {
-            var win = $.easyui.messager.show($.string.format("您设置了新的系统主题皮肤为：{0}，{1}。", item.name, item.path));
-            if ($.util.browser.msie) { win.removeAttr("style"); }
+            var msg = $.string.format("您设置了新的系统主题皮肤为：{0}，{1}。", item.name, item.path);
+            $.easyui.messager.show(msg);
         });
     };
 
@@ -354,7 +366,10 @@
 
     window.mainpage.nav.refreshNav = function () { window.mainpage.instMainMenus(); };
 
-    window.mainpage.nav.refreshTree = function () { $(navMenuList).find("a.tree-node-selected.selected").click(); };
+    window.mainpage.nav.refreshTree = function () {
+        var menu = $(navMenuList).find("a.tree-node-selected.selected"), item = $.data(menu[0], "menu-item");
+        if (item && item.id) { window.mainpage.loadMenu(item.id); }
+    };
 
     window.mainpage.nav.addFavo = function (id) {
         var t = $(navMenuTree), node = arguments.length ? t.tree("find", id) : t.tree("getSelected");
