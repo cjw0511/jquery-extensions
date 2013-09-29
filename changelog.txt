@@ -1,6 +1,11 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2013-09-29(1.0.17 preview) ********/
+1、[^] 改进 jeasyui.extensions.icons.js 和 jeasyui.icons.all.js 中的部分代码书写规则和算法，使之具备更高的可扩展性；
+2、[#] 修复 jeasyui.extensions.tabs.js 中在添加或更新选项卡时会导致加载进度条异常的 BUG；
+
+
 /******** 2013-09-27(1.0.16 preview) ********/
 1、[#] 调整 index.html 页面中主页 portal 在 chrome 浏览器下可能会出现多余滚动条的问题；
 2、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 插件的表头右键菜单中箭头点击菜单的箭头按钮在 Firefox 中位置显示不正确的问题；

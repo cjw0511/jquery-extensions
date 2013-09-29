@@ -11,7 +11,7 @@
 * jQuery EasyUI icons 图标样式完整库数据
 * jeasyui.extensions.iconsData.all.js
 * 二次开发 陈建伟
-* 最近更新：2013-09-24
+* 最近更新：2013-09-29
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -3121,14 +3121,14 @@
     });
 
     $.easyui.iconStyles = [
-        { name: "berlin", size: "16,32", sort: 3 },
-        { name: "cologne", size: "16,32", sort: 4 },
-        { name: "dortmund", size: "16,32", sort: 5 },
-        { name: "hamburg", size: "16,32", sort: 6 },
-        { name: "metro", size: "16,32", sort: 2 },
-        { name: "munich", size: "16,32", sort: 7 },
-        { name: "standard", size: "16", sort: 0 },
-        { name: "woocons", size: "32", sort: 8 }
+        { name: "berlin", style: "berlin", size: "16,32", sort: 3 },
+        { name: "cologne", style: "cologne", size: "16,32", sort: 4 },
+        { name: "dortmund", style: "dortmund", size: "16,32", sort: 5 },
+        { name: "hamburg", style: "hamburg", size: "16,32", sort: 6 },
+        { name: "metro", style: "metro", size: "16,32", sort: 2 },
+        { name: "munich", style: "munich", size: "16,32", sort: 7 },
+        { name: "standard", style: "standard", size: "16", sort: 0 },
+        { name: "woocons", style: "woocons", size: "32", sort: 8 }
     ];
 
 })(jQuery);

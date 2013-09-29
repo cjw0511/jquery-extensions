@@ -11,7 +11,7 @@
 * jQuery EasyUI icons 组件扩展
 * jeasyui.extensions.icons.js
 * 二次开发 陈建伟
-* 最近更新：2013-09-22
+* 最近更新：2013-09-29
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -96,9 +96,9 @@
             };
             tabsOpts.onSelect = function (title, index) {
                 if ($.isFunction(onSelect)) { onSelect.apply(this, arguments); }
-                var tab = tabs.tabs("getTab", index);
+                var tab = tabs.tabs("getTab", index), tabOpts = tab.panel("options"), style = tabOpts.id;
                 if (tab.find("ul.icon-selector-ul").length) { return; }
-                var icons = $.array.filter($.easyui.icons[title], opts.size == "32" ?
+                var icons = $.array.filter($.easyui.icons[style], opts.size == "32" ?
                         function (icon) { return icon.iconCls.indexOf("32") > -1; } :
                         function (icon) { return icon.iconCls.indexOf("32") == -1; }
                     );
@@ -110,10 +110,9 @@
                 if (opts.size == "32") { ul.addClass("icon-selector-ul-32"); }
             };
             $.util.call(function () { dia.setValue(value); });
-            $.each(iconStyles, function () {
-                var style = this.name;
+            $.each(iconStyles, function (i, item) {
                 tabs.tabs("add", {
-                    id: style, title: style, iconCls: "", closable: false, selected: false, refreshable: false
+                    id: item.style, title: item.name, iconCls: "", closable: false, selected: false, refreshable: false
                 });
             });
             if ($.easyui.iconStyles.length) { tabs.tabs("select", 0); }

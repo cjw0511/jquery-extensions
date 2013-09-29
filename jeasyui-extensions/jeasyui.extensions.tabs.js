@@ -54,7 +54,7 @@
                 m1 = { text: "显示选项卡的 option", iconCls: "icon-standard-application-form", disabled: !opts.showOption, handler: function () { t.tabs("showOption", index); } },
                 m2 = { text: "关闭选项卡", iconCls: "icon-standard-application-form-delete", disabled: !panelOpts.closable, handler: function () { t.tabs("closeClosable", index); } },
                 m3 = { text: "关闭其他选项卡", iconCls: "icon-standard-cancel", disabled: !otherTabs.length, handler: function () { t.tabs("closeOtherClosable", index); } },
-                m4 = { text: "刷新选项卡", iconCls: "icon-standard-table-refresh", disabled: !(selected && panelOpts.refreshable), handler: function () { t.tabs("refresh", index); } },
+                m4 = { text: "刷新选项卡", iconCls: "icon-standard-table-refresh", disabled: !panelOpts.refreshable, handler: function () { t.tabs("refresh", index); } },
                 m5 = { text: "关闭左侧选项卡", iconCls: "icon-standard-tab-close-left", disabled: !leftTabs.length, handler: function () { t.tabs("closeLeftClosable", index); } },
                 m6 = { text: "关闭右侧选项卡", iconCls: "icon-standard-tab-close-right", disabled: !rightTabs.length, handler: function () { t.tabs("closeRightClosable", index); } },
                 m7 = { text: "关闭所有选项卡", iconCls: "icon-standard-cross", disabled: !allTabs.length, handler: function () { t.tabs("closeAllClosable"); } },
@@ -64,7 +64,7 @@
             if ($.array.likeArray(opts.contextMenu) && !$.util.isString(opts.contextMenu)) { $.array.merge(items, opts.contextMenu); }
             if (opts.showOption) { $.array.merge(items, "-", m1); }
             $.array.merge(items, panelOpts.closable ? ["-", m2, m3] : ["-", m3]);
-            if (selected && panelOpts.refreshable) { $.array.merge(items, "-", m4); }
+            if (panelOpts.refreshable) { $.array.merge(items, "-", m4); }
             $.array.merge(items, "-", m5, m6, m7);
             if (panelOpts.repeatable || opts.enableNewTabMenu) {
                 var mm = [];
@@ -93,38 +93,47 @@
         });
     };
 
+
     var _updateTab = $.fn.tabs.methods.update;
     function updateTab(target, param) {
         param = $.extend({ tab: null, options: null }, param);
         var tabs = $.util.parseJquery(target), opts = tabs.tabs("options"),
             index = tabs.tabs("getTabIndex", param.tab),
             panelOpts = $.union({}, param.options, $.fn.tabs.extensions.panelOptions),
-            tools = panelOpts.tools, onLoad = panelOpts.onLoad,
-            refreshButton = { iconCls: "icon-mini-refresh", handler: function () {
-                var title = $(this).parent().prev().find("span.tabs-title").text();
-                if (title) { $.util.call(function () { tabs.tabs("refresh", title); }); }
-            }
+            tools = panelOpts.tools,
+            onLoad = panelOpts.onLoad,
+            refreshButton = {
+                iconCls: "icon-mini-refresh", handler: function () {
+                    var title = $(this).parent().prev().find("span.tabs-title").text();
+                    if (title) { $.util.call(function () { tabs.tabs("refresh", title); }); }
+                }
             };
         if (panelOpts.refreshable) {
             if ($.array.likeArray(panelOpts.tools)) {
                 panelOpts.tools = $.array.merge([], panelOpts.tools, refreshButton);
-            } else { panelOpts.tools = [refreshButton]; }
+            } else {
+                panelOpts.tools = [refreshButton];
+            }
         }
-        if ((!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && !panelOpts.iniframe) {
+        if ((!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab) && !panelOpts.iniframe) {
             $.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
+            panelOpts.onLoad = function () {
+                if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
+                $.util.call(function () {
+                    $.easyui.messager.progress("close");
+                });
+                $.util.parseJquery(this).panel("options").onLoad = onLoad;
+            };
         }
-        panelOpts.onLoad = function () {
-            if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
-            $.util.call(function () { $.easyui.messager.progress("close"); });
-            $.util.parseJquery(this).panel("options").onLoad = onLoad;
-        };
-        _updateTab.call(tabs, tabs, { tab: param.tab, options: panelOpts });
-        panelOpts = tabs.tabs("getTab", index).panel("options"); panelOpts.tools = tools;
+        var ret = _updateTab.call(tabs, tabs, { tab: param.tab, options: panelOpts });
+        panelOpts = tabs.tabs("getTab", index).panel("options");
+        panelOpts.tools = tools;
         initTabsPanelPaddingTopLine(target);
-        var li = tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li:eq(" + index + ")").off("dblclick.closeOnDblClick").on("dblclick.closeOnDblClick", function () {
+        var li = tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li").eq(index).off("dblclick.closeOnDblClick").on("dblclick.closeOnDblClick", function () {
             if (panelOpts.closeOnDblClick && panelOpts.closable) { tabs.tabs("close", panelOpts.title); }
         });
         if (panelOpts.closeOnDblClick && panelOpts.closable) { li.attr("title", "双击此选项卡标题可以将其关闭"); }
+        return ret;
     };
 
     function refreshTab(target, which) {
