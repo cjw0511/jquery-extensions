@@ -11,7 +11,7 @@
 * jQuery EasyUI datagrid 组件扩展
 * jeasyui.extensions.datagrid.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-30
+* 最近更新：2013-09-30
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -2248,9 +2248,9 @@
         ".datagrid-body td.datagrid-header-cell-top { border-top-color: red; border-top-width: 2px; border-top-style: dotted; }" +
         ".datagrid-body td.datagrid-header-cell-bottom { border-bottom-color: red; border-bottom-width: 2px; border-bottom-style: dotted; }" +
         ".datagrid-cell-hightlight { font-weight: bold; background-color: Yellow; }" +
-        ".datagrid-header-cell-arrow { display: inline; float: right; cursor: pointer; border-left-style: dotted; border-left-width: 0px; filter: alpha(opacity=0); opacity: 0; }" +
-        ".datagrid-header-cell-arrow-show { border-left-width: 1px; filter: alpha(opacity=80); opacity: 0.8; }" + ".datagrid-header-filter { overflow: auto; }" +
-        ".datagrid-header-filter { text-align: center; }" +
+        ".datagrid-header-cell-arrow { float: right; cursor: pointer; border-left-style: dotted; display: none; border-left-width: 0px; }" +
+        ".datagrid-header-cell-arrow-show { display: inline; border-left-width: 1px; }" +
+        ".datagrid-header-filter { text-align: center; overflow: auto; }" +
         ".datagrid-header-filter-top { vertical-align: top; }" +
         ".datagrid-header-filter-bottom { vertical-align: bottom; }" +
         ".datagrid-header-filter-cell { white-space: nowrap; }" +

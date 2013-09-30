@@ -11,7 +11,7 @@
 * jQuery EasyUI tabs 组件扩展
 * jeasyui.extensions.tabs.js
 * 二次开发 陈建伟
-* 最近更新：2013-08-14
+* 最近更新：2013-09-29
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
