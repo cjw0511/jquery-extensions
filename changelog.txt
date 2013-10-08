@@ -1,6 +1,11 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2013-10-08(1.0.18 preview) ********/
+1、[#] 修复 jquery.jdirk.js 中部分函数存在的 BUG；
+2、[#] 修复 jeasyui.extensions.datagrid.js 中关于表头菜单右键隐藏列功能的部分 BUG；
+
+
 /******** 2013-09-30(1.0.17 preview) ********/
 1、[^] 改进 jeasyui.extensions.icons.js 和 jeasyui.icons.all.js 中的部分代码书写规则和算法，使之具备更高的可扩展性；
 2、[#] 修复 jeasyui.extensions.tabs.js 中在添加或更新选项卡时会导致加载进度条异常的 BUG；

@@ -1,0 +1,87 @@
+﻿[
+    {
+        "bayNo": "01", "isEdge": false, "tiers": [
+            { "tierNo": "84", "bays": [] },
+            { "tierNo": "82", "bays": [] },
+            { "tierNo": "08", "bays": [] },
+            { "tierNo": "06", "bays": [] },
+            { "tierNo": "04", "bays": [] },
+            { "tierNo": "02", "bays": [{ "bayCellNo": "", "rowNo": "", "disabled": false }] }
+        ]
+    },
+    {
+        "bayNo": "03", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "05", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "07", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "09", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "11", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "13", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "15", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "17", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "19", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "21", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "23", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "25", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "27", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "29", "isEdge": false, "tiers": [
+        
+        ]
+    },
+    {
+        "bayNo": "33", "isEdge": false, "tiers": [
+        
+        ]
+    }
+]

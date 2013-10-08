@@ -259,7 +259,8 @@
             { id: "110805", text: "Portal", pid: "1108", attributes: { href: "examples/example.html?portal"} },
             { id: "110806", text: "my97", pid: "1108", attributes: { href: "examples/example.html?my97"} },
             { id: "110807", text: "ckeditor", pid: "1108", attributes: { href: "examples/example.html?ckeditor"} },
-            { id: "110808", text: "uploadify", pid: "1108", attributes: { href: "examples/example.html?uploadify"} }
+            { id: "110808", text: "uploadify", pid: "1108", attributes: { href: "examples/example.html?uploadify" } },
+            { id: "110809", text: "BayGUI", pid: "1109", attributes: { href: "examples/example.html?baygui" } }
         ]
         }
     ];

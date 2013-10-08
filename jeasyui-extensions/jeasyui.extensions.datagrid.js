@@ -1133,7 +1133,7 @@
             var handler = function (e, field, eventData, t, item, menu) {
                 var m = $.util.parseJquery(this),
                     count = m.parent().find(".menu-item:gt(1) .tree-checkbox1").length;
-                if (count == 1 && !val.hidden) { return; }
+                if ((count == 1 && !val.hidden) || !val.hidable) { return; }
                 t.datagrid(val.hidden ? "showColumn" : "hideColumn", val.field);
                 menu.menu("setIcon", { target: this, iconCls: val.hidden ? "tree-checkbox0" : "tree-checkbox1" });
                 count = $.array.sum(exts.fieldOptions, function (val) { return val.hidden ? 0 : 1; });
@@ -1203,7 +1203,7 @@
                 $("<div></div>").append("<div>列：" + title + "，共" + distinctVals.length + "项</div><hr />").css({
                     padding: "10px"
                 }).append(checkAll).append(uncheckAll).append("<hr />").each(function () {
-                    var win = $(this), ul = $("<ul></ul>").css({ "list-style-type": "decimal", "padding-left": "20px", "line-height": "18px" }).appendTo(win);
+                    var win = $(this), ul = $("<ul></ul>").css({ "list-style-type": "decimal", "padding-left": "40px", "line-height": "18px" }).appendTo(win);
                     $.each(distinctVals, function (index, text) {
                         var id = "itemCheckbox_" + $.util.guid("N"),
                             checked = !$.array.some(exts.filterData, function (val) { return val[field] == text; }),
@@ -2229,8 +2229,9 @@
     //      filterable: Boolean 类型，默认为 true；表示是否禁用该列右键菜单中的 "过滤/显示" 菜单；
     //      hidable:    Boolean 类型，默认为 true；表示该列是否可隐藏。
     //      filter:     String 类型；表示该列的过滤器组件的类型；可选的值限定在以下范围：
+    //          "none":     表示过滤器为空，即该列无过滤器效果。
     //          "checkbox": 表示过滤器的类型为一组 checkbox 复选框，默认值。
-    //          "livebox":     表示过滤器的类型为模糊查询过滤方式；即过滤器组件为一个输入框，改变该输入框的值后，对该列进行按输入值的过滤匹配。
+    //          "livebox":  表示过滤器的类型为模糊查询过滤方式；即过滤器组件为一个输入框，改变该输入框的值后，对该列进行按输入值的过滤匹配。
     //          "caps":     表示过滤器的类型为 slider 拖动条控件，且过滤的结果为只显示小于或等于 slider 选定的值；只有该列全部为数值数据时，才能设置为该类型。
     //          "lower":    表示过滤器的类型为 slider 拖动条控件，且过滤的结果为只显示大于或等于 slider 选定的值；只有该列全部为数值数据时，才能设置为该类型。
     //      precision:  Number 类型，默认为 1；表示过滤器类型(filter)为 caps 或 lower 时候，slider 组合控件的输入框的改变值的精度(保留的小数位数)。

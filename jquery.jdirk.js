@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 陈建伟
-* 最近更新：2013-09-06
+* 最近更新：2013-10-06
 *
 * 依赖项：jquery-1.9.1.js late
 *
@@ -70,7 +70,7 @@
         parent = coreUtil.parent = window.parent,
         top = coreUtil.top = window.top;
     var $$ = coreJquery.emptyJquery = coreJquery.empty$ = coreJquery.$$ = coreUtil.emptyJquery = coreUtil.empty$ = coreUtil.$$ = $();
-    var version = "2013-05-23",
+    var version = "2013-10-06",
         core_array = [],
         core_trim = version.trim,
         core_push = core_array.push,
@@ -149,6 +149,9 @@
     //  定义一个空函数
     coreUtil.noop = coreUtil.isFunction($.noop) ? $.noop : function () { };
 
+    //  判断传入的字符串是否为Null或者为空字符串或者全是空格。
+    coreUtil.trim = $.trim;
+
     //  将一个 DOM 对象或者表达式解析为 jQuery 对象；
     //  如果该对象本身就已经是一个 jQuery 对象，则直接将其返回。
     coreUtil.parseJqueryObject = coreUtil.parseJquery = function (obj) { return coreUtil.isJqueryObject(obj) ? obj : $(obj); };
@@ -208,7 +211,7 @@
             case "p": ret = "(" + ret + ")"; break;
             case "d": default: break;
         }
-        return $.isNumeric(length) && length > 0 && length <= ret.length ? coreString.left(ret, length) : ret;
+        return coreUtil.isNumeric(length) && length > 0 && length <= ret.length ? coreString.left(ret, length) : ret;
     };
 
     //  获取当前应用程序的完整主机地址部分，返回的结果格式如( http://127.0.0.1 )
@@ -563,11 +566,7 @@
     coreString.prototype.rtrim = function () { return coreString.rtrim(this); };
 
     //  去除字符串左右两边的空格；该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。
-    coreString.trim = function (str) {
-        str = coreString.isNullOrEmpty(str) ? "" : String(str);
-        return core_trim ? core_trim.call(str) : str.replace(/(^\s*)|(\s*$)/g, "");
-    };
-    $.trim = coreString.trim;
+    coreString.trim = coreUtil.trim;
     coreString.prototype.trim = function () { return coreString.trim(this); };
 
     //  返回一个新字符串，该字符串通过在此实例中的字符左侧填充空格或指定字符来来达到指定的总长度，从而使这些字符右对齐。
@@ -1834,13 +1833,13 @@
         date = coreUtil.isDate(date) ? date : new Date(date);
         var m = date.getMonth();
         var q = 0;
-        if (m >= 0 && m < 2) {
+        if (m >= 0 && m < 3) {
             q = 0;
         } else if (m >= 3 && m < 6) {
             q = 1;
-        } else if (m >= 7 && m < 9) {
+        } else if (m >= 6 && m < 9) {
             q = 2;
-        } else if (m >= 10 && m < 12) {
+        } else if (m >= 9 && m < 12) {
             q = 3;
         }
         return q;
@@ -2227,26 +2226,33 @@
     //  获取当前日期时间的长字符串格式，返回的日期时间字符串格式如 “2013年05月16日 星期四 夏季, 下午 15:38:11”
     coreDate.toLongDateTimeString = function (date) {
         date = coreUtil.isDate(date) ? date : new Date(date);
-        var year, month, day, hours, minutes, seconds, week, quarter, hourSpan, weekSpan, monthSpan, quarterSpan;
-        var hoursArray = ["午夜", "凌晨", "早上", "上午", "中午", "下午", "傍晚", "晚上"];
-        var weekArray = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-        var monthArray = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-        var quarterArray = ["春", "夏", "秋", "冬"];
-        year = date.getFullYear();
-        month = date.getMonth();
-        day = date.getDate();
-        hours = date.getHours();
-        minutes = date.getMinutes();
-        seconds = date.getSeconds();
-        week = date.getDay();
-        quarter = coreDate.getQuarter(date);
-        hourSpan = hoursArray[Math.floor(parseFloat(hours) / 3)];
-        weekSpan = weekArray[week];
-        monthSpan = monthArray[month];
-        quarterSpan = quarterArray[quarter];
-        return coreString.format("{0}年{1}月{2}日 {3} {4}季, {5} {6}:{7}:{8}", year, ("" + (month + 101)).substr(1),
-            ("" + (day + 100)).substr(1), weekSpan, quarterSpan, hourSpan,
-            ("" + (hours + 100)).substr(1), ("" + (minutes + 100)).substr(1), ("" + (seconds + 100)).substr(1));
+        var year = date.getFullYear(),
+            month = date.getMonth(),
+            day = date.getDate(),
+            hours = date.getHours(),
+            minutes = date.getMinutes(),
+            seconds = date.getSeconds(),
+            week = date.getDay(),
+            quarter = coreDate.getQuarter(date),
+            hoursArray = ["午夜", "凌晨", "早上", "上午", "中午", "下午", "傍晚", "晚上"],
+            weekArray = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+            monthArray = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+            quarterArray = ["春", "夏", "秋", "冬"],
+            hourSpan = hoursArray[Math.floor(parseFloat(hours) / 3)],
+            weekSpan = weekArray[week],
+            monthSpan = monthArray[month],
+            quarterSpan = quarterArray[quarter];
+        return coreString.format(
+            "{0}年{1}月{2}日 {3} {4}季, {5} {6}:{7}:{8}",
+            year,
+            ("" + (month + 101)).substr(1),
+            ("" + (day + 100)).substr(1),
+            weekSpan,
+            quarterSpan,
+            hourSpan,
+            ("" + (hours + 100)).substr(1),
+            ("" + (minutes + 100)).substr(1),
+            ("" + (seconds + 100)).substr(1));
     };
     coreDate.prototype.toLongDateTimeString = function () { return coreDate.toLongDateTimeString(this); };
 

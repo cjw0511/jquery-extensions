@@ -1074,7 +1074,7 @@
                 if (val.field == opts.treeField) { $.messager.show("树节点列不能被隐藏。"); return; }
                 var m = $.util.parseJquery(this),
                     count = m.parent().find(".menu-item:gt(1) .tree-checkbox1").length;
-                if (count == 1 && !val.hidden) { return; }
+                if ((count == 1 && !val.hidden) || !val.hidable) { return; }
                 t.treegrid(val.hidden ? "showColumn" : "hideColumn", val.field);
                 menu.menu("setIcon", { target: this, iconCls: val.hidden ? "tree-checkbox0" : "tree-checkbox1" });
                 count = $.array.sum(exts.fieldOptions, function (val) { return val.hidden ? 0 : 1; });
@@ -1147,7 +1147,7 @@
                 $("<div></div>").append("<div>列：" + title + "，共" + distinctVals.length + "项</div><hr />").css({
                     padding: "10px"
                 }).append(checkAll).append(uncheckAll).append("<hr />").each(function () {
-                    var win = $(this), ul = $("<ul></ul>").css({ "list-style-type": "decimal", "padding-left": "20px", "line-height": "18px" }).appendTo(win);
+                    var win = $(this), ul = $("<ul></ul>").css({ "list-style-type": "decimal", "padding-left": "40px", "line-height": "18px" }).appendTo(win);
                     $.each(distinctVals, function (index, index) {
                         var id = "itemCheckbox_" + $.util.guid("N"),
                             checked = !$.array.some(exts.filterData, function (val) { return val[field] == text; }),
