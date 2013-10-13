@@ -1,0 +1,193 @@
+    
+    外部调用的公开接口为：
+    $.baygui.init 方法；该方法参数说明如下：
+    //  初始化 BayGUI 组件对象并进行预加载界面 UI 效果渲染；该方法的参数 options 为一个 JSON-Object 对象，该对象定义如下属性：
+    //  1   boxesGrid       : 表示贝位图 GUI 的数据源表格；该表格将会被初始化为 easyui-datagrid；
+    //          该参数可以是一个 HTML-DOM 对象，也可以是一个 jQuery 对象，还可以是一个表示 jQuery 对象选择器表达式的字符串；
+    //          请勿给该 DOM 对象设置 class="easyui-datagrid" 属性；因为在该方法中会自动将其初始化为 easyui-datagrid；
+    //          通过在 HTML 代码中定义该对象的 data-options 属性，可以实现自定义的属性配置；
+    //  1   boxesUrl        : 表示贝位图 GUI 数据源表格的远程加载数据源 URL 地址；同 easyui-datagrid 组件的 url 属性定义；
+    //          其返回数据的具体格式参照 "数据格式规范.txt" 中关于列表数据格式的定义；
+    //  1   boxesMethod     : 表示贝位图 GUI 数据源表格请求远程数据时所采用的 AJAX 提交方式；参见 $.ajax 方法的 type 参数；
+    //  1   boxesQueryParams: 表示贝位图 GUI 数据源表格远程数据的预定义加载参数；同 easyui-datagrid 组件的 queryParam 属性定义；
+    //          备注：该属性为一个 JSON-Object 对象，由于加载了插件 jeasyui.extensions.datagrid.js，
+    //                所以其各个属性的值可以是一个具体的值，也可以是一个返回查询参数值的回调函数；
+    //  1   boxesColumns    : 表示贝位图 GUI 数据源表格定义的列；同 easyui-datagrid 组件的 columns 属性定义；
+    //  1   baysContainer   : 表示贝位图 GUI 组件中贝位图操作区域面板的容器对象；
+    //          该参数可以是一个 HTML-DOM 对象，也可以是一个 jQuery 对象，还可以是一个表示 jQuery 对象选择器表达式的字符串；
+    //          请勿给该 DOM 对象设置 class="easyui-tabs" 属性；因为在该方法中会自动将其初始化为 easyui-tabs；
+    //          通过在 HTML 代码中定义该对象的 data-options 属性，可以实现自定义的属性配置；
+    //  1   baysUrl         : 表示贝位图 GUI 组件中贝位图操作区域面板的预加载数据的远程数据源地址；返回数据将会被加载为一组包含贝位图操作单元格的选项卡；
+    //          其返回数据的具体格式参照 "数据格式规范.txt" 中关于贝位图模型初始化渲染数据的定义；
+    //  1   baysMethod:     : 表示贝位图 GUI 组件贝位图操作区域面板请求远程数据时所采用的 AJAX 提交方式；参见 $.ajax 方法的 type 参数；
+    //  1   floating        : Boolean 类型值，默认为 false；表示是否设定为支持架空配；
+    //  1   crushCasc       : Boolean 类型值，默认为 false；表示是否设定为支持20'箱架40'箱上
+    //  1   bayCellTooltip  : Boolean 类型值，默认为 true；表示是否启用当鼠标放在贝位图单元格上时候显示 easyui-tooltip 信息的功能；
+    //  1   bayRowDnd       : Boolean 类型值，默认为 true；表示是否启用贝位图 GUI 数据源表格中数据行的拖动放置功能；
+    //  1   bayCellBoard    : 表示贝位图 GUI 组件中用于显示当前选定的贝位单元格内容的容器；
+    //          该参数可以是一个 HTML-DOM 对象，也可以是一个 jQuery 对象，还可以是一个表示 jQuery 对象选择器表达式的字符串；
+    //  1   bayCellContextMenu: Boolean 类型值，默认为 true；表示是否启用贝位图单元格的鼠标右键菜单功能；
+    //  1   saveUrl         : 贝位图配置数据进行远程服务器提交保存操作的数据远程提交地址；
+    //          该地址所表示的 WEB 服务器端将会接收到一个 JavaScript Array 数组对象；数组中的每个元素都是一个 JSON-Object 对象，该 JSON-Object 包含如下属性：
+    //              boxNo   : 表示集装箱的箱；
+    //              bayCellNo:一个6位字符的贝位号，格式如 "010203"，表示该集装箱所放置的贝位号；
+    //  1   saveMethod      : 贝位图配置数据进行远程服务器提交保存操作的数据提交方式；
+    //          该参数为 String 类型值，可选的值限定为 "get" 或 "post"(默认)，不区分大小写；
+    //  1   boardFormatter  : 参数列表：bayCellNo, box；
+    //          这是一个回调函数类型属性；返回 bayCellBoard 显示的内容；通过该属性允许 bayCellBoard 内容自定义；
+    //  1   cellFormatter   : 参数列表：bayCellNo, box, bayCell；
+    //          这是一个回调函数类型属性；返回 bayCell 显示的内容；通过该属性允许 bayCell 内容自定义；
+    //  1   tooltipFormatter: 参数列表：bayCellNo, box, bayCell；
+    //          这是一个回调函数类型属性；返回 bayCellTooltip 显示的内容；通过该属性允许 bayCellTooltip 内容自定义；
+    //  另，该 options 参数还包含如下事件属性的定义(事件的类型均为回调函数，函数的回调参数参见事件说明)：
+    //  1   onLoadBoxes     : 参数列表：array；
+    //          该事件在执行 loadBoxes 后触发；
+    //  1   onBeforeLoadBays: 参数列表：array；
+    //          该事件在执行 loadBays 前触发；如果该事件回调函数返回 false，则停止 loadBays 的执行；
+    //  1   onLoadBays      : 参数列表：array；
+    //          该事件在执行 loadBays 后触发；
+    //  1   onBeforeSave    : 参数列表：array, url；
+    //          该事件在执行 save 前触发；如果该事件回调函数返回 false，则停止 save 的执行；
+    //  1   onSave          : 参数列表：array, url；
+    //          该事件在执行 save 后触发；
+    //  1   onSaveError     : 参数列表：同 $.ajax 的 error 回调函数参数
+    //          该事件在执行 save 方法时出现 ajax 异常的情况下触发；
+    //  1   onBeforeSetCell : 参数列表：bayCellNo, box, jump, overlayPrompt, isInst；
+    //          该事件在执行 setCell 前触发；如果该事件回调函数返回 false，则停止 setCell 的执行；
+    //  1   onSetCell       : 参数列表：bayCellNo, box, jump, overlayPrompt, isInst；
+    //          该事件在执行 setCell 后触发；
+    //  1   onBeforeSelectCell:参数列表：bayCellNo；
+    //          该事件在执行 selectCell 前触发；如果该事件回调函数返回 false，则停止 selectCell 的执行；
+    //  1   onSelectCell    : 参数列表：bayCellNo；
+    //          该事件在执行 selectCell 后触发；
+
+    $.baygui.init 方法的返回值说明如下：
+    //  返回值：该方法返回一个对象；返回的对象包含传入参数 options 的所有属性数据；通过以下几个属性会被按照如下的规则覆盖：
+    //  1   boxesGrid       : 表示 BayGUI 组件待选集装箱数据列表，同传入参数中的 boxesGrid 属性，不过已经被初始化为 easyui-datagrid 控件；
+    //  1   baysContainer   : 表示 BayGUI 组件的贝位图操作网格组件面板，同传入参数中的 baysContainer 属性，不过已经被初始化为 easyui-tabs 控件；
+    //  1   bayCellBoard    : 表示贝位图 GUI 组件中用于显示当前选定的贝位单元格内容的容器；同传入参数中的 bayCellBoard 属性，不过已经被封装为 jQuery 对象；
+    //  1   baysData        : 表示贝位图 GUI 组件中当前加载的数据，这是一个 Array 对象；具体格式参照 "数据格式规范.txt" 中关于贝位图模型初始化渲染数据的定义；
+    //  1   floating        : 同传入参数的 floating；该成员属性具有实时操作效果；
+    //  1   crushCasc       : 同传入参数的 crushCasc；该成员属性具有实时操作效果；
+    //      同时，该返回的对象还包含如下方法
+    //          参数说明：中括号 "[]" 中包含的参数，表示可选参数；参数带 "/" 的，表示支持多种类型的参数；
+    //          常见参数如：
+    //              array:  : 表示一个数组，数组中元素具体格式参见每个方法中的详细说明；
+    //              callback: 表示一个回调函数
+    //              bayCellNo: 表示贝位单元格编号，例如 010203，其中贝位号 01，列号 02，层号 03
+    //              bayNo   : 表示贝位号；
+    //              rowNo   : 表示贝位列号；
+    //              tierNo  : 表示贝位层号；
+    //              boxNo   : 表示集装箱的箱号；
+    //              box     : 表示集装箱单个箱的数据对象，是一个 JSON-Object，包含 boxNo、boxSpec、boxWeight 等属性
+    //      
+    //  1   loadBoxes   : 参数列表：array；
+    //          加载并渲染贝位图左侧待选列表数据；数组参数格式参考 "数据格式规范.txt" 中关于列表数据格式的定义；
+    //  1   loadBays    : 参数列表：array；
+    //          加载并渲染贝位图网格数据；数组参数格式参考 "数据格式规范.txt" 中关于贝位图模型初始化渲染数据的定义；
+    //  1   save        : 参数列表：[callback]；
+    //          将贝位图网格数据按照既定的 url 保存至服务器；关于 url 服务端接收的参数格式，参见前文关于 saveUrl 属性的说明；
+    //  1   saveAs      : 参数列表：url[, callback]；关于 url 服务端接收的参数格式，参见前文关于 saveUrl 属性的说明；
+    //          将贝位图网格数据按照临时指定的 url 保存至服务器；
+    //  1   getCell     : 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
+    //          获取指定 bayCellNo 的贝位图网格数据内容；
+    //          返回值：返回一个 JSON-Object，格式如 { bayNo, tierNo, rowNo, bayCellNo, bayCell, disabled, box }
+    //  1   getCellDom  : 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
+    //          获取指定 bayCellNo 贝位图单元格的 HTML-DOM 对象；
+    //          返回的对象是一个 td.bay-cell；如果指定的单元格不存在，则返回一个长度为 0 的空 jQuery 对象。
+    //  1   getBay      : 参数列表：[bayNo]，如果该参数未定义，则取当前选中的 bayNo；
+    //          获取指定贝位(bayNo)的贝位图网格数据内容；
+    //          返回值：返回一个 Array 数组，数组中的每一项都是格式如 getCell 方法返回值类型的 JSON-Object 对象；
+    //  1   getAll      : 参数列表：无；获取当前所有贝位图网格数据内容；
+    //          返回值：返回一个 Array 数组，数组中的每一项都是格式如 getCell 方法返回值类型的 JSON-Object 对象；
+    //  1   resetCell   : 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
+    //          重置指定 bayCellNo 的贝位图网格数据内容；
+    //  1   resetBay    : 参数列表：[bayNo]，如果该参数未定义，则取当前选中的 bayNo；
+    //          重置指定贝位(bayNo)的贝位图网格数据内容；
+    //  1   resetAll    : 参数列表：无；
+    //          重置当前所有贝位图网格数据内容；
+    //          此方法调用时可能响应时间较长，请在调用时设置"正在加载..."等类似效果以消除用户对操作延迟的不良感官；
+    //  1   clearCell   : 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
+    //          清除指定 bayCellNo 的贝位图网格数据内容；
+    //  1   clearBay    : 参数列表：[bayNo]，如果该参数未定义，则取当前选中的 bayNo；
+    //          清除指定贝位(bayNo)的贝位图网格数据内容；
+    //  1   clearAll    : 参数列表：无；
+    //          清除当前所有贝位图网格数据内容；
+    //          此方法调用时可能响应时间较长，请在调用时设置"正在加载..."等类似效果以消除用户对操作延迟的不良感官；
+    //  1   clearBoxCell: 参数列表：boxNo；
+    //          按照指定的箱号清除其所在的被委屈网格数据内容，即解除箱号与贝位图单元格的绑定关系；
+    //  1   setCell     ; 参数列表：bayCellNo, boxNo/box[, jump, overlayPrompt]
+    //              参数 jump 为 Boolean 类型值，默认为 false；表示是否在设置后立即跳转至该单元格；
+    //              参数 overlayPrompt 为 Boolean 类型值，默认为 true；表示当单元格已经放置了箱时，是否提醒覆盖(如果参数为 false 则不提醒而直接覆盖)；
+    //          在指定贝位图网格上放置集装箱；
+    //  1   setCells    : 参数列表：array，这是一个数组，数组中每个元素都是格式类似于 setCell 方法参数的 JSON-Object
+    //          在指定的多个贝位图网格上放置集装箱；
+    //  1   selectCell  : 参数列表：bayCellNo
+    //          设置指定的贝位图网格为选中状态；
+    //  1   unSelectCell: 参数列表：无
+    //          取消当前选中单元格的选中状态；
+    //  1   jumpCell    : 参数列表：bayCellNo
+    //          设置指定的贝位图网格为选中状态并将界面跳转到该贝位图网格；
+    //  1   jumpBay     : 参数列表：bayNo
+    //          将界面跳转至指定的贝位；
+
+
+关于右键菜单
+    表格右键
+        设置贝位
+        卸载贝位
+        -
+        总数量合计
+        已装载总数合计
+        未装载总数合计
+        -
+        总重量合计
+        已装载总重合计
+        未装载总重合计
+
+    贝位单元格右键
+        重置当前
+        清除当前
+        -
+        重置当前贝位
+        清除当前贝位
+        -
+        所选行位装载总重
+        所选层位装载总重
+        -
+        当前贝位装载总重
+        所有贝位装载总重
+        -
+        所有贝位装载总数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

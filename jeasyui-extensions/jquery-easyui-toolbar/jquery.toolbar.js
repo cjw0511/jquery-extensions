@@ -598,14 +598,14 @@
         ".toolbar-align-right { float: right; }" +
 
         ".toolbar-row {}" +
-        ".toolbar-item-container {}" +
-        ".toolbar-item {}" +
+        ".toolbar-item-container { padding-left: 2px; padding-right: 2px; }" +
+        ".toolbar-item, .toolbar-item>* { vertical-align: middle; }" +
         ".toolbar-item-label {}" +
         ".toolbar-item-input {}" +
         ".toolbar-item-button {}" +
         ".toolbar-item-checkbox {}" +
-        ".toolbar-item-checkbox-input { vertical-align: middle; }" +
-        ".toolbar-item-checkbox-text { vertical-align: middle; }" +
+        ".toolbar-item-checkbox-input {}" +
+        ".toolbar-item-checkbox-text {}" +
         ".toolbar-item-checkbox-disabled {}" +
         "";
     $.util.addCss(css);

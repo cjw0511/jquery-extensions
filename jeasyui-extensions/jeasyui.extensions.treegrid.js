@@ -1184,7 +1184,7 @@
         }
         if (typeof exp == "object") { exp = $.extend({ current: false, all: false, submenu: true }, exp); }
         var m1 = {
-            text: "刷新当前页", iconCls: "pagination-load", disabled: false,
+            text: "刷新当前页", iconCls: "pagination-load", disabled: !opts.refreshMenu,
             handler: function () { t.treegrid("reload"); }
         };
         var m2 = {
@@ -2107,6 +2107,10 @@
         //          submenu:    表示这四个菜单项是否以子菜单方式呈现，默认为 true；
         //  备注：当 enableRowContextMenu 属性设置为 true 时，该属性才有效。
         pagingMenu: false,
+
+        //  增加 easyui-treegrid 的自定义扩展属性，该属性表示是否启用右键菜单中的“刷新当前页”菜单项的功能；
+        //  Boolean 类型值，默认为 true。
+        refreshMenu: true,
 
         //  增加 easyui-treegrid 的自定义扩展属性，该属性表示是否启用表格的行节点拖动功能；
         //  Boolean 类型值，默认为 false。

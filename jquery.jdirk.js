@@ -1023,6 +1023,21 @@
         }
     };
 
+    //  判断传入的数值是否是一个奇数；该函数定义如下参数：
+    //      num:    需要判断的数值；
+    //  返回值：如果传入的参数 num 是一个奇数，则返回 true，否则返回 false。
+    coreNumber.isOdd = function (num) {
+        return (num % 2) == 1;
+    };
+    coreNumber.prototype.isOdd = function () { return coreNumber.isOdd(this); };
+
+    //  判断传入的数值是否是一个偶数；该函数定义如下参数：
+    //      num:    需要判断的数值；
+    //  返回值：如果传入的参数 num 是一个偶数，则返回 true，否则返回 false。
+    coreNumber.isEven = function (num) {
+        return (num % 2) == 0;
+    };
+    coreNumber.prototype.isEven = function () { return coreNumber.isEven(this); };
 
 
 

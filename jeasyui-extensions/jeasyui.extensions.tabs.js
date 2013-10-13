@@ -49,7 +49,7 @@
                 leftTabs = t.tabs("leftClosableTabs", index),
                 rightTabs = t.tabs("rightClosableTabs", index),
                 otherTabs = t.tabs("otherClosableTabs", index),
-                allTabs = t.tabs("tabs"),
+                allTabs = t.tabs("closableTabs"),
                 selected = t.tabs("isSelected", index),
                 m1 = { text: "显示选项卡的 option", iconCls: "icon-standard-application-form", disabled: !opts.showOption, handler: function () { t.tabs("showOption", index); } },
                 m2 = { text: "关闭选项卡", iconCls: "icon-standard-application-form-delete", disabled: !panelOpts.closable, handler: function () { t.tabs("closeClosable", index); } },
