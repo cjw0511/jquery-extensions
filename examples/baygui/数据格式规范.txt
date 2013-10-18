@@ -22,7 +22,7 @@
     isEdge:     Boolean 类型值，表示该贝位行是否位于前侧边缘，前侧边缘的贝位行与下一个贝位存在间隙，即不能放置 40 尺的集装箱
     tiers:      Array 类型值，该属性表示该贝位行(船体横切面)的所有层数据，数组中的每一项都是一个包含如下属性的 JSON-Object 对象；
         tierNo: Number/String 类型值，贝位行中层的层号
-        bays:   Array 类型值，贝位行中层的贝位数据，即该层含有的贝位单元格，数组中的每一项都是一个包含如下属性的 JSON-Object 对象；
+        rows:   Array 类型值，贝位行中层的贝位数据，即该层含有的贝位单元格，数组中的每一项都是一个包含如下属性的 JSON-Object 对象；
             bayCellNo:  Number/String 类型值，该贝位单元格的贝位号(该属性可选)
             rowNo:      Number/String 类型值，该贝位单元格所在的列号
             disabled:   Boolean 类型值，表示该贝位单元格是否被禁用(如果被禁用则该位置不能放置集装箱)

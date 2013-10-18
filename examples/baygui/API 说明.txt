@@ -19,6 +19,7 @@
     //          通过在 HTML 代码中定义该对象的 data-options 属性，可以实现自定义的属性配置；
     //  1   baysUrl         : 表示贝位图 GUI 组件中贝位图操作区域面板的预加载数据的远程数据源地址；返回数据将会被加载为一组包含贝位图操作单元格的选项卡；
     //          其返回数据的具体格式参照 "数据格式规范.txt" 中关于贝位图模型初始化渲染数据的定义；
+    //  1   baysQueryParams :
     //  1   baysMethod:     : 表示贝位图 GUI 组件贝位图操作区域面板请求远程数据时所采用的 AJAX 提交方式；参见 $.ajax 方法的 type 参数；
     //  1   floating        : Boolean 类型值，默认为 false；表示是否设定为支持架空配；
     //  1   crushCasc       : Boolean 类型值，默认为 false；表示是否设定为支持20'箱架40'箱上
@@ -39,6 +40,12 @@
     //          这是一个回调函数类型属性；返回 bayCell 显示的内容；通过该属性允许 bayCell 内容自定义；
     //  1   tooltipFormatter: 参数列表：bayCellNo, box, bayCell；
     //          这是一个回调函数类型属性；返回 bayCellTooltip 显示的内容；通过该属性允许 bayCellTooltip 内容自定义；
+    //  1   gridDataFilter  : 这是一个回调函数，该函数的功能是将 boxesUrl 传递过来的数据，进行格式化转换；
+    //          转换后的数据必须是遵照 "数据格式规范.txt" 中关于列表数据格式的定义；
+    //          该回调函数接收一个参数 data，表示源数据
+    //  1   baysDataFilter  : 这是一个回调函数，该函数的功能是将 baysUrl 传递过来的数据，进行格式化转换；
+    //          转换后的数据必须是遵照 "数据格式规范.txt" 中关于贝位图模型初始化渲染数据的定义；
+    //          该回调函数接收一个参数 data，表示源数据
     //  另，该 options 参数还包含如下事件属性的定义(事件的类型均为回调函数，函数的回调参数参见事件说明)：
     //  1   onLoadBoxes     : 参数列表：array；
     //          该事件在执行 loadBoxes 后触发；

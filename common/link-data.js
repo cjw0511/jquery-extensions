@@ -17,7 +17,7 @@
         { title: "jEasyUI官方教程", href: "http://jeasyui.com/tutorial/index.php" },
         { title: "jEasyUI官方下载", href: "http://jeasyui.com/download/index.php" },
         { title: "jEasyUI官方扩展", href: "http://jeasyui.com/extension/index.php" },
-        { title: "jEasyUI官方论坛", href: "http://www.jeasyui.com/forum/index.php" },
+        { title: "jEasyUI官方论坛", href: "http://www.jeasyui.com/forum/index.php" }
     ];
 
 })(jQuery);

@@ -50,10 +50,22 @@
                         { field: "boxWeight", title: "箱重", width: 45 },
                         { field: "fromPort", title: "始发港", width: 50 },
                         { field: "toPort", title: "目的港", width: 50 },
-                        { field: "bayCellNo", title: "贝位号", width: 50 }
+                        { field: "bayCellNo", title: "贝位号", width: 50 },
+                        {
+                            field: "operator", title: "操作", width: 50, formatter: function () {
+                                return "<a class=\"custome-button\" href=\"javascript:void(0);\">操作</a>";
+                            }
+                        },
                     ]],
                     onLoadSuccess: function (data) {
-                        tt1.datagrid("getPanel").find("div.datagrid-body table.datagrid-btable tr.datagrid-row").draggable({
+                        var panel = tt1.datagrid("getPanel");
+                        panel.find("a.custome-button").on("click", function () {
+                            var index = $(this).closest("tr.datagrid-row").attr("datagrid-row-index"),
+                                rows = tt1.datagrid("getRows"),
+                                row = rows[index];
+                            $.easyui.messager.show("您点击了 " + row.boxNo);
+                        });
+                        panel.find("div.datagrid-body table.datagrid-btable tr.datagrid-row").draggable({
                             disabled: false, revert: true, cursor: "pointer", deltaX: 5, deltaY: 5,
                             proxy: function (source) {
                                 var tr = $(source).clone(), table = $("<table></table>").append(tr);

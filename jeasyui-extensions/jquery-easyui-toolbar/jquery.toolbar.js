@@ -598,7 +598,7 @@
         ".toolbar-align-right { float: right; }" +
 
         ".toolbar-row {}" +
-        ".toolbar-item-container { padding-left: 2px; padding-right: 2px; }" +
+        ".toolbar-item-container { padding-left: 1px; padding-right: 1px; }" +
         ".toolbar-item, .toolbar-item>* { vertical-align: middle; }" +
         ".toolbar-item-label {}" +
         ".toolbar-item-input {}" +

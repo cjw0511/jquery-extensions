@@ -1,0 +1,149 @@
+﻿
+一，贝位图编辑
+    外部调用接口为函数：$.baygui.editor，该函数参数为 options，是一个 JSON-Object 类型对象；该参数对象定义如下属性：
+        shipUrl         : String 类型值；
+        shipQueryParams : JSON-Object 类型值；
+        shipMethod      : String 类型值；
+        baysUrl         : String 类型值；
+        baysQueryParams : JSON-Object 类型值；
+        baysMethod      : String 类型值；
+        baysContainer   : 表示贝位图 GUI 组件中贝位图操作区域面板的容器对象；
+            该参数可以是一个 HTML-DOM 对象，也可以是一个 jQuery 对象，还可以是一个表示 jQuery 对象选择器表达式的字符串；
+            请勿给该 DOM 对象设置 class="easyui-tabs" 属性；因为在该方法中会自动将其初始化为 easyui-tabs；
+            通过在 HTML 代码中定义该对象的 data-options 属性，可以实现自定义的属性配置；
+        saveUrl         :
+        saveMethod      : 表示对贝位图 GUI 组件的数据进行保存操作时所采用的 AJAX 提交方式；参见 $.ajax 方法的 type 参数；
+        shipDataFilter  : Function 类型值；表示解析 shipUrl 传递过来的数据时所采用的解析器；该函数必须返回一个格式为 { code, name } 的 JSON-Object 值；
+            参数列表：ship
+        baysDataFilter  : Function 类型值；表示解析 baysUrl 传递过来的数据时所采用的解析器；该函数必须返回一个格式符合 "数据格式规范.txt" 中关于 "单条船的所有贝位图单元格数据集合" 的描述；
+            参数列表：array
+    同时，该参数对象还可定义如下事件属性的定义(事件的类型均为回调函数，函数的回调参数参见事件说明)：
+        onBeforeSave    : 参数列表：data, url；
+        onSave          : 参数列表：data, url；
+        onSaveError     : 参数列表：同 $.ajax 的 error 回调函数参数
+        onBeforeLoadBays: 参数列表：data；
+        onLoadBays      : 参数列表：data；
+        onBeforeAddBay  : 参数列表：bay；
+            { bayNo, outer, inner }
+        onAddBay        : 参数列表：bay；
+        onBeforeRemoveBay:参数列表：bayNo；
+        onRemoveBay     : 参数列表：bayNo；
+        onBeforeSelectCell:参数列表：bayCellNo；
+        onSelectCell    : 参数列表：bayCellNo；
+        onBeforeDisableCell:参数列表：bayCellNo；
+        onDisableCell   : 参数列表：bayCellNo；
+        onBeforeEnableCell:参数列表：bayCellNo；
+        onEnableCell    : 参数列表：bayCellNo；
+
+
+    返回值：该函数执行后，返回一个 JSON-Object 对象；返回的对象包含传入参数 options 的所有属性数据；以下属性会按照如下规则覆盖：
+        baysContainer:表示当前贝位图编辑器组件的 jQuery 对象；同传入参数的 baysContainer，不过其已经被初始化为 easyui-tabs 组件；
+        ship    : 表示当前贝位图编辑器组件的货船数据；为一个格式如 { code, name } 的 JSON-Object 对象；
+        bays    : 表示当前贝位图编辑器组件所加载的所有单元格数据；为一个 Array 对象；
+            具体格式参照 "数据格式规范.txt" 中关于 "二，单条船的所有贝位图单元格数据集合" 的定义；
+
+        同时，该返回的对象还包含如下方法：
+            参数说明：中括号 "[]" 中包含的参数，表示可选参数；参数带 "/" 的，表示支持多种类型的参数；
+            常见参数如：
+                bayNo   :
+                tierNo  :
+                rowNo   :
+                bayCellNo:
+        loadBays    : 参数列表：array
+        save        : 参数列表：[callback]
+        saveAs      : 参数列表：url[, callback]
+        getCell     : 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
+            获取指定 bayCellNo 的贝位图网格数据内容；
+            返回值：返回一个 JSON-Object，格式如 { bayNo, tierNo, rowNo, bayCellNo, bayCell, disabled }
+        getCellDom  : 参数列表：[bayCellNo]
+        getBay      : 参数列表：[bayNo]
+        getBayRow   : 参数列表：bayNo, rowNo
+        getBayTier  : 参数列表：bayNo, tierNo
+        getAll      : 参数列表：无
+        selectCell  : 参数列表：bayCellNo
+        unSelectCell: 参数列表：bayCellNo
+        jumpCell    : 参数列表：bayCellNo
+        jumpBay     : 参数列表：bayCellNo
+        disableCell : 参数列表：bayCellNo
+        disableTier : 参数列表：bayNo, tierNo
+        disableRow  : 参数列表：bayNo, rowNo
+        enableCell  : 参数列表：bayCellNo
+        enableTier  : 参数列表：bayNo, tierNo
+        enableRow   : 参数列表：bayNo, rowNo
+        showAddBayDialog: 参数列表：无
+        addBay      : 参数列表：bay，参数 bay 为一个 JSON-Object，格式如下：
+            { isEdge, outer: { width, height }, inner: { width, height } }
+        insertBay   : 参数列表：index, bay
+        removeBay   : 参数列表：bayNo
+
+    
+    关于右键菜单：
+        贝位选项卡右键菜单：
+            删除该贝位
+            -
+            设置该贝位
+            重置该贝位
+            -
+            添加贝位
+            在该位置插入贝位
+            -
+            统计该贝位单元格数
+            统计所有贝位单元格数
+
+        贝位单元格右键菜单：
+            禁用该单元格
+            启用该单元格
+            -
+            重置该单元格
+            -
+            禁用该行位(纵向)
+            禁用该层位(横向)
+            -
+            统计该贝位单元格数
+            统计所有贝位单元格数
+
+
+
+二，贝位图查看
+    外部调用接口为函数：$.baygui.viewer，该函数参数为 options，是一个 JSON-Object 类型对象；该参数对象定义如下属性：
+        shipUrl         : String 类型值；
+        shipQueryParams : JSON-Object 类型值；
+        shipMethod      : String 类型值；
+        baysUrl         : String 类型值；
+        baysQueryParams : JSON-Object 类型值；
+        baysMethod      : String 类型值；
+        baysContainer   : 表示贝位图 GUI 组件中贝位图操作区域面板的容器对象；
+            该参数可以是一个 HTML-DOM 对象，也可以是一个 jQuery 对象，还可以是一个表示 jQuery 对象选择器表达式的字符串；
+            请勿给该 DOM 对象设置 class="easyui-tabs" 属性；因为在该方法中会自动将其初始化为 easyui-tabs；
+            通过在 HTML 代码中定义该对象的 data-options 属性，可以实现自定义的属性配置；
+        saveMethod      : 表示对贝位图 GUI 组件的数据进行保存操作时所采用的 AJAX 提交方式；参见 $.ajax 方法的 type 参数；
+        shipDataFilter  : Function 类型值；表示解析 shipUrl 传递过来的数据时所采用的解析器；该函数必须返回一个格式为 { code, name } 的 JSON-Object 值；
+            参数列表：ship
+        baysDataFilter  : Function 类型值；表示解析 baysUrl 传递过来的数据时所采用的解析器；该函数必须返回一个格式符合 "数据格式规范.txt" 中关于 "单条船的所有贝位图单元格数据集合" 的描述；
+            参数列表：array
+    同时，该参数对象还可定义如下事件属性的定义(事件的类型均为回调函数，函数的回调参数参见事件说明)：
+        onBeforeLoadBays: 参数列表：无
+        onLoadBays      : 参数列表：无
+        onBeforeShowBay : 参数列表：bayNo
+        onShowBay       : 参数列表：bayNo
+    
+    返回值：该函数执行后，返回一个 JSON-Object 对象；返回的对象包含传入参数 options 的所有属性数据；以下属性会按照如下规则覆盖：
+        baysContainer:表示当前贝位图编辑器组件的 jQuery 对象；同传入参数的 baysContainer，不过其已经被初始化为 easyui-tabs 组件；
+        ship    : 表示当前贝位图编辑器组件的货船数据；为一个格式如 { code, name } 的 JSON-Object 对象；
+        bays    : 表示当前贝位图编辑器组件所加载的所有单元格数据；为一个 Array 对象；
+            具体格式参照 "数据格式规范.txt" 中关于 "二，单条船的所有贝位图单元格数据集合" 的定义；
+
+        同时，该返回的对象还包含如下方法：
+            参数说明：中括号 "[]" 中包含的参数，表示可选参数；参数带 "/" 的，表示支持多种类型的参数；
+            常见参数如：
+                bayNo   :
+                tierNo  :
+                rowNo   :
+                bayCellNo:
+        loadBays    : 参数列表：array；
+        getBayDom   : 参数列表：bayNo；
+        showBay     : 参数列表：bayNo；
+
+
+
+

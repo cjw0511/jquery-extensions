@@ -2838,15 +2838,87 @@
     //      callback:   可选，创建完命名空间后执行的回调函数；
     //      thisArg:    可选，同参数 callback 一起定义；表示 callback 回调函数执行中的 this 对象
     coreUtil.namespace = function (namespace, callback, thisArg) {
-        namespace = coreString.trim(namespace);
-        if (!namespace) { return; }
-        var names = namespace.split("."), p = window;
-        $.each(names, function (i, n) {
-            var name = $.string.trim(n), a = (p[name] == null || p[name] == undefined) ? (p[name] = {}) : p[name];
-            p = a;
+        var ret = window;
+        if (!namespace) { return ret; }
+        var names = String(namespace).split(".");
+        for (var i = 0; i < names.length; i++) {
+            names[i] = coreString.trim(names[i]);
+            if (!names[i]) { coreArray.remove(names, names[i--]); }
+        }
+        $.each(names, function (i, name) {
+            ret = (ret[name] == null || ret[name] == undefined) ? (ret[name] = {}) : ret[name];
         });
         if (coreUtil.isFunction(callback)) { callback.call(thisArg); }
+        return ret;
     };
+
+    //  获取指定全名称的 JavaScript 类型函数对象；该函数定义如下参数：
+    //      className   : 要获取的类的类名称，对应命名空间限定名用符号 "." 隔开，请不要包含任何空格；
+    //  返回值：
+    //      如果 className 指定的类型函数存在，则返回该类型函数对象；
+    //      如果 className 指定的类型函数不存在，className 值为空字符串或者 null/undefined，否则返回 null。
+    coreUtil.getDefined = function (className) {
+        if (!className) { return null; }
+        var names = String(className).split("."), ret = window;
+        for (var i = 0; i < names.length; i++) {
+            names[i] = coreString.trim(names[i]);
+            if (!names[i]) { coreArray.remove(names, names[i--]); }
+        }
+        $.each(names, function (i, name) {
+            ret = (ret == null || ret == undefined || ret[name] == null || ret[name] == undefined) ? null : ret[name];
+        });
+        return ret;
+    };
+
+    //  创建或定义一个 JavaScript 类；该函数定义如下参数：
+    //      className   : 要创建的类的类名，对应命名空间限定名用符号 "." 隔开，请不要包含任何空格；
+    //      data        : 可选；被创建的类型默认定义的成员属性或方法(即 prototype)；
+    //      createFn    : 可选；被创建的类型的默认构造函数；
+    //  返回值：返回被创建的类型的 Function 对象；
+    //  注意：
+    //      如果传入的参数 className 的值为 null，则创建的这个 JavaScript 类为匿名类；
+    //      如果指定此定义函数时，className 所指定的对象已经存在，则该对象将会被覆盖；
+    //      可以用 coreUtil.getDefined(className) 来判断 className 所指定的对象是否已经存在；
+    coreUtil.define = function (className, data, createFn) {
+        if (coreUtil.isFunction(data)) { createFn = data; }
+        var p, name, func;
+        if (className) {
+            var names = String(className).split(".");
+            for (var i = 0; i < names.length; i++) {
+                names[i] = coreString.trim(names[i]);
+                if (!names[i]) { coreArray.remove(names, names[i--]); }
+            }
+            if (names[0] != "window") { names.splice(0, 0, "window"); }
+            if (names.length > 1) {
+                p = coreUtil.namespace(names.slice(0, names.length - 1).join("."));
+                name = names[names.length - 1];
+            }
+        }
+        var constructor = coreUtil.isFunction(createFn) ? createFn : function () { };
+        func = function (options) { return new constructor(options); };
+        func.defaults = func.prototype = constructor.prototype;
+        $.extend(func, { extend: $.extend, union: coreJquery.union });
+        $.extend(func.defaults, data, { extend: $.extend, union: coreJquery.union });
+        if (p && name) {
+            var old = p[name];
+            p[name] = func;
+            if (old) { coreJquery.union(func, old); }
+        }
+        return func;
+    };
+
+    //  以指定的参数创建一个指定类型的对象；该函数定义如下参数：
+    //      className   : 必须，String 类型值，指定的类型函数名称；
+    //      options     : 可选，JSON-Object 类型值；构造 className 类型对象所用的参数，默认为 null；
+    //      thisArgs    : 可选，任意类型值；表示指定 className 类型函数时指定函数内部的 this 对象引用。
+    //  返回值：
+    //      如果 className 指定的类型函数存在，则返回该函数通过 options 参数和 thisArgs 参数所构造的对象；
+    //      如果 className 指定的类型函数不存在，则返回 null。
+    coreUtil.create = function (className, options) {
+        var type = coreUtil.getDefined(className);
+        return coreUtil.isFunction(type) ? type(options) : null;
+    };
+
 
 
     //  元素闪动的默认时间间隔（毫秒）；该属性仅限于被方法 coreJquery.prototype.shine 调用；
