@@ -61,7 +61,7 @@
                 topMost: true,
                 onSave: function () { if ($.isFunction(opts.onSelect)) { return opts.onSelect.call(this, value); } }
             }));
-        $.util.call(function () {
+        $.util.exec(function () {
             var content = dia.find("div.icons-layout").layout({ fit: true }),
                 toolbar = content.find("div.icons-toolbar").toolbar(),
                 tabs = content.find("div.icons-tabs").tabs({ fit: true, border: false }),
@@ -109,7 +109,7 @@
                 });
                 if (opts.size == "32") { ul.addClass("icon-selector-ul-32"); }
             };
-            $.util.call(function () { dia.setValue(value); });
+            $.util.exec(function () { dia.setValue(value); });
             $.each(iconStyles, function (i, item) {
                 tabs.tabs("add", {
                     id: item.style, title: item.name, iconCls: "", closable: false, selected: false, refreshable: false

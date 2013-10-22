@@ -153,7 +153,7 @@
                 $("div.window-mask:last").prevAll("div.panel.window:first").children(".panel-body.window-body").each(function () {
                     var win = $(this), opts = win.window("options");
                     if (opts && opts.closable && opts.autoCloseOnEsc && !win.window("header").find(".panel-tool a").attr("disabled")) {
-                        $.util.call(function () { win.window("close"); });
+                        $.util.exec(function () { win.window("close"); });
                     }
                 });
             }

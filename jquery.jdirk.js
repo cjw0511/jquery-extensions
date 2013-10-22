@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 陈建伟
-* 最近更新：2013-10-06
+* 最近更新：2013-10-22
 *
 * 依赖项：jquery-1.9.1.js late
 *
@@ -70,7 +70,7 @@
         parent = coreUtil.parent = window.parent,
         top = coreUtil.top = window.top;
     var $$ = coreJquery.emptyJquery = coreJquery.empty$ = coreJquery.$$ = coreUtil.emptyJquery = coreUtil.empty$ = coreUtil.$$ = $();
-    var version = "2013-10-06",
+    var version = "2013-10-22",
         core_array = [],
         core_trim = version.trim,
         core_push = core_array.push,
@@ -78,6 +78,9 @@
         core_splice = core_array.splice,
         core_sort = core_array.sort,
         core_isArray = Array.isArray;
+
+    //  定义版本
+    coreUtil.version = version;
 
     /////////////////////////////////////////////////////////////////////////////////////////////// 
     //  javascript 工具，提供常用的 js 工具方法。
@@ -394,11 +397,10 @@
     //      code:       必需。要调用的函数后要执行的 JavaScript 代码串。
     //      millisec:   可选。在执行代码前需等待的毫秒数。
     //  模拟 setTimeout/setImmediate 方法。
-    //  备注：如果不传入参数 millisec 或该参数值为 0，则自动调用 setImmediate(该方法可以有效降低浏览器资源开销) 方法；
-    coreUtil.call = function (code, millisec) {
-        if (coreUtil.isString(code) && coreString.isNullOrWhiteSpace(code)) { return; }
-        if (millisec == null || millisec == undefined) { millisec = 0; }
-        return millisec == 0 && window.setImmediate ? window.setImmediate(code) : window.setTimeout(code, millisec);
+    //  备注：如果不传入参数 millisec 或该参数值为 0，则自动调用 setImmediate(该方法相对于 setTimeout 可以有效降低浏览器资源开销) 方法；
+    coreUtil.exec = function (code, millisec) {
+        if (!code) { return; }
+        return !millisec && window.setImmediate ? window.setImmediate(code) : window.setTimeout(code, millisec);
     };
 
 
@@ -1047,8 +1049,8 @@
     /////////////////////////////////////////////////////////////////////////////////////////////// 
 
     //  判断对象是否是一个数组
-    coreArray.isArray = core_isArray ? core_isArray : function (array) { return coreUtil.type(array) === "array"; };
-    coreUtil.isArray = $.isArray = coreArray.isArray;
+    coreArray.isArray = core_isArray ? core_isArray : coreUtil.isArray;
+    coreUtil.isArray = coreArray.isArray;
 
     //  检测一个对象是否为一个数组对象或者类似于数组对象，同 coreUtil.likeArray
     coreArray.likeArray = coreUtil.likeArray;
@@ -2935,12 +2937,12 @@
         var a = function () { selector.addClass("jdirk-shine"); };
         var b = function () { selector.removeClass("jdirk-shine"); };
         var run = function () {
-            coreUtil.call(a, interval / 2);
-            coreUtil.call(b, interval);
+            coreUtil.exec(a, interval / 2);
+            coreUtil.exec(b, interval);
             times--;
-            if (times > 0) { coreUtil.call(run, interval); }
+            if (times > 0) { coreUtil.exec(run, interval); }
         };
-        coreUtil.call(run);
+        coreUtil.exec(run);
         return selector;
     };
     coreJquery.prototype.shine = function (interval, times) { return coreJquery.shine(this, interval, times); };

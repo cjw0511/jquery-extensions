@@ -273,7 +273,7 @@
         if (!opts._initialized) {
             setPrompt(target, opts.prompt, opts);
             if (opts.autoFocus) {
-                $.util.call(function () { t.focus(); });
+                $.util.exec(function () { t.focus(); });
             }
             opts._initialized = true;
         }

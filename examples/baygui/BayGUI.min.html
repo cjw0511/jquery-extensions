@@ -100,7 +100,7 @@
 
             $("#resetAll").click(function () {
                 $.easyui.loading({ msg: "正在重置，请稍等..." });
-                $.util.call(function () { bays.resetAll(); $.easyui.loaded(); }, 100);
+                $.util.exec(function () { bays.resetAll(); $.easyui.loaded(); }, 100);
             });
 
             $("#clearCell").click(function () {
@@ -116,7 +116,7 @@
 
             $("#clearAll").click(function () {
                 $.easyui.loading({ msg: "正在清除，请稍等..." });
-                $.util.call(function () { bays.clearAll(); $.easyui.loaded(); }, 100);
+                $.util.exec(function () { bays.clearAll(); $.easyui.loaded(); }, 100);
             });
 
             $("#btnSave").click(function () { bays.save(); });

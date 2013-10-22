@@ -56,7 +56,7 @@
     function setIconAlign(target, iconAlign) {
         var t = $.util.parseJquery(target), opts = t.linkbutton("options");
         if (!t.find("span.l-btn-empty").length) {
-            $.util.call(function () {
+            $.util.exec(function () {
                 t.find("span.l-btn-text").removeClass("l-btn-icon-left l-btn-icon-right").addClass("l-btn-icon-" + opts.iconAlign);
             });
         }
