@@ -1040,7 +1040,7 @@
         ]
     },
     {
-        "bayNo": "33", "isEdge": false, "tiers": [
+        "bayNo": "33", "isEdge": true, "tiers": [
             { "tierNo": "88", "rows": [
                 { "rowNo": "00", "disabled": false },
                 { "rowNo": "01", "disabled": false },

@@ -123,7 +123,7 @@
             }
             item.closest('div.menu-item')._outerHeight(item._outerHeight() + 2);
         });
-        width += 65;
+        width += 45;
         menu._outerWidth(Math.max((menu[0].originalWidth || 0), width, opts.minWidth));
 
         menu.css('display', d);

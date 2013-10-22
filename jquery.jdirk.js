@@ -2881,7 +2881,7 @@
     //      可以用 coreUtil.getDefined(className) 来判断 className 所指定的对象是否已经存在；
     coreUtil.define = function (className, data, createFn) {
         if (coreUtil.isFunction(data)) { createFn = data; }
-        var p, name, func;
+        var p, name, constructor, func;
         if (className) {
             var names = String(className).split(".");
             for (var i = 0; i < names.length; i++) {
@@ -2894,10 +2894,11 @@
                 name = names[names.length - 1];
             }
         }
-        var constructor = coreUtil.isFunction(createFn) ? createFn : function () { };
+        createFn = coreUtil.isFunction(createFn) ? createFn : function () { };
+        constructor = function (options) { return createFn.call(this, options); };
         func = function (options) { return new constructor(options); };
-        func.defaults = func.prototype = constructor.prototype;
-        $.extend(func, { extend: $.extend, union: coreJquery.union });
+        func.defaults = func.fn = func.prototype = constructor.defaults = constructor.fn = constructor.prototype;
+        $.extend(func, { extend: $.extend, union: coreJquery.union, init: constructor, inst: createFn });
         $.extend(func.defaults, data, { extend: $.extend, union: coreJquery.union });
         if (p && name) {
             var old = p[name];

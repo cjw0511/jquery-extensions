@@ -1,25 +1,26 @@
 ﻿
 一，本目录下的文件说明：
     ├─baygui                    : 当前文件夹
-    │      API 说明.txt          : 提供对本插件的 API 说明
-    │      BayGUI.html           : 提供对本插件的功能 DEMO 演示
-    │      BayGUI.min.html       : 提供对本插件的功能 DEMO 演示(该文件调用的插件脚本为 jeasyui.baygui.min.js)
-    │      bays-data.json        : 提供本插件的左侧表格的数据源
-    │      BoxData.sql           : 用于从数据中读取用于测试的左侧列表数据并将测试数据生成 JSON 文本内容；
-    │      boxes-data.json       : 提供本插件的贝位图单元格区域的数据源
-    │      code.html             : 
-    │      customTable.html      : 提供对 easyui-datagrid 和 html-table 的行拖动功能的性能对比测试演示
-    │      demo.html             :
-    │      jeasyui.baygui.js     : 本插件(BayGUI)的主程序文件
-    │      jeasyui.baygui.min.js : 是文件 jeasyui.baygui.min.js 的代码压缩版本(基于 uglifyjs 插件压缩)
-    │      数据格式规范.txt      : 提供对本插件中左侧列表数据源格式和右侧贝位图单元格数据源格式的说明
-    │      使用说明.txt          : 本文件
+        ├─  API 说明.txt          : 提供对本插件的 API 说明
+        ├─  BayGUI.html           : 提供对本插件的功能 DEMO 演示
+        ├─  BayGUI.min.html       : 提供对本插件的功能 DEMO 演示(该文件调用的插件脚本为 jeasyui.baygui.min.js)
+        ├─  bays-data.json        : 提供本插件的左侧表格的数据源
+        ├─  BoxData.sql           : 用于从数据中读取用于测试的左侧列表数据并将测试数据生成 JSON 文本内容；
+        ├─  boxes-data.json       : 提供本插件的贝位图单元格区域的数据源
+        ├─  code.html             : 
+        ├─  customTable.html      : 提供对 easyui-datagrid 和 html-table 的行拖动功能的性能对比测试演示
+        ├─  demo.html             :
+        ├─  jeasyui.baygui.js     : 本插件(BayGUI)的主程序文件
+        ├─  jeasyui.baygui.min.js : 是文件 jeasyui.baygui.js 的代码压缩版本(基于 uglifyjs 插件压缩)
+        ├─  数据格式规范.txt      : 提供对本插件中左侧列表数据源格式和右侧贝位图单元格数据源格式的说明
+        ├─  使用说明.txt          : 本文件
 
 二，使用方式：
+    1、在项目的 WEB 服务器端建立用以支持 boxesUrl、baysUrl、saveUrl 参数的相应 WebService；
     1、在页面上导入 easyui 的基础库文件(包括 easyui.css、icon.css、jquery.js、jquery.easyui.min.js 和 easyui-lang-zh_CN.js(可选))；
     2、在页面上导入本插件所用到的图标样式库：icon-all.css；
     3、在页面上导入本插件的基础 JavaScript 工具库：jquery.jdirk.js；
-    4、按如下顺序导入本插件所基于的 jQuery-EasyUI 扩展相关文件：
+    4、在页面上按如下顺序导入本插件所基于的 jQuery-EasyUI 扩展相关文件：
         a、jeasyui.extensions.js
         b、jeasyui.extensions.menu.js
         c、jeasyui.extensions.panel.js
@@ -29,4 +30,6 @@
         g、jeasyui.extensions.datagrid.js
         h、jquery-easyui-toolbar/jquery.toolbar.js
     5、在页面上导入本插件主程序文件：jeasyui.baygui.js 或 jeasyui.baygui.min.js
+    7、参考 DEMO(BayGUI.html) 页面编写相应的功能代码；
+        编写代码时注意将 boxesGrid、boxesColumns、baysContainer、boxesUrl、boxesMethod、boxesQueryParams、baysUrl、baysMethod、baysQueryParams、saveUrl、saveMethod 替换成项目中实际的相应值；
 

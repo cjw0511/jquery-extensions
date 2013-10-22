@@ -37,6 +37,7 @@
 
     var easyui = $.util.$.easyui ? $.util.$.easyui : $.easyui,
         cache = easyui.frameMapCache ? easyui.frameMapCache : easyui.frameMapCache = [];
+
     function resetCache(iframe) {
         var array = $.array.filter(cache, function (val) { return val.current == iframe; }), l = array.length;
         while (l--) { $.array.remove(cache, array[l]); };
@@ -46,7 +47,7 @@
         var current = $.util.currentFrame;
         if (!current) { return $.util.top; }
         var p = $.array.first(cache, function (val) { return val.current == current; });
-        return p && p.contentWindow ? p.contentWindow : $.util.parent;
+        return (p && p.parent && p.parent.contentWindow) ? p.parent.contentWindow : $.util.parent;
     };
     //  该属性仅可以在通过 $.easyui.showDialog 打开的 easyui-dialog 中的 iframe 中使用；
     //  该属性表示父级页面的 window 对象。

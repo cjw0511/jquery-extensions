@@ -1,0 +1,37 @@
+﻿
+一，本目录下的文件说明：
+    ├─baybuilder                        : 当前文件夹
+        ├─  API 说明.txt                : 提供对本插件的 API 说明
+        ├─  bayedit.html                : 提供对本插件的编辑功能 DEMO 演示
+        ├─  bayedit.min.html            : 提供对本插件的编辑功能 DEMO 演示(该文件调用的插件脚本为 jeasyui.bayseditor.min.js)
+        ├─  bays-data.json              : 提供本插件的贝位图单元格演示数据的数据源
+        ├─  bayview.html                : 提供对本插件的查看功能 DEMO 演示
+        ├─  bayview.min.html            : 提供对本插件的查看功能 DEMO 演示(该文件调用的插件脚本为 jeasyui.bayseditor.min.js)
+        ├─  code.html                   :
+        ├─  demo.html                   :
+        ├─  jeasyui.bayseditor.js       : 本插件(BayGUI-Editor 和 BayGUI-Viewer)的主程序文件
+        ├─  jeasyui.bayseditor.min.js   : 本插件文件 jeasyui.bayseditor.js 的代码压缩版本(基于 uglifyjs 插件压缩)
+        ├─  ship-data.json              : 提供本插件的货船信息演示数据的数据源
+        ├─  temps.js                    :
+        ├─  使用说明.txt                : 本文件
+        ├─  数据格式规范.txt            : 提供对本插件中左侧列表数据源格式和右侧贝位图单元格数据源格式的说明
+
+
+
+二，使用方式：
+    1、在项目的 WEB 服务器端建立用以支持 shipUrl、baysUrl、saveUrl 参数的相应 WebService；
+    2、在页面上导入 easyui 的基础库文件(包括 easyui.css、icon.css、jquery.js、jquery.easyui.min.js 和 easyui-lang-zh_CN.js(可选))；
+    3、在页面上导入本插件所用到的图标样式库：icon-all.css；
+    4、在页面上导入本插件的基础 JavaScript 工具库：jquery.jdirk.js；
+    5、在页面上按如下顺序导入本插件所基于的 jQuery-EasyUI 扩展相关文件：
+        a、jeasyui.extensions.js
+        b、jeasyui.extensions.menu.js
+        c、jeasyui.extensions.panel.js
+        d、jeasyui.extensions.window.js
+        e、jeasyui.extensions.dialog.js
+        f、jeasyui.extensions.tabs.js                (BayGUI-Viewer功能中不需要依赖该插件)
+        g、jquery-easyui-toolbar/jquery.toolbar.js   (BayGUI-Viewer功能中不需要依赖该插件)
+    6、在页面上导入本插件主程序文件：jeasyui.bayseditor.js 或 jeasyui.bayseditor.min.js
+    7、参考 DEMO(bayedit.html 或 bayview.html) 页面编写相应的功能代码；
+        编写代码时注意将 baysContainer、shipUrl、shipMethod、shipQueryParams、baysUrl、baysMethod、baysQueryParams、saveUrl、saveMethod 替换成项目中实际的相应值；
+

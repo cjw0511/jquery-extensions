@@ -34,6 +34,8 @@
     //              bayCellNo:一个6位字符的贝位号，格式如 "010203"，表示该集装箱所放置的贝位号；
     //  1   saveMethod      : 贝位图配置数据进行远程服务器提交保存操作的数据提交方式；
     //          该参数为 String 类型值，可选的值限定为 "get" 或 "post"(默认)，不区分大小写；
+    //  1   saveAjaxOptions : 表示对贝位图 GUI 组件的数据进行保存操作时所附加的 AJAX 选项参数；参见 $.ajax 方法中关于 options 的定义；
+                这是一个 JSON-Object 类型，对象中每个属性值表示一个参数；
     //  1   boardFormatter  : 参数列表：bayCellNo, box；
     //          这是一个回调函数类型属性；返回 bayCellBoard 显示的内容；通过该属性允许 bayCellBoard 内容自定义；
     //  1   cellFormatter   : 参数列表：bayCellNo, box, bayCell；
