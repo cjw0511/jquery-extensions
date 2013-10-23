@@ -58,9 +58,9 @@
                 tierNo  : 表示层位号
                 rowNo   : 表示行位号
                 bayCellNo: 表示贝位单元格编号，格式如 "bayNo + rowNo + tierNo"
-1       loadBays    : 参数列表：array
+1       loadBays    : 参数列表：data
             加载整船贝位图渲染数据并初始化贝位图编辑界面；
-            参数 array 为一个数组，具体格式参见 "数据格式规范.txt" 中关于 "二，单条船的所有贝位图单元格数据集合" 的描述
+            参数 data 为 JSON-Object，格式如 { code, bays }，其中 code 表示船编号，bays 是一个数组，格式参考 "数据格式规范.txt" 中关于 "二，单条船的所有贝位图单元格数据集合" 的描述
 1       save        : 参数列表：[callback]
             将所有贝位图设置数据以 $.ajax 方式保存至既定(初始化 bayeditor 组件时指定的 saveUrl)的服务器地址；
             该方法执行时将会将 saveAjaxOptions 一并作为 $.ajax 的选项参数；
