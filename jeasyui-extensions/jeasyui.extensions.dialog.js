@@ -139,7 +139,7 @@
                 var onLoad = opts.onLoad;
                 opts.onLoad = function () {
                     if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
-                    $.util.call(function () {
+                    $.util.exec(function () {
                         toolbuttons.removeAttr("disabled");
                         bottombuttons.linkbutton("enable");
                     });

@@ -57,7 +57,7 @@
             width: size.width, height: size.height
         });
         $.extend(opts, size);
-        $.util.call(function () {
+        $.util.exec(function () {
             setAlign(target, opts.align);
             setValign(target, opts.valign);
         });

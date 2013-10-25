@@ -105,7 +105,7 @@
             refreshButton = {
                 iconCls: "icon-mini-refresh", handler: function () {
                     var title = $(this).parent().prev().find("span.tabs-title").text();
-                    if (title) { $.util.call(function () { tabs.tabs("refresh", title); }); }
+                    if (title) { $.util.exec(function () { tabs.tabs("refresh", title); }); }
                 }
             };
         if (panelOpts.refreshable) {
@@ -119,7 +119,7 @@
             $.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
             panelOpts.onLoad = function () {
                 if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
-                $.util.call(function () {
+                $.util.exec(function () {
                     $.easyui.messager.progress("close");
                 });
                 $.util.parseJquery(this).panel("options").onLoad = onLoad;
@@ -203,7 +203,7 @@
             content: content
         }, position);
         var dia = $.easyui.showDialog(dialogOptions);
-        $.util.call(function () {
+        $.util.exec(function () {
             var enter = dia.find(">div.dialog-button>a:first");
             txtTitle.keydown(function (e) { if (e.which == 13) { txtHref.focus(); } });
             txtHref.keydown(function (e) { if (e.which == 13) { ckRefreshable.focus(); } });

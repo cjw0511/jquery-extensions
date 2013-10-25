@@ -1,0 +1,569 @@
+﻿{
+	"code" : 93,
+	"bays" : [{
+			"id" : 1,
+			"bayNo" : "01",
+			"isEdge" : true,
+			"tiers" : [{
+					"id" : 5,
+					"tierNo" : "02",
+					"rows" : [{
+							"id" : 25,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 26,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 27,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 28,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 29,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 30,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 25,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 26,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 27,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 28,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 29,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 30,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}, {
+					"id" : 4,
+					"tierNo" : "04",
+					"rows" : [{
+							"id" : 19,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 20,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 21,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 22,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 23,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 24,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 19,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 20,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 21,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 22,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 23,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 24,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}, {
+					"id" : 3,
+					"tierNo" : "06",
+					"rows" : [{
+							"id" : 13,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 14,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 15,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 16,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 17,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 18,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 13,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 14,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 15,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 16,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 17,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 18,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}, {
+					"id" : 2,
+					"tierNo" : "82",
+					"rows" : [{
+							"id" : 7,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 8,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 9,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 10,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 11,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 12,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 7,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 8,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 9,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 10,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 11,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 12,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}, {
+					"id" : 1,
+					"tierNo" : "84",
+					"rows" : [{
+							"id" : 1,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 2,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 3,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 4,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 5,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 6,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 1,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 2,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 3,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 4,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 5,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 6,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}
+			],
+			"edge" : true
+		}, {
+			"id" : 2,
+			"bayNo" : "03",
+			"isEdge" : true,
+			"tiers" : [{
+					"id" : 10,
+					"tierNo" : "02",
+					"rows" : [{
+							"id" : 55,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 56,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 57,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 58,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 59,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 60,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 55,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 56,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 57,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 58,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 59,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 60,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}, {
+					"id" : 9,
+					"tierNo" : "04",
+					"rows" : [{
+							"id" : 49,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 50,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 51,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 52,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 53,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 54,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 49,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 50,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 51,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 52,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 53,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 54,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}, {
+					"id" : 8,
+					"tierNo" : "06",
+					"rows" : [{
+							"id" : 43,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 44,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 45,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 46,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 47,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 48,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 43,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 44,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 45,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 46,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 47,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 48,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}, {
+					"id" : 7,
+					"tierNo" : "82",
+					"rows" : [{
+							"id" : 37,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 38,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 39,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 40,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 41,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 42,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 37,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 38,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 39,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 40,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 41,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 42,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}, {
+					"id" : 6,
+					"tierNo" : "84",
+					"rows" : [{
+							"id" : 31,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 32,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 33,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 34,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 35,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 36,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					],
+					"sortRows" : [{
+							"id" : 31,
+							"rowNo" : "06",
+							"disabled" : false
+						}, {
+							"id" : 32,
+							"rowNo" : "04",
+							"disabled" : false
+						}, {
+							"id" : 33,
+							"rowNo" : "02",
+							"disabled" : false
+						}, {
+							"id" : 34,
+							"rowNo" : "01",
+							"disabled" : false
+						}, {
+							"id" : 35,
+							"rowNo" : "03",
+							"disabled" : false
+						}, {
+							"id" : 36,
+							"rowNo" : "05",
+							"disabled" : false
+						}
+					]
+				}
+			],
+			"edge" : true
+		}
+	]
+}

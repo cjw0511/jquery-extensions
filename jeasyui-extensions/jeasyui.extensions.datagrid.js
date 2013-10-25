@@ -696,7 +696,7 @@
         } else {
             opts.columnFilter = columnFilter;
             initHeaderColumnFilterContainer(t, opts, exts);
-            $.util.call(function () {
+            $.util.exec(function () {
                 panel.find(selector).hide().slideDown("slow");
             });
         }

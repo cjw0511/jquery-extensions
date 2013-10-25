@@ -116,7 +116,7 @@
 
             $("#A1").click(function () {
                 $.easyui.loading();
-                $.util.call(function () { $.easyui.loaded(); }, 1000);
+                $.util.exec(function () { $.easyui.loaded(); }, 1000);
             });
 
             var portal = $("#portal");
@@ -126,6 +126,13 @@
 
             var a3 = $("#A3").click(function () {
                 portal.portal("removeColumn", portal.portal("columns") - 1);
+            });
+
+            $("#A4").click(function () {
+                $.easyui.showDialog({
+                    href: "http://www.baidu.com",
+                    iniframe: true
+                });
             });
 
             $("#btnBugReport").click(function () {
@@ -266,6 +273,8 @@
                             <span>-</span>
                             <a id="A2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-add'">添加一列</a>
                             <a id="A3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-delete'">删除一列</a>
+                            <span>-</span>
+                            <a id="A4" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">操作XXOO</a>
                         </div>
                     </div>
                     <div data-options="region: 'center', border: false" style="overflow: hidden;">

@@ -584,7 +584,7 @@
                 var m = $.util.parseJquery(this);
                 if ($.isFunction(onHide1)) { onHide1.apply(this, arguments); }
                 if ($.isFunction(onHide2)) { onHide2.apply(this, arguments); }
-                $.util.call(function () { m.menu("destroy"); });
+                $.util.exec(function () { m.menu("destroy"); });
             };
             var m = buildMenu(opts);
             m.menu.menu(m.options).menu("show", { left: m.options.left, top: m.options.top });

@@ -74,7 +74,7 @@
                 window.mainpage.addModuleTab(node);
             },
             onLoadSuccess: function (node, data) {
-                $.util.call(function () { $(navMenuList).find("a").removeAttr("disabled"); });
+                $.util.exec(function () { $(navMenuList).find("a").removeAttr("disabled"); });
                 window.mainpage.instTreeStatus(this);
                 $.easyui.loaded(westCenterLayout);
             },

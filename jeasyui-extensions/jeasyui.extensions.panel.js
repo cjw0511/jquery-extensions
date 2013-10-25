@@ -172,7 +172,7 @@
             opts.content = "<iframe class='panel-iframe' frameborder='0' width='100%' height='100%' marginwidth='0px' marginheight='0px' scrolling='auto'></iframe>";
             _refresh.call(p, p);
             opts.href = exts.href; opts.content = exts.content;
-            $.util.call(function () { getIframe(target).attr("src", href); });
+            $.util.exec(function () { getIframe(target).attr("src", href); });
         } else {
             _refresh.call(p, p, href);
         }

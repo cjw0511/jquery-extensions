@@ -23,6 +23,9 @@
             参数列表：ship
 1       baysDataFilter  : Function 类型值；表示解析 baysUrl 传递过来的数据时所采用的解析器；该函数必须返回一个格式符合 "数据格式规范.txt" 中关于 "单条船的所有贝位图单元格数据集合" 的描述；
             参数列表：array
+1       saveDataFilter  : Function 类型值；表示在指定 save/saveAs 方法时，将要保存的数据提交至服务器前，对待提交数据进行的格式化操作；
+            该函数返回的数据将最终用于进行 $.ajax 数据提交；
+            参数列表：data，data 表示准备提交的未经格式化处理的 JSON-Object 数据；格式参考 "数据格式规范.txt" 中关于 "三，将单条船所有贝位图但愿数据集合保存时所采用的数据格式" 的描述
     同时，该参数对象还可定义如下事件属性的定义(事件的类型均为回调函数，函数的回调参数参见事件说明)：
 1       onBeforeSave    : 参数列表：data, url；在执行方法 save 前触发；
 1       onSave          : 参数列表：data, url；在执行方法 save 后触发；
@@ -30,7 +33,7 @@
 1       onBeforeLoadBays: 参数列表：data；在执行方法 loadBays 前触发；
 1       onLoadBays      : 参数列表：data；在执行方法 loadBays 后触发；
 1       onBeforeAddBay  : 参数列表：bay；在执行方法 addBay 前触发；
-            { bayNo, isEdge, deck, under }
+            参数 bay 的格式为： { bayNo, isEdge, deck: { width, height }, under: { width, height } }
 1       onAddBay        : 参数列表：bay；在执行方法 addBay 后触发；
 1       onBeforeRemoveBay:参数列表：bayNo；在执行方法 removeBay 前触发；
 1       onRemoveBay     : 参数列表：bayNo；在执行方法 removeBay 后触发；
@@ -51,38 +54,67 @@
         同时，该返回的对象还包含如下方法：
             参数说明：中括号 "[]" 中包含的参数，表示可选参数；参数带 "/" 的，表示支持多种类型的参数；
             常见参数如：
-                bayNo   :
-                tierNo  :
-                rowNo   :
-                bayCellNo:
-1       loadBays    : 参数列表：array
+                bayNo   : 表示贝位号
+                tierNo  : 表示层位号
+                rowNo   : 表示行位号
+                bayCellNo: 表示贝位单元格编号，格式如 "bayNo + rowNo + tierNo"
+1       loadBays    : 参数列表：data
+            加载整船贝位图渲染数据并初始化贝位图编辑界面；
+            参数 data 为 JSON-Object，格式如 { code, bays }，其中 code 表示船编号，bays 是一个数组，格式参考 "数据格式规范.txt" 中关于 "二，单条船的所有贝位图单元格数据集合" 的描述
 1       save        : 参数列表：[callback]
+            将所有贝位图设置数据以 $.ajax 方式保存至既定(初始化 bayeditor 组件时指定的 saveUrl)的服务器地址；
+            该方法执行时将会将 saveAjaxOptions 一并作为 $.ajax 的选项参数；
+            关于服务器接收数据的格式，参照前文关于 saveUrl 属性的说明；
+            参数 callback 可选，表示一个回调函数 function(data)，回调函数的参数 data 表示提交成功后服务器返回的数据，该回调函数将在 $.ajax 的 success 中被调用；
 1       saveAs      : 参数列表：url[, callback]
+            同方法 save；不过该方法可以通过参数 url 指定另一个非默认的服务器接收地址；
 1       getCell     : 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
             获取指定 bayCellNo 的贝位图网格数据内容；
             返回值：返回一个 JSON-Object，格式如 { bayNo, tierNo, rowNo, bayCellNo, bayCell, disabled }
-1       getCellDom  : 参数列表：[bayCellNo]
-1       getBay      : 参数列表：[bayNo]
+1       getCellDom  : 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
+1       getBay      : 参数列表：[bayNo]，如果该参数未定义，则取当前选中的贝位 bayNo；
+            获取指定贝位的单元格数据集合；该方法返回的数据格式如：{ bayNo, isEdge, tiers }
 1       getBayRow   : 参数列表：bayNo, rowNo
+            获取指定贝位中指定行位的所有单元格数据；该方法返回一个数组，数组中每一个的元素格式同 getCell 方法返回值类型的 JSON-Object 对象；
 1       getBayTier  : 参数列表：bayNo, tierNo
+            获取指定贝位图中指定层位的所有单元格数据；该方法返回一个数组，数组中每一个的元素格式同 getCell 方法返回值类型的 JSON-Object 对象；
 1       getAll      : 参数列表：无
+            获取当前贝位图插件中所有贝位的所有单元格数据集合；该方法返回一个数组，数组中每一个元素的格式同 getBay 方法返回值类型的 JSON-Object 对象；
 1       selectCell  : 参数列表：[bayCellNo]
-1       unSelectCell: 参数列表：[bayCellNo]
+            将指定贝位单元格设置为选定状态
+1       unSelectCell: 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
+            取消指定贝位单元格的选定状态
 1       jumpCell    : 参数列表：bayCellNo
-1       jumpBay     : 参数列表：bayCellNo
-1       disableCell : 参数列表：[bayCellNo]
+            快速跳转至指定的贝位单元格(将该单元格所在的贝位选项卡设置为选定状态，并将该贝位单元格也设置为选定状态)
+1       jumpBay     : 参数列表：bayNo
+            快速跳转至指定的贝位选项卡
+1       disableCell : 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
+            禁用指定编号的贝位单元格
 1       disableTier : 参数列表：bayNo[, tierNo]
+            禁用指定贝位中指定层号的所有贝位单元格
 1       disableRow  : 参数列表：bayNo[, rowNo]
-1       enableCell  : 参数列表：[bayCellNo]
+            禁用指定贝位中指定行号的所有贝位单元格
+1       enableCell  : 参数列表：[bayCellNo]，如果该参数未定义，则取当前选中的 bayCellNo；
+            启用指定编号的贝位单元格
 1       enableTier  : 参数列表：bayNo[, tierNo]
+            启用指定贝位中指定层号的所有贝位单元格
 1       enableRow   : 参数列表：bayNo[, rowNo]
+            启用指定贝位中指定行号的所有贝位单元格
 1       resetCell   : 参数列表：[bayCellNo]
+            重置指定贝位单元格的禁用/启用状态 (将该单元格的禁用/启用状态设置为刚从服务器加载时的状态)；
 1       showAddBayDialog: 参数列表：[callback]
+            弹出一个 "添加/插入" 贝位的对话框；该对话框可以设置相应参数以进行 "添加/插入" 贝位操作；
+            参数 callback 表示一个回调函数 function(bay)，回调函数中 bay 的格式参考 addBay 方法中 bay 参数的格式；
+            如果定义了参数 callback，则点击该弹出对话框的 "确定" 按钮时将指定该回调函数；否则在点击 "确定" 按钮时将调用 addBay 方法；
 1       showInsertBayDialog: 参数列表：bayNo[, callback]
-1       addBay      : 参数列表：bay，参数 bay 为一个 JSON-Object，格式如下：
-            { isEdge, deck: { width, height }, under: { width, height } }
+            同方法 showAddBayDialog；不过该方法弹出的对话框中，"在以下贝位前插入" 复选框默认是选中的并且其下拉列表的值为 bayNo 参数值；
+1       addBay      : 参数列表：bay，
+            添加一个贝位图选项卡；
+            参数 bay 为一个 JSON-Object，格式如下：{ isEdge, deck: { width, height }, under: { width, height } }
 1       insertBay   : 参数列表：bayNo, bay
+            在指定的贝位选项卡前插入一个贝位图选项卡；参数 bay 同方法 addBay 的参数 bay；
 1       removeBay   : 参数列表：bayNo
+            删除指定贝位号的选项卡；
 
 
     
@@ -144,14 +176,16 @@
         同时，该返回的对象还包含如下方法：
             参数说明：中括号 "[]" 中包含的参数，表示可选参数；参数带 "/" 的，表示支持多种类型的参数；
             常见参数如：
-                bayNo   :
-                tierNo  :
-                rowNo   :
-                bayCellNo:
+                bayNo   : 表示贝位号
+                tierNo  : 表示层位号
+                rowNo   : 表示行位号
+                bayCellNo: 表示贝位单元格编号，格式为 "bayNo + rowNo + rowNo"
 1       loadBays    : 参数列表：array；
+            以指定的数据来初始化贝位图预览界面(整船所有贝位预览)，参数 array 为一个数组，具体格式参见 "数据格式规范.txt" 中关于 "二，单条船的所有贝位图单元格数据集合" 的定义；
 1       getBayDom   : 参数列表：bayNo；
+            获取指定 bayNo 的小贝位图 DOM 对象，返回的数据为一个结构为 "li.baygui-viewer-item" 的 jQuery 对象；
 1       showBay     : 参数列表：bayNo；
-
+            将指定 bayNo 的小贝位图进行弹窗显示；相当于鼠标左键点击了贝位图预览界面的某个小贝位图操作。
 
 
 
