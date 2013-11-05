@@ -1,6 +1,11 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2013-11-05(1.0.21 preview) ********/
+1、【^】 调整 index.html 部分数据(菜单、捐赠列表和友情链接)的加载方式；由之前的静态 javascript 数组变量申明改为 ***.json 文件数据源并通过 AJAX 加载；
+2、[+] examples.html 页面中，添加 "查看其它" 选项卡；
+
+
 /******** 2013-10-22(1.0.20 preview) ********/
 1、[^] 增加 jquery.jdirk.js 中的部分函数，用于定义 JavaScript 类型函数对象(类似于 Ext.define 函数功能)以及快速获取类型函数对象等操作；
 2、【^】 重命名 jquery.jdirk.js 中的方法 $.util.call 名称为 $.util.exec；

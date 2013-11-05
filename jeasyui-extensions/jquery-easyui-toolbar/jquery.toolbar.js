@@ -580,7 +580,13 @@
         //      combobox    :
         //      combotree   :
         //      combogrid   :
-        itemTypes: itemTypes
+        itemTypes: itemTypes,
+
+        onLoadSuccess: function (data) { },
+
+        onLoadError: function () { },
+
+        onBeforeLoad: function (param) { }
     };
 
 

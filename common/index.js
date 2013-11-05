@@ -18,36 +18,45 @@
     window.mainpage.loadMenu = function (id) {
         $(navMenuList).find("a").attr("disabled", true);
         $.easyui.loading({ locale: westCenterLayout });
-        var root = $.extend({}, $.array.first(window.mainpage.navMenusData, function (val) { return val.id == id; })),
-            menus = id == "10" ? window.mainpage.docMenus : (id == "11" ? window.mainpage.apiMenus : []);
-        root.children = menus;
-        var t = $(navMenuTree).tree("loadData", [root]);
+        var t = $(navMenuTree), root = $.extend({}, $.array.first(window.mainpage.navMenusData, function (val) { return val.id == id; }));
+        if ($.array.contains(["10", "11"], id)) {
+            $.get(id == 11 ? "common/nav-api-menu-data.json" : "common/nav-doc-menu-data.json", function (menus) {
+                root.children = menus;
+                t.tree("loadData", [root]);
+            }, "json");
+        } else {
+            root.children = [];
+            t.tree("loadData", [root]);
+        }
     };
 
     //  将指定的根节点数据集合数据加载至左侧面板中“导航菜单”的 ul 控件中；该方法定义如下参数：
-    //      menus:  为一个 Array 对象；数组中的每一个元素都是一个表示根节点菜单数据的 JSON-Object。
-    window.mainpage.loadNavMenus = function () {
-        var ul = $(navMenuList).empty(), menus = window.mainpage.navMenusData;
-        $.each(menus, function (i, item) {
-            var li = $("<li></li>").appendTo(ul);
-            var pp = $("<div></div>").addClass("panel-header panel-header-noborder").appendTo(li);
-            var a = $("<a></a>").attr({ href: "javascript:void(0);", target: "_self" }).hover(function () {
-                a.addClass("tree-node-selected");
-            }, function () {
-                if (!a.hasClass("selected")) { $(this).removeClass("tree-node-selected"); }
-            }).click(function () {
-                if (a.is(".tree-node-selected.selected") || a.attr("disabled")) { return; }
-                a.closest("ul").find("a").removeClass("tree-node-selected selected");
-                a.addClass("tree-node-selected selected");
-                window.mainpage.loadMenu(item.id);
-            }).appendTo(pp);
-            $.data(a[0], "menu-item", item);
-            var span = $("<span></span>").addClass("nav-menu").appendTo(a);
-            $("<span></span>").addClass("nav-menu-icon" + (item.iconCls ? " " + item.iconCls : "")).text(item.text).appendTo(span);
-        });
-        var layout = $(westLayout), south = layout.layout("panel", "south"), southOpts = south.panel("options");
-        southOpts.minHeight = 5 + Math.min(menus.length, 3) * 27; southOpts.maxHeight = 5 + menus.length * 27;
-        layout.layout("resize");
+    //      callback:  为一个 Function 对象；表示家在完成菜单数据后调用的回调函数
+    window.mainpage.loadNavMenus = function (callback) {
+        var ul = $(navMenuList).empty();
+        $.get("common/nav-menu-data.json", function (menus) {
+            $.each(window.mainpage.navMenusData = menus, function (i, item) {
+                var li = $("<li></li>").appendTo(ul);
+                var pp = $("<div></div>").addClass("panel-header panel-header-noborder").appendTo(li);
+                var a = $("<a></a>").attr({ href: "javascript:void(0);", target: "_self" }).hover(function () {
+                    a.addClass("tree-node-selected");
+                }, function () {
+                    if (!a.hasClass("selected")) { $(this).removeClass("tree-node-selected"); }
+                }).click(function () {
+                    if (a.is(".tree-node-selected.selected") || a.attr("disabled")) { return; }
+                    a.closest("ul").find("a").removeClass("tree-node-selected selected");
+                    a.addClass("tree-node-selected selected");
+                    window.mainpage.loadMenu(item.id);
+                }).appendTo(pp);
+                $.data(a[0], "menu-item", item);
+                var span = $("<span></span>").addClass("nav-menu").appendTo(a);
+                $("<span></span>").addClass("nav-menu-icon" + (item.iconCls ? " " + item.iconCls : "")).text(item.text).appendTo(span);
+            });
+            var layout = $(westLayout), south = layout.layout("panel", "south"), southOpts = south.panel("options");
+            southOpts.minHeight = 5 + Math.min(menus.length, 3) * 27; southOpts.maxHeight = 5 + menus.length * 27;
+            layout.layout("resize");
+            if ($.isFunction(callback)) { callback.call(ul, menus); }
+        }, "json");
     };
 
     window.mainpage.instTreeStatus = function (target) {
@@ -80,9 +89,7 @@
             },
             contextMenu: [
                 {
-                    text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) {
-                        window.mainpage.addModuleTab(node);
-                    }
+                    text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) { window.mainpage.addModuleTab(node); }
                 }, "-",
                 { text: "添加至个人收藏", iconCls: "icon-standard-feed-add", disabled: function (e, node) { return !t.tree("isLeaf", node.target); }, handler: function (e, node) { window.mainpage.nav.addFavo(node.id); } },
                 { text: "重命名", iconCls: "icon-hamburg-pencil", handler: function (e, node) { t.tree("beginEdit", node.target); } }, "-",
@@ -94,16 +101,17 @@
 
     //  初始化应用程序主界面左侧面板中“导航菜单”的数据，并加载特定的子菜单树数据。
     window.mainpage.instMainMenus = function () {
-        window.mainpage.loadNavMenus();
-        window.mainpage.instNavTree();
-        var selectId = 11;
-        if (window.mainpage.navMenusData.length) {
-            var list = $(navMenuList).find("a");
-            if (!list.length) { return; }
-            var menu = list.filter(function () { var item = $.data(this, "menu-item"); return item && item.id == selectId; }),
-                target = menu.length ? menu : list.eq(0);
-            target.click();
-        }
+        window.mainpage.loadNavMenus(function () {
+            window.mainpage.instNavTree();
+            var selectId = 11;
+            if (window.mainpage.navMenusData.length) {
+                var list = $(navMenuList).find("a");
+                if (!list.length) { return; }
+                var menu = list.filter(function () { var item = $.data(this, "menu-item"); return item && item.id == selectId; }),
+                    target = menu.length ? menu : list.eq(0);
+                target.click();
+            }
+        });
     };
 
 
@@ -134,9 +142,7 @@
             },
             contextMenu: [
                 {
-                    text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) {
-                        window.mainpage.addModuleTab(node);
-                    }
+                    text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) { window.mainpage.addModuleTab(node); }
                 }, "-",
                 { text: "添加目录", iconCls: "icon-standard-folder-add", handler: function (e, node) { window.mainpage.favo.addFolder(node); } }, "-",
                 { text: "从个人收藏删除", iconCls: "icon-standard-feed-delete", handler: function (e, node) { window.mainpage.favo.removeFavo(node.id); } },
@@ -527,27 +533,33 @@
 
 
     //初始化捐赠数据列表
+    $.util.namespace("donate");
     window.donate.init = function () {
         var donate = $("#donateList");
-        $.each(window.donate.data, function (i, item) {
-            var li = $("<li></li>").appendTo(donate);
-            $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
-            $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
-            $("<span></span>").text("(").appendTo(li);
-            $("<span></span>").addClass("donate-total").text(item.total).appendTo(li);
-            $("<span></span>").text("元)").appendTo(li);
-        });
+        $.get("common/donate-data.json", function (data) {
+            $.each(window.donate.data = data, function (i, item) {
+                var li = $("<li></li>").appendTo(donate);
+                $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
+                $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
+                $("<span></span>").text("(").appendTo(li);
+                $("<span></span>").addClass("donate-total").text(item.total).appendTo(li);
+                $("<span></span>").text("元)").appendTo(li);
+            });
+        }, "json");
     };
 
     //初始化友情链接列表
+    $.util.namespace("link");
     window.link.init = function () {
         var link = $("#linkList");
-        $.each(window.link.data, function (i, item) {
-            var li = $("<li></li>").appendTo(link);
-            $("<span></span>").text(item.title).appendTo(li);
-            $("<br />").appendTo(li);
-            $("<a target='_blank'></a>").attr("href", item.href).text(item.href).appendTo(li);
-        });
+        $.get("common/link-data.json", function (data) {
+            $.each(window.link.data = data, function (i, item) {
+                var li = $("<li></li>").appendTo(link);
+                $("<span></span>").text(item.title).appendTo(li);
+                $("<br />").appendTo(li);
+                $("<a target='_blank'></a>").attr("href", item.href).text(item.href).appendTo(li);
+            });
+        }, "json");
     };
 
 })(jQuery);

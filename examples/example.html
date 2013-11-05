@@ -73,7 +73,9 @@
                 }
             });
 
-            $("#tabsContainer").tabs("tabs").forEach(function (p, i) {
+            var tabs = $("#tabsContainer").tabs("tabs");
+            $.each(tabs, function (i, p) {
+                if (i == 2) { return; }
                 var opts = p.panel("options"), onLoad = opts.onLoad;
                 opts.onLoad = function () {
                     if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
@@ -84,6 +86,31 @@
             });
 
             $.easyui.theme($.util.$.easyui.theme());
+
+            var addModuleTab = $.util.parent && $.util.parent.mainpage && $.isFunction($.util.parent.mainpage.addModuleTab) ? $.util.parent.mainpage.addModuleTab : function (node) {
+                var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);
+                if (!opts.href) { return; }
+                window.open("../" + opts.href, "_blank");
+            };
+
+            //初始化菜单树
+            var t = $("#tt").tree({
+                animate: true,
+                lines: true,
+                toggleOnClick: true,
+                selectOnContextMenu: true,
+                smooth: false,
+                showOption: true,
+                url: "../common/nav-api-menu-data.json",
+                method: "get",
+                onClick: function (node) { addModuleTab(node); },
+                onLoadSuccess: function (node, data) { t.tree("collapseAll"); },
+                contextMenu: [
+                    { text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) { addModuleTab(node); } }, "-",
+                    { text: "刷新", iconCls: "icon-cologne-refresh", handler: function (e, node) { t.tree("reload"); } }
+                ],
+                onAfterEdit: function (node) { window.mainpage.nav.rename(node.id, node.text); }
+            });
         });
     </script>
 </head>
@@ -93,6 +120,11 @@
             <p>WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
         </div>
         <div id="code" class="panel-container" data-options="title: '源代码', iconCls: 'icon-standard-script-code'">
+        </div>
+        <div id="view" class="panel-container" data-options="title: '查看其他', iconCls: 'icon-hamburg-library'">
+            <p>点击 <a href="http://jqext.sinaapp.com/" target="_blank" style="text-decoration: none;">此处</a> 查看完整在线示例；或者操作下面的菜单查看单个示例。</p>
+            <hr />
+            <ul id="tt"></ul>
         </div>
     </div>
     <div style="display: none;">

@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>jQuery EasyUI Extensions - Examples,jQuery,EasyUI,插件,扩展,datagrid,tree,treegrid,panel,tabs,form,validatebox,menu,linkbutton,combo,window,dialog</title>
+    <meta name="keywords" content="jquery,easyui,datagrid,tree,treegrid,messager,menu,panel,tabs,layout,window,dialog,form,validatebox,linkbutton,combo,jqext,jquery-extensions,plugin,扩展,插件" />
+    <meta name="description" content="jquery-extensions,基于jQuery和EasyUI的丰富插件扩展功能集合,提供包含jEasyUI中诸多插件如 panel、tabs、layout、menu、linkbutton、menu、form、validatebox、combo、window、dialog、datagrid、tree、treegrid 等的扩展功能集合。" />
+
+    <link href="../jquery-easyui-theme/default/easyui.css" rel="stylesheet" type="text/css" />
+    <link href="../jquery-easyui-theme/icon.css" rel="stylesheet" type="text/css" />
+    <link href="../icons/icon-all.css" rel="stylesheet" type="text/css" />
+
+    <script src="../jquery/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="../jquery-easyui-1.3.4/jquery.easyui.min.js" type="text/javascript"></script>
+    <script src="../jquery-easyui-1.3.4/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+
+    <script src="../jquery.jdirk.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.js" type="text/javascript"></script>
+
+    <script src="../jeasyui-extensions/jeasyui.extensions.linkbutton.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.validatebox.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.combo.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.combobox.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.form.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.menu.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.panel.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.window.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.dialog.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.tree.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.datagrid.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.treegrid.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.combogrid.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.combotree.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.tabs.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.theme.js" type="text/javascript"></script>
+
+    <script src="../icons/jeasyui.icons.all.js" type="text/javascript"></script>
+
+    <script src="../jeasyui-extensions/jeasyui.extensions.icons.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jquery-easyui-toolbar/jquery.toolbar.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jquery-easyui-comboicons/jquery.comboicons.js" type="text/javascript"></script>
+
+    <script src="../jeasyui-extensions/jeasyui.extensions.gridselector.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jquery-easyui-comboselector/jquery.comboselector.js" type="text/javascript"></script>
+
+    <script src="../jeasyui-extensions/jquery-easyui-portal/jquery.portal.js" type="text/javascript"></script>
+    <link href="../jeasyui-extensions/jquery-easyui-portal/portal.css" rel="stylesheet" type="text/css" />
+
+    <script src="../syntaxhighlighter_3.0.83/scripts/shCore.js" type="text/javascript"></script>
+    <script src="../syntaxhighlighter_3.0.83/scripts/shBrushJScript.js" type="text/javascript"></script>
+    <script src="../syntaxhighlighter_3.0.83/scripts/shBrushXml.js" type="text/javascript"></script>
+    <link href="../syntaxhighlighter_3.0.83/styles/shCoreDefault.css" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        body { padding: 0px; margin: 0px; font-size: 12px; }
+        .panel-container { padding-left: 10px; padding-right: 10px; }
+        .syntaxhighlighter a, .syntaxhighlighter div, .syntaxhighlighter code, .syntaxhighlighter table, .syntaxhighlighter table td, .syntaxhighlighter table tr, .syntaxhighlighter table tbody, .syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea
+        {
+            font-size: 13px !important; line-height: 16px !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            var search = window.location.search, path = search.length && search.substr(0, 1) == "?" ? search.substr(1) : search;
+            document.title = path;
+
+            var ajaxError = $.easyui.ajaxError();
+            $.easyui.ajaxError(function (XMLHttpRequest, status, error) {
+                if (XMLHttpRequest.status == 404 && $.util.browser.chrome && !XMLHttpRequest.responseText) {
+                    alert("WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
+                } else {
+                    if ($.isFunction(ajaxError)) { ajaxError.apply(this, arguments); }
+                }
+            });
+
+            var tabs = $("#tabsContainer").tabs("tabs");
+            $.each(tabs, function (i, p) {
+                if (i == 2) { return; }
+                var opts = p.panel("options"), onLoad = opts.onLoad;
+                opts.onLoad = function () {
+                    if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
+                    p.find("[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
+                    if (i == 0) { document.title = p.find("h2:first").text(); }
+                };
+                p.panel("refresh", $.string.format("{0}/{1}.html", path, opts.id));
+            });
+
+            $.easyui.theme($.util.$.easyui.theme());
+
+            var addModuleTab = $.util.parent && $.util.parent.mainpage && $.isFunction($.util.parent.mainpage.addModuleTab) ? $.util.parent.mainpage.addModuleTab : function (node) {
+                var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);
+                if (!opts.href) { return; }
+                window.open(opts.href, "_blank");
+            };
+
+            //初始化菜单树
+            var t = $("#tt").tree({
+                animate: true,
+                lines: true,
+                toggleOnClick: true,
+                selectOnContextMenu: true,
+                smooth: false,
+                showOption: true,
+                url: "../common/nav-api-menu-data.json",
+                method: "get",
+                onClick: function (node) { addModuleTab(node); },
+                onLoadSuccess: function (node, data) { t.tree("collapseAll"); },
+                contextMenu: [
+                    { text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) { addModuleTab(node); } }, "-",
+                    { text: "刷新", iconCls: "icon-cologne-refresh", handler: function (e, node) { t.tree("reload"); } }
+                ],
+                onAfterEdit: function (node) { window.mainpage.nav.rename(node.id, node.text); }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="tabsContainer" class="easyui-tabs" data-options="fit: true, border: false, showOption: true, enableNewTabMenu: true, tabPosition: 'left', headerWidth: 100">
+        <div id="demo" class="panel-container" data-options="title: '功能演示', iconCls: 'icon-hamburg-advertising', selected: true" style="position: relative;">
+            <p>WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
+        </div>
+        <div id="code" class="panel-container" data-options="title: '源代码', iconCls: 'icon-standard-script-code'">
+        </div>
+        <div id="view" class="panel-container" data-options="title: '查看其他', iconCls: 'icon-hamburg-library'">
+            <p>点击 <a href="http://jqext.sinaapp.com/" target="_blank" style="text-decoration: none;">此处</a> 查看完整在线示例；或者操作下面的菜单查看单个示例。</p>
+            <hr />
+            <ul id="tt"></ul>
+        </div>
+    </div>
+    <div style="display: none;">
+        <script type="text/javascript">
+            var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cspan id='cnzz_stat_icon_5654850'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5654850%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+    </div>
+</body>
+</html>
