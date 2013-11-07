@@ -216,7 +216,8 @@
     };
 
     window.mainpage.bindMainTabButtonEvent = function () {
-        $("#mainTab_junmpHome").click(function () { window.mainpage.mainTab.jumpHome(); });
+        $("#mainTab_jumpHome").click(function () { window.mainpage.mainTab.jumpHome(); });
+        $("#mainTab_jumpOpen").click(function () { window.mainpage.mainTab.jumpOpen(); });
         $("#mainTab_closeTab").click(function () { window.mainpage.mainTab.closeCurrentTab(); });
         $("#mainTab_closeOther").click(function () { window.mainpage.mainTab.closeOtherTabs(); });
         $("#mainTab_closeLeft").click(function () { window.mainpage.mainTab.closeLeftTabs(); });
@@ -330,6 +331,15 @@
             t.tabs("select", index);
         }
     }
+
+    window.mainpage.mainTab.jumpOpen = function () {
+        var t = $(mainTab), tab = t.tabs("getSelected"), opts = tab.panel("options");
+        if (opts.href && opts.iniframe) {
+            window.open(opts.href, "_blank");
+        } else {
+            $.easyui.messager.show("该选项卡不可在新页面打开。");
+        }
+    };
 
     window.mainpage.mainTab.closeTab = function (which) { $(mainTab).tabs("close", which); };
 

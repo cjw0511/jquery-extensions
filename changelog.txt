@@ -1,6 +1,13 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2013-11-07(1.0.22 preview) ********/
+1、[+] 在 index.html 页面的主功能选项卡按钮组区域，增加 "跳出" 按钮，该按钮将选定的选项卡在新页面中弹出打开(须选定的选项卡设定了 href 值且 iniframe 值为 true)；
+2、[+] 添加 jeasyui.extensions.tabs.js 插件部分功能：
+    A、添加 easyui-tabs 的扩展属性 showUpdateProgress，该属性表示当添加或者更新选项卡时，是否显示遮蔽层进度条效果；
+    B、当选项卡的 inframe 属性值为 true 时，showUpdateProgress 效果也能生效。
+
+
 /******** 2013-11-05(1.0.21 preview) ********/
 1、【^】 调整 index.html 部分数据(菜单、捐赠列表和友情链接)的加载方式；由之前的静态 javascript 数组变量申明改为 ***.json 文件数据源并通过 AJAX 加载；
 2、[+] examples.html 页面中，添加 "查看其它" 选项卡；

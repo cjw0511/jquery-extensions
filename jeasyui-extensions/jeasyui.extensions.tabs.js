@@ -102,6 +102,7 @@
             panelOpts = $.union({}, param.options, $.fn.tabs.extensions.panelOptions),
             tools = panelOpts.tools,
             onLoad = panelOpts.onLoad,
+            loadCall = function () { $.easyui.messager.progress("close"); },
             refreshButton = {
                 iconCls: "icon-mini-refresh", handler: function () {
                     var title = $(this).parent().prev().find("span.tabs-title").text();
@@ -115,24 +116,36 @@
                 panelOpts.tools = [refreshButton];
             }
         }
-        if ((!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab) && !panelOpts.iniframe) {
+        if (opts.showUpdateProgress && (!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab)) {
             $.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
-            panelOpts.onLoad = function () {
-                if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
-                $.util.exec(function () {
-                    $.easyui.messager.progress("close");
-                });
-                $.util.parseJquery(this).panel("options").onLoad = onLoad;
-            };
+            if (!panelOpts.iniframe) {
+                panelOpts.onLoad = function () {
+                    if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
+                    $.util.exec(loadCall);
+                    $.util.parseJquery(this).panel("options").onLoad = onLoad;
+                };
+            }
         }
         var ret = _updateTab.call(tabs, tabs, { tab: param.tab, options: panelOpts });
-        panelOpts = tabs.tabs("getTab", index).panel("options");
+        var tab = tabs.tabs("getTab", index);
+        panelOpts = tab.panel("options");
         panelOpts.tools = tools;
         initTabsPanelPaddingTopLine(target);
         var li = tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li").eq(index).off("dblclick.closeOnDblClick").on("dblclick.closeOnDblClick", function () {
             if (panelOpts.closeOnDblClick && panelOpts.closable) { tabs.tabs("close", panelOpts.title); }
         });
         if (panelOpts.closeOnDblClick && panelOpts.closable) { li.attr("title", "双击此选项卡标题可以将其关闭"); }
+        if (opts.showUpdateProgress && panelOpts.iniframe) {
+            $.util.exec(function () {
+                tab.panel("iframe").each(function () {
+                    if (this.attachEvent) {
+                        this.attachEvent("onload", loadCall);
+                    } else {
+                        this.onload = loadCall;
+                    }
+                });
+            });
+        }
         return ret;
     };
 
@@ -585,7 +598,11 @@
 
         //  增加 easyui-tabs 的自定义扩展属性；该属性表示当右键点击选项卡头时，是否显示 "显示该选项卡的 option" 菜单项。
         //  Boolean 类型值，默认为 false。
-        showOption: false
+        showOption: false,
+
+        //  增加 easyui-tabs 的自定义扩展属性；该属性表示当添加或者更新选项卡时，是否显示遮蔽层进度条效果。
+        //  Boolean 类型值，默认为 true。
+        showUpdateProgress: true
     };
 
     $.extend($.fn.tabs.defaults, defaults);
