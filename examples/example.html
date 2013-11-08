@@ -87,11 +87,12 @@
 
             $.easyui.theme($.util.$.easyui.theme());
 
-            var addModuleTab = $.util.parent && $.util.parent.mainpage && $.isFunction($.util.parent.mainpage.addModuleTab) ? $.util.parent.mainpage.addModuleTab : function (node) {
+            var openNewPage = function (node) {
                 var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);
                 if (!opts.href) { return; }
                 window.open("../" + opts.href, "_blank");
             };
+            var addModuleTab = $.util.parent && $.util.parent.mainpage && $.isFunction($.util.parent.mainpage.addModuleTab) ? $.util.parent.mainpage.addModuleTab : openNewPage;
 
             //初始化菜单树
             var t = $("#tt").tree({
@@ -106,7 +107,12 @@
                 onClick: function (node) { addModuleTab(node); },
                 onLoadSuccess: function (node, data) { t.tree("collapseAll"); },
                 contextMenu: [
-                    { text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) { addModuleTab(node); } }, "-",
+                    { text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) { addModuleTab(node); } },
+                    {
+                        text: "在新页面中打开", hideDisabledMenu: true, disabled: openNewPage === addModuleTab, iconCls: "icon-standard-shape-move-forwards",
+                        handler: function (e, node) { openNewPage(node); }
+                    },
+                    "-",
                     { text: "刷新", iconCls: "icon-cologne-refresh", handler: function (e, node) { t.tree("reload"); } }
                 ],
                 onAfterEdit: function (node) { window.mainpage.nav.rename(node.id, node.text); }
