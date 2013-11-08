@@ -136,15 +136,7 @@
         });
         if (panelOpts.closeOnDblClick && panelOpts.closable) { li.attr("title", "双击此选项卡标题可以将其关闭"); }
         if (opts.showUpdateProgress && panelOpts.iniframe) {
-            $.util.exec(function () {
-                tab.panel("iframe").each(function () {
-                    if (this.attachEvent) {
-                        this.attachEvent("onload", loadCall);
-                    } else {
-                        this.onload = loadCall;
-                    }
-                });
-            });
+            $.util.exec(function () { tab.panel("iframe").bind("load", loadCall); });
         }
         return ret;
     };

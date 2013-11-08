@@ -2917,23 +2917,78 @@
     //  返回值：
     //      如果 className 指定的类型函数存在，则返回该函数通过 options 参数和 thisArgs 参数所构造的对象；
     //      如果 className 指定的类型函数不存在，则返回 null。
-    coreUtil.create = function (className, options) {
+    coreUtil.createDefinedObject = function (className, options) {
         var type = coreUtil.getDefined(className);
         return coreUtil.isFunction(type) ? type(options) : null;
     };
 
 
 
-    //  元素闪动的默认时间间隔（毫秒）；该属性仅限于被方法 coreJquery.prototype.shine 调用；
-    coreJquery.shineInterval = 100;
-    //  元素闪动的默认次数；该属性仅限于被方法 coreJquery.prototype.shine 调用；
-    coreJquery.shineTimes = 10;
+    //  下段代码提供 javascript 控制浏览器 进入/退出 全屏模式的 API。
+    var fullScreen = {
+        supports: false, eventName: "", prefix: "", prefixes: "webkit moz o ms khtml".split(" "),
+        isFullScreen: function () { }, requestFullScreen: function () { }, cancelFullScreen: function () { }
+    };
+    if (typeof document.cancelFullScreen != "undefined") {
+        fullScreen.supports = true;
+    } else {
+        for (var i = 0; i < fullScreen.prefixes.length; i++) {
+            fullScreen.prefix = fullScreen.prefixes[i];
+            if (typeof document[fullScreen.prefix + "CancelFullScreen"] != "undefined") {
+                fullScreen.supports = true;
+                break;
+            }
+        }
+    }
+    if (fullScreen.supports) {
+        fullScreen.eventName = fullScreen.prefix + "fullscreenchange";
+        fullScreen.isFullScreen = function () {
+            switch (this.prefix) {
+                case "": return document.fullScreen;
+                case "webkit": return document.webkitIsFullScreen;
+                default: return document[this.prefix + "FullScreen"];
+            }
+        };
+        fullScreen.requestFullScreen = function (elem) {
+            return (this.prefix === "") ? elem.requestFullScreen() : elem[this.prefix + "RequestFullScreen"]();
+        };
+        fullScreen.cancelFullScreen = function (elem) {
+            return (this.prefix === "") ? document.cancelFullScreen() : document[this.prefix + "CancelFullScreen"]();
+        };
+    }
+    coreUtil.requestFullScreen = coreJquery.requestFullScreen = function (selector) {
+        if (selector == null || selector == undefined) { selector = document.documentElement; }
+        selector = coreUtil.parseJquery(selector);
+        return selector.each(function () {
+            if (fullScreen.supports) { fullScreen.requestFullScreen(this); }
+        });
+    };
+    coreJquery.prototype.requestFullScreen = function () { return coreJquery.requestFullScreen(this); };
+    coreUtil.cancelFullScreen = coreJquery.cancelFullScreen = function (selector) {
+        if (selector == null || selector == undefined) { selector = document.documentElement; }
+        selector = coreUtil.parseJquery(selector);
+        return selector.each(function () {
+            if (fullScreen.supports) { fullScreen.cancelFullScreen(this); }
+        });
+    };
+    coreJquery.prototype.cancelFullScreen = function () { return coreJquery.cancelFullScreen(this); };
+    coreUtil.supportsFullScreen = fullScreen.supports;
+    coreUtil.fullScreen = fullScreen;
+
+
+
+
+
+    //  元素闪动的默认时间间隔（毫秒）；该属性仅限于被方法 coreUtil.shine 调用；
+    coreUtil.shineInterval = 100;
+    //  元素闪动的默认次数；该属性仅限于被方法 coreUtil.shine 调用；
+    coreUtil.shineTimes = 10;
     //  使元素闪动
-    coreJquery.shine = function (selector, interval, times) {
+    coreUtil.shine = coreJquery.shine = function (selector, interval, times) {
         if (selector == null || selector == undefined) { return selector; }
         selector = coreUtil.parseJquery(selector);
-        if (!coreUtil.isNumeric(interval) || interval <= 40) { interval = coreJquery.shineInterval; }
-        if (!coreUtil.isNumeric(times) || times < 4) { times = coreJquery.shineTimes; }
+        if (!coreUtil.isNumeric(interval) || interval <= 40) { interval = coreUtil.shineInterval; }
+        if (!coreUtil.isNumeric(times) || times < 4) { times = coreUtil.shineTimes; }
         var a = function () { selector.addClass("jdirk-shine"); };
         var b = function () { selector.removeClass("jdirk-shine"); };
         var run = function () {

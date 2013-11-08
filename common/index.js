@@ -337,7 +337,7 @@
         if (opts.href && opts.iniframe) {
             window.open(opts.href, "_blank");
         } else {
-            $.easyui.messager.show("该选项卡不可在新页面打开。");
+            $.easyui.messager.show("\"" + opts.title + "\" 选项卡不可在新页面中打开。");
         }
     };
 

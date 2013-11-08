@@ -121,16 +121,32 @@
 
             $("#A4").click(function () {
                 $.easyui.showDialog({
-                    href: "http://www.baidu.com",
-                    iniframe: true
+                    href: "http://www.baidu.com", iniframe: true
                 });
             });
+
 
             $("#btnBugReport").click(function () {
                 window.open("http://liuyan.cnzz.com/index.php?tid=5654850", "jQuery-Extensions BUG 提交");
             });
 
             $("#btnContact").click(function () { window.location.href = "mailto:cjw0511@qq.com"; });
+
+            $("#btnFullScreenIn").click(function () {
+                if ($.util.supportsFullScreen) {
+                    $.util.requestFullScreen();
+                } else {
+                    $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
+                }
+            });
+
+            $("#btnFullScreenOut").click(function () {
+                if ($.util.supportsFullScreen) {
+                    $.util.cancelFullScreen();
+                } else {
+                    $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
+                }
+            });
 
             $("#btnExit").click(function () {
                 $.easyui.messager.confirm("操作提醒", "您确定要退出当前程序并关闭该网页？", function (c) {
@@ -173,8 +189,11 @@
                 <a id="btnBugReport" class="easyui-linkbutton easyui-tooltip" title="如果您在使用该 DEMO 或者查阅该项目的 API 文档过程中，发现有任何 BUG，欢迎您点击此处向作者进行 BUG 提交。" data-options="plain: true, iconCls: 'icon-hamburg-bug'">意见/BUG提交</a>
                 <a id="btnContact" class="easyui-linkbutton easyui-tooltip" title="您有什么想对作者说的话，例如仰慕作者、想请作者把妹或吃饭，就通过这里告诉作者吧！" data-options="plain: true, iconCls: 'icon-hamburg-contact'">致信作者</a>
                 <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-archives'">按钮3</a>
-                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-attibutes'">按钮4</a>
-                <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-bank'">按钮5</a>
+                
+
+                <a id="btnFullScreenIn" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-arrow-out'">全屏</a>
+                <a id="btnFullScreenOut" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-arrow-in'">退出全屏</a>
+
                 <a id="btnExit" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-sign-out'">退出系统</a>
                 <a id="btnShowNorth" class="easyui-linkbutton" data-options="plain: true, iconCls: 'layout-button-down'" style="display: none;"></a>
             </div>
