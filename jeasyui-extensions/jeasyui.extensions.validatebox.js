@@ -10,7 +10,7 @@
 * jQuery EasyUI validatebox Extensions 1.0 beta
 * jQuery EasyUI validatebox 组件扩展
 * jeasyui.extensions.validatebox.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-09-07
 *
 * 依赖项：

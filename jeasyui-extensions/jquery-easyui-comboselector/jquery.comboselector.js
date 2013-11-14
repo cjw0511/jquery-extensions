@@ -10,7 +10,7 @@
 * jQuery EasyUI comboselector Plugin Extensions 1.0 beta
 * jQuery EasyUI comboselector 插件扩展
 * jquery.comboselector.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-09-04
 *
 * 依赖项：

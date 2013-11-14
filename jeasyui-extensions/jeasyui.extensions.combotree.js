@@ -10,7 +10,7 @@
 * jQuery EasyUI combotree Extensions 1.0 beta
 * jQuery EasyUI combotree 组件扩展
 * jeasyui.extensions.combotree.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-07-29
 *
 * 依赖项：

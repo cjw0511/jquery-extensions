@@ -10,7 +10,7 @@
 * jQuery EasyUI tree Extensions 1.0 beta
 * jQuery EasyUI tree 组件扩展
 * jeasyui.extensions.tree.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-09-06
 *
 * 依赖项：
@@ -225,7 +225,12 @@
         var mDown = { text: "下移", iconCls: "icon-standard-down", disabled: !(move == true || move.down == true), handler: function () { t.tree("shift", { point: "down", target: node.target }); } };
         var mDownLevel = { text: "下移一级", iconCls: "icon-standard-arrow-down", disabled: !(move == true || move.downLevel == true), handler: function () { t.tree("shift", { point: "downLevel", target: node.target }); } };
 
-        var mOpts = { text: "显示 option", iconCls: "icon-standard-application-form", disabled: !opts.showOption, handler: function () { t.tree("showOption"); } };
+        var mOpts = {
+            text: "显示 Option", iconCls: "icon-standard-application-form", disabled: !opts.showOption, children: [
+                { text: "树控件 Option", iconCls: "icon-hamburg-category", handler: function () { t.tree("showOption"); } },
+                { text: "该节点 Option", iconCls: "tree-icon tree-file", handler: function () { t.tree("showOption", node.target); } }
+            ]
+        };
 
         var menus = [];
         var toggleMenu = [mExpandAll, mExpand, mCollapse, mCollapseAll], moveMenu = [mUpLevel, mUp, mDown, mDownLevel];

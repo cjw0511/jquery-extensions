@@ -15,7 +15,7 @@ To use it on other terms please contact author: info@jeasyui.com<br />
 <br />
 <br />
 jqueyr-extensions<br />
-二次开发：陈建伟<br />
+二次开发：流云<br />
 <br />
 Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
 <a href="http://www.chenjianwei.org" target="_blank">http://www.chenjianwei.org</a><br />

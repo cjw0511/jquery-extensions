@@ -10,7 +10,7 @@
 * jQuery EasyUI theme Extensions 1.0 beta
 * jQuery EasyUI theme 组件扩展
 * jeasyui.extensions.theme.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-08-19
 *
 * 依赖项：

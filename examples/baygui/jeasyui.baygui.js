@@ -2,7 +2,7 @@
 * jQuery EasyUI BayGUI 1.0 beta
 * jQuery EasyUI BayGUI 组件扩展
 * jeasyui.baysgui.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-10-11
 *
 * 依赖项：

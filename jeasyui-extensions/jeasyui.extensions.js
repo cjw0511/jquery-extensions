@@ -10,7 +10,7 @@
 * jQuery EasyUI Generic Plugins Basic Library 1.0 beta
 * jQuery EasyUI 通用插件基础库
 * jeasyui.extensions.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-08-21
 *
 * 依赖项：jquery.jdirk.js v1.0 beta late

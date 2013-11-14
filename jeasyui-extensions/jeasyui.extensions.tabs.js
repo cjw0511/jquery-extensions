@@ -10,8 +10,8 @@
 * jQuery EasyUI tabs Extensions 1.0 beta
 * jQuery EasyUI tabs 组件扩展
 * jeasyui.extensions.tabs.js
-* 二次开发 陈建伟
-* 最近更新：2013-09-29
+* 二次开发 流云
+* 最近更新：2013-11-08
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -51,7 +51,12 @@
                 otherTabs = t.tabs("otherClosableTabs", index),
                 allTabs = t.tabs("closableTabs"),
                 selected = t.tabs("isSelected", index),
-                m1 = { text: "显示选项卡的 option", iconCls: "icon-standard-application-form", disabled: !opts.showOption, handler: function () { t.tabs("showOption", index); } },
+                m1 = {
+                    text: "显示 Option", iconCls: "icon-standard-application-form", disabled: !opts.showOption, children: [
+                        { text: "选项卡组 Option", iconCls: "icon-standard-tab-go", handler: function () { t.tabs("showOption"); } },
+                        { text: "该选项卡 Option", iconCls: "icon-standard-tab", handler: function () { t.tabs("showOption", index); } }
+                    ]
+                },
                 m2 = { text: "关闭选项卡", iconCls: "icon-standard-application-form-delete", disabled: !panelOpts.closable, handler: function () { t.tabs("closeClosable", index); } },
                 m3 = { text: "关闭其他选项卡", iconCls: "icon-standard-cancel", disabled: !otherTabs.length, handler: function () { t.tabs("closeOtherClosable", index); } },
                 m4 = { text: "刷新选项卡", iconCls: "icon-standard-table-refresh", disabled: !panelOpts.refreshable, handler: function () { t.tabs("refresh", index); } },
@@ -342,15 +347,17 @@
     };
 
     function showOption(target, which) {
-        which = which || 0;
-        var tabs = $.util.parseJquery(target), panel = tabs.tabs("getTab", which), panelOpts = panel.panel("options");
-        var index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", panel),
-            header = tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li:eq(" + index + ")"),
-            offset = header.offset(), position = $.extend({}, { left: offset.left + 10, top: offset.top + 10 });
-        $.easyui.showOption(panelOpts, {
-            iconCls: "icon-standard-application-form", title: "显示选项卡 " + panelOpts.title + " 的 option 值",
-            left: position.left, top: position.top, topMost: false
-        });
+        var t = $.util.parseJquery(target), opts, pos;
+        if (which != null && which != undefined) {
+            var p = t.tabs("getTab", which);
+            opts = p.panel("options");
+            pos = p.panel("header").offset();
+        } else {
+            opts = t.tabs("options");
+            pos = t.offset();
+        }
+        $.extend(pos, { left: pos.left + 25, top: pos.top + 15 });
+        $.easyui.showOption(opts, pos);
     };
 
     function moveTab(tabTarget, param) {
@@ -531,7 +538,7 @@
         closeAllClosable: function (jq) { return jq.each(function () { closeAllClosableTabs(this); }); },
 
         //  以 easyui-dialog 的方式弹出一个 dialog 对话框窗体，该窗体中显示指定选项卡的所有属性值(options)；该方法定义如下参数：
-        //      which:  指定的选项卡的 索引号 或者 标题。
+        //      which:  指定的选项卡的 索引号 或者 标题。该参数可选；如果不定义该参数，则显示选项卡组的 options 信息。
         //  返回值：返回当前选项卡控件 easyui-tabs 的 jQuery 对象。
         showOption: function (jq, which) { return jq.each(function () { showOption(this, which); }); },
 

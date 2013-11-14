@@ -8,8 +8,8 @@
 *
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
-* 二次开发 陈建伟
-* 最近更新：2013-10-22
+* 二次开发 流云
+* 最近更新：2013-11-09
 *
 * 依赖项：jquery-1.9.1.js late
 *
@@ -2956,6 +2956,9 @@
             return (this.prefix === "") ? document.cancelFullScreen() : document[this.prefix + "CancelFullScreen"]();
         };
     }
+    coreUtil.isFullScreen = coreJquery.isFullScreen = function () {
+        return fullScreen.isFullScreen();
+    };
     coreUtil.requestFullScreen = coreJquery.requestFullScreen = function (selector) {
         if (selector == null || selector == undefined) { selector = document.documentElement; }
         selector = coreUtil.parseJquery(selector);
@@ -2973,6 +2976,7 @@
     };
     coreJquery.prototype.cancelFullScreen = function () { return coreJquery.cancelFullScreen(this); };
     coreUtil.supportsFullScreen = fullScreen.supports;
+    coreUtil.fullScreenEventName = fullScreen.eventName;
     coreUtil.fullScreen = fullScreen;
 
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>jQuery EasyUI Extensions - Examples,jQuery,EasyUI,插件,扩展,datagrid,tree,treegrid,panel,tabs,form,validatebox,menu,linkbutton,combo,window,dialog</title>
@@ -51,11 +51,20 @@
     <link href="../syntaxhighlighter_3.0.83/styles/shCoreDefault.css" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
-        body { padding: 0px; margin: 0px; font-size: 12px; }
-        .panel-container { padding-left: 10px; padding-right: 10px; }
-        .syntaxhighlighter a, .syntaxhighlighter div, .syntaxhighlighter code, .syntaxhighlighter table, .syntaxhighlighter table td, .syntaxhighlighter table tr, .syntaxhighlighter table tbody, .syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea
-        {
-            font-size: 13px !important; line-height: 16px !important;
+        body {
+            padding: 0px;
+            margin: 0px;
+            font-size: 12px;
+        }
+
+        .panel-container {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .syntaxhighlighter a, .syntaxhighlighter div, .syntaxhighlighter code, .syntaxhighlighter table, .syntaxhighlighter table td, .syntaxhighlighter table tr, .syntaxhighlighter table tbody, .syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea {
+            font-size: 13px !important;
+            line-height: 16px !important;
         }
     </style>
 
@@ -67,13 +76,24 @@
             var ajaxError = $.easyui.ajaxError();
             $.easyui.ajaxError(function (XMLHttpRequest, status, error) {
                 if (XMLHttpRequest.status == 404 && $.util.browser.chrome && !XMLHttpRequest.responseText) {
-                    alert("WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
+                    alert("IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
                 } else {
                     if ($.isFunction(ajaxError)) { ajaxError.apply(this, arguments); }
                 }
             });
 
-            var tabs = $("#tabsContainer").tabs("tabs");
+            var tabsContainer = $("#tabsContainer"), tabsOpts = tabsContainer.tabs("options"),
+                onSelect = tabsOpts.onSelect, isLoaded = false,
+                tabs = tabsContainer.tabs("tabs"),
+                theme = $.util.$.easyui.theme(),
+                openNewPage = function (node) {
+                    var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);
+                    if (!opts.href) { return; }
+                    window.open("../" + opts.href, "_blank");
+                },
+                addModuleTab = $.util.parent && $.util.parent.mainpage && $.isFunction($.util.parent.mainpage.addModuleTab) ? $.util.parent.mainpage.addModuleTab : openNewPage,
+                t = $("#tt");
+
             $.each(tabs, function (i, p) {
                 if (i == 2) { return; }
                 var opts = p.panel("options"), onLoad = opts.onLoad;
@@ -82,48 +102,48 @@
                     p.find("[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
                     if (i == 0) { document.title = p.find("h2:first").text(); }
                 };
-                p.panel("refresh", $.string.format("{0}/{1}.html", path, opts.id));
+                if (path) { p.panel("refresh", $.string.format("{0}/{1}.html", path, opts.id)); }
             });
+            $.easyui.theme(theme);
 
-            $.easyui.theme($.util.$.easyui.theme());
-
-            var openNewPage = function (node) {
-                var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);
-                if (!opts.href) { return; }
-                window.open("../" + opts.href, "_blank");
+            tabsOpts.onSelect = function (title, index) {
+                if ($.isFunction(onSelect)) { onSelect.apply(this, arguments); }
+                if (index == 2 && !isLoaded) {
+                    t.tree({
+                        animate: true,
+                        lines: true,
+                        toggleOnClick: true,
+                        selectOnContextMenu: true,
+                        smooth: false,
+                        showOption: true,
+                        url: "../common/nav-api-menu-data.json",
+                        method: "get",
+                        onClick: function (node) { addModuleTab(node); },
+                        onLoadSuccess: function (node, data) { t.tree("collapseAll"); },
+                        contextMenu: [
+                            {
+                                text: "打开/转到", hideDisabledMenu: true, disabled: openNewPage === addModuleTab, iconCls: "icon-standard-application-add",
+                                handler: function (e, node) { addModuleTab(node); }
+                            },
+                            {
+                                text: "在新页面中打开", iconCls: "icon-standard-shape-move-forwards", bold: openNewPage === addModuleTab,
+                                handler: function (e, node) { openNewPage(node); }
+                            },
+                            "-",
+                            { text: "刷新", iconCls: "icon-cologne-refresh", handler: function (e, node) { t.tree("reload"); } }
+                        ],
+                        onAfterEdit: function (node) { window.mainpage.nav.rename(node.id, node.text); }
+                    });
+                    isLoaded = true;
+                }
             };
-            var addModuleTab = $.util.parent && $.util.parent.mainpage && $.isFunction($.util.parent.mainpage.addModuleTab) ? $.util.parent.mainpage.addModuleTab : openNewPage;
-
-            //初始化菜单树
-            var t = $("#tt").tree({
-                animate: true,
-                lines: true,
-                toggleOnClick: true,
-                selectOnContextMenu: true,
-                smooth: false,
-                showOption: true,
-                url: "../common/nav-api-menu-data.json",
-                method: "get",
-                onClick: function (node) { addModuleTab(node); },
-                onLoadSuccess: function (node, data) { t.tree("collapseAll"); },
-                contextMenu: [
-                    { text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) { addModuleTab(node); } },
-                    {
-                        text: "在新页面中打开", hideDisabledMenu: true, disabled: openNewPage === addModuleTab, iconCls: "icon-standard-shape-move-forwards",
-                        handler: function (e, node) { openNewPage(node); }
-                    },
-                    "-",
-                    { text: "刷新", iconCls: "icon-cologne-refresh", handler: function (e, node) { t.tree("reload"); } }
-                ],
-                onAfterEdit: function (node) { window.mainpage.nav.rename(node.id, node.text); }
-            });
         });
     </script>
 </head>
 <body>
     <div id="tabsContainer" class="easyui-tabs" data-options="fit: true, border: false, showOption: true, enableNewTabMenu: true, tabPosition: 'left', headerWidth: 100">
         <div id="demo" class="panel-container" data-options="title: '功能演示', iconCls: 'icon-hamburg-advertising', selected: true" style="position: relative;">
-            <p>WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
+            <p>IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
         </div>
         <div id="code" class="panel-container" data-options="title: '源代码', iconCls: 'icon-standard-script-code'">
         </div>

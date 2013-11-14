@@ -10,7 +10,7 @@
 * jQuery EasyUI datagrid Extensions 1.2.2 release
 * jQuery EasyUI datagrid 组件扩展
 * jeasyui.extensions.datagrid.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-09-30
 *
 * 依赖项：
@@ -401,7 +401,7 @@
 
     var findRow = function (target, param, grid, rows) {
         var t = grid || $.util.parseJquery(target), data = rows || t.datagrid("getRows"), opts = t.datagrid("options");
-        return $.array.first(rows, $.isFunction(param) ? param : function (val) { return val[opts.idField] == param; });
+        return $.array.first(data, $.isFunction(param) ? param : function (val) { return val[opts.idField] == param; });
     };
 
     var _deleteRow = $.fn.datagrid.methods.deleteRow;

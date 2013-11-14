@@ -50,7 +50,7 @@
             var ajaxError = $.easyui.ajaxError();
             $.easyui.ajaxError(function (XMLHttpRequest, status, error) {
                 if (XMLHttpRequest.status == 404 && $.util.browser.chrome && !XMLHttpRequest.responseText) {
-                    alert("WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
+                    alert("IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
                 } else {
                     if ($.isFunction(ajaxError)) { ajaxError.apply(this, arguments); }
                 }
@@ -62,7 +62,7 @@
                 $(this).find("[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
                 document.title = p.find("h3:first").text();
             };
-            p.panel("refresh", $.string.format("{0}.html", path));
+            if (path) { p.panel("refresh", $.string.format("{0}.html", path)); }
 
             $.easyui.theme($.util.$.easyui.theme());
         });
@@ -70,7 +70,7 @@
 </head>
 <body>
     <div id="docContainer" class="easyui-panel" data-options="fit: true, border: false">
-        <p>WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
+        <p>IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
     </div>
     <div style="display: none;">
         <script type="text/javascript">

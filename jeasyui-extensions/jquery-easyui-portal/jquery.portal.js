@@ -13,7 +13,7 @@
  * jQuery EasyUI portal Plugin 1.0 beta
  * jQuery EasyUI portal 插件
  * jquery.portal.js
- * 二次开发 陈建伟
+ * 二次开发 流云
  * 最近更新：2013-08-02
  *
  * Copyright (c) 2013 ChenJianwei personal All rights reserved.

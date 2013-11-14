@@ -4,7 +4,7 @@
     $(function () {
         $("#t1").datagrid({
             title: 'test datagrid',
-            width: 1100,
+            width: 1120,
             height: 400,
             method: "get",
             url: "datagrid/datagrid-data.json",
@@ -21,8 +21,21 @@
                 { field: 'Height', title: '身高(Height)', width: 140, sortable: true },
                 { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true },
                 { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true },
-                { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
-            ]]
+                {
+                    field: 'operator', title: '测试(不存在的字段)', width: 120, formatter: function (val, row, index) {
+                        return "<a class='l-btn l-btn-plain'><span class='l-btn-left'><span class='l-btn-text icon-ok l-btn-icon-left'>操作</span></span></a>";
+                    }
+                }
+            ]],
+            onLoadSuccess: function () {
+                var t = $(this), col = t.datagrid("getColumnDom", "operator"), rows = t.datagrid("getRows");
+                col.find("a.l-btn").each(function (i, ele) {
+                    $(this).click(function (e) {
+                        alert(rows[i].Name);
+                        e.stopImmediatePropagation();
+                    });
+                });
+            }
         });
     });
 </script>

@@ -10,8 +10,8 @@
 * jQuery EasyUI toolbar Plugin Extensions 1.0 beta
 * jQuery EasyUI toolbar 插件扩展
 * jeasyui.plugins.toolbar.js
-* 二次开发 陈建伟
-* 最近更新：2013-08-31
+* 二次开发 流云
+* 最近更新：2013-10-31
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late

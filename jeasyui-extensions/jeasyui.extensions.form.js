@@ -10,7 +10,7 @@
 * jQuery EasyUI form Extensions 1.0 beta
 * jQuery EasyUI form 组件扩展
 * jeasyui.extensions.form.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-08-05
 *
 * 依赖项：

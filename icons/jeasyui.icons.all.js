@@ -10,7 +10,7 @@
 * jQuery EasyUI iconsData 1.0 beta
 * jQuery EasyUI icons 图标样式完整库数据
 * jeasyui.extensions.iconsData.all.js
-* 二次开发 陈建伟
+* 二次开发 流云
 * 最近更新：2013-09-29
 *
 * 依赖项：
