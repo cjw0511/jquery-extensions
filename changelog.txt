@@ -1,6 +1,12 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2013-11-18(1.0.24 preview) ********/
+1、[#] 修复 jquery.jdirk.js 中函数 $.util.isJqueryObject 存在的 BUG；
+2、【+】 增加扩展插件 jeasyui.extensions.layout.js，以实现对 easyui-layout 插件的相关扩展功能；
+3、[+] 页面 index.html 中，在主选项卡区域添加工具栏按钮 "展开/折叠面板使选项卡最大化"，该按钮事件中调用的相关 API 功能由插件 jeasyui.extensions.layout.js 实现；
+
+
 /******** 2013-11-08(1.0.23 preview) ********/
 1、【+】 基础库 jquery.jdirk.js 中增加对浏览器全屏操作 API 的支持；
 2、[+] 页面文件 index.html 中，在右上角增加全屏操作 API 的 DEMO 演示按钮；

@@ -144,7 +144,7 @@
     coreUtil.isPlainObject = $.isPlainObject;
 
     //  测试对象是否是 jQuery 对象。
-    coreUtil.isJqueryObject = function (obj) { return obj != null && obj != undefined && (obj.jquery || obj.constructor === $$.constructor); };
+    coreUtil.isJqueryObject = function (obj) { return obj != null && obj != undefined && ((obj.jquery ? true : false) || obj.constructor === $$.constructor); };
 
     //  判断对象是否是一个空的 jQuery 对象(不包含任何 DOM 元素，即 length = 0)。
     coreUtil.isEmptyJquery = coreUtil.isEmptyJqueryObject = function (obj) { return coreUtil.isJqueryObject(obj) && !obj.length; };

@@ -217,6 +217,7 @@
 
     window.mainpage.bindMainTabButtonEvent = function () {
         $("#mainTab_jumpHome").click(function () { window.mainpage.mainTab.jumpHome(); });
+        $("#mainTab_toggleAll").click(function () { window.mainpage.togglePanels(); });
         $("#mainTab_jumpOpen").click(function () { window.mainpage.mainTab.jumpOpen(); });
         $("#mainTab_closeTab").click(function () { window.mainpage.mainTab.closeCurrentTab(); });
         $("#mainTab_closeOther").click(function () { window.mainpage.mainTab.closeOtherTabs(); });
@@ -250,6 +251,8 @@
     window.mainpage.hideNorth = function () { $(mainLayout).layout("collapse", "north"); };
 
     window.mainpage.showNorth = function () { $(mainLayout).layout("expand", "north"); };
+
+    window.mainpage.togglePanels = function () { $(mainLayout).layout("toggleAll", "collapse"); };
 
     window.mainpage.addModuleTab = function (node) {
         var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);

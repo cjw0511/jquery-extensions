@@ -107,7 +107,10 @@
             panelOpts = $.union({}, param.options, $.fn.tabs.extensions.panelOptions),
             tools = panelOpts.tools,
             onLoad = panelOpts.onLoad,
-            loadCall = function () { $.easyui.messager.progress("close"); },
+            loadCall = function () {
+                $.easyui.loaded({ topMost: true });
+                //$.easyui.messager.progress("close");
+            },
             refreshButton = {
                 iconCls: "icon-mini-refresh", handler: function () {
                     var title = $(this).parent().prev().find("span.tabs-title").text();
@@ -122,7 +125,8 @@
             }
         }
         if (opts.showUpdateProgress && (!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab)) {
-            $.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
+            $.easyui.loading({ topMost: true });
+            //$.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
             if (!panelOpts.iniframe) {
                 panelOpts.onLoad = function () {
                     if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }

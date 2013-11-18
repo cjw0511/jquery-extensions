@@ -34,7 +34,7 @@
                 col.find("a.l-btn").each(function (i, ele) {
                     $(this).click(function (e) {
                         alert(rows[i].Name);
-                        e.stopImmediatePropagation();
+                        e.stopPropagation();
                     });
                 });
             }
