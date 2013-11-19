@@ -261,7 +261,7 @@
                     <td><div class="datagrid-btn-separator" ></div></td>
                     <td><a id="mainTab_toggleAll" class="easyui-linkbutton easyui-tooltip" title="展开/折叠面板使选项卡最大化" data-options="plain: true, iconCls: 'icon-standard-arrow-inout'"></a></td>
                     <td><div class="datagrid-btn-separator"></div></td>
-                    <td><a id="mainTab_jumpOpen" class="easyui-linkbutton easyui-tooltip" title="在新页面中打开该选项卡" data-options="plain: true, iconCls: 'icon-standard-shape-move-forwards'"></a></td>
+                    <td><a id="mainTab_jumpTab" class="easyui-linkbutton easyui-tooltip" title="在新页面中打开该选项卡" data-options="plain: true, iconCls: 'icon-standard-shape-move-forwards'"></a></td>
                     <td><div class="datagrid-btn-separator"></div></td>
                     <td><a id="mainTab_closeTab" class="easyui-linkbutton easyui-tooltip" title="关闭当前选中的选项卡" data-options="plain: true, iconCls: 'icon-standard-application-form-delete'"></a></td>
                     <td><a id="mainTab_closeOther" class="easyui-linkbutton easyui-tooltip" title="关闭除当前选中外的其他所有选项卡" data-options="plain: true, iconCls: 'icon-standard-cancel'"></a></td>
@@ -273,7 +273,7 @@
                 </tr>
             </table>
         </div>
-        <div id="mainTab" class="easyui-tabs" data-options="fit: true, border: true, showOption: true, enableNewTabMenu: true, repeatable: true, tools: '#mainTab_tools', contextMenu: [{ text: '在新页面中打开', iconCls: 'icon-standard-shape-move-forwards', handler: function () { window.mainpage.mainTab.jumpOpen(); } }]">
+        <div id="mainTab" class="easyui-tabs" data-options="fit: true, border: true, showOption: true, enableNewTabMenu: true, repeatable: true, tools: '#mainTab_tools', enableJumpTabMenu: true">
             <div id="homePanel" data-options="title: '主页', iconCls: 'icon-hamburg-home'">
                 <div class="easyui-layout" data-options="fit: true">
                     <div data-options="region: 'north', split: false, border: false" style="height: 31px;">

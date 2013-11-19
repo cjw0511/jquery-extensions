@@ -51,22 +51,51 @@
                 otherTabs = t.tabs("otherClosableTabs", index),
                 allTabs = t.tabs("closableTabs"),
                 selected = t.tabs("isSelected", index),
+                m0 = {
+                    text: '在新页面中打开', iconCls: 'icon-standard-shape-move-forwards', disabled: panelOpts.href && panelOpts.iniframe ? false : true,
+                    handler: function () { t.tabs("jumpTab", index); }
+                },
                 m1 = {
-                    text: "显示 Option", iconCls: "icon-standard-application-form", disabled: !opts.showOption, children: [
+                    text: "显示 Option", iconCls: "icon-standard-application-form", disabled: opts.showOption ? false : true, children: [
                         { text: "选项卡组 Option", iconCls: "icon-standard-tab-go", handler: function () { t.tabs("showOption"); } },
                         { text: "该选项卡 Option", iconCls: "icon-standard-tab", handler: function () { t.tabs("showOption", index); } }
                     ]
                 },
-                m2 = { text: "关闭选项卡", iconCls: "icon-standard-application-form-delete", disabled: !panelOpts.closable, handler: function () { t.tabs("closeClosable", index); } },
-                m3 = { text: "关闭其他选项卡", iconCls: "icon-standard-cancel", disabled: !otherTabs.length, handler: function () { t.tabs("closeOtherClosable", index); } },
-                m4 = { text: "刷新选项卡", iconCls: "icon-standard-table-refresh", disabled: !panelOpts.refreshable, handler: function () { t.tabs("refresh", index); } },
-                m5 = { text: "关闭左侧选项卡", iconCls: "icon-standard-tab-close-left", disabled: !leftTabs.length, handler: function () { t.tabs("closeLeftClosable", index); } },
-                m6 = { text: "关闭右侧选项卡", iconCls: "icon-standard-tab-close-right", disabled: !rightTabs.length, handler: function () { t.tabs("closeRightClosable", index); } },
-                m7 = { text: "关闭所有选项卡", iconCls: "icon-standard-cross", disabled: !allTabs.length, handler: function () { t.tabs("closeAllClosable"); } },
-                m8 = { text: "新建选项卡", iconCls: "icon-standard-tab-add", disabled: !opts.enableNewTabMenu, handler: function () { t.tabs("newTab", index); } },
-                m9 = { text: "重复选项卡", iconCls: "icon-standard-control-repeat", disabled: !panelOpts.repeatable, handler: function () { t.tabs("repeat", index); } };
+                m2 = {
+                    text: "关闭选项卡", iconCls: "icon-standard-application-form-delete", disabled: panelOpts.closable ? false : true,
+                    handler: function () { t.tabs("closeClosable", index); }
+                },
+                m3 = {
+                    text: "关闭其他选项卡", iconCls: "icon-standard-cancel", disabled: otherTabs.length ? false : true,
+                    handler: function () { t.tabs("closeOtherClosable", index); }
+                },
+                m4 = {
+                    text: "刷新选项卡", iconCls: "icon-standard-table-refresh", disabled: panelOpts.refreshable ? false : true,
+                    handler: function () { t.tabs("refresh", index); }
+                },
+                m5 = {
+                    text: "关闭左侧选项卡", iconCls: "icon-standard-tab-close-left", disabled: leftTabs.length ? false : true,
+                    handler: function () { t.tabs("closeLeftClosable", index); }
+                },
+                m6 = {
+                    text: "关闭右侧选项卡", iconCls: "icon-standard-tab-close-right", disabled: rightTabs.length ? false : true,
+                    handler: function () { t.tabs("closeRightClosable", index); }
+                },
+                m7 = {
+                    text: "关闭所有选项卡", iconCls: "icon-standard-cross", disabled: allTabs.length ? false : true,
+                    handler: function () { t.tabs("closeAllClosable"); }
+                },
+                m8 = {
+                    text: "新建选项卡", iconCls: "icon-standard-tab-add", disabled: opts.enableNewTabMenu ? false : true,
+                    handler: function () { t.tabs("newTab", index); }
+                },
+                m9 = {
+                    text: "重复选项卡", iconCls: "icon-standard-control-repeat", disabled: panelOpts.repeatable ? false : true,
+                    handler: function () { t.tabs("repeat", index); }
+                };
             var items = [];
             if ($.array.likeArray(opts.contextMenu) && !$.util.isString(opts.contextMenu)) { $.array.merge(items, opts.contextMenu); }
+            if (opts.enableJumpTabMenu) { $.array.merge(items, "-", m0); }
             if (opts.showOption) { $.array.merge(items, "-", m1); }
             $.array.merge(items, panelOpts.closable ? ["-", m2, m3] : ["-", m3]);
             if (panelOpts.refreshable) { $.array.merge(items, "-", m4); }
@@ -107,9 +136,20 @@
             panelOpts = $.union({}, param.options, $.fn.tabs.extensions.panelOptions),
             tools = panelOpts.tools,
             onLoad = panelOpts.onLoad,
-            loadCall = function () {
-                $.easyui.loaded({ topMost: true });
-                //$.easyui.messager.progress("close");
+            updateProgress = $.array.contains(["mask", "progress", "none"], opts.updateProgress) ? opts.updateProgress : "mask",
+            loading = function () {
+                if (updateProgress == "mask") {
+                    $.easyui.loaded({ topMost: true });
+                } else if (updateProgress == "progress") {
+                    $.easyui.messager.progress("close");
+                }
+            },
+            loaded = function () {
+                if (updateProgress == "mask") {
+                    $.easyui.loading({ topMost: true });
+                } else if (updateProgress == "progress") {
+                    $.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
+                }
             },
             refreshButton = {
                 iconCls: "icon-mini-refresh", handler: function () {
@@ -124,13 +164,12 @@
                 panelOpts.tools = [refreshButton];
             }
         }
-        if (opts.showUpdateProgress && (!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab)) {
-            $.easyui.loading({ topMost: true });
-            //$.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
+        if (updateProgress != "none" && (!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab)) {
+            loaded();
             if (!panelOpts.iniframe) {
                 panelOpts.onLoad = function () {
                     if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
-                    $.util.exec(loadCall);
+                    $.util.exec(loading);
                     $.util.parseJquery(this).panel("options").onLoad = onLoad;
                 };
             }
@@ -144,8 +183,8 @@
             if (panelOpts.closeOnDblClick && panelOpts.closable) { tabs.tabs("close", panelOpts.title); }
         });
         if (panelOpts.closeOnDblClick && panelOpts.closable) { li.attr("title", "双击此选项卡标题可以将其关闭"); }
-        if (opts.showUpdateProgress && panelOpts.iniframe) {
-            $.util.exec(function () { tab.panel("iframe").bind("load", loadCall); });
+        if (updateProgress != "none" && panelOpts.iniframe) {
+            $.util.exec(function () { tab.panel("iframe").bind("load", loading); });
         }
         return ret;
     };
@@ -275,7 +314,7 @@
         return $.array.merge($.array.range(panels, 0, index), $.array.range(panels, index + 1));
     };
 
-    var closableFinder = function (val) {
+    function closableFinder (val) {
         if ($.util.isJqueryObject(val) && val.length) {
             var state = $.data(val[0], "panel");
             return state && state.options && state.options.closable;
@@ -394,6 +433,17 @@
         if (!param || !(param.which || $.isNumeric(param.which)) || !param.title) { return; }
         var t = $.util.parseJquery(target), tab = t.tabs("getTab", param.which);
         tab.panel("setTitle", param.title);
+    };
+
+    function jumpTab(target, which) {
+        var t = $.util.parseJquery(target),
+            tab = (which == null || which == undefined) ? t.tabs("getSelected") : t.tabs("getTab", which),
+            opts = tab.panel("options");
+        if (opts.href && opts.iniframe) {
+            window.open(opts.href, "_blank");
+        } else {
+            $.easyui.messager.show("\"" + opts.title + "\" 选项卡不可在新页面中打开。");
+        }
     };
 
     var panelOptions = $.fn.tabs.extensions.panelOptions = {
@@ -568,7 +618,12 @@
         //          which: 需要重设标题名的选项卡的 索引号(index) 或者原标题名(title)；
         //          title: 新的标题名；
         //  返回值：返回当前选项卡控件 easyui-tabs 的 jQuery 对象。
-        setTitle: function (jq, param) { return jq.each(function () { setTitle(this, param); }); }
+        setTitle: function (jq, param) { return jq.each(function () { setTitle(this, param); }); },
+
+        //  将执行的选项卡在新页面中打开；该方法定义如下参数：
+        //      which:  可选值参数；表示需要在新页面打开的的选项卡的 索引号(index) 或者原标题名(title)；如果未传入该参数，则对当前选中的选项卡进行操作。
+        //  返回值：返回当前选项卡控件 easyui-tabs 的 jQuery 对象。
+        jumpTab: function (jq, which) { return jq.each(function () { jumpTab(this, which); }); }
     };
     var defaults = $.fn.tabs.extensions.defaults = {
         //  增加 easyui-tabs 的自定义扩展属性，该属性表示当前选项卡标题栏和选项卡的 pane-body 之间的空白区域高(宽)度(px)；
@@ -580,6 +635,9 @@
 
         //  是否启用 “创建新选项卡” 的右键菜单。
         enableNewTabMenu: false,
+
+        //  是否启用 "在新页面中打开" 选项卡的右键菜单。
+        enableJumpTabMenu: false,
 
         //  定义 easyui-tabs 的 onRefresh 事件，当调用 easyui-tabs 的 refresh 方法后，将触发该事件。
         onRefresh: function (title, index) { },
@@ -603,9 +661,12 @@
         //  Boolean 类型值，默认为 false。
         showOption: false,
 
-        //  增加 easyui-tabs 的自定义扩展属性；该属性表示当添加或者更新选项卡时，是否显示遮蔽层进度条效果。
-        //  Boolean 类型值，默认为 true。
-        showUpdateProgress: true
+        //  增加 easyui-tabs 的自定义扩展属性；该属性表示或者更新选项卡时，显示的遮蔽层进度条类型。
+        //  String 类型值，可选的值限定范围如下：
+        //      "mask": 表示遮蔽层 mask-loading 进度显示，默认值
+        //      "progress": 表示调用 $.messager.progress 进行进度条效果显示
+        //      "none": 表示不显示遮蔽层和进度条
+        updateProgress: "mask"
     };
 
     $.extend($.fn.tabs.defaults, defaults);

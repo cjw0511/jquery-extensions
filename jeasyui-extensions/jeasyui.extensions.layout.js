@@ -22,7 +22,7 @@
 */
 (function ($, undefined) {
 
-    $.fn.layout.extensions = {};
+    $.fn.layout.extensions = { resizeDelay: 500 };
 
 
     function collapseRegion(l, region) {
@@ -38,7 +38,8 @@
         collapseRegion(l, "north");
         collapseRegion(l, "west");
         collapseRegion(l, "east");
-        $.util.exec(function () { collapseRegion(l, "south"); }, 500);
+        collapseRegion(l, "south");
+        $.util.exec(function () { l.layout("resize"); }, $.fn.layout.extensions.resizeDelay);
     };
 
     function expandRegion(l, region) {
@@ -54,7 +55,8 @@
         expandRegion(l, "north");
         expandRegion(l, "west");
         expandRegion(l, "east");
-        $.util.exec(function () { expandRegion(l, "south"); }, 500);
+        expandRegion(l, "south");
+        $.util.exec(function () { l.layout("resize"); }, $.fn.layout.extensions.resizeDelay);
     };
 
 
@@ -86,7 +88,8 @@
         }
         function toggleRegions() {
             $.each(regions, function (i, region) {
-                if (region == "south") { $.util.exec(function () { l.layout("toggle", region); }, 500); } else { l.layout("toggle", region); }
+                l.layout("toggle", region);
+                $.util.exec(function () { l.layout("resize"); }, $.fn.layout.extensions.resizeDelay);
             });
         };
     };
