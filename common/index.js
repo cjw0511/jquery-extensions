@@ -121,6 +121,7 @@
         var t = $(favoMenuTree);
         if (t.isEasyUI("tree")) { return; }
         t.tree({
+            method: "get",
             animate: true,
             lines: true,
             dnd: true,
@@ -157,7 +158,7 @@
     //      menus:  为一个 Array 对象；数组中的每一个元素都是一个表示根节点菜单数据的 JSON-Object。
     window.mainpage.loadFavoMenus = function () {
         $.easyui.loading({ locale: westFavoLayout });
-        $(favoMenuTree).tree("loadData", window.mainpage.navMenusData);
+        $(favoMenuTree).tree("load", "common/favo-menu-data.json");
     };
 
     //  初始化应用程序主界面左侧面板中“个人收藏”的数据。

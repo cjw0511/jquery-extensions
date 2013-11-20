@@ -147,7 +147,9 @@
 
     function getNearChildren(treeTarget, target) {
         var t = $.util.parseJquery(treeTarget); target = $.util.parseJquery(target);
-        if (!$.contains(t[0], target[0]) || !target.is("div.tree-node")) { return null; }
+        if (!$.contains(t[0], target[0]) || !target.is("div.tree-node")) {
+            return null;
+        }
         return target.siblings("ul").find("li>div.tree-node").map(function () {
             return t.tree("getNode", this);
         });
@@ -158,9 +160,13 @@
     };
 
     function remoteLoad(target, param) {
-        if (!param) { return $.util.parseJquery(target).tree("reload"); }
-        if (typeof param == "string") { $.util.parseJquery(target).tree("options").url = param; return remoteLoad(target, {}); }
-        var t = $.util.parseJquery(target), opts = t.tree("options"), queryParams = opts.queryParams;
+        var t = $.util.parseJquery(target);
+        if (!param) { return t.tree("reload"); }
+        if (typeof param == "string") {
+            t.tree("options").url = param;
+            return remoteLoad(target, {});
+        }
+        var opts = t.tree("options"), queryParams = opts.queryParams;
         opts.queryParams = $.extend({}, queryParams, param);
         t.tree("reload");
     };
