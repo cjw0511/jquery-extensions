@@ -226,8 +226,9 @@
             { "id": "11070309", "text": "节点展开控制", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/onlyNodeExpand" } },
             { "id": "11070310", "text": "列冻结/取消冻结", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/freeze" } },
             { "id": "11070311", "text": "自适应屏幕大小", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/offset" } },
-            { "id": "11070112", "text": "高亮关键词查找", "pid": "110701", "attributes": { "href": "examples/example.html?treegrid/livesearch" } },
-            { "id": "11070313", "text": "其他扩展功能", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/others" } }
+            { "id": "11070112", "text": "高亮关键词查找", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/livesearch" } },
+            { "id": "11070313", "text": "其他扩展功能", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/others" } },
+            { "id": "11070314", "text": "其他扩展功能2", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/others2" } }
         ]
         }
     ]

@@ -25,6 +25,16 @@
     $.fn.layout.extensions = { resizeDelay: 500 };
 
 
+
+    function getPanels(target) {
+        var l = $(target);
+        return $.array.reduce(["north", "west", "east", "center", "south"], function (prev, val, index) {
+            var p = l.layout("panel", val);
+            if (p && p.length) { prev.push({ region: val, panel: p }); }
+            return prev;
+        }, []);
+    };
+
     function collapseRegion(l, region) {
         var p = l.layout("panel", region);
         if (p && p.length) {
@@ -100,6 +110,12 @@
     var defaults = $.fn.layout.extensions.defaults = {};
 
     var methods = $.fn.layout.extensions.methods = {
+
+        // 扩展 easyui-layout 组件的自定义方法；获取 easyui-layout 组件的所有 panel 面板；
+        // 返回值：该方法返回一个 Array 数组对象；数组中的每个元素都是一个包含如下属性定义的 JSON-Object：
+        //      region  : String 类型值，表示该面板所在的位置，可能的值为 "north"、"west"、"east"、"center"、"south"；
+        //      panel   : jQuery 对象，表示 easyui-panel 面板对象；
+        panels: function (jq) { return getPanels(jq[0]); },
 
         //  扩展 easyui-layout 组件的自定义方法；用于折叠 easyui-layout 组件除 center 位置外的所有 panel 面板；
         //  返回值：返回表示当前 easyui-combo layout jQuery 链式对象。

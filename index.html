@@ -90,6 +90,8 @@
         .donate-total { font-weight: bold; color: Red; }
         
         ul.link-list>li>a { padding-left: 10px; white-space: nowrap; }
+
+        div.hidden { display: none; }
     </style>
 
     <script type="text/javascript">
@@ -104,7 +106,10 @@
             window.donate.init();
             window.link.init();
 
-            $("#mainLayout").layout("resize");
+            $.util.exec(function () {
+                $("#maskContainer").remove();
+                $("#mainLayout").removeClass("hidden").layout("resize");
+            });
 
             $("#A1").click(function () {
                 $.easyui.loading();
@@ -126,298 +131,286 @@
                 });
             });
 
-
-            $("#btnBugReport").click(function () {
-                window.open("http://liuyan.cnzz.com/index.php?tid=5654850", "jQuery-Extensions BUG 提交");
-            });
-
-            $("#btnContact").click(function () { window.location.href = "mailto:cjw0511@qq.com"; });
-
             $("#btn3").click(function () { });
-
-            $("#btnFullScreen").click(function () {
-                if ($.util.supportsFullScreen) {
-                    if ($.util.isFullScreen()) {
-                        $.util.cancelFullScreen();
-                    } else {
-                        $.util.requestFullScreen();
-                    }
-                } else {
-                    $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
-                }
-            });
-
-            $("#btnExit").click(function () {
-                $.easyui.messager.confirm("操作提醒", "您确定要退出当前程序并关闭该网页？", function (c) {
-                    if (c) { $.util.closeWindowNoConfirm(); }
-                });
-            });
         });
     </script>
 </head>
-<body id="mainLayout" class="easyui-layout" data-options="fit: true"  style="padding: 0px; margin: 0px;">
-    <div id="northPanel" data-options="region: 'north', border: false" style="height: 80px; overflow: hidden;">
-        <div id="topbar" class="top-bar">
-            <div class="top-bar-left">
-                <h1 style="margin-left: 10px; margin-top: 10px;">jQuery & jEasyUI Extensions</h1>
-            </div>
-            <div class="top-bar-right">
-                <div id="timerSpan"></div>
-                <div id="themeSpan">
-                    <span>更换皮肤风格：</span>
-                    <select id="themeSelector"></select>
-                    <a id="btnHideNorth" class="easyui-linkbutton" data-options="plain: true, iconCls: 'layout-button-up'"></a>
-                </div>
-            </div>
-        </div>
-        <div id="toolbar" class="panel-header panel-header-noborder top-toolbar" >
-            <div id="infobar">
-                <span class="icon-hamburg-user" style="padding-left: 25px; background-position: left center;">此处可以放置登录用户账户信息</span>
-            </div>
-            <div id="searchbar">
-                <input id="topSearchbox" class="easyui-searchbox" data-options="width: 350, height: 25, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
-                <div id="topSearchboxMenu" style="width: 85px;">
-                    <div data-options="name:'0', iconCls: 'icon-hamburg-zoom'">查询类型</div>
-		            <div data-options="name:'1'">测试类型1</div>
-                    <div data-options="name:'2'">测试类型2</div>
-                    <div data-options="name:'3'">测试类型3</div>
-                    <div data-options="name:'4'">测试类型4</div>
-                </div>
-            </div>
-            <div id="buttonbar">
-                <a id="btnBugReport" class="easyui-linkbutton easyui-tooltip" title="如果您在使用该 DEMO 或者查阅该项目的 API 文档过程中，发现有任何 BUG，欢迎您点击此处向作者进行 BUG 提交。" data-options="plain: true, iconCls: 'icon-hamburg-bug'">意见/BUG提交</a>
-                <a id="btnContact" class="easyui-linkbutton easyui-tooltip" title="您有什么想对作者说的话，例如仰慕作者、想请作者把妹或吃饭，就通过这里告诉作者吧！" data-options="plain: true, iconCls: 'icon-hamburg-contact'">致信作者</a>
-                <a id="btn3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-archives'">按钮3</a>
-                <a id="btnFullScreen" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-arrow-inout'">全屏切换</a>
-                <a id="btnExit" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-sign-out'">退出系统</a>
-                <a id="btnShowNorth" class="easyui-linkbutton" data-options="plain: true, iconCls: 'layout-button-down'" style="display: none;"></a>
-            </div>
+<body style="padding: 0px; margin: 0px;">
+
+    <div id="maskContainer">
+        <div class="datagrid-mask" style="display: block;"></div>
+        <div class="datagrid-mask-msg" style="display: block; left: 50%; margin-left: -52.5px;">
+            正在加载...
         </div>
     </div>
 
-    <div data-options="region: 'west', title: '菜单导航栏', iconCls: 'icon-standard-map', split: true, minWidth: 250, maxWidth: 500" style="width: 250px; padding: 1px;">
-        <div id="navTab" class="easyui-tabs" data-options="fit: true, border: true, tools: [{ id: 'navMenu_refresh', iconCls: 'icon-hamburg-refresh' }]">
-            <div data-options="title: '导航菜单', iconCls: 'icon-standard-application-view-tile', refreshable: false, selected: true">
-                <div id="westLayout" class="easyui-layout" data-options="fit: true">
-                    <div data-options="region: 'center', border: false" style="border-bottom-width: 1px;">
-                        <div id="westCenterLayout" class="easyui-layout" data-options="fit: true">
-                            <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
-                                <div class="easyui-toolbar">
-                                    <a id="navMenu_expand" class="easyui-splitbutton" data-options="iconCls: 'icon-metro-expand2', menu: '#navMenu_toggleMenu'">展开</a>
-                                    <a id="navMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-add'">收藏</a>
-                                    <a id="navMenu_Rename" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'">重命名</a>
-                                    <div id="navMenu_toggleMenu" class="easyui-menu" data-options="hideOnMouseLeave: true">
-                                        <div id="navMenu_collapse" data-options="iconCls: 'icon-metro-contract2'">折叠当前</div>
-                                        <div class="menu-sep"></div>
-                                        <div id="navMenu_collapseCurrentAll" data-options="iconCls: 'icon-metro-expand'">展开当前所有</div>
-                                        <div id="navMenu_expandCurrentAll" data-options="iconCls: 'icon-metro-contract'">折叠当前所有</div>
-                                        <div class="menu-sep"></div>
-                                        <div id="navMenu_collapseAll" data-options="iconCls: 'icon-standard-arrow-out'">展开所有</div>
-                                        <div id="navMenu_expandAll" data-options="iconCls: 'icon-standard-arrow-in'">折叠所有</div>
+    <div id="mainLayout" class="easyui-layout hidden" data-options="fit: true">
+
+
+        <div id="northPanel" data-options="region: 'north', border: false" style="height: 80px; overflow: hidden;">
+            <div id="topbar" class="top-bar">
+                <div class="top-bar-left">
+                    <h1 style="margin-left: 10px; margin-top: 10px;">jQuery & jEasyUI Extensions</h1>
+                </div>
+                <div class="top-bar-right">
+                    <div id="timerSpan"></div>
+                    <div id="themeSpan">
+                        <span>更换皮肤风格：</span>
+                        <select id="themeSelector"></select>
+                        <a id="btnHideNorth" class="easyui-linkbutton" data-options="plain: true, iconCls: 'layout-button-up'"></a>
+                    </div>
+                </div>
+            </div>
+            <div id="toolbar" class="panel-header panel-header-noborder top-toolbar">
+                <div id="infobar">
+                    <span class="icon-hamburg-user" style="padding-left: 25px; background-position: left center;">此处可以放置登录用户账户信息</span>
+                </div>
+                <div id="searchbar">
+                    <input id="topSearchbox" class="easyui-searchbox" data-options="width: 350, height: 25, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
+                    <div id="topSearchboxMenu" style="width: 85px;">
+                        <div data-options="name:'0', iconCls: 'icon-hamburg-zoom'">查询类型</div>
+                        <div data-options="name:'1'">测试类型1</div>
+                        <div data-options="name:'2'">测试类型2</div>
+                        <div data-options="name:'3'">测试类型3</div>
+                        <div data-options="name:'4'">测试类型4</div>
+                    </div>
+                </div>
+                <div id="buttonbar">
+                    <a id="btnBugReport" class="easyui-linkbutton easyui-tooltip" title="如果您在使用该 DEMO 或者查阅该项目的 API 文档过程中，发现有任何 BUG，欢迎您点击此处向作者进行 BUG 提交。" data-options="plain: true, iconCls: 'icon-hamburg-bug'">意见/BUG提交</a>
+                    <a id="btnContact" class="easyui-linkbutton easyui-tooltip" title="您有什么想对作者说的话，例如仰慕作者、想请作者把妹或吃饭，就通过这里告诉作者吧！" data-options="plain: true, iconCls: 'icon-hamburg-contact'">致信作者</a>
+                    <a id="btn3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-archives'">按钮3</a>
+                    <a id="btnFullScreen" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-arrow-inout'">全屏切换</a>
+                    <a id="btnExit" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-sign-out'">退出系统</a>
+                    <a id="btnShowNorth" class="easyui-linkbutton" data-options="plain: true, iconCls: 'layout-button-down'" style="display: none;"></a>
+                </div>
+            </div>
+        </div>
+
+        <div data-options="region: 'west', title: '菜单导航栏', iconCls: 'icon-standard-map', split: true, minWidth: 250, maxWidth: 500" style="width: 250px; padding: 1px;">
+            <div id="navTab" class="easyui-tabs" data-options="fit: true, border: true, tools: [{ id: 'navMenu_refresh', iconCls: 'icon-hamburg-refresh' }]">
+                <div data-options="title: '导航菜单', iconCls: 'icon-standard-application-view-tile', refreshable: false, selected: true">
+                    <div id="westLayout" class="easyui-layout" data-options="fit: true">
+                        <div data-options="region: 'center', border: false" style="border-bottom-width: 1px;">
+                            <div id="westCenterLayout" class="easyui-layout" data-options="fit: true">
+                                <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
+                                    <div class="easyui-toolbar">
+                                        <a id="navMenu_expand" class="easyui-splitbutton" data-options="iconCls: 'icon-metro-expand2', menu: '#navMenu_toggleMenu'">展开</a>
+                                        <a id="navMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-add'">收藏</a>
+                                        <a id="navMenu_Rename" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'">重命名</a>
+                                        <div id="navMenu_toggleMenu" class="easyui-menu" data-options="hideOnMouseLeave: true">
+                                            <div id="navMenu_collapse" data-options="iconCls: 'icon-metro-contract2'">折叠当前</div>
+                                            <div class="menu-sep"></div>
+                                            <div id="navMenu_collapseCurrentAll" data-options="iconCls: 'icon-metro-expand'">展开当前所有</div>
+                                            <div id="navMenu_expandCurrentAll" data-options="iconCls: 'icon-metro-contract'">折叠当前所有</div>
+                                            <div class="menu-sep"></div>
+                                            <div id="navMenu_collapseAll" data-options="iconCls: 'icon-standard-arrow-out'">展开所有</div>
+                                            <div id="navMenu_expandAll" data-options="iconCls: 'icon-standard-arrow-in'">折叠所有</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-options="region: 'center', border: false">
+                                    <ul id="navMenu_Tree" style="padding-top: 2px; padding-bottom: 2px;"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="westSouthPanel" data-options="region: 'south', border: false, split: true, minHeight: 32, maxHeight: 275" style="height: 275px; border-top-width: 1px;">
+                            <ul id="navMenu_list"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div data-options="title: '个人收藏', iconCls: 'icon-hamburg-star', refreshable: false">
+                    <div id="westFavoLayout" class="easyui-layout" data-options="fit: true">
+                        <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
+                            <div class="easyui-toolbar">
+                                <a id="favoMenu_expand" class="easyui-splitbutton" data-options="iconCls: 'icon-metro-expand2', menu: '#favoMenu_toggleMenu'">展开</a>
+                                <a id="favoMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-delete'">取消收藏</a>
+                                <a id="favoMenu_Rename" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'">重命名</a>
+                                <div id="favoMenu_toggleMenu" class="easyui-menu" data-options="hideOnMouseLeave: true">
+                                    <div id="favoMenu_collapse" data-options="iconCls: 'icon-metro-contract2'">折叠当前</div>
+                                    <div class="menu-sep"></div>
+                                    <div id="favoMenu_collapseCurrentAll" data-options="iconCls: 'icon-metro-expand'">展开当前所有</div>
+                                    <div id="favoMenu_expandCurrentAll" data-options="iconCls: 'icon-metro-contract'">折叠当前所有</div>
+                                    <div class="menu-sep"></div>
+                                    <div id="favoMenu_collapseAll" data-options="iconCls: 'icon-standard-arrow-out'">展开所有</div>
+                                    <div id="favoMenu_expandAll" data-options="iconCls: 'icon-standard-arrow-in'">折叠所有</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-options="region: 'center', border: false">
+                            <ul id="favoMenu_Tree" style="padding-top: 2px; padding-bottom: 2px;"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div data-options="region: 'center'" style="padding: 1px;">
+            <div id="mainTab_tools">
+                <table>
+                    <tr>
+                        <td><a id="mainTab_jumpHome" class="easyui-linkbutton easyui-tooltip" title="跳转至主页选项卡" data-options="plain: true, iconCls: 'icon-hamburg-home'"></a></td>
+                        <td><div class="datagrid-btn-separator"></div></td>
+                        <td><a id="mainTab_toggleAll" class="easyui-linkbutton easyui-tooltip" title="展开/折叠面板使选项卡最大化" data-options="plain: true, iconCls: 'icon-standard-arrow-inout'"></a></td>
+                        <td><div class="datagrid-btn-separator"></div></td>
+                        <td><a id="mainTab_jumpTab" class="easyui-linkbutton easyui-tooltip" title="在新页面中打开该选项卡" data-options="plain: true, iconCls: 'icon-standard-shape-move-forwards'"></a></td>
+                        <td><div class="datagrid-btn-separator"></div></td>
+                        <td><a id="mainTab_closeTab" class="easyui-linkbutton easyui-tooltip" title="关闭当前选中的选项卡" data-options="plain: true, iconCls: 'icon-standard-application-form-delete'"></a></td>
+                        <td><a id="mainTab_closeOther" class="easyui-linkbutton easyui-tooltip" title="关闭除当前选中外的其他所有选项卡" data-options="plain: true, iconCls: 'icon-standard-cancel'"></a></td>
+                        <td><div class="datagrid-btn-separator"></div></td>
+                        <td><a id="mainTab_closeLeft" class="easyui-linkbutton easyui-tooltip" title="关闭左侧所有选项卡" data-options="plain: true, iconCls: 'icon-standard-tab-close-left'"></a></td>
+                        <td><a id="mainTab_closeRight" class="easyui-linkbutton easyui-tooltip" title="关闭右侧所有选项卡" data-options="plain: true, iconCls: 'icon-standard-tab-close-right'"></a></td>
+                        <td><div class="datagrid-btn-separator"></div></td>
+                        <td><a id="mainTab_closeAll" class="easyui-linkbutton easyui-tooltip" title="关闭所有选项卡" data-options="plain: true, iconCls: 'icon-standard-cross'"></a></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="mainTab" class="easyui-tabs" data-options="fit: true, border: true, showOption: true, enableNewTabMenu: true, repeatable: true, tools: '#mainTab_tools', enableJumpTabMenu: true">
+                <div id="homePanel" data-options="title: '主页', iconCls: 'icon-hamburg-home'">
+                    <div class="easyui-layout" data-options="fit: true">
+                        <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
+                            <div class="easyui-toolbar">
+                                <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-for-job'">加载Loading</a>
+                                <span>-</span>
+                                <a id="A2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-add'">添加一列</a>
+                                <a id="A3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-delete'">删除一列</a>
+                                <span>-</span>
+                                <a id="A4" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">操作XXOO</a>
+                            </div>
+                        </div>
+                        <div data-options="region: 'center', border: false" style="overflow: hidden;">
+                            <div id="portal" class="easyui-portal" data-options="fit: true, border: false">
+                                <div style="width: 33%;">
+                                    <div data-options="title: '项目简介', height: 300, collapsible: true, closable: true">
+                                        <div class="portlet-list">
+                                            <span style="font-weight: bold;">本扩展集合包含两大部分：</span>
+                                        </div>
+                                        <ul class="portlet-list" style="list-style-type: decimal;">
+                                            <li>
+                                                <span>jquery 基础库扩展；由文件 jquery.jdirk.js 实现；该文件扩充了 jquery 的基础功能，主要体现在：</span>
+                                                <ul style="list-style-type: lower-alpha;">
+                                                    <li>增加了大量的 jquery-utility，为前端开发提供诸多便利；</li>
+                                                    <li>对 javascript 的基础对象 String、Date、Array、Number、Boolean 进行了大量的静态和实例方法扩充；</li>
+                                                    <li>增加了 jquery 对 HTML5 属性验证的支持；</li>
+                                                    <li>增加了在 IE6/7 环境下对 JSON 数据格式的支持(整合 json2.js)；</li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <span>jeasyui 功能扩展；该部分扩展涵盖四个部分：</span>
+                                                <ul style="list-style-type: lower-alpha;">
+                                                    <li>jeasyui 扩展基础库；</li>
+                                                    <li>对 jeasyui 的现有插件进行了功能扩展；</li>
+                                                    <li>新增部分 jeasyui 插件；</li>
+                                                    <li>对 jeasyui 官方提供的部分扩展插件进行了代码重构或 BUG 修复，并增强其部分功能；</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div data-options="title: '更新日志', height: 360, iniframe: true, href: 'changelog.txt', collapsible: true, closable: true"></div>
+                                </div>
+                                <div style="width: 34%;">
+                                    <div data-options="title: 'LICENSE', height: 360, iniframe: true, href: 'LICENSE.txt', collapsible: true, closable: true"></div>
+                                    <div data-options="title: '关于本项目', height: 300, collapsible: true, closable: true" style="padding: 10px;">
+                                        jQuery && jEasyUI 扩展功能集合<br />
+                                        该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.4 实现<br />
+                                        <br />
+                                        jQuery EasyUI 1.3.4<br />
+                                        Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.<br />
+                                        <br />
+                                        Licensed under the GPL or commercial licenses<br />
+                                        To use it on other terms please contact author: info@jeasyui.com<br />
+                                        <a href="http://www.gnu.org/licenses/gpl.txt" target="_blank">http://www.gnu.org/licenses/gpl.txt</a>
+                                        <br />
+                                        <a href="http://www.jeasyui.com/license_commercial.php" target="_blank">http://www.jeasyui.com/license_commercial.php</a>
+                                        <br />
+                                        <br />
+                                        jqueyr-extensions<br />
+                                        二次开发：流云<br />
+                                        <br />
+                                        Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
+                                        <a href="http://www.chenjianwei.org" target="_blank">http://www.chenjianwei.org</a><br />
+                                        <a href="http://cjw0511.cnblogs.com" target="_blank">http://cjw0511.cnblogs.com</a>
+                                    </div>
+                                </div>
+                                <div style="width: 33%;">
+                                    <div data-options="title: '开源动力捐赠', height: 330, closable: true, collapsible: true, closable: true" style="padding: 10px;">
+                                        <a href="https://me.alipay.com/cjw0511" target="_blank">
+                                            <img alt="开源动力" src="common/images/alipay.jpg" style="border-width: 0px;" />
+                                        </a>
+                                        <ul class="portlet-list">
+                                            <li>
+                                                如果上面图片显示有问题，你可以
+                                                <a href="https://me.alipay.com/cjw0511" target="_blank" style="text-decoration: none;">点击此处 </a>向我
+                                                <a href="javascript:void(0);" class="easyui-tooltip" data-options="content: '您的捐赠与支持是我开源并不断进步的动力'" style="text-decoration: none;">捐赠</a>
+                                            </li>
+                                            <li>您的捐赠与支持是我开源并不断进步的动力。</li>
+                                        </ul>
+                                        <hr />
+                                        以下为捐赠列表；感谢有你，动力常在！
+                                        <ul id="donateList" class="portlet-list"></ul>
+                                    </div>
+                                    <div data-options="title: '更多信息...', height: 330, collapsible: true, closable: true">
+                                        <ul class="portlet-list">
+                                            <li><span style="font-weight: bold;">源码下载：</span><a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
+                                            <li>在线演示地址：<a href="http://jqext.sinaapp.com/" target="_blank">http://jqext.sinaapp.com/</a></li>
+                                            <li>
+                                                对于本扩展有任何意见或者建议，欢迎大家及时向我反馈，可以发邮件至我信箱
+                                                <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>(标题请注明 jEasyUI 扩展相关)；<br />
+                                                在时间允许的情况下我会尽可能的给大家回复。
+                                            </li>
+                                            <li>转载请注明出处；如需在您自己的项目用引用本扩展集合，请遵循 gpl-v3 协议；</li>
+                                            <li>
+                                                关于 jquery-easyui 相关API，参见：
+                                                <ul>
+                                                    <li>官方 API(英文)：<a href="http://www.jeasyui.com/documentation/index.php" target="_blank">http://www.jeasyui.com/documentation/index.php</a></li>
+                                                    <li>中文社区 API  ：<a href="http://api.btboys.com/" target="_blank">http://api.btboys.com/</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                jEasyUI 中文社区：
+                                                <ul>
+                                                    <li><a href="http://www.jeasyuicn.com/" target="_blank">http://www.jeasyuicn.com/</a></li>
+                                                    <li><a href="http://bbs.jeasyuicn.com/" target="_blank">http://bbs.jeasyuicn.com/</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>jEasyUI 中文社区 QQ 群号：70168958</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div data-options="region: 'center', border: false">
-                                <ul id="navMenu_Tree" style="padding-top: 2px; padding-bottom: 2px;"></ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="westSouthPanel" data-options="region: 'south', border: false, split: true, minHeight: 32, maxHeight: 275" style="height: 275px; border-top-width: 1px;">
-                        <ul id="navMenu_list"></ul>
-                    </div>
-                </div>
-            </div>
-            <div data-options="title: '个人收藏', iconCls: 'icon-hamburg-star', refreshable: false">
-                <div id="westFavoLayout" class="easyui-layout" data-options="fit: true">
-                    <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
-                        <div class="easyui-toolbar">
-                            <a id="favoMenu_expand" class="easyui-splitbutton" data-options="iconCls: 'icon-metro-expand2', menu: '#favoMenu_toggleMenu'">展开</a>
-                            <a id="favoMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-delete'">取消收藏</a>
-                            <a id="favoMenu_Rename" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'">重命名</a>
-                            <div id="favoMenu_toggleMenu" class="easyui-menu" data-options="hideOnMouseLeave: true">
-                                <div id="favoMenu_collapse" data-options="iconCls: 'icon-metro-contract2'">折叠当前</div>
-                                <div class="menu-sep"></div>
-                                <div id="favoMenu_collapseCurrentAll" data-options="iconCls: 'icon-metro-expand'">展开当前所有</div>
-                                <div id="favoMenu_expandCurrentAll" data-options="iconCls: 'icon-metro-contract'">折叠当前所有</div>
-                                <div class="menu-sep"></div>
-                                <div id="favoMenu_collapseAll" data-options="iconCls: 'icon-standard-arrow-out'">展开所有</div>
-                                <div id="favoMenu_expandAll" data-options="iconCls: 'icon-standard-arrow-in'">折叠所有</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-options="region: 'center', border: false">
-                        <ul id="favoMenu_Tree" style="padding-top: 2px; padding-bottom: 2px;"></ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div data-options="region: 'center'" style="padding: 1px;">
-        <div id="mainTab_tools">
-            <table>
-                <tr>
-                    <td><a id="mainTab_jumpHome" class="easyui-linkbutton easyui-tooltip" title="跳转至主页选项卡" data-options="plain: true, iconCls: 'icon-hamburg-home'"></a></td>
-                    <td><div class="datagrid-btn-separator" ></div></td>
-                    <td><a id="mainTab_toggleAll" class="easyui-linkbutton easyui-tooltip" title="展开/折叠面板使选项卡最大化" data-options="plain: true, iconCls: 'icon-standard-arrow-inout'"></a></td>
-                    <td><div class="datagrid-btn-separator"></div></td>
-                    <td><a id="mainTab_jumpTab" class="easyui-linkbutton easyui-tooltip" title="在新页面中打开该选项卡" data-options="plain: true, iconCls: 'icon-standard-shape-move-forwards'"></a></td>
-                    <td><div class="datagrid-btn-separator"></div></td>
-                    <td><a id="mainTab_closeTab" class="easyui-linkbutton easyui-tooltip" title="关闭当前选中的选项卡" data-options="plain: true, iconCls: 'icon-standard-application-form-delete'"></a></td>
-                    <td><a id="mainTab_closeOther" class="easyui-linkbutton easyui-tooltip" title="关闭除当前选中外的其他所有选项卡" data-options="plain: true, iconCls: 'icon-standard-cancel'"></a></td>
-                    <td><div class="datagrid-btn-separator" ></div></td>
-                    <td><a id="mainTab_closeLeft" class="easyui-linkbutton easyui-tooltip" title="关闭左侧所有选项卡" data-options="plain: true, iconCls: 'icon-standard-tab-close-left'"></a></td>
-                    <td><a id="mainTab_closeRight" class="easyui-linkbutton easyui-tooltip" title="关闭右侧所有选项卡" data-options="plain: true, iconCls: 'icon-standard-tab-close-right'"></a></td>
-                    <td><div class="datagrid-btn-separator" ></div></td>
-                    <td><a id="mainTab_closeAll" class="easyui-linkbutton easyui-tooltip" title="关闭所有选项卡" data-options="plain: true, iconCls: 'icon-standard-cross'"></a></td>
-                </tr>
-            </table>
-        </div>
-        <div id="mainTab" class="easyui-tabs" data-options="fit: true, border: true, showOption: true, enableNewTabMenu: true, repeatable: true, tools: '#mainTab_tools', enableJumpTabMenu: true">
-            <div id="homePanel" data-options="title: '主页', iconCls: 'icon-hamburg-home'">
-                <div class="easyui-layout" data-options="fit: true">
-                    <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
-                        <div class="easyui-toolbar">
-                            <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-for-job'">加载Loading</a>
-                            <span>-</span>
-                            <a id="A2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-add'">添加一列</a>
-                            <a id="A3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-delete'">删除一列</a>
-                            <span>-</span>
-                            <a id="A4" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">操作XXOO</a>
-                        </div>
-                    </div>
-                    <div data-options="region: 'center', border: false" style="overflow: hidden;">
-                        <div id="portal" class="easyui-portal" data-options="fit: true, border: false">
-                            <div style="width: 33%;">
-                                <div data-options="title: '项目简介', height: 300, collapsible: true, closable: true">
-                                    <div class="portlet-list">
-                                        <span style="font-weight: bold;">本扩展集合包含两大部分：</span>
-                                    </div>
-                                    <ul class="portlet-list" style="list-style-type: decimal;">
-                                        <li>
-                                            <span>jquery 基础库扩展；由文件 jquery.jdirk.js 实现；该文件扩充了 jquery 的基础功能，主要体现在：</span>
-                                            <ul style="list-style-type: lower-alpha;">
-                                                <li>增加了大量的 jquery-utility，为前端开发提供诸多便利；</li>
-                                                <li>对 javascript 的基础对象 String、Date、Array、Number、Boolean 进行了大量的静态和实例方法扩充；</li>
-                                                <li>增加了 jquery 对 HTML5 属性验证的支持；</li>
-                                                <li>增加了在 IE6/7 环境下对 JSON 数据格式的支持(整合 json2.js)；</li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span>jeasyui 功能扩展；该部分扩展涵盖四个部分：</span>
-                                            <ul style="list-style-type: lower-alpha;">
-                                                <li>jeasyui 扩展基础库；</li>
-                                                <li>对 jeasyui 的现有插件进行了功能扩展；</li>
-                                                <li>新增部分 jeasyui 插件；</li>
-                                                <li>对 jeasyui 官方提供的部分扩展插件进行了代码重构或 BUG 修复，并增强其部分功能；</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div data-options="title: '更新日志', height: 360, iniframe: true, href: 'changelog.txt', collapsible: true, closable: true"></div>
-                            </div>
-                            <div style="width: 34%;">
-                                <div data-options="title: 'LICENSE', height: 360, iniframe: true, href: 'LICENSE.txt', collapsible: true, closable: true"></div>
-                                <div data-options="title: '关于本项目', height: 300, collapsible: true, closable: true" style="padding: 10px;">
-                                    jQuery && jEasyUI 扩展功能集合<br />
-                                    该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.4 实现<br />
-                                    <br />
-                                    jQuery EasyUI 1.3.4<br />
-                                    Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.<br />
-                                    <br />
-                                    Licensed under the GPL or commercial licenses<br />
-                                    To use it on other terms please contact author: info@jeasyui.com<br />
-                                    <a href="http://www.gnu.org/licenses/gpl.txt" target="_blank">http://www.gnu.org/licenses/gpl.txt</a>
-                                    <br />
-                                    <a href="http://www.jeasyui.com/license_commercial.php" target="_blank">http://www.jeasyui.com/license_commercial.php</a>
-                                    <br />
-                                    <br />
-                                    jqueyr-extensions<br />
-                                    二次开发：流云<br />
-                                    <br />
-                                    Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
-                                    <a href="http://www.chenjianwei.org" target="_blank">http://www.chenjianwei.org</a><br />
-                                    <a href="http://cjw0511.cnblogs.com" target="_blank">http://cjw0511.cnblogs.com</a>
-                                </div>
-                            </div>
-                            <div style="width: 33%;">
-                                <div data-options="title: '开源动力捐赠', height: 330, closable: true, collapsible: true, closable: true" style="padding: 10px;">
-                                    <a href="https://me.alipay.com/cjw0511" target="_blank">
-                                        <img alt="开源动力" src="common/images/alipay.jpg" style="border-width: 0px;" />
-                                    </a>
-                                    <ul class="portlet-list">
-                                        <li>
-                                            如果上面图片显示有问题，你可以
-                                            <a href="https://me.alipay.com/cjw0511" target="_blank" style="text-decoration: none;">点击此处 </a>向我
-                                            <a href="javascript:void(0);" class="easyui-tooltip" data-options="content: '您的捐赠与支持是我开源并不断进步的动力'" style="text-decoration: none;">捐赠</a>
-                                        </li>
-                                        <li>您的捐赠与支持是我开源并不断进步的动力。</li>
-                                    </ul>
-                                    <hr />
-                                    以下为捐赠列表；感谢有你，动力常在！
-                                    <ul id="donateList" class="portlet-list"></ul>
-                                </div>
-                                <div data-options="title: '更多信息...', height: 330, collapsible: true, closable: true">
-                                    <ul class="portlet-list">
-                                        <li><span style="font-weight: bold;">源码下载：</span><a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
-                                        <li>在线演示地址：<a href="http://jqext.sinaapp.com/" target="_blank">http://jqext.sinaapp.com/</a></li>
-                                        <li>
-                                            对于本扩展有任何意见或者建议，欢迎大家及时向我反馈，可以发邮件至我信箱
-                                            <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>(标题请注明 jEasyUI 扩展相关)；<br />
-                                            在时间允许的情况下我会尽可能的给大家回复。
-                                        </li>
-                                        <li>转载请注明出处；如需在您自己的项目用引用本扩展集合，请遵循 gpl-v3 协议；</li>
-                                        <li>
-                                            关于 jquery-easyui 相关API，参见：
-                                            <ul>
-                                                <li>官方 API(英文)：<a href="http://www.jeasyui.com/documentation/index.php" target="_blank">http://www.jeasyui.com/documentation/index.php</a></li>
-                                                <li>中文社区 API  ：<a href="http://api.btboys.com/" target="_blank">http://api.btboys.com/</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            jEasyUI 中文社区：
-                                            <ul>
-                                                <li><a href="http://www.jeasyuicn.com/" target="_blank">http://www.jeasyuicn.com/</a></li>
-                                                <li><a href="http://bbs.jeasyuicn.com/" target="_blank">http://bbs.jeasyuicn.com/</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>jEasyUI 中文社区 QQ 群号：70168958</li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div data-options="region: 'east', title: '日历', iconCls: 'icon-standard-date', split: false, minWidth: 200, maxWidth: 500" style="width: 220px; padding: 1px; border-left-width: 0px;" >
-        <div id="eastLayout" class="easyui-layout" data-options="fit: true">
-            <div data-options="region: 'north', split: false, border: false" style="height: 220px;">
-                <div class="easyui-calendar" data-options="fit: true"></div>
-            </div>
-            <div data-options="region: 'center', title: '友情链接', iconCls: 'icon-hamburg-link'">
-                <ul id="linkList" class="portlet-list link-list" >
-                </ul>
+        <div data-options="region: 'east', title: '日历', iconCls: 'icon-standard-date', split: false, minWidth: 200, maxWidth: 500" style="width: 220px; padding: 1px; border-left-width: 0px;">
+            <div id="eastLayout" class="easyui-layout" data-options="fit: true">
+                <div data-options="region: 'north', split: false, border: false" style="height: 220px;">
+                    <div class="easyui-calendar" data-options="fit: true"></div>
+                </div>
+                <div data-options="region: 'center', title: '友情链接', iconCls: 'icon-hamburg-link'">
+                    <ul id="linkList" class="portlet-list link-list"></ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div data-options="region: 'south', title: '关于...', iconCls: 'icon-standard-information', collapsed: true, border: false" style="height: 70px;">
-        <div style="color: #4e5766; padding: 6px 0px 0px 0px; margin: 0px auto; text-align: center; font-size:12px; font-family:微软雅黑;">
-            @2013 Copyright: ChenJianwei Persional.&nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href="http://www.chenjianwei.org" target="_blank" style="text-decoration: none;">关于 ChenJianwei</a><br />
-            建议使用&nbsp;
-            <a href="http://windows.microsoft.com/zh-CN/internet-explorer/products/ie/home" target="_blank" style="text-decoration: none;">IE(Version 9/10/11)</a>/
-            <a href="https://www.google.com/intl/zh-CN/chrome/browser/" target="_blank" style="text-decoration: none;">Chrome</a>/
-            <a href="http://firefox.com.cn/download/" target="_blank" style="text-decoration: none;">Firefox</a>
-            &nbsp;系列浏览器。
-            <script type="text/javascript">
-                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-                document.write(unescape("%3Cspan id='cnzz_stat_icon_5654850'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5654850%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
-            </script>
+        <div data-options="region: 'south', title: '关于...', iconCls: 'icon-standard-information', collapsed: true, border: false" style="height: 70px;">
+            <div style="color: #4e5766; padding: 6px 0px 0px 0px; margin: 0px auto; text-align: center; font-size:12px; font-family:微软雅黑;">
+                @2013 Copyright: ChenJianwei Persional.&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="http://www.chenjianwei.org" target="_blank" style="text-decoration: none;">关于 ChenJianwei</a><br />
+                建议使用&nbsp;
+                <a href="http://windows.microsoft.com/zh-CN/internet-explorer/products/ie/home" target="_blank" style="text-decoration: none;">IE(Version 9/10/11)</a>/
+                <a href="https://www.google.com/intl/zh-CN/chrome/browser/" target="_blank" style="text-decoration: none;">Chrome</a>/
+                <a href="http://firefox.com.cn/download/" target="_blank" style="text-decoration: none;">Firefox</a>
+                &nbsp;系列浏览器。
+                <script type="text/javascript">
+                    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                    document.write(unescape("%3Cspan id='cnzz_stat_icon_5654850'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5654850%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+                </script>
+            </div>
         </div>
+
+
     </div>
 </body>
 </html>

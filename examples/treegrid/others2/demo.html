@@ -1,0 +1,61 @@
+﻿<div>
+
+    <script type="text/javascript">
+        $(function () {
+            var t = $("#t1").treegrid({
+                title: 'test treegrid',
+                width: 900,
+                height: 400,
+                method: "get",
+                //smooth: true,
+                url: "treegrid/treegrid-data.json",
+                idField: 'id',
+                treeField: 'name',
+                remoteSort: false,
+                frozenColumns: [[
+                    { field: 'ck', checkbox: true },
+                    { field: 'id', title: 'ID(id)', width: 80, sortable: true }
+                ]],
+                columns: [[
+                    { field: 'name', title: '名称(name)', width: 180, sortable: true },
+                    { field: 'age', title: '年龄(age)', width: 120, sortable: true },
+                    { field: 'weight', title: '体重(weight)', width: 120, sortable: true },
+                    { field: 'size', title: 'Size(size)', width: 140 },
+                    { field: 'date', title: '日期(date)', width: 140, sortable: true },
+                    { field: 'undefined', title: '测试(不存在的字段)', width: 140 }
+                ]],
+                moveMenu: true
+            });
+
+
+            $("#btn1").click(function () {
+                var rows = t.treegrid("getRows", true);
+                alert(rows.length);
+            });
+
+            $("#btn2").click(function () {
+                var rows = t.treegrid("getRows", false);
+                alert(rows.length);
+            });
+
+            $("#btn3").click(function () {
+                var rows = t.treegrid("getChildren", 3);
+                alert(rows.length);
+            });
+
+        });
+    </script>
+
+    <h2>jEasyUI TreeGrid Extensions - 其他扩展功能2 - 扩展功能测试页面</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.treegrid.js 实现。</p>
+    <hr />
+
+    <input id="btn1" type="button" value="getRows cascade:true" />
+    <input id="btn2" type="button" value="getRows cascade:false" />
+    <input id="btn3" type="button" value="getChildren" />
+
+    <hr />
+    <p>用鼠标右键点击此表格表头列试试看</p>
+    <table id="t1"></table>
+
+</div>

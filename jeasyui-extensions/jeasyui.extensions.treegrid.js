@@ -415,8 +415,14 @@
 
 
     var getRows = function (target, cascade) {
-        var t = $.util.parseJquery(target);
-        return cascade ? t.treegrid("getData") : t.treegrid("getRoots");
+        var t = $.util.parseJquery(target), rows = t.treegrid("getRoots"), opts = t.treegrid("options");
+        rows = rows && rows.length ? rows : [];
+        return cascade ? $.array.reduce(rows, function (prev, val, index) {
+            prev.push(val);
+            var cc = t.treegrid("getChildren", val[opts.idField]);
+            if (cc && cc.length) { $.array.merge(prev, cc); }
+            return prev;
+        }, []) : rows;
     };
 
     var getColumnData = function (target, param) {
@@ -1167,7 +1173,7 @@
                     onClose: function () { $.util.parseJquery(this).dialog("destroy"); }
                 }).dialog("open");
             };
-            $.array.merge(mm, ["-", { text: "处理更多(共" + distinctVals.length + "项)...", iconCls: "icon-standard-application-view-detail", handler: handler}]);
+            $.array.merge(mm, ["-", { text: "处理更多(共" + distinctVals.length + "项)...", iconCls: "icon-standard-application-view-detail", handler: handler }]);
         }
         return mm;
     };
@@ -1346,7 +1352,7 @@
             });
         }
         function buildText(row) {
-            var cols = t.treegrid("getColumns", "all"), content = $("<table></table>").css({ padding: "5px" }); ;
+            var cols = t.treegrid("getColumns", "all"), content = $("<table></table>").css({ padding: "5px" });;
             $.each(cols, function (i, colOpts) {
                 if (!colOpts || !colOpts.field || !colOpts.title) { return; }
                 var msg = t.treegrid("getCellDisplay", { field: colOpts.field, id: id });

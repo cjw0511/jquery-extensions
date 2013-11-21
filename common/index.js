@@ -10,7 +10,8 @@
         navMenuTree = "#navMenu_Tree", mainTab = "#mainTab", navTab = "#navTab", favoMenuTree = "#favoMenu_Tree",
         mainLayout = "#mainLayout", northPanel = "#northPanel", themeSelector = "#themeSelector",
         westLayout = "#westLayout", westCenterLayout = "#westCenterLayout", westFavoLayout = "#westFavoLayout",
-        westSouthPanel = "#westSouthPanel", homePanel = "#homePanel";
+        westSouthPanel = "#westSouthPanel", homePanel = "#homePanel",
+        btnBugReport = "#btnBugReport", btnContact = "#btnContact", btnFullScreen = "#btnFullScreen", btnExit = "#btnExit";
 
 
     //  按照指定的根节点菜单 id，加载其相应的子菜单树面板数据；该方法定义如下参数：
@@ -204,6 +205,30 @@
                 var opts = $(this).combobox("options");
                 window.mainpage.setTheme(record[opts.valueField])
             }
+        });
+        
+        $(btnBugReport).click(function () {
+            window.open("http://liuyan.cnzz.com/index.php?tid=5654850", "jQuery-Extensions BUG 提交");
+        });
+
+        $(btnContact).click(function () { window.location.href = "mailto:cjw0511@qq.com"; });
+
+        $(btnFullScreen).click(function () {
+            if ($.util.supportsFullScreen) {
+                if ($.util.isFullScreen()) {
+                    $.util.cancelFullScreen();
+                } else {
+                    $.util.requestFullScreen();
+                }
+            } else {
+                $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
+            }
+        });
+
+        $(btnExit).click(function () {
+            $.easyui.messager.confirm("操作提醒", "您确定要退出当前程序并关闭该网页？", function (c) {
+                if (c) { $.util.closeWindowNoConfirm(); }
+            });
         });
     };
 

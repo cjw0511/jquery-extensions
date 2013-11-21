@@ -1,6 +1,13 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2013-11-21(1.0.25 preview) ********/
+1、[#] 修复 jeasyui.extensions.treegrid.js 中关于扩展方法 getRows 的算法 BUG；
+2、[+] 在插件 jeasyui.extensions.layout.js 中增加扩展方法 panels，用于获取 easyui-layout 中所有已定义的 easyui-panel 对象；
+3、[^] 调整 index.html 页面中的部分 Javascript 代码组织方式，使之可读性更强；
+4、[+] 在 index.html 页面中增加一个加载遮蔽层效果；使得终端用户在打开主页面时避免看到页面未完全加载完成时的布局混乱效果；
+
+
 /******** 2013-11-20(1.0.24 preview) ********/
 1、[#] 修复 index.html 中关于收藏夹功能的部分 BUG；
 2、[#] 修复 jquery.jdirk.js 中函数 $.util.isJqueryObject 存在的 BUG；
@@ -11,7 +18,6 @@
     B、在选项卡右键菜单中添加 "在新页面中打开" 功能的默认菜单；
     C、添加 easyui-tabs 的扩展属性 enableJumpTabMenu，该属性表示是否启用 "在新页面中打开" 选项卡的右键菜单。
 6、【-】 去除 jeasyui.extensions.tabs.js 插件中给 easyui-tabs 添加的 showUpdateProgress 属性功能(该属性功能由属性 updateProgress 替代)；
-
 
 
 /******** 2013-11-08(1.0.23 preview) ********/

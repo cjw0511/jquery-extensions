@@ -2786,7 +2786,7 @@
             list, names, ret = {};
         options = options || {};
         var defaults = { onlyEnabled: false, transcript: "cover", overtype: "append", separator: "," },
-            opts = $.extend({}, defaults, (typeof options == "string") ? { transcript: options} : options);
+            opts = $.extend({}, defaults, (typeof options == "string") ? { transcript: options } : options);
         if (!coreArray.contains(["cover", "discard", "overlay"], opts.transcript)) { opts.transcript = defaults.transcript; }
         if (!coreArray.contains(["array", "append"], opts.overtype)) { opts.overtype = defaults.overtype; }
 

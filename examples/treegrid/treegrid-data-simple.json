@@ -13,7 +13,7 @@
         { "id": 1123, "name": "my-large.ini", "age": 6, "weight": 11.2, "size": "5 kb", "date": "02/26/2009", "pid": 112 },
 
         { "id": 12, "name": "Eclipse", "size": "", "date": "01/20/2010", "pid": 1 },
-        { "id": 121, "name": "eclipse.exe", "size": "56 kb", "date": "05/19/2009", "state": "closed", "pid": 12 },
+        { "id": 121, "name": "eclipse.exe", "size": "56 kb", "date": "05/19/2009", "pid": 12 },
         { "id": 123, "name": "eclipse.ini", "size": "1 kb", "date": "04/20/2010", "pid": 12 },
         { "id": 124, "name": "notice.html", "size": "7 kb", "date": "03/17/2005", "pid": 12 },
 
