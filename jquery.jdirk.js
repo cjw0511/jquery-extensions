@@ -3046,23 +3046,6 @@
     };
 
 
-
-    union($, coreJquery);
-    union($.fn, coreJquery.prototype);
-
-    union(String, coreString);
-    union(String.prototype, coreString.fn);
-    union(Date, coreDate);
-    union(Date.prototype, coreDate.fn);
-    union(Number, coreNumber);
-    union(Number.prototype, coreNumber.fn);
-    union(Array, coreArray);
-    union(Array.prototype, coreArray.fn);
-    union(Boolean, coreBoolean);
-    union(Boolean.prototype, coreBoolean.fn);
-
-    union($.fn, Array.prototype);
-
     coreUtil.addCss(".jdirk-shine { filter: alpha(opacity=40); opacity: 0.4; }");
 
     //  _enableUniqueID = true;
@@ -3202,5 +3185,85 @@
             throw new SyntaxError('JSON.parse');
         };
     }
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //  jQuery Cookie Plugin v1.4.0
+    //  https://github.com/carhartl/jquery-cookie
+    //
+    //  Copyright 2013 Klaus Hartl
+    //  Released under the MIT license
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    var cookie_inst = function () {
+        var pluses = /\+/g;
+        function encode(s) { return config.raw ? s : encodeURIComponent(s); }
+        function decode(s) { return config.raw ? s : decodeURIComponent(s); }
+        function stringifyCookieValue(value) { return encode(config.json ? JSON.stringify(value) : String(value)); }
+        function parseCookieValue(s) {
+            if (s.indexOf('"') === 0) { s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\'); }
+            try { s = decodeURIComponent(s.replace(pluses, ' ')); } catch (e) { return; }
+            try { return config.json ? JSON.parse(s) : s; } catch (e) { }
+        }
+        function read(s, converter) {
+            var value = config.raw ? s : parseCookieValue(s);
+            return coreUtil.isFunction(converter) ? converter(value) : value;
+        }
+        var config = coreJquery.cookie = coreUtil.cookie = function (key, value, options) {
+            if (value !== undefined && !coreUtil.isFunction(value)) {
+                options = $.extend({}, config.defaults, options);
+                if (typeof options.expires === 'string') {
+                    options.expires = coreString.toNumber(options.expires);
+                }
+                if (typeof options.expires === 'number') {
+                    var days = options.expires, t = options.expires = new Date();
+                    t.setDate(t.getDate() + days);
+                }
+                return (document.cookie = [
+                    encode(key), '=', stringifyCookieValue(value),
+                    options.expires ? '; expires=' + options.expires.toUTCString() : '',
+                    options.path ? '; path=' + options.path : '',
+                    options.domain ? '; domain=' + options.domain : '',
+                    options.secure ? '; secure' : ''
+                ].join(''));
+            }
+            var result = key ? undefined : {}, cookies = document.cookie ? document.cookie.split('; ') : [];
+            for (var i = 0, l = cookies.length; i < l; i++) {
+                var parts = cookies[i].split('=');
+                var name = decode(parts.shift());
+                var cookie = parts.join('=');
+                if (key && key === name) { result = read(cookie, value); break; }
+                if (!key && (cookie = read(cookie)) !== undefined) { result[name] = cookie; }
+            }
+            return result;
+        };
+        config.defaults = {};
+        coreJquery.removeCookie = coreUtil.removeCookie = function (key, options) {
+            if (config(key) !== undefined) { config(key, '', $.extend({}, options, { expires: -1 })); return true; }
+            return false;
+        };
+    };
+    cookie_inst();
+
+
+
+
+    union($, coreJquery);
+    union($.fn, coreJquery.prototype);
+
+    union(String, coreString);
+    union(String.prototype, coreString.fn);
+    union(Date, coreDate);
+    union(Date.prototype, coreDate.fn);
+    union(Number, coreNumber);
+    union(Number.prototype, coreNumber.fn);
+    union(Array, coreArray);
+    union(Array.prototype, coreArray.fn);
+    union(Boolean, coreBoolean);
+    union(Boolean.prototype, coreBoolean.fn);
+
+    union($.fn, Array.prototype);
+
 
 })(window, jQuery);

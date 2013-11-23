@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>jQuery EasyUI Extensions,jQuery,EasyUI,插件,扩展,datagrid,tree,treegrid,panel,tabs,form,validatebox,menu,linkbutton,combo,window,dialog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="jquery,easyui,datagrid,tree,treegrid,messager,menu,panel,tabs,layout,window,dialog,form,validatebox,linkbutton,combo,jqext,jquery-extensions,plugin,扩展,插件" />
     <meta name="description" content="jquery-extensions,基于jQuery和EasyUI的丰富插件扩展功能集合,提供包含jEasyUI中诸多插件如 panel、tabs、layout、menu、linkbutton、menu、form、validatebox、combo、window、dialog、datagrid、tree、treegrid 等的扩展功能集合。" />
 
@@ -61,8 +62,6 @@
         .top-toolbar #searchbar { position: absolute; width: 400px; left: 400px; padding-top: 1px; }
         .top-toolbar #buttonbar { position: absolute; width: 600px; right: 5px; text-align: right; }
         
-        
-        #navTab>div.tabs-header { border-right-width: 0px; }
         #navMenu_list { padding: 0px; margin: 0px; }
         #navMenu_list>li { line-height: 26px; list-style-type: none; }
         #navMenu_list>li>div.panel-header { height: 26px; line-height: 26px; padding: 0px; margin: 0px; font-weight: normal; border-top-width: 1px; border-bottom-width: 0px; }
@@ -73,11 +72,11 @@
         .nav-menu-icon { padding-left: 25px; background-position: left center; }
         
         #mainTab>div.tabs-header { border-right-width: 0px; }
-        #mainTab_tools table{ border-width: 0px; border-collapse: collapse; border-spacing: 0px; }
-        #mainTab_tools table td{ padding: 0px; }
+        #navTab > div.tabs-header { border-right-width: 0px; }
+        .tabs-tool table { border-width: 0px; border-collapse: collapse; border-spacing: 0px; }
+        .tabs-tool table td { padding: 0px; }
         
         #mainLayout>div.layout-panel-east>div.panel-header { border-left-width: 0px; }
-        
         #eastLayout>div.layout-panel-center>div.panel-header { border-top-width: 0px; }
         
         .portlet-list { padding-left: 20px; margin: 5px; line-height: 20px; }
@@ -131,7 +130,10 @@
                 });
             });
 
-            $("#btn3").click(function () { });
+            $("#btn3").click(function () {
+                var t = $("#navMenu_Tree"), node = t.tree("getNode", $("div[node-id=1107]")[0]);
+                t.tree("setText", { target: node.target, text: "icon-ok" });
+            });
         });
     </script>
 </head>
@@ -187,7 +189,14 @@
         </div>
 
         <div data-options="region: 'west', title: '菜单导航栏', iconCls: 'icon-standard-map', split: true, minWidth: 250, maxWidth: 500" style="width: 250px; padding: 1px;">
-            <div id="navTab" class="easyui-tabs" data-options="fit: true, border: true, tools: [{ id: 'navMenu_refresh', iconCls: 'icon-hamburg-refresh' }]">
+            <div id="navTab_tools" class="tabs-tool">
+                <table>
+                    <tr>
+                        <td><a id="navMenu_refresh" class="easyui-linkbutton easyui-tooltip" title="刷新该选项卡及其导航菜单" data-options="plain: true, iconCls: 'icon-hamburg-refresh'"></a></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="navTab" class="easyui-tabs" data-options="fit: true, border: true, tools: '#navTab_tools'">
                 <div data-options="title: '导航菜单', iconCls: 'icon-standard-application-view-tile', refreshable: false, selected: true">
                     <div id="westLayout" class="easyui-layout" data-options="fit: true">
                         <div data-options="region: 'center', border: false" style="border-bottom-width: 1px;">
@@ -223,7 +232,7 @@
                         <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
                             <div class="easyui-toolbar">
                                 <a id="favoMenu_expand" class="easyui-splitbutton" data-options="iconCls: 'icon-metro-expand2', menu: '#favoMenu_toggleMenu'">展开</a>
-                                <a id="favoMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-delete'">取消收藏</a>
+                                <!--<a id="favoMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-delete'">取消收藏</a>-->
                                 <a id="favoMenu_Rename" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'">重命名</a>
                                 <div id="favoMenu_toggleMenu" class="easyui-menu" data-options="hideOnMouseLeave: true">
                                     <div id="favoMenu_collapse" data-options="iconCls: 'icon-metro-contract2'">折叠当前</div>
@@ -245,7 +254,7 @@
         </div>
 
         <div data-options="region: 'center'" style="padding: 1px;">
-            <div id="mainTab_tools">
+            <div id="mainTab_tools" class="tabs-tool">
                 <table>
                     <tr>
                         <td><a id="mainTab_jumpHome" class="easyui-linkbutton easyui-tooltip" title="跳转至主页选项卡" data-options="plain: true, iconCls: 'icon-hamburg-home'"></a></td>
@@ -269,12 +278,12 @@
                     <div class="easyui-layout" data-options="fit: true">
                         <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
                             <div class="easyui-toolbar">
-                                <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-for-job'">加载Loading</a>
+                                <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-for-job'">测试操作01</a>
                                 <span>-</span>
                                 <a id="A2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-add'">添加一列</a>
                                 <a id="A3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-delete'">删除一列</a>
                                 <span>-</span>
-                                <a id="A4" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">操作XXOO</a>
+                                <a id="A4" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">测试操作02</a>
                             </div>
                         </div>
                         <div data-options="region: 'center', border: false" style="overflow: hidden;">

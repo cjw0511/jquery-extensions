@@ -399,13 +399,13 @@
 
     coreJquery.fn.currentWindow = function () {
         var p = this.closest(".panel-body.window-body");
-        while (p.length && !$.data(p[0], "window")) { p = c.parent().closest(".panel-body.window-body"); }
+        while (p.length && !$.data(p[0], "window")) { p = p.parent().closest(".panel-body.window-body"); }
         return p;
     };
 
     coreJquery.fn.currentDialog = function () {
         var p = this.closest(".panel-body.window-body");
-        while (p.length && !$.data(p[0], "dialog")) { p = c.parent().closest(".panel-body.window-body"); }
+        while (p.length && !$.data(p[0], "dialog")) { p = p.parent().closest(".panel-body.window-body"); }
         return p;
     };
 

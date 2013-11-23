@@ -1,10 +1,17 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2013-11-24(1.0.26 preview) ********/
+1、【+】 集成 jQuery Cookie Plugin v1.4.0 至基础库 jquery.jdirk.js 中；
+2、[+] 增加 jeasyui.extensions.tree.js 插件部分功能：
+    A、增加 easyui-tree 的扩展方法 setIcon，用于动态设置某个树节点的图标值；
+    B、增加 easyui-tree 的扩展方法 setText，用于动态设置某个树节点的显示文本值；
+
+
 /******** 2013-11-21(1.0.25 preview) ********/
 1、[#] 修复 jeasyui.extensions.treegrid.js 中关于扩展方法 getRows 的算法 BUG；
 2、[+] 在插件 jeasyui.extensions.layout.js 中增加扩展方法 panels，用于获取 easyui-layout 中所有已定义的 easyui-panel 对象；
-3、[^] 调整 index.html 页面中的部分 Javascript 代码组织方式，使之可读性更强；
+3、[^] 微调 index.html 页面中的部分 javascript 代码组织方式，使之可读性更强；
 4、[+] 在 index.html 页面中增加一个加载遮蔽层效果；使得终端用户在打开主页面时避免看到页面未完全加载完成时的布局混乱效果；
 
 

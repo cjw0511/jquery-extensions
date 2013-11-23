@@ -170,6 +170,16 @@
         opts.queryParams = $.extend({}, queryParams, param);
         t.tree("reload");
     };
+
+    function setNodeIcon(target, param) {
+        if (!param || !param.target || !param.iconCls) { return; }
+        $(target).tree("update", { target: param.target, iconCls: param.iconCls })
+    };
+
+    function setNodeText(target, param) {
+        if (!param || !param.target || !param.text) { return; }
+        $(target).tree("update", { target: param.target, text: param.text })
+    };
     /******************** initExtensions Methods   End ********************/
 
 
@@ -468,7 +478,21 @@
         //          JSON-Object 类型值：表示发送至远程服务器的查询参数；
         //      如果未定义参数 param，则相当于直接执行不带参数 { id } 的 reload 方法(reload 方法的执行默认会将指定节点的 id 作为参数发送到远程服务器地址)。
         //  返回值：返回表示当前 easyui-tree 组件的 jQuery 对象。
-        load: function (jq, param) { return jq.each(function () { remoteLoad(this, param); }); }
+        load: function (jq, param) { return jq.each(function () { remoteLoad(this, param); }); },
+
+        //  扩展 easyui-tree 的自定义方法；设置指定节点的图标；该方法定义如下参数：
+        //      param: JSON-Object 类型值，该对象包含如下属性定义：
+        //          target: 表示要设置图标的 easyui-tree node HTML-DOM 对象；
+        //          iconCls:表示要设置的节点样式；
+        //  返回值：返回表示当前 easyui-tree 组件的 jQuery 对象。
+        setIcon: function (jq, param) { return jq.each(function () { setNodeIcon(this, param); }); },
+
+        //  扩展 easyui-tree 的自定义方法；设置指定节点的显示文本；该方法定义如下参数：
+        //      param: JSON-Object 类型值，该对象包含如下属性定义：
+        //          target: 表示要设置图标的 easyui-tree node HTML-DOM 对象；
+        //          text  : 表示要设置的显示文本值；
+        //  返回值：返回表示当前 easyui-tree 组件的 jQuery 对象。
+        setText: function (jq, param) { return jq.each(function () { setNodeText(this, param); }); }
     };
     var defaults = $.fn.tree.extensions.defaults = {
 

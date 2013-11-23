@@ -70,7 +70,7 @@
                     handler: function () { t.tabs("closeOtherClosable", index); }
                 },
                 m4 = {
-                    text: "刷新选项卡", iconCls: "icon-standard-table-refresh", disabled: panelOpts.refreshable ? false : true,
+                    text: "刷新选项卡", iconCls: "icon-standard-table-refresh", disabled: panelOpts.refreshable && panelOpts.href ? false : true,
                     handler: function () { t.tabs("refresh", index); }
                 },
                 m5 = {

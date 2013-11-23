@@ -31,7 +31,7 @@
 
             //通过拖动数据行以及右键菜单移动行数据时，都会触发 onDrop 事件。
             onDrop: function (target, source, point) {
-                $.messager.show($.string.format("您刚才通过 {2} 方式将节点 {0} 移向了节点 {1}", source.name, target.name, point));
+                $.messager.show($.string.format("您刚才将节点 {0} 移向了节点 {1} 的 {2} 位置", source.name, target.name, point));
             },
             autoBindDblClickRow: false
         });

@@ -1,0 +1,19 @@
+﻿
+<script type="text/javascript">
+    $(function () {
+        $("#btn1").click(function () {
+            var d = $(this).currentDialog(), opts = d.dialog("options");
+            alert(opts.title);
+        });
+
+        $("#btn2").click(function () {
+            $(this).currentDialog().dialog("close");
+        });
+    });
+</script>
+
+<div>
+    <input id="btn1" type="button" value="getCurrentDialog-title" />
+    <input id="btn2" type="button" value="close-dialog" />
+</div>
+
