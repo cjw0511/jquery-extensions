@@ -110,6 +110,10 @@
                 $("#mainLayout").removeClass("hidden").layout("resize");
             });
 
+            var themeName = $.cookie("themeName");
+            if (themeName) { window.mainpage.setTheme(themeName, false); }
+
+
             $("#A1").click(function () {
                 $.easyui.loading();
                 $.util.exec(function () { $.easyui.loaded(); }, 1000);
@@ -232,7 +236,7 @@
                         <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
                             <div class="easyui-toolbar">
                                 <a id="favoMenu_expand" class="easyui-splitbutton" data-options="iconCls: 'icon-metro-expand2', menu: '#favoMenu_toggleMenu'">展开</a>
-                                <a id="favoMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-delete'">取消收藏</a>
+                                <!--<a id="favoMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-delete'">取消收藏</a>-->
                                 <a id="favoMenu_Rename" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'">重命名</a>
                                 <div id="favoMenu_toggleMenu" class="easyui-menu" data-options="hideOnMouseLeave: true">
                                     <div id="favoMenu_collapse" data-options="iconCls: 'icon-metro-contract2'">折叠当前</div>

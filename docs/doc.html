@@ -64,7 +64,8 @@
             };
             if (path) { p.panel("refresh", $.string.format("{0}.html", path)); }
 
-            $.easyui.theme($.util.$.easyui.theme());
+            var cookieTheme = $.cookie("themeName"), theme = cookieTheme ? cookieTheme : $.util.$.easyui.theme();
+            $.easyui.theme(theme);
         });
     </script>
 </head>

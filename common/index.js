@@ -198,12 +198,13 @@
             toolbar.insertAfter(topbar).css("top", top);
         };
 
+        var themeName = $.cookie("themeName");
         $(themeSelector).combobox({
             width: 140, editable: false, data: $.easyui.theme.dataSource, valueField: "path", textField: "name",
-            value: $.easyui.theme.dataSource[0].path,
+            value: themeName ? themeName : $.easyui.theme.dataSource[0].path,
             onSelect: function (record) {
                 var opts = $(this).combobox("options");
-                window.mainpage.setTheme(record[opts.valueField])
+                window.mainpage.setTheme(record[opts.valueField], true)
             }
         });
         
@@ -234,10 +235,14 @@
 
     window.mainpage.search = function (value, name) { $.easyui.messager.show($.string.format("您设置的主题为：value: {0}, name: {1}", value, name)); };
 
-    window.mainpage.setTheme = function (theme) {
+    window.mainpage.setTheme = function (theme, setCookie) {
+        if (setCookie == null || setCookie == undefined) { setCookie = true; }
         $.easyui.theme(true, theme, function (item) {
-            var msg = $.string.format("您设置了新的系统主题皮肤为：{0}，{1}。", item.name, item.path);
-            $.easyui.messager.show(msg);
+            if (setCookie) {
+                $.cookie("themeName", theme, { expires: 30 });
+                var msg = $.string.format("您设置了新的系统主题皮肤为：{0}，{1}。", item.name, item.path);
+                $.easyui.messager.show(msg);
+            }
         });
     };
 

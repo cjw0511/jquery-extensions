@@ -78,7 +78,8 @@
             var tabsContainer = $("#tabsContainer"), tabsOpts = tabsContainer.tabs("options"),
                 onSelect = tabsOpts.onSelect, isLoaded = false,
                 tabs = tabsContainer.tabs("tabs"),
-                theme = $.util.$.easyui.theme(),
+                cookieTheme = $.cookie("themeName"),
+                theme = cookieTheme ? cookieTheme : $.util.$.easyui.theme(),
                 openNewPage = function (node) {
                     var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);
                     if (!opts.href) { return; }
