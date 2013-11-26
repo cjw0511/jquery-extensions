@@ -107,6 +107,9 @@
 
             $.util.exec(function () {
                 $("#maskContainer").remove();
+                if ($.util.browser.webkit) {
+                    $("#navTab").tabs("select", 1).tabs("select", 0);
+                }
                 $("#mainLayout").removeClass("hidden").layout("resize");
             });
 
