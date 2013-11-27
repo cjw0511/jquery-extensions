@@ -106,16 +106,14 @@
             window.link.init();
 
             $.util.exec(function () {
-                $("#maskContainer").remove();
-                if ($.util.browser.webkit) {
-                    $("#navTab").tabs("select", 1).tabs("select", 0);
-                }
+                if ($.util.browser.webkit) { $("#navTab").tabs("select", 1).tabs("select", 0); }
                 $("#mainLayout").removeClass("hidden").layout("resize");
+
+                var theme = $.easyui.theme(), themeName = $.cookie("themeName");
+                if (themeName && themeName != theme) { window.mainpage.setTheme(themeName, false); }
+
+                $("#maskContainer").remove();
             });
-
-            var themeName = $.cookie("themeName");
-            if (themeName) { window.mainpage.setTheme(themeName, false); }
-
 
             $("#A1").click(function () {
                 $.easyui.loading();
