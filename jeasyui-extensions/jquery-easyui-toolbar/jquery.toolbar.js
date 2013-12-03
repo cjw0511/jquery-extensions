@@ -150,7 +150,7 @@
             defaults: { checked: false, disabled: false, text: " " },
             init: function (container, options) {
                 options = options || {};
-                var opts = $.extend({}, this.defaults, $.util.isString(options) ? { text: options} : options),
+                var opts = $.extend({}, this.defaults, $.util.isString(options) ? { text: options } : options),
                     label = $("<label class='toolbar-item-checkbox'></label>").appendTo(container),
                     box = $("<input type='checkbox' class='toolbar-item-checkbox-input' />").appendTo(label),
                     span = $("<span class='toolbar-item-checkbox-text'></span>").text(opts.text).appendTo(label);
@@ -364,7 +364,7 @@
         } else if ($.string.isHtmlText(str)) {
             $(str).each(function () { appendItemDOM(target, this); });
         } else {
-            appendItemObject(target, { type: "label", options: { text: str} });
+            appendItemObject(target, { type: "label", options: { text: str } });
         }
     };
     function appendItemObject(target, options) {

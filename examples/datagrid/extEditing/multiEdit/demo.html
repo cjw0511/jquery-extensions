@@ -2,7 +2,7 @@
 
     <script type="text/javascript">
         $(function () {
-            $("#t1").datagrid({
+            var t = $("#t1").datagrid({
                 title: 'test datagrid',
                 width: 1200,
                 height: 400,
@@ -23,8 +23,10 @@
                     { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180 },
                     { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
                 ]],
+                rowContextMenu: [
+                    { text: "编辑", iconCls: "icon-edit", handler: function (e, index) { t.datagrid("beginEdit", index); } }
+                ],
                 pagination: true,
-                rowContextMenu: [],
                 //enableHeaderClickMenu: false,
                 //enableHeaderContextMenu: false,
                 //enableRowContextMenu: false,

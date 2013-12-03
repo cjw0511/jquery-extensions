@@ -1,22 +1,33 @@
 ﻿<div>
 
-<script type="text/javascript">
-    $(function () {
-        $("#Button1").click(function () {
-            $.easyui.showDialog({
-                title: "快速创建的 Dialog",
-                top: 130, left: 170, width: 600, height: 400,
-                topMost: false,
-                href: "/",
-                iniframe: true
+    <script type="text/javascript">
+        $(function () {
+            $("#Button1").click(function () {
+                $.easyui.showDialog({
+                    title: "快速创建的 Dialog1",
+                    top: 130, left: 170, width: 1000, height: 600,
+                    topMost: false,
+                    href: "/",
+                    iniframe: true
+                });
+            });
+
+            $("#Button2").click(function () {
+                $.easyui.showDialog({
+                    title: "快速创建的 Dialog2",
+                    top: 130, left: 170, width: 600, height: 400,
+                    topMost: false,
+                    href: "dialog/easy/useiframe/iframepage.html",
+                    iniframe: true
+                });
             });
         });
-    });
-</script>
+    </script>
 
-<h2>jEasyUI Dialog Extensions - 创建通过 IFRAME 方式加载内容的 Dialog</h2>
-<p>该部分扩展由文件 jeasyui.extensions.dialog.js 实现。</p>
-<hr />
-<input id="Button1" type="button" value="创建Dialog" />
+    <h2>jEasyUI Dialog Extensions - 创建通过 IFRAME 方式加载内容的 Dialog</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.dialog.js 实现。</p>
+    <hr />
+    <input id="Button1" type="button" value="创建Dialog1" />
+    <input id="Button2" type="button" value="创建Dialog2" />
 
 </div>

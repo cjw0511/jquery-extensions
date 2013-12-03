@@ -2780,8 +2780,8 @@
         var rCRLF = /\r?\n/g,
 	        rsubmitterTypes = /^(?:submit|button|image|reset)$/i,
 	        rsubmittable = /^(?:input|select|textarea|keygen)/i,
-            rsubmittable_radio = /^(?:radio)$/i,
-            rsubmittable_checkbox = /^(?:checkbox)$/i,
+            //rsubmittable_radio = /^(?:radio)$/i,
+            //rsubmittable_checkbox = /^(?:checkbox)$/i,
             rsubmittable_radiocheckbox = /^(?:checkbox|radio)$/i,
             list, names, ret = {};
         options = options || {};
