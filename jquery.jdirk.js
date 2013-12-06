@@ -2483,7 +2483,18 @@
     //  获取当前焦点对象；
     coreUtil.getActiveElement = function () { return $(document.activeElement); };
 
-    //  获取或设置当前 window 窗体的大小；
+    //  获取或设置当前 window 窗体的大小；该函数定义如下重载：
+    //  1、function ()；获取当前 window 的窗体大小；该方法返回一个格式如 { width, height } 的 JSON-Object；
+    //  2、function (valType)；获取当前 window 的窗体大小的指定属性值；该函数定义如下参数：
+    //      valType: String 类型值；该参数的值必须为 "width" 或 "height" 其中之一；表示返回当前 window 窗体大小的哪个属性值；
+    //  3、function (size)；设置当前 window 的窗体大小；该函数定义如下参数：
+    //      size: JSON-Object 类型值；该参数格式必须为 { width, height }，表示要将当前窗体设置的新的尺寸；
+    //  4、function (width, height)；设置当前 window 的窗体大小；该函数定义如下参数：
+    //      width : Number 类型值；表示窗体的新宽度；
+    //      height: Number 类型值；表示窗体的新高度；
+    //  5、function (valType, val)；根据指定的属性值设置窗体的尺寸大小；该函数定义如下参数：
+    //      valType: String 类型值；该参数的值必须为 "width" 或 "height" 其中之一；表示要设置哪个属性；
+    //      val: 表示窗体的新宽度或者新宽度，对应 valType 指示的属性；
     coreUtil.windowSize = function () {
         var length = arguments.length, arg1, arg2, arg1Type, arg2Type,
             getSize = function () {
@@ -2511,7 +2522,16 @@
         }
     };
 
-    //  获取或设置当前 window 窗体的位置；
+    //  获取或设置当前 window 窗体的位置；该方法定义如下重载：
+    //  1、function ()；获取当前 window 的窗体位置；该方法返回一个格式如 { left, top } 的 JSON-Object；
+    //  2、function (valType)；获取当前 window 的窗体位置的指定属性值；该函数定义如下参数：
+    //      valType: String 类型值；该参数的值必须为 "left" 或 "top" 其中之一；表示返回当前 window 窗体位置的哪个属性值；
+    //  3、function (left, top)；设置当前 window 的窗体位置；该函数定义如下参数：
+    //      left: Number 类型值；表示窗体新位置的 left 值；
+    //      top : Number 类型值；表示窗体新位置的 top 值；
+    //  4、function (valType, val)；设置当前 window 的窗体位置；该函数定义如下参数：
+    //      valType: String 类型值；表示要设置的值的类型，是 left 还是 top；该参数的值必须为 "left" 或 "top" 其中之一；
+    //      val:     Number 类型值；表示 valType 对应的值；
     coreUtil.windowOffset = function () {
         var length = arguments.length, arg1, arg2, arg1Type, arg2Type,
             getOffset = function () { return { left: window.screenLeft || window.screenX, top: window.screenTop || window.screenY }; },
@@ -2536,7 +2556,14 @@
         }
     };
 
-    //  获取或设置当前 window 窗体的大小和位置；
+    //  获取或设置当前 window 窗体的大小和位置；该函数定义如下重载：
+    //  1、function ()；获取当前 window 的窗体大小和位置；该方法返回一个格式如 { left, top, width, height } 的 JSON-Object；
+    //  2、function (valType)；获取当前 window 的窗体大小和位置的指定属性值；该函数定义如下参数：
+    //      valType: String 类型值；该参数的值必须为 "left"、"top"、"width" 或 "height" 其中之一；表示返回当前 window 窗体大小和位置的哪个属性值；
+    //  3、function (pos)；
+    //  4、function (valType, val)；
+    //  5、function (width, height)；
+    //  6、function (width, height, left, top)；
     coreUtil.windowPosition = function () {
         var length = arguments.length, arg1, arg2, arg3, arg4, arg1Type, arg2Type,
             getPosition = function () { return $.extend(coreUtil.windowSize(), coreUtil.windowOffset()); },

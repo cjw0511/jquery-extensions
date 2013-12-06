@@ -408,7 +408,7 @@
 
 
     function removeItem(target, index) {
-        if (!$.isNumeric(index)) { return; }
+        if (index == null || index == undefined) { return; }
         var t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
         if (tr.length) {
             var td = tr.find(">td");
@@ -502,7 +502,11 @@
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         appendItem: function (jq, item) { return jq.each(function () { appendItem(this, item); }); },
 
-        removeItem: function (jq, index) { return jq.each(function () { removeItem(this, index); }); },
+        //  在当前的 easyui-toolbar 中移除一个工具栏项；该方法的参数 param 可以定义为如下类型：
+        //      1、Number 类型值；
+        //      2、HTML-DOM 或 jQuery-DOM 类型值；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        removeItem: function (jq, param) { return jq.each(function () { removeItem(this, param); }); },
 
         //  将当前 easyui-toolbar 中指定位置的工具栏项替换成另一个工具栏项；该方法的参数 param 为一个 JSON-Object，包含如下属性定义：
         //      index:  表示要替换的工具栏项的索引号，从 0 开始计数；

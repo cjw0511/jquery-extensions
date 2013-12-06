@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.3
+* jQuery EasyUI 1.3.4
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -95,7 +95,8 @@
 
         var buttons = [];
         if (opts.enableApplyButton == true) {
-            var btnApply = { text: opts.applyButtonText, iconCls: opts.applyButtonIconCls,
+            var btnApply = {
+                text: opts.applyButtonText, iconCls: opts.applyButtonIconCls,
                 handler: function (dia) {
                     if ($.isFunction(opts.onApply)) { opts.onApply.call(dia, dia); }
                 }
@@ -103,16 +104,20 @@
             buttons.push(btnApply);
         }
         if (opts.enableSaveButton == true) {
-            var btnSave = { text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
+            var btnSave = {
+                text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
                 handler: function (dia) {
                     var isFunc = $.isFunction(opts.onSave);
-                    if (!isFunc || isFunc && opts.onSave.call(dia, dia) !== false) { dia.dialog("close"); }
+                    if (!isFunc || isFunc && opts.onSave.call(dia, dia) !== false) {
+                        $.util.exec(function () { dia.dialog("close"); });
+                    }
                 }
             };
             buttons.push(btnSave);
         }
         if (opts.enableCloseButton == true) {
-            var btnClose = { text: opts.closeButtonText, iconCls: opts.closeButtonIconCls,
+            var btnClose = {
+                text: opts.closeButtonText, iconCls: opts.closeButtonIconCls,
                 handler: function (dia) { dia.dialog("close"); }
             };
             buttons.push(btnClose);
@@ -175,7 +180,7 @@
         return fn(opts, currentFrame);
     };
 
-    
+
 
     //  通过调用 $.easyui.showDialog 方法，以 easyui-dialog 的方式显示一个 JSON - Object 对象的所有属性值；该函数定义如下参数：
     //      options:    需要显示的 JSON - Object；

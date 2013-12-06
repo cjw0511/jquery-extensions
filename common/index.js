@@ -11,7 +11,7 @@
         mainLayout = "#mainLayout", northPanel = "#northPanel", themeSelector = "#themeSelector",
         westLayout = "#westLayout", westCenterLayout = "#westCenterLayout", westFavoLayout = "#westFavoLayout",
         westSouthPanel = "#westSouthPanel", homePanel = "#homePanel",
-        btnBugReport = "#btnBugReport", btnContact = "#btnContact", btnFullScreen = "#btnFullScreen", btnExit = "#btnExit";
+        btnContact = "#btnContact", btnFullScreen = "#btnFullScreen", btnExit = "#btnExit";
 
 
     //  按照指定的根节点菜单 id，加载其相应的子菜单树面板数据；该方法定义如下参数：
@@ -207,12 +207,10 @@
                 window.mainpage.setTheme(record[opts.valueField], true)
             }
         });
-        
-        $(btnBugReport).click(function () {
-            window.open("http://liuyan.cnzz.com/index.php?tid=5654850", "jQuery-Extensions BUG 提交");
-        });
 
-        $(btnContact).click(function () { window.location.href = "mailto:cjw0511@qq.com"; });
+        $(btnContact).click(function () {
+            window.open("http://www.cnblogs.com/cjw0511/p/3324082.html", "_blank");
+        });
 
         $(btnFullScreen).click(function () {
             if ($.util.supportsFullScreen) {

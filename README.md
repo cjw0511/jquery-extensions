@@ -35,6 +35,7 @@ Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
                         <li>对 javascript 的基础对象 String、Date、Array、Number、Boolean 进行了大量的静态和实例方法扩充；</li>
                         <li>增加了 jquery 对 HTML5 属性验证的支持；</li>
                         <li>增加了在 IE6/7 环境下对 JSON 数据格式的支持(整合 json2.js)；</li>
+                        <li>增加了 jQuery 对快速 cookie 操作的支持(整合 jquery.cookie.js)；</li>
                     </ul>
                 </li>
                 <li>
@@ -102,7 +103,6 @@ Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
               ├─icons                       图标库，包含整理好的约 3600 个图标及其符合 jeasyui 图标格式要求的 css 定义、数据源 javascript 脚本定义<br />
               ├─jeasyui-extensions          该扩展项目的插件扩展源代码主目录<br />
               ├─jquery                      该目录用于存放 jquery 基础库<br />
-              ├─jquery-easyui-1.3.3         该目录用于存放 jquery-easyui 插件基础库 1.3.3 版<br />
               ├─jquery-easyui-1.3.4         该目录用于存放 jquery-easyui 插件基础库 1.3.4 版<br />
               ├─jquery-easyui-theme         该目录用于存放本扩展中的所有皮肤文件<br />
               ├─syntaxhighlighter_3.0.83    syntaxhighlighter插件，用于在文档DEMO中对代码的显示提供格式化支持<br />

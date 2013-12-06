@@ -105,6 +105,8 @@
             window.donate.init();
             window.link.init();
 
+            var portal = $("#portal");
+
             $.util.exec(function () {
                 if ($.util.browser.webkit) { $("#navTab").tabs("select", 1).tabs("select", 0); }
                 $("#mainLayout").removeClass("hidden").layout("resize");
@@ -113,20 +115,22 @@
                 if (themeName && themeName != theme) { window.mainpage.setTheme(themeName, false); }
 
                 $("#maskContainer").remove();
+
+                if ($.util.browser.msie && ($.util.browser.version < 8)) {
+                    portal.portal("addColumn").portal("removeColumn", portal.portal("columns") - 1).portal("resize");
+                }
             });
 
             $("#A1").click(function () {
-                $.easyui.loading();
-                $.util.exec(function () { $.easyui.loaded(); }, 1000);
-            });
-
-            var portal = $("#portal");
-            $("#A2").click(function () {
                 portal.portal("addColumn");
             });
-
-            var a3 = $("#A3").click(function () {
+            $("#A2").click(function () {
                 portal.portal("removeColumn", portal.portal("columns") - 1);
+            });
+
+            $("#A3").click(function () {
+                $.easyui.loading();
+                $.util.exec(function () { $.easyui.loaded(); }, 1000);
             });
 
             $("#A4").click(function () {
@@ -183,8 +187,8 @@
                     </div>
                 </div>
                 <div id="buttonbar">
-                    <a id="btnBugReport" class="easyui-linkbutton easyui-tooltip" title="如果您在使用该 DEMO 或者查阅该项目的 API 文档过程中，发现有任何 BUG，欢迎您点击此处向作者进行 BUG 提交。" data-options="plain: true, iconCls: 'icon-hamburg-bug'">意见/BUG提交</a>
-                    <a id="btnContact" class="easyui-linkbutton easyui-tooltip" title="您有什么想对作者说的话，例如仰慕作者、想请作者把妹或吃饭，就通过这里告诉作者吧！" data-options="plain: true, iconCls: 'icon-hamburg-contact'">致信作者</a>
+                    <a id="btnContact" class="easyui-linkbutton easyui-tooltip" title="前往作者关于该插件集合的博客专文；可以进行问题反馈提交或留言操作。" data-options="plain: true, iconCls: 'icon-hamburg-contact'">博客留言</a>
+                    <a id="btn2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-bug'">按钮2</a>
                     <a id="btn3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-archives'">按钮3</a>
                     <a id="btnFullScreen" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-arrow-inout'">全屏切换</a>
                     <a id="btnExit" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-sign-out'">退出系统</a>
@@ -283,10 +287,10 @@
                     <div class="easyui-layout" data-options="fit: true">
                         <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
                             <div class="easyui-toolbar">
-                                <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-for-job'">测试操作01</a>
+                                <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-add'">添加一列</a>
+                                <a id="A2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-delete'">删除一列</a>
                                 <span>-</span>
-                                <a id="A2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-add'">添加一列</a>
-                                <a id="A3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-delete'">删除一列</a>
+                                <a id="A3" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-for-job'">测试操作01</a>
                                 <span>-</span>
                                 <a id="A4" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">测试操作02</a>
                             </div>
@@ -294,7 +298,7 @@
                         <div data-options="region: 'center', border: false" style="overflow: hidden;">
                             <div id="portal" class="easyui-portal" data-options="fit: true, border: false">
                                 <div style="width: 33%;">
-                                    <div data-options="title: '项目简介', height: 300, collapsible: true, closable: true">
+                                    <div data-options="title: '功能简介', height: 300, collapsible: true, closable: true">
                                         <div class="portlet-list">
                                             <span style="font-weight: bold;">本扩展集合包含两大部分：</span>
                                         </div>
@@ -306,6 +310,7 @@
                                                     <li>对 javascript 的基础对象 String、Date、Array、Number、Boolean 进行了大量的静态和实例方法扩充；</li>
                                                     <li>增加了 jquery 对 HTML5 属性验证的支持；</li>
                                                     <li>增加了在 IE6/7 环境下对 JSON 数据格式的支持(整合 json2.js)；</li>
+                                                    <li>增加了 jQuery 对快速 cookie 操作的支持(整合 jquery.cookie.js)；</li>
                                                 </ul>
                                             </li>
                                             <li>
@@ -319,10 +324,40 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div data-options="title: '更新日志', height: 360, iniframe: true, href: 'changelog.txt', collapsible: true, closable: true"></div>
+                                    <div data-options="title: '项目信息', height: 330, collapsible: true, closable: true">
+                                        <ul class="portlet-list">
+                                            <li><span style="font-weight: bold;">源码下载：</span><a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
+                                            <li>在线演示地址：<a href="http://jqext.sinaapp.com/" target="_blank">http://jqext.sinaapp.com/</a></li>
+                                            <li>如将源码下载至本地硬盘并需查看演示 DEMO，请将本目录部署至 IIS、Tomcat 等 WEB 服务器容器中。</li>
+                                            <li>
+                                                对于本扩展有任何意见或者建议，欢迎大家及时向我反馈；可以在我的
+                                                <a href="http://www.cnblogs.com/cjw0511/p/3324082.html" target="_blank">博客留言</a>，
+                                                我会尽可能的给大家回复。
+                                            </li>
+                                            <li>转载请注明出处；如需在您自己的项目用引用本扩展集合，请遵循 gpl-v3 协议；</li>
+                                            <li>
+                                                关于 jquery-easyui 相关API，参见：
+                                                <ul>
+                                                    <li>官方 API(英文)：<a href="http://www.jeasyui.com/documentation/index.php" target="_blank">http://www.jeasyui.com/documentation/index.php</a></li>
+                                                    <li>中文社区 API  ：<a href="http://api.btboys.com/" target="_blank">http://api.btboys.com/</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                jEasyUI 中文社区：
+                                                <ul>
+                                                    <li><a href="http://www.jeasyuicn.com/" target="_blank">http://www.jeasyuicn.com/</a></li>
+                                                    <li><a href="http://bbs.jeasyuicn.com/" target="_blank">http://bbs.jeasyuicn.com/</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>jEasyUI 中文社区 QQ 群号：70168958</li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div style="width: 34%;">
-                                    <div data-options="title: 'LICENSE', height: 360, iniframe: true, href: 'LICENSE.txt', collapsible: true, closable: true"></div>
+                                    <div data-options="title: 'LICENSE', height: 310, iniframe: true, href: 'LICENSE.txt', collapsible: true, closable: true"></div>
+                                    <div data-options="title: '更新日志', height: 320, iniframe: true, href: 'changelog.txt', collapsible: true, closable: true"></div>
+                                </div>
+                                <div style="width: 33%;">
                                     <div data-options="title: '关于本项目', height: 300, collapsible: true, closable: true" style="padding: 10px;">
                                         jQuery && jEasyUI 扩展功能集合<br />
                                         该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.4 实现<br />
@@ -344,8 +379,6 @@
                                         <a href="http://www.chenjianwei.org" target="_blank">http://www.chenjianwei.org</a><br />
                                         <a href="http://cjw0511.cnblogs.com" target="_blank">http://cjw0511.cnblogs.com</a>
                                     </div>
-                                </div>
-                                <div style="width: 33%;">
                                     <div data-options="title: '开源动力捐赠', height: 330, closable: true, collapsible: true, closable: true" style="padding: 10px;">
                                         <a href="https://me.alipay.com/cjw0511" target="_blank">
                                             <img alt="开源动力" src="common/images/alipay.jpg" style="border-width: 0px;" />
@@ -361,34 +394,7 @@
                                         <hr />
                                         以下为捐赠列表；感谢有你，动力常在！
                                         <ul id="donateList" class="portlet-list"></ul>
-                                    </div>
-                                    <div data-options="title: '更多信息...', height: 330, collapsible: true, closable: true">
-                                        <ul class="portlet-list">
-                                            <li><span style="font-weight: bold;">源码下载：</span><a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
-                                            <li>在线演示地址：<a href="http://jqext.sinaapp.com/" target="_blank">http://jqext.sinaapp.com/</a></li>
-                                            <li>
-                                                对于本扩展有任何意见或者建议，欢迎大家及时向我反馈，可以发邮件至我信箱
-                                                <a href="mailto:cjw0511@qq.com">cjw0511@qq.com</a>(标题请注明 jEasyUI 扩展相关)；<br />
-                                                在时间允许的情况下我会尽可能的给大家回复。
-                                            </li>
-                                            <li>转载请注明出处；如需在您自己的项目用引用本扩展集合，请遵循 gpl-v3 协议；</li>
-                                            <li>
-                                                关于 jquery-easyui 相关API，参见：
-                                                <ul>
-                                                    <li>官方 API(英文)：<a href="http://www.jeasyui.com/documentation/index.php" target="_blank">http://www.jeasyui.com/documentation/index.php</a></li>
-                                                    <li>中文社区 API  ：<a href="http://api.btboys.com/" target="_blank">http://api.btboys.com/</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                jEasyUI 中文社区：
-                                                <ul>
-                                                    <li><a href="http://www.jeasyuicn.com/" target="_blank">http://www.jeasyuicn.com/</a></li>
-                                                    <li><a href="http://bbs.jeasyuicn.com/" target="_blank">http://bbs.jeasyuicn.com/</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>jEasyUI 中文社区 QQ 群号：70168958</li>
-                                        </ul>
-                                    </div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
