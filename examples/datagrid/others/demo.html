@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $("#t1").datagrid({
+        var t = $("#t1").datagrid({
             title: 'test datagrid',
             width: 1120,
             height: 400,
@@ -27,6 +27,20 @@
                     }
                 }
             ]],
+            rowContextMenu: [
+                {
+                    text: "平均身高", iconCls: "", handler: function (e, index, row) {
+                        var val = t.datagrid("getRows").avg(function (r) { return r.Height; }).round(2);
+                        $.easyui.messager.show("平均身高为：" + val);
+                    }
+                },
+                {
+                    text: "体重总和", iconCls: "icon-standard-sum", handler: function (e, index, row) {
+                        var val = t.datagrid("getRows").sum(function (r) { return r.Weight; }).round(2);
+                        $.easyui.messager.show("体重总和为：" + val);
+                    }
+                },
+            ],
             onLoadSuccess: function () {
                 var t = $(this), col = t.datagrid("getColumnDom", "operator"), rows = t.datagrid("getRows");
                 col.find("a.l-btn").each(function (i, ele) {

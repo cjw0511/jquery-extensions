@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2013-11-09
+* 最近更新：2013-12-06
 *
 * 依赖项：jquery-1.9.1.js late
 *
@@ -1530,10 +1530,10 @@
     //          如果不定义该参数，则默认将 array 中的每一项直接相加。
     //      thisArg:    可选。 可在 callback 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。
     coreArray.sum = function (array, callback, thisArg) {
-        var isFunc = coreUtil.isFunction(callback);
-        var fn = function (previous, current) {
-            return previous + (isFunc ? callback.call(thisArg, current) : current);
-        };
+        var isFunc = coreUtil.isFunction(callback),
+            fn = function (previous, current) {
+                return previous + (isFunc ? callback.call(thisArg, current) : current);
+            };
         return coreArray.reduce(array, fn, 0);
     };
     coreArray.prototype.sum = function (convert) { return coreArray.sum(this, convert); };
@@ -1541,8 +1541,8 @@
     //  计算数组中各项累积后的平均值；该函数参数的定义和 coreArray.sum 一样；
     coreArray.avg = function (array, callback, thisArg) {
         array = coreArray.likeArray(array) ? array : [];
-        var sum = coreArray.sum(array, callback, thisArg);
-        var avg = parseFloat(sum) / array.length;
+        var sum = coreArray.sum(array, callback, thisArg),
+            avg = parseFloat(sum) / array.length;
         return avg;
     };
     coreArray.prototype.avg = function (convert) { return coreArray.avg(this, convert); };
@@ -1838,8 +1838,7 @@
     coreDate.compare = function (date1, date2) {
         date1 = coreUtil.isDate(date1) ? date1 : new Date(date1);
         date2 = coreUtil.isDate(date2) ? date1 : new Date(date2);
-        var d1 = date1.getTime();
-        var d2 = date2.getTime();
+        var d1 = date1.getTime(), d2 = date2.getTime();
         return coreUtil.compare(d1, d2);
     };
     coreDate.prototype.compareTo = function (date) { return coreDate.compare(this, date); };
@@ -1875,10 +1874,10 @@
         date = coreUtil.isDate(date) ? date : new Date(date);
         weekStart = (weekStart || 0) - 0;
         if (!coreUtil.isNumeric(weekStart) || weekStart > 6) { weekStart = 0; }
-        var year = date.getFullYear();
-        var firstDay = new Date(year, 0, 1);
-        var firstWeekDays = 7 - firstDay.getDay() + weekStart;
-        var dayOfYear = (((new Date(year, date.getMonth(), date.getDate())) - firstDay) / (24 * 3600 * 1000)) + 1;
+        var year = date.getFullYear(),
+            firstDay = new Date(year, 0, 1),
+            firstWeekDays = 7 - firstDay.getDay() + weekStart,
+            dayOfYear = (((new Date(year, date.getMonth(), date.getDate())) - firstDay) / (24 * 3600 * 1000)) + 1;
         return Math.ceil((dayOfYear - firstWeekDays) / 7) + 1;
     };
     coreDate.prototype.getWeek = function (weekStart) { return coreDate.getWeek(this, weekStart); };
@@ -1888,8 +1887,8 @@
         date = coreUtil.isDate(date) ? date : new Date(date);
         weekStart = (weekStart || 0) - 0;
         if (!coreUtil.isNumeric(weekStart) || weekStart > 6) { weekStart = 0; }
-        var dayOfWeek = date.getDay();
-        var day = date.getDate();
+        var dayOfWeek = date.getDay(),
+            day = date.getDate();
         return Math.ceil((day - dayOfWeek - 1) / 7) + ((dayOfWeek >= weekStart) ? 1 : 0);
     };
     coreDate.prototype.getWeekOfMonth = function (weekStart) { return coreDate.getWeekOfMonth(this, weekStart); };
