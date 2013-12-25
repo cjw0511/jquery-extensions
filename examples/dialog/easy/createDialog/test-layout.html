@@ -1,0 +1,27 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+    });
+</script>
+
+<div class="easyui-layout" data-options="fit: true">
+
+    <div data-options="region: 'west', title: 'west-panel', split: true, border: false" style="width: 200px; border-right-width: 1px;">
+        <ul class="easyui-tree" data-options="toggleOnClick: true, selectOnContextMenu: true, url: '../common/nav-api-menu-data.json', method: 'get', onLoadSuccess: function () { $(this).tree('collapseAll'); }"></ul>
+    </div>
+
+    <div data-options="region: 'center', title: 'center-panel', border: false" style="border-left-width: 1px;">
+        <table class="easyui-datagrid" data-options="border: false, fit: true, idField: 'ID', url: 'datagrid/datagrid-data.json', method: 'get', columnFilter: { panelHeight: 100, position: 'top' }">
+            <thead>
+                <tr>
+                    <th data-options="title: '编号(Code)', field: 'Code', width: 100"></th>
+                    <th data-options="title: '名称(Name)', field: 'Name', width: 100, filter: 'livebox'"></th>
+                    <th data-options="title: '年龄(Age)', field: 'Age', width: 120, filter: 'caps'"></th>
+                    <th data-options="title: '身高(Height)', field: 'Height', width: 120, filter: 'lower'"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+
+</div>

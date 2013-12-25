@@ -185,17 +185,17 @@
         $("#btnHideNorth").click(function () { window.mainpage.hideNorth(); });
         var btnShow = $("#btnShowNorth").click(function () { window.mainpage.showNorth(); });
         var l = $(mainLayout), north = l.layout("panel", "north"), panel = north.panel("panel"),
-            toolbar = $("#toolbar"), topbar = $("#topbar"), top = toolbar.css("top"),
+            toolbar = $("#toolbar"), topbar = $("#topbar");
             opts = north.panel("options"), onCollapse = opts.onCollapse, onExpand = opts.onExpand;
         opts.onCollapse = function () {
             if ($.isFunction(onCollapse)) { onCollapse.apply(this, arguments); }
             btnShow.show();
-            toolbar.insertBefore(panel).css("top", 0);
+            toolbar.insertBefore(panel).addClass("top-toolbar-topmost");
         };
         opts.onExpand = function () {
             if ($.isFunction(onExpand)) { onExpand.apply(this, arguments); }
             btnShow.hide();
-            toolbar.insertAfter(topbar).css("top", top);
+            toolbar.insertAfter(topbar).removeClass("top-toolbar-topmost");
         };
 
         var themeName = $.cookie("themeName");
