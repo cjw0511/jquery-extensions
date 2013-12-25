@@ -1,8 +1,17 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2013-12-25(1.0.29 preview) ********/
+1、[#] 修复 jeasyui.extensions.validatebox.js 插件中扩展的属性 prompt 在特殊浏览器环境下存在 BUG 的问题；
+2、[#] 修复 jeasyui.extensions.combo.js 插件可能会导致其属性 disabled: true 时 panel 面板还能被触发显示的问题；
+3、【^】 将之前的四套皮肤 "default"、"bootstrap"、"black"、"metro"、"gray" 升级至 jquery-easyui-1.3.5 版；
+4、【^】 将 jquery-easyui 核心插件升级至 jquery-easyui-1.3.5 版；
+5、【^】 通过修改 jquery.easyui.min.js 源码的方式修复了 jquery-easyui-1.3.5 中 tree 插件的部分算法 BUG；
+
+
 /******** 2013-12-06(1.0.28 preview) ********/
-1、调整 index.html 页面中部分 portlet 的位置(亲们，不要老问我源码在哪儿下载哈，自己在主页的 portlet 找下载地址)；
+1、[^] 调整 index.html 页面中部分 portlet 的位置(亲们，不要老问我源码在哪儿下载哈，自己在主页的 portlet 找下载地址)；
+2、[#] 修复 jquery.jdirk.js 基础库文件中的部分工具函数问题；
 
 
 /******** 2013-12-05(1.0.27 preview) ********/

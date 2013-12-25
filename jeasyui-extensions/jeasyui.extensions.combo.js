@@ -66,15 +66,15 @@
             t.combo("textbox").focus(function () {
                 if (opts.autoShowPanel && panel.is(":hidden")) { t.combo("showPanel"); }
             });
-            arrow.unbind("click.combo").bind("click.combo", function () {
-                if (panel.is(":visible")) {
-                    t.combo("hidePanel");
-                } else {
-                    $("div.combo-panel:visible").panel("close");
-                    t.combo("showPanel");
-                    t.combo("textbox").focus();
-                }
-            });
+            //arrow.unbind("click.combo").bind("click.combo", function () {
+            //    if (panel.is(":visible")) {
+            //        t.combo("hidePanel");
+            //    } else {
+            //        $("div.combo-panel:visible").panel("close");
+            //        t.combo("showPanel");
+            //        t.combo("textbox").focus();
+            //    }
+            //});
             if (opts.iconCls) { t.combo("setIcon", opts.iconCls); }
             if ($.util.browser.msie && combo._outerWidth() != opts.width) {
                 $.util.exec(function () { t.combo("resize", opts.width); });

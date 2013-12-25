@@ -14,7 +14,7 @@
  * jQuery EasyUI portal 插件
  * jquery.portal.js
  * 二次开发 流云
- * 最近更新：2013-08-02
+ * 最近更新：2013-12-11
  *
  * Copyright (c) 2013 ChenJianwei personal All rights reserved.
  * http://www.chenjianwei.org
@@ -268,15 +268,15 @@
         add: function (jq, param) {	// param: {panel,columnIndex}
             return jq.each(function () {
                 if (!param || !$.isNumeric(param.columnIndex) || !param.panel) { return; }
-                var opts = $(this).portal("options");
+                var portal, opts = portal.portal("options");
                 if (opts.onBeforeAdd.call(this, param.columnIndex, param.panel) == false) { return; }
-                var c = $(this).find('div.portal-column:eq(' + param.columnIndex + ')');
+                var c = portal.find('div.portal-column:eq(' + param.columnIndex + ')');
                 var p = param.panel.addClass('portal-p');
                 p.panel('panel').addClass('portal-panel').appendTo(c);
                 makeDraggable(this, p);
                 p.panel('resize', { width: c.width() });
-                var opts = p.panel("options"), onClose = opts.onClose;
-                opts.onClose = function () {
+                var panelOpts = p.panel("options"), onClose = opts.onClose;
+                panelOpts.onClose = function () {
                     if ($.isFunction(onClose)) { onClose.apply(this, arguments); }
                     if (!p.length) { return; }
                     var body = $("body");

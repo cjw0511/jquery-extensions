@@ -302,7 +302,9 @@
                 t.blur(opts.promptBlur);
             }
             if ($.string.isNullOrEmpty(t.val())) {
-                t.addClass("validatebox-prompt").val(opts.prompt);
+                $.util.exec(function () {
+                    t.addClass("validatebox-prompt").val(opts.prompt);
+                });
             }
         }
     }

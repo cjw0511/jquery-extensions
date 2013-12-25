@@ -11,7 +11,7 @@
 * jQuery EasyUI theme 组件扩展
 * jeasyui.extensions.theme.js
 * 二次开发 流云
-* 最近更新：2013-12-04
+* 最近更新：2013-12-25
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -90,11 +90,13 @@
         { id: 2, name: "金属黑(推荐)", path: "black" },
         { id: 3, name: "银色(推荐)", path: "bootstrap" },
         { id: 4, name: "灰霾(推荐)", path: "gray" },
+
         { id: 5, name: "清泉", path: "jqueryui-cupertino" },
         { id: 6, name: "黑色蜂巢", path: "jqueryui-dark-hive" },
         { id: 7, name: "杏黄", path: "jqueryui-pepper-grinder" },
         { id: 8, name: "阳光", path: "jqueryui-sunny" },
         { id: 9, name: "磁贴（标准）", path: "metro-standard" },
+
         { id: 10, name: "磁贴（蓝）", path: "metro-blue" },
         { id: 11, name: "磁贴（灰）", path: "metro-gray" },
         { id: 12, name: "磁贴（绿）", path: "metro-green" },

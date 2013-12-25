@@ -62,10 +62,10 @@
 
     window.mainpage.instTreeStatus = function (target) {
         var t = $.util.parseJquery(target), array = t.tree("getRoots");
-        $.each(array, function () {
-            var cc = t.tree("getChildren", this.target);
-            t.tree("expand", this.target);
-            $.each(cc, function () { t.tree("collapseAll", this.target); });
+        $.each(array, function (i, n) {
+            var cc = t.tree("getChildren", n.target);
+            t.tree("expand", n.target);
+            $.each(cc, function (l, c) { t.tree("collapseAll", c.target); });
         });
     };
 
@@ -84,8 +84,8 @@
                 window.mainpage.addModuleTab(node);
             },
             onLoadSuccess: function (node, data) {
-                $.util.exec(function () { $(navMenuList).find("a").removeAttr("disabled"); });
-                window.mainpage.instTreeStatus(this);
+                $(navMenuList).find("a").removeAttr("disabled");
+                window.mainpage.instTreeStatus(t);
                 $.easyui.loaded(westCenterLayout);
             },
             contextMenu: [
@@ -139,7 +139,7 @@
                 window.mainpage.addModuleTab(node);
             },
             onLoadSuccess: function (node, data) {
-                window.mainpage.instTreeStatus(this);
+                window.mainpage.instTreeStatus(t);
                 $.easyui.loaded(westFavoLayout);
             },
             contextMenu: [
@@ -503,7 +503,7 @@
             if (name == null || name == undefined) { return; }
             if (String(name).trim() == "") { return $.easyui.messager.show("请输入目录名称！"); }
             if (node) {
-                t.tree("insert", { after: node.target, data: { id: folderId++, text: name, iconCls: "icon-hamburg-folder", attributes: { folder: true}} });
+                t.tree("insert", { after: node.target, data: { id: folderId++, text: name, iconCls: "icon-hamburg-folder", attributes: { folder: true } } });
             } else {
 
             }

@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2013-12-06
+* 最近更新：2013-12-19
 *
 * 依赖项：jquery-1.9.1.js late
 *
@@ -504,9 +504,13 @@
 
     //  用新字符串替换与给定字符串匹配的所有子串；该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。
     coreString.replaceAll = function (str, substr, replacement, ignoreCase) {
-        if (!substr || !replacement || substr == replacement) { return str; }
-        var regexp = coreUtil.isRegExp(substr) ? substr : new RegExp(String(substr), ignoreCase ? "gm" : "igm");
-        return str.replace(regexp, replacement);
+        if (!substr || substr == replacement) { return str; }
+        //var regexp = coreUtil.isRegExp(substr) ? substr : new RegExp(String(substr), ignoreCase ? "gm" : "igm");
+        //return str.replace(regexp, replacement);
+        str = coreString.isNullOrEmpty(str) ? "" : String(str);
+        var length = str.length, i = 0;
+        while (str.indexOf(substr) > -1 && i++ < length) { str = str.replace(substr, replacement); }
+        return str;
     };
     coreString.prototype.replaceAll = function (substr, replacement) { return coreString.replaceAll(this, substr, replacement); };
 
@@ -710,7 +714,7 @@
     coreString.existChinese = function (str) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
         //[\u4E00-\u9FA5]為漢字﹐[\uFE30-\uFFA0]為全角符號
-        return /^[\x00-\xff]*$/.test(str);
+        return !/^[\x00-\xff]*$/.test(str);
     };
     coreString.prototype.existChinese = function () { return coreString.existChinese(this); };
 
@@ -1800,7 +1804,7 @@
         var y = 0;
         if (coreDate.isDate(date)) {
             y = new Date(date).getYear();
-        } else if (window.isNumeric(date)) {
+        } else if ($.isNumeric(date)) {
             y = date;
         } else {
             throw "传入的参数 date 的数据类型必须为 Date、String 或者 Number。";
