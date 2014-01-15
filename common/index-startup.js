@@ -8,8 +8,8 @@ $(function () {
     window.mainpage.bindToolbarButtonEvent();
     window.mainpage.bindMainTabButtonEvent();
 
-    window.donate.init();
-    window.link.init();
+    window.donate.reload();
+    window.link.reload();
 
     var portal = $("#portal"), layout = $("#mainLayout"), navTab = $("#navTab");
 

@@ -1,15 +1,26 @@
 ﻿<div>
 
-<script type="text/javascript">
-    $(function () {
-    });
-</script>
+    <script type="text/javascript">
+        $(function () {
 
-<h2>Testing</h2>
-<hr />
-<ul>
-    <li><a href="testing/definedClass.html" target="_blank" >definedClass.html</a></li>
-    <li><a href="testing/cookies.html" target="_blank">cookies.html</a></li>
-</ul>
+            window.alert = $.easyui.messager.alert;
+
+            $("#btn1").click(function () {
+                var a = undefined;
+                alert($.util.isNegative(a));
+            });
+        });
+    </script>
+
+    <h2>Testing</h2>
+    <hr />
+    <ul>
+        <li><a href="testing/definedClass.html" target="_blank">definedClass.html</a></li>
+        <li><a href="testing/cookies.html" target="_blank">cookies.html</a></li>
+    </ul>
+    <fieldset style="border-width: 1px; border-radius: 5px; border-color: #95B8E7;">
+        <legend>这里是测试按钮区域</legend>
+        <input id="btn1" type="button" value="button1" />
+    </fieldset>
 
 </div>

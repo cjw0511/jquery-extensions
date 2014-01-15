@@ -214,7 +214,7 @@
                                 <div style="width: 33%;">
                                     <div data-options="title: '项目信息', height: 330, collapsible: true, closable: true">
                                         <ul class="portlet-list">
-                                            <li><span style="font-weight: bold; font-size: xx-large;">源码下载：</span><a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
+                                            <li><b style="font-size: xx-large;">源码下载</b>：<a href="https://github.com/cjw0511/jquery-extensions/" target="_blank">https://github.com/cjw0511/jquery-extensions/</a></li>
                                             <li>在线演示地址：<a href="http://jqext.sinaapp.com/" target="_blank">http://jqext.sinaapp.com/</a></li>
                                             <li>如将源码下载至本地硬盘并需查看演示 DEMO，请将本目录部署至 IIS、Tomcat 等 WEB 服务器容器中。</li>
                                             <li>
@@ -222,7 +222,7 @@
                                                 <a href="http://www.cnblogs.com/cjw0511/p/3324082.html" target="_blank">博客留言</a>，
                                                 我会尽可能的给大家回复。
                                             </li>
-                                            <li>转载请注明出处；如需在您自己的项目用引用本扩展集合，请遵循 gpl-v3 协议；</li>
+                                            <li>转载请注明出处；如您需在自己的项目用引用本扩展集合，请遵循 gpl-v3 协议；</li>
                                             <li>
                                                 关于 jquery-easyui 相关API，参见：
                                                 <ul>
@@ -293,7 +293,7 @@
                                         <a href="http://www.chenjianwei.org" target="_blank">http://www.chenjianwei.org</a><br />
                                         <a href="http://cjw0511.cnblogs.com" target="_blank">http://cjw0511.cnblogs.com</a>
                                     </div>
-                                    <div data-options="title: '开源动力捐赠', height: 330, closable: true, collapsible: true, closable: true" style="padding: 10px;">
+                                    <div id="donatePanel" data-options="title: '开源动力捐赠', height: 330, closable: true, collapsible: true, closable: true, tools: [{ iconCls: 'icon-hamburg-refresh', handler: function () { window.donate.reload(); } }]" style="padding: 10px;">
                                         <a href="https://me.alipay.com/cjw0511" target="_blank">
                                             <img alt="开源动力" src="common/images/alipay.jpg" style="border-width: 0px;" />
                                         </a>
@@ -322,7 +322,7 @@
                 <div data-options="region: 'north', split: false, border: false" style="height: 220px;">
                     <div class="easyui-calendar" data-options="fit: true"></div>
                 </div>
-                <div data-options="region: 'center', title: '友情链接', iconCls: 'icon-hamburg-link'">
+                <div id="linkPanel" data-options="region: 'center', title: '友情链接', iconCls: 'icon-hamburg-link', tools: [{ iconCls: 'icon-hamburg-refresh', handler: function () { window.link.reload(); } }]">
                     <ul id="linkList" class="portlet-list link-list"></ul>
                 </div>
             </div>

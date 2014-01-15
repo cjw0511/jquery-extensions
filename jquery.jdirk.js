@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2013-12-19
+* 最近更新：2013-01-09
 *
 * 依赖项：jquery-1.9.1.js late
 *
@@ -18,24 +18,33 @@
 */
 (function (window, $, undefined) {
 
-    //  定义 字符串对象(String) 扩展对象基元
-    var coreString = function () { return String.apply(this, arguments); };
-    //  定义 日期对象(Date) 扩展对象基元
-    var coreDate = function () { return Date.apply(this, arguments); };
-    //  定义 数值对象(Number) 扩展对象基元
-    var coreNumber = function () { return Number.apply(this, arguments); };
-    //  定义 数组对象(Array) 扩展对象基元
-    var coreArray = function () { return Array.apply(this, arguments); };
-    //  定义 布尔值对象(Boolean) 扩展对象基元
-    var coreBoolean = function () { return Boolean.apply(this, arguments); };
-    //  定义 通用工具方法 扩展对象基元
-    var coreUtil = function () { return Object.apply(this, arguments); };
-    //  定义 空值 集合基元
-    var coreNullable = {};
-    //  定义 jQuery 扩展对象基元
-    var coreJquery = function () { return $.apply(this, arguments); };
-    //  定义 HTML5 工具组件对象基元
-    var coreHtml5 = {};
+
+    var //  定义 字符串对象(String) 扩展对象基元
+        coreString = function () { return String.apply(this, arguments); },
+
+        //  定义 日期对象(Date) 扩展对象基元
+        coreDate = function () { return Date.apply(this, arguments); },
+
+        //  定义 数值对象(Number) 扩展对象基元
+        coreNumber = function () { return Number.apply(this, arguments); },
+
+        //  定义 数组对象(Array) 扩展对象基元
+        coreArray = function () { return Array.apply(this, arguments); },
+
+        //  定义 布尔值对象(Boolean) 扩展对象基元
+        coreBoolean = function () { return Boolean.apply(this, arguments); },
+
+        //  定义 通用工具方法 扩展对象基元
+        coreUtil = function () { return Object.apply(this, arguments); },
+
+        //  定义 空值 集合基元
+        coreNullable = {},
+
+        //  定义 jQuery 扩展对象基元
+        coreJquery = function () { return $.apply(this, arguments); },
+
+        //  定义 HTML5 工具组件对象基元
+        coreHtml5 = {};
 
     coreString.fn = coreString.prototype = {};
     coreDate.fn = coreDate.prototype = {};
@@ -68,9 +77,9 @@
         docElem = coreUtil.docElem = document.documentElement,
         history = coreUtil.history = window.history,
         parent = coreUtil.parent = window.parent,
-        top = coreUtil.top = window.top;
-    var $$ = coreJquery.emptyJquery = coreJquery.empty$ = coreJquery.$$ = coreUtil.emptyJquery = coreUtil.empty$ = coreUtil.$$ = $();
-    var version = "2013-10-22",
+        top = coreUtil.top = window.top,
+        $$ = coreJquery.emptyJquery = coreJquery.empty$ = coreJquery.$$ = coreUtil.emptyJquery = coreUtil.empty$ = coreUtil.$$ = $(),
+        version = "2013-01-09",
         core_array = [],
         core_trim = version.trim,
         core_push = core_array.push,
@@ -142,6 +151,21 @@
 
     //  测试对象是否是纯粹的对象（通过 "{}" 或者 "new Object" 创建的）。
     coreUtil.isPlainObject = $.isPlainObject;
+
+    //  判断对象是否为 "未定义" 值(即 undefined)。
+    coreUtil.isUndefined = function (obj) { return obj === undefined || typeof obj === "undefined"; };
+
+    //  判断对象是否为空(Null)值。
+    coreUtil.isNull = function (obj) { return obj === null; };
+
+    //  判断对象是否为 "未定义" 值(即 undefined)或空(Null)值。
+    coreUtil.isNullOrUndefined = function (obj) { return coreUtil.isUndefined(obj) || coreUtil.isNull(obj); };
+
+    //  测试对象不为 "未定义" 值(即 undefined)、空(Null)值、Boolean-False值、空字符串值或数字0中的任何一种。
+    coreUtil.isPositive = function (obj) { return obj ? true : false; };
+
+    //  判断对象是否为 "未定义" 值(即 undefined)、空(Null)值、Boolean-False值、空字符串值或数字0中的一种。
+    coreUtil.isNegative = function (obj) { return obj ? false : true; };
 
     //  测试对象是否是 jQuery 对象。
     coreUtil.isJqueryObject = function (obj) { return obj != null && obj != undefined && ((obj.jquery ? true : false) || obj.constructor === $$.constructor); };

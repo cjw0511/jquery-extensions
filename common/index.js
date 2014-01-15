@@ -186,7 +186,7 @@
         var btnShow = $("#btnShowNorth").click(function () { window.mainpage.showNorth(); });
         var l = $(mainLayout), north = l.layout("panel", "north"), panel = north.panel("panel"),
             toolbar = $("#toolbar"), topbar = $("#topbar");
-            opts = north.panel("options"), onCollapse = opts.onCollapse, onExpand = opts.onExpand;
+        opts = north.panel("options"), onCollapse = opts.onCollapse, onExpand = opts.onExpand;
         opts.onCollapse = function () {
             if ($.isFunction(onCollapse)) { onCollapse.apply(this, arguments); }
             btnShow.show();
@@ -198,9 +198,12 @@
             toolbar.insertAfter(topbar).removeClass("top-toolbar-topmost");
         };
 
-        var themeName = $.cookie("themeName");
+        var themeName = $.cookie("themeName"),
+            themeData = $.array.filter($.easyui.theme.dataSource, function (val) {
+                return val.disabled ? false : true;
+            });
         $(themeSelector).combobox({
-            width: 140, editable: false, data: $.easyui.theme.dataSource, valueField: "path", textField: "name",
+            width: 140, editable: false, data: themeData, valueField: "path", textField: "name",
             value: themeName ? themeName : $.easyui.theme.dataSource[0].path,
             onSelect: function (record) {
                 var opts = $(this).combobox("options");
@@ -569,32 +572,42 @@
 
     //初始化捐赠数据列表
     $.util.namespace("donate");
-    window.donate.init = function () {
-        var donate = $("#donateList");
-        $.get("common/donate-data.json", function (data) {
-            $.each(window.donate.data = data, function (i, item) {
-                var li = $("<li></li>").appendTo(donate);
-                $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
-                $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
-                $("<span></span>").text("(").appendTo(li);
-                $("<span></span>").addClass("donate-total").text(item.total).appendTo(li);
-                $("<span></span>").text("元)").appendTo(li);
-            });
-        }, "json");
+    window.donate.reload = function () {
+        var donatePanel = $("#donatePanel"), donate = $("#donateList").empty();
+        $.ajax({
+            url: "common/donate-data.json", type: "get", dataType: "json",
+            beforeSend: function (XMLHttpRequest) { $.easyui.loading({ locale: donatePanel }); },
+            success: function (data, textStatus, XMLHttpRequest) {
+                $.each(window.donate.data = data, function (i, item) {
+                    var li = $("<li></li>").appendTo(donate);
+                    $("<span></span>").addClass("donate-name").text(item.name).appendTo(li);
+                    $("<span></span>").addClass("donate-date").text(item.date).appendTo(li);
+                    $("<span></span>").text("(").appendTo(li);
+                    $("<span></span>").addClass("donate-total").text(item.total).appendTo(li);
+                    $("<span></span>").text("元)").appendTo(li);
+                });
+            },
+            complete: function (XMLHttpRequest, textStatus) { $.easyui.loaded(donatePanel); }
+        });
     };
 
     //初始化友情链接列表
     $.util.namespace("link");
-    window.link.init = function () {
-        var link = $("#linkList");
-        $.get("common/link-data.json", function (data) {
-            $.each(window.link.data = data, function (i, item) {
-                var li = $("<li></li>").appendTo(link);
-                $("<span></span>").text(item.title).appendTo(li);
-                $("<br />").appendTo(li);
-                $("<a target='_blank'></a>").attr("href", item.href).text(item.href).appendTo(li);
-            });
-        }, "json");
+    window.link.reload = function () {
+        var linkPanel = $("#linkPanel"), link = $("#linkList").empty();
+        $.ajax({
+            url: "common/link-data.json", type: "get", dataType: "json",
+            beforeSend: function (XMLHttpRequest) { $.easyui.loading({ locale: linkPanel }); },
+            success: function (data, textStatus, XMLHttpRequest) {
+                $.each(window.link.data = data, function (i, item) {
+                    var li = $("<li></li>").appendTo(link);
+                    $("<span></span>").text(item.title).appendTo(li);
+                    $("<br />").appendTo(li);
+                    $("<a target='_blank'></a>").attr("href", item.href).text(item.href).appendTo(li);
+                });
+            },
+            complete: function (XMLHttpRequest, textStatus) { $.easyui.loaded(linkPanel); }
+        });
     };
 
 })(jQuery);

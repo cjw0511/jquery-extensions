@@ -91,12 +91,12 @@
         { id: 3, name: "银色(推荐)", path: "bootstrap" },
         { id: 4, name: "灰霾(推荐)", path: "gray" },
 
-        { id: 5, name: "清泉", path: "jqueryui-cupertino" },
-        { id: 6, name: "黑色蜂巢", path: "jqueryui-dark-hive" },
-        { id: 7, name: "杏黄", path: "jqueryui-pepper-grinder" },
-        { id: 8, name: "阳光", path: "jqueryui-sunny" },
-        { id: 9, name: "磁贴（标准）", path: "metro-standard" },
+        { id: 5, name: "清泉(兼容不完善)", path: "jqueryui-cupertino", disabled: true },
+        { id: 6, name: "黑巢(兼容不完善)", path: "jqueryui-dark-hive", disabled: true },
+        { id: 7, name: "杏黄(兼容不完善)", path: "jqueryui-pepper-grinder", disabled: true },
+        { id: 8, name: "阳光(兼容不完善)", path: "jqueryui-sunny", disabled: true },
 
+        { id: 9, name: "磁贴（标准）", path: "metro-standard" },
         { id: 10, name: "磁贴（蓝）", path: "metro-blue" },
         { id: 11, name: "磁贴（灰）", path: "metro-gray" },
         { id: 12, name: "磁贴（绿）", path: "metro-green" },
