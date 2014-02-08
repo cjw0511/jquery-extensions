@@ -75,18 +75,21 @@
         }
         var defaults = $.extend({}, $.messager.defaults, { title: "操作提醒", timeout: 4000, showType: "slide" });
         var position = {
-            topLeft: { right: "", left: 0, top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
-            topCenter: { right: "", top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
-            topRight: { left: "", right: 0, top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
-            centerLeft: { left: 0, right: "", bottom: "" },
-            center: { right: "", bottom: "" },
-            centerRight: { left: "", right: 0, bottom: "" },
-            bottomLeft: { left: 0, right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
-            bottomCenter: { right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
-            bottomRight: { left: "", right: 0, top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop }
+            topLeft: { showType: "show", right: "", left: 0, top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
+            topCenter: { showType: "slide", right: "", top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
+            topRight: { showType: "show", left: "", right: 0, top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
+            centerLeft: { showType: "fade", left: 0, right: "", bottom: "" },
+            center: { showType: "fade", right: "", bottom: "" },
+            centerRight: { showType: "fade", left: "", right: 0, bottom: "" },
+            bottomLeft: { showType: "show", left: 0, right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
+            bottomCenter: { showType: "slide", right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
+            bottomRight: { showType: "show", left: "", right: 0, top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop }
         };
         var opts = $.extend({}, defaults, options);
         opts.style = position[options.position] ? position[options.position] : position.topCenter;
+        if (opts.style.showType) {
+            opts.showType = opts.style.showType;
+        }
         var iconCls = icons[opts.icon] ? icons[opts.icon] : icons.info;
         opts.msg = "<div class='messager-icon " + iconCls + "'></div>" + "<div>" + opts.msg + "</div>";
         return _show(opts);
@@ -240,6 +243,49 @@
 
     //  更改 jeasyui-combo 组件的非空验证提醒消息语言。
     $.extend($.fn.combo.defaults, { missingMessage: $.fn.validatebox.defaults.missingMessage });
+
+
+    //  基于当前页面 document 触发，当前页面嵌套的所有子级和父级页面均执行一个签名为 function (win, e) 事件触发函数；该方法提供如下参数：
+    //      eventName:
+    //      eventNamespace:
+    //      plugin:
+    //      callback:
+    coreEasyui.bindPageNestedFunc = function (eventName, eventNamespace, plugin, callback) {
+        if (arguments.length == 3) { callback = plugin; plugin = "jquery"; }
+        if (arguments.length == 4 && !plugin) { plugin = "jquery"; }
+        $(document).unbind("." + eventNamespace).bind(eventName + "." + eventNamespace, function (e) {
+            var doCall = function (win) { callback.call(win, win, e); },
+                doCallUp = function (win) {
+                    var p = win.parent;
+                    try {
+                        if (win != p && p.jQuery && p.jQuery.parser && p.jQuery.parser.plugins && p.jQuery.fn && p.jQuery.fn[plugin]) {
+                            doCall(p);
+                            doCallUp(p);
+                        }
+                    } catch (ex) { }
+                },
+                doCallDown = function (win) {
+                    var jq = win.jQuery;
+                    jq("iframe,iframe").each(function () {
+                        try {
+                            if (this.contentWindow && jq.util.isObject(this.contentWindow.document) && this.contentWindow.jQuery && this.contentWindow.jQuery.parser && this.contentWindow.jQuery.parser.plugins && this.contentWindow.jQuery.fn && this.contentWindow.jQuery.fn[plugin]) {
+                                doCall(this.contentWindow);
+                                doCallDown(this.contentWindow);
+                            }
+                        } catch (ex) { }
+                    });
+                },
+                doCallAll = function (win) {
+                    doCall(win);
+                    doCallUp(win);
+                    doCallDown(win);
+                };
+            doCallAll(window);
+        });
+    };
+
+
+
 
 
 

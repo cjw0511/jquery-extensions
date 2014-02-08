@@ -32,12 +32,12 @@
     function init(target) {
         var t = $(target).appendTo('body').addClass('menu-top');
 
-        $(document).unbind('.menu').bind('mousedown.menu', function (e) {
-            var allMenu = $('body>div.menu:visible');
-            var m = $(e.target).closest('div.menu', allMenu);
-            if (m.length) { return }
-            $('body>div.menu-top:visible').menu('hide');
-        });
+        //$(document).unbind('.menu').bind('mousedown.menu', function (e) {
+        //    var allMenu = $('body>div.menu:visible');
+        //    var m = $(e.target).closest('div.menu', allMenu);
+        //    if (m.length) { return }
+        //    $('body>div.menu-top:visible').menu('hide');
+        //});
 
         var menus = splitMenu(t);
         for (var i = 0; i < menus.length; i++) {
@@ -576,6 +576,15 @@
 
 
 
+
+    //  下面这段代码实现即使在跨 IFRAME 的情况下，一个 WEB-PAGE 中也只能同时显示一个 easyui-menu 控件。
+    $.easyui.bindPageNestedFunc("mousedown", "jdirkMenu", "menu", function (win, e) {
+        var jq = win.jQuery,
+                allMenu = jq("body>div.menu:visible"),
+                m = jq(e.target).closest('div.menu', allMenu);
+        if (m.length) { return }
+        jq('body>div.menu-top:visible').menu('hide');
+    });
 
 
 

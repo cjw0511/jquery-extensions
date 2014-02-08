@@ -1,22 +1,89 @@
-﻿<!DOCTYPE HTML PUBLIC>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
-    <script src="../jquery/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript">
-        function doChange_Type(target) {
-            var t = jQuery(target), val = t.val(), fileLevel = jQuery("select[name$=FILE_LEVEL]");
-            if (val == "文件通知") {
-                fileLevel.removeAttr("disabled");
-                fileLevel.val("");
-            } else {
-                fileLevel.attr("disabled", "disabled");
-            }
-        };
-    </script>
-</head>
-<body>
+﻿<script src="|apppath|/app/js/jquery-1.10.2.min.js"></script>
+<script src="|apppath|/app/js/jquery.jdirk.js"></script>
+<script src="|apppath|/app/js/My97DatePicker/WdatePicker.js"></script>
+<script src="|apppath|/app/js/calendar-rule.js"></script>
+<script>jQuery.noConflict();</script>
+<script src="|apppath|/app/cms/js/cms.js"></script>
+<script>
+    jQuery(function () {
+        jQuery("div.FormCon>div.FormSide>div.FormList:last").hide();
+        jQuery("div.FormTit a[name=btnReject]").text("不同意");
+        var url = jQuery.util.currentUri;
+        //if (url.endsWith("xmlwork.index.jsp")) {
+        //    jQuery("div.FormTable_Wrap input[name$=COLUMN_VALUE]").parent().children().attr("disabled", "disabled");
+        //    jQuery("div.FormTable_Wrap select[name$=FILE_LEVEL]").attr("disabled", "disabled");
+        //}
 
-</body>
-</html>
+        var rs = jQuery("input[name$=COLUMN_VALUE]"),
+            select = jQuery("td.autohide"),
+            change = function (target) {
+                var val;
+                if (target) {
+                    val = jQuery(target).val();
+                } else {
+                    var ck = rs.filter(":checked");
+                    val = ck.length ? ck.val() : rs.val();
+                }
+                if (val == "文件通知") { select.css("visibility", "inherit"); } else { select.css("visibility", "hidden"); }
+            };
+        select.find("select[name$=FILE_LEVEL]>:first").remove();
+        change();
+        rs.click(function () { change(this); });
+    });
+
+    var count = 0;
+    var nowtime = '|datetime|'
+    var cv = document.getElementsByName("HZ2881c230e39ac70130e39b6abd0019_COLUMN_VALUE");
+    var leixing = '';
+    for (var i = 0; i < cv.length; i++) {
+        if (cv[i].checked) {
+            leixing = cv[i].value;
+        }
+    }
+    var lx = $("HZ2881c230e39ac70130e39b6abd0019_FILE_LEVEL");
+    //if (leixing == '文件通知') {
+    //    lx.parentNode.style.display = 'inline';
+    //} else {
+    //    lx.parentNode.style.display = 'none';
+    //}
+
+    function _impl_onload(type) {
+        tzgg_form_edit_onload();
+    }
+    function impl_BeforeAction(type) {
+        count++;
+        var result = true;
+        if (type == 'reject') {
+            var formid = document.getElementsByName("FORMID")[0].value;
+            $(formid + '_ARTICLE_STATUS').value = '3';
+        }
+        var nodeid = $('NodeID').value;
+        if (nodeid == '') nodeid = 'Strat';
+        if (count == 2) {
+            var creatorid = $('HZ2881c230e39ac70130e39b6abd0019_CREATOR_USER_ID').value
+            var dataid = $('HZ2881c230e39ac70130e39b6abd0019_ID').value;
+            var dbIdentifier = $('dbIdentifier').value;
+            if (nodeid == 'Node1') {
+                var struArea = $('HZ2881c230e39ac70130e39b6abd0019_PUBLISH_AREA').value;
+                if (struArea != null & struArea != undefined) {
+                    var url = '|apppath|/app/cms/ajax.addreader.jsp?status=READER&creatorid=' + creatorid + '&dataid=' + dataid + '&readers=' + struArea + '&dbIdentifier=' + dbIdentifier + '&' + Math.random();
+                    var result2 = _GetXMLBack(url);
+                    if (result2 == 'true')
+                        result = true;
+                    else result = false;
+                }
+            }
+        }
+        return result;
+    }
+</script>
+<script>
+    function islevel(idsv) {
+        var lx = $("HZ2881c230e39ac70130e39b6abd0019_FILE_LEVEL");
+        if (idsv == '文件通知') {
+            lx.parentNode.style.display = 'inline';
+        } else {
+            lx.parentNode.style.display = 'none';
+        }
+    }
+</script>

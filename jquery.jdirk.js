@@ -951,7 +951,7 @@
         temp = temp.replace(/>/g, "&gt;");
         temp = temp.replace(/\'/g, "&apos;");
         temp = temp.replace(/\"/g, "&quot;");
-        temp = temp.replace(/\n/g, "<br>");
+        temp = temp.replace(/\n/g, "<br />");
         temp = temp.replace(/\ /g, "&nbsp;");
         temp = temp.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
         return temp;
@@ -3040,7 +3040,7 @@
     //  元素闪动的默认时间间隔（毫秒）；该属性仅限于被方法 coreUtil.shine 调用；
     coreUtil.shineInterval = 100;
     //  元素闪动的默认次数；该属性仅限于被方法 coreUtil.shine 调用；
-    coreUtil.shineTimes = 10;
+    coreUtil.shineTimes = 8;
     //  使元素闪动
     coreUtil.shine = coreJquery.shine = function (selector, interval, times) {
         if (selector == null || selector == undefined) { return selector; }

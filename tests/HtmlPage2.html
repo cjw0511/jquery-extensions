@@ -1,0 +1,8 @@
+﻿<script type="text/javascript">
+    function publish() {
+        var mainformid = document.getElementsByName('FORMID')[0].value;
+        $(mainformid + "_PUBLISH_TIME").value = nowtime;
+        $(mainformid+'_ARTICLE_STATUS').value='1';
+        ActionDo("submit");
+    }
+</script>

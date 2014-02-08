@@ -131,4 +131,26 @@
     $.extend($.fn.combo.defaults, defaults);
     $.extend($.fn.combo.methods, methods);
 
+
+
+
+
+    //  下面这段代码实现即使在跨 IFRAME 的情况下，一个 WEB-PAGE 中也只能同时显示一个 easyui-combo 控件。
+    $.easyui.bindPageNestedFunc("mousedown", "jdirkCombo", "combo", function (win, e) {
+        var jq = win.jQuery, p = jq(e.target).closest("span.combo,div.combo-p");
+        if (p.length) {
+            jq(p).find(".combo-f").each(function () {
+                var panel = jq(this).combo("panel");
+                if (panel.is(":visible")) {
+                    panel.panel("close");
+                }
+            });
+            if (e.target && e.target.ownerDocument == win.document) {
+                return;
+            }
+        }
+        jq("body>div.combo-p>div.combo-panel:visible").panel("close");
+    });
+
+
 })(jQuery);

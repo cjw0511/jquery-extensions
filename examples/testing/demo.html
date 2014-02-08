@@ -9,6 +9,50 @@
                 var a = undefined;
                 alert($.util.isNegative(a));
             });
+
+            $("#btn2").click(function () {
+                var opts = $(this).linkbutton("options");
+                alert(window.encodeURI(opts.text));
+            });
+
+
+
+            //  以下代码实现升序排序算法
+            var array = [3, 3, 2, 1, 4, 8, 6, 1, 7, 8, 9];
+            var sort = function (arr) {
+                var ret = arr.clone(), range, min;
+                for (var i = 0; i < ret.length; i++) {
+                    range = ret.range(0, ret.length - i);
+                    min = range.min();
+                    ret.remove(min);
+                    ret.push(min);
+                }
+                return ret;
+            };
+            //alert(sort(array));
+
+            //  以下代码实现升序排序算法-冒泡算法
+            var sort2 = function (arr) {
+                var ret = arr.clone();
+                for (var i = 0; i < ret.length - 1; i++) {
+                    for (var j = 0; j < ret.length - i - 1; j++) {
+                        var a = ret[j], b = ret[j + 1];
+                        if (a > b) {
+                            ret[j + 1] = a;
+                            ret[j] = b;
+                        }
+                    }
+                }
+                return ret;
+            };
+            alert(sort2(array));
+
+
+
+
+
+
+
         });
     </script>
 
@@ -20,7 +64,12 @@
     </ul>
     <fieldset style="border-width: 1px; border-radius: 5px; border-color: #95B8E7;">
         <legend>这里是测试按钮区域</legend>
-        <input id="btn1" type="button" value="button1" />
+        <button id="btn1" accesskey="b" type="button"><u>B</u>utton1</button>
+        <br /><br />
+        <label for="userName" accesskey="u"><u>N</u>ame:</label>
+        <input id="userName" name="userName" type="text" />
+        <br /><br />
+        <a id="btn2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-ok'" accesskey="t"><u>T</u>estButton</a>
     </fieldset>
 
 </div>

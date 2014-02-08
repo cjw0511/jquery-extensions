@@ -756,11 +756,18 @@ a.l-btn .l-btn-focus{
 	right:5px;
 	background:url('images/menu_rightarrow.png') no-repeat;
 }
+.menu-line {
+  position: absolute;
+  left: 26px;
+  top: 0;
+  height: 2000px;
+  font-size: 1px;
+}
 .menu-sep{
-	margin:3px 0px 3px 24px;
-	line-height:2px;
-	font-size:2px;
-	background:url('images/menu_sep.png') repeat-x;
+	margin:3px 0px 3px 25px;
+	font-size:1px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #fff;
 }
 .menu-active{
 	border:1px solid #333;
