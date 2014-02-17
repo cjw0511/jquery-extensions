@@ -150,4 +150,5 @@
     $.extend($.fn.form.methods, methods);
 
     $.fn.form.comboList = ['combobox', 'combotree', 'combogrid', 'datetimebox', 'datebox', 'combo'];
+
 })(jQuery);

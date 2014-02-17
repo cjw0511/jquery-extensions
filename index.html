@@ -196,7 +196,7 @@
                     </tr>
                 </table>
             </div>
-            <div id="mainTab" class="easyui-tabs" data-options="fit: true, border: true, showOption: true, enableNewTabMenu: true, repeatable: true, tools: '#mainTab_tools', enableJumpTabMenu: true">
+            <div id="mainTab" class="easyui-tabs" data-options="fit: true, border: true, showOption: true, enableNewTabMenu: true, repeatable: true, tools: '#mainTab_tools', enableJumpTabMenu: true, onSelect: function (title, index) { window.mainpage.mainTab.updateHash(index); }">
                 <div id="homePanel" data-options="title: '主页', iconCls: 'icon-hamburg-home', selected: true">
                     <div class="easyui-layout" data-options="fit: true">
                         <div data-options="region: 'north', split: false, border: false" style="height: 31px;">

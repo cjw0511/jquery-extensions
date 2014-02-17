@@ -268,7 +268,7 @@
         add: function (jq, param) {	// param: {panel,columnIndex}
             return jq.each(function () {
                 if (!param || !$.isNumeric(param.columnIndex) || !param.panel) { return; }
-                var portal, opts = portal.portal("options");
+                var portal = $(this), opts = portal.portal("options");
                 if (opts.onBeforeAdd.call(this, param.columnIndex, param.panel) == false) { return; }
                 var c = portal.find('div.portal-column:eq(' + param.columnIndex + ')');
                 var p = param.panel.addClass('portal-p');

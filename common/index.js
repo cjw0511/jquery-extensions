@@ -198,16 +198,15 @@
             toolbar.insertAfter(topbar).removeClass("top-toolbar-topmost");
         };
 
-        var themeName = $.cookie("themeName"),
-            themeData = $.array.filter($.easyui.theme.dataSource, function (val) {
-                return val.disabled ? false : true;
-            });
-        $(themeSelector).combobox({
-            width: 140, editable: false, data: themeData, valueField: "path", textField: "name",
-            value: themeName ? themeName : $.easyui.theme.dataSource[0].path,
+        var themeCombo = $(themeSelector).combobox({
+            width: 140,
+            editable: false,
+            data: window.mainpage.themeData,
+            valueField: "path",
+            textField: "name",
             onSelect: function (record) {
-                var opts = $(this).combobox("options");
-                window.mainpage.setTheme(record[opts.valueField], true)
+                var opts = themeCombo.combobox("options");
+                window.mainpage.setTheme(record[opts.valueField], true);
             }
         });
 
@@ -235,6 +234,11 @@
     };
 
     window.mainpage.search = function (value, name) { $.easyui.messager.show($.string.format("您设置的主题为：value: {0}, name: {1}", value, name)); };
+
+
+    window.mainpage.themeData = $.array.filter($.easyui.theme.dataSource, function (val) {
+        return val.disabled ? false : true;
+    });
 
     window.mainpage.setTheme = function (theme, setCookie) {
         if (setCookie == null || setCookie == undefined) { setCookie = true; }
@@ -314,17 +318,17 @@
         } else if (args.length == 1) {
             $.extend(ret, window.mainpage.mainTab.tabDefaultOption, typeof args[0] == "object" ? args[0] : { href: args[0] });
         } else if (args.length == 2) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { titel: args[0], href: args[1] });
+            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1] });
         } else if (args.length == 3) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2] });
+            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2] });
         } else if (args.length == 4) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3] });
+            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3] });
         } else if (args.length == 5) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4] });
+            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4] });
         } else if (args.length == 6) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5] });
+            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5] });
         } else if (args.length >= 7) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { titel: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5], selected: args[6] });
+            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5], selected: args[6] });
         }
         return ret;
     };
@@ -396,6 +400,17 @@
 
     window.mainpage.mainTab.closeAllTabs = function () {
         return $(mainTab).tabs("closeAllClosable");
+    };
+
+    window.mainpage.mainTab.updateHash = function (index) {
+        var opts = $(mainTab).tabs("getTab", index).panel("options");
+        window.location.hash = opts.href ? opts.href : "";
+    };
+
+    window.mainpage.mainTab.loadHash = function (hash) {
+        while (hash.left(1) == "#") { hash = hash.substr(1); }
+        if (String.isNullOrWhiteSpace(hash)) { return; }
+        window.mainpage.mainTab.addModule("演示功能 DEMO", hash);
     };
 
 
