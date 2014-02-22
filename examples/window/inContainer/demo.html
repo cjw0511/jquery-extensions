@@ -1,26 +1,26 @@
 ﻿<div>
 
-<script type="text/javascript">
-    $(function () {
-        $("#win1").window({
-            title: "test window1", top: 120, left: 160, width: 250, height: 150,
-            inContainer: true
-        });
+    <script type="text/javascript">
+        $(function () {
+            $("#win1").window({
+                title: "test window1", top: 120, left: 160, width: 250, height: 150,
+                inContainer: true
+            });
 
-        $("#win2").window({
-            title: "test window2", top: 120, left: 160, width: 250, height: 150,
-            inline: true,
-            inContainer: true
+            $("#win2").window({
+                title: "test window2", top: 120, left: 160, width: 250, height: 150,
+                inline: true,
+                inContainer: true
+            });
         });
-    });
-</script>
+    </script>
 
-<h2>jEasyUI Window Extensions - 不能移除容器边界</h2>
-<p>该部分扩展由文件 jeasyui.extensions.window.js 实现。</p>
-<hr />
-<div id="win1">您可以拖动我试试，您会发现我不能被拖出当前这个页面</div>
-<div style="border-width: 1px; border-color: Black; border-style: solid; width: 800px; height: 600px; position: relative;">
-    <div id="win2">您可以拖动我试试，您会发现我不能被拖出这个外框</div>
-</div>
+    <h2>jEasyUI Window Extensions - 不能移除容器边界</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.window.js 实现。</p>
+    <hr />
+    <div id="win1">您可以拖动我试试，您会发现我不能被拖出当前这个页面</div>
+    <div style="border-width: 1px; border-color: Black; border-style: solid; width: 800px; height: 600px; position: relative;">
+        <div id="win2">您可以拖动我试试，您会发现我不能被拖出这个外框</div>
+    </div>
 
 </div>

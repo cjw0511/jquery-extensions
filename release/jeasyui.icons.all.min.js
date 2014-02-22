@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.4
+* jQuery EasyUI 1.3.5
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses

@@ -193,6 +193,11 @@
         return type === "array" || type !== "function" && coreUtil.isNumeric(length) && length >= 0;
     };
 
+    //  检测一个对象是否为一个数组对象或者类似于数组对（具有数组的访问方式：具有 length 属性、且具有属性名为数字的索引访问器）且不是字符串
+    coreUtil.likeArrayNotString = function (obj) {
+        return coreUtil.likeArray(obj) && !coreUtil.isString(obj);
+    };
+
     //  获取当前页面 url 参数。
     //  返回值：该方法返回一个数组，数组中的每个元素都是一个 JSON 对象，该 JSON 对象包含如下属性：
     //      name:   表示 url 参数的名称；
@@ -2236,10 +2241,10 @@
 
     //  返回当前日期对象的格式化字符值；该函数定义如下参数：
     //      date:   要进行格式化的日期对象
-    //      format: 返回字符串格式定义
+    //      format: 返回字符串格式定义；如果该参数不传入，则默认值为 "yyyy-MM-dd"
     coreDate.format = function (date, format) {
         if (!coreUtil.isDate(date)) { return null; };
-        format = coreString.isNullOrWhiteSpace(format) ? format : "yyyy-MM-dd";
+        format = coreUtil.isEmptyObjectOrNull(format) ? "yyyy-MM-dd" : format;
         switch (typeof date) {
             case "string":
                 date = new Date(date.replace(/-/, "/"));

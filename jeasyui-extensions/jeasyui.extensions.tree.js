@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.4
+* jQuery EasyUI 1.3.5
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -365,6 +365,30 @@
         }
         return ret;
     };
+
+
+
+    $.fn.tree.extensions.cascadeToArray = function (data) {
+        if ($.util.isEmptyObjectOrNull(data)) { return []; }
+        if (!$.util.likeArrayNotString(data)) { data = [data]; }
+        var ret = [], getNodeArray = function (node) {
+            var tmp = $.extend({}, node), array = [tmp];
+            if (!tmp.children || (tmp.children && !$.util.likeArrayNotString(tmp.children))) {
+                return array;
+            }
+            $.each(tmp.children, function (i, n) {
+                $.array.merge(array, getNodeArray(n));
+            });
+            tmp.children = undefined;
+            return array;
+        };
+        $.each(data, function (i, n) {
+            $.array.merge(ret, getNodeArray(n));
+        });
+        return ret;
+    };
+
+
 
     var methods = $.fn.tree.extensions.methods = {
         //  扩展 easyui-tree 的自定义方法；判断制定的 tree-node 是否为根节点；该方法定义如下参数：

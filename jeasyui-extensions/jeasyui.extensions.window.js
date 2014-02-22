@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.4
+* jQuery EasyUI 1.3.5
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -34,7 +34,7 @@
 
     var initialize = function (target) {
         var t = $.util.parseJquery(target);
-        var state = $.data(target, "window"), opts = t.window("options");
+        var state = $.data(target, "window"), opts = t.window("options"), win = t.window("window");
         if (!opts._initialized) {
             t.window("header").on({
                 dblclick: function () {
@@ -62,9 +62,33 @@
         }
         if (opts.draggable) {
             var dragOpts = state.window.draggable("options");
-            var _onStartDrag = dragOpts.onStartDrag, _onStopDrag = dragOpts.onStopDrag;
-            dragOpts.onStartDrag = function () { _onStartDrag.apply(this, arguments); t.window("body").addClass("window-body-hidden").children().addClass("window-body-hidden-proxy"); };
-            dragOpts.onStopDrag = function () { _onStopDrag.apply(this, arguments); t.window("body").removeClass("window-body-hidden").children().removeClass("window-body-hidden-proxy"); };
+            var _onStartDrag = dragOpts.onStartDrag, _onStopDrag = dragOpts.onStopDrag, _onDrag = dragOpts.onDrag;
+            dragOpts.onStartDrag = function () {
+                _onStartDrag.apply(this, arguments);
+                t.window("body").addClass("window-body-hidden").children().addClass("window-body-hidden-proxy");
+            };
+            dragOpts.onStopDrag = function () {
+                _onStopDrag.apply(this, arguments);
+                t.window("body").removeClass("window-body-hidden").children().removeClass("window-body-hidden-proxy");
+            };
+            dragOpts.onDrag = function (e) {
+                if (!opts.inContainer) { return _onDrag.apply(this, arguments); }
+                var left = e.data.left, top = e.data.top,
+                    p = win.parent(), root = p.is("body"),
+                    scope = $.extend({}, root ? $.util.windowSize() : { width: p.innerWidth(), height: p.innerHeight() }),
+                    width = $.isNumeric(opts.width) ? opts.width : win.outerWidth(),
+                    height = $.isNumeric(opts.height) ? opts.height : win.outerHeight();
+                if (left < 0) { left = 0; }
+                if (top < 0) { top = 0; }
+                if (left + width > scope.width && left > 0) { left = scope.width - width; b = true; }
+                if (top + height > scope.height && top > 0) { top = scope.height - height; b = true; }
+                state.proxy.css({
+                    display: 'block',
+                    left: left,
+                    top: top
+                });
+                return false;
+            };
         }
     };
 
@@ -103,10 +127,10 @@
     var defaults = $.fn.window.extensions.defaults = $.extend({}, $.fn.panel.extensions.defaults, {
 
         //  扩展 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口对象是否在屏幕大小调整的情况下自动进行左右居中，默认为 true。
-        autoHCenter: true,
+        autoHCenter: false,
 
         //  扩展 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口对象是否在屏幕大小调整的情况下自动进行上下居中，默认为 true。
-        autoVCenter: true,
+        autoVCenter: false,
 
         //  扩展 easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口对象是否在按下 ESC，默认为 true。
         autoCloseOnEsc: true,

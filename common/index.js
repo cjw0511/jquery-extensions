@@ -20,6 +20,15 @@
         $(navMenuList).find("a").attr("disabled", true);
         $.easyui.loading({ locale: westCenterLayout });
         var t = $(navMenuTree), root = $.extend({}, $.array.first(window.mainpage.navMenusData, function (val) { return val.id == id; }));
+        //if ($.array.contains(["10", "11"], id)) {
+        //    $.get(id == 11 ? "common/nav-api-menu-data-simple.json" : "common/nav-doc-menu-data.json", function (menus) {
+        //        menus.push(root);
+        //        t.tree("loadData", menus);
+        //    }, "json");
+        //} else {
+        //    root.children = [];
+        //    t.tree("loadData", [root]);
+        //}
         if ($.array.contains(["10", "11"], id)) {
             $.get(id == 11 ? "common/nav-api-menu-data.json" : "common/nav-doc-menu-data.json", function (menus) {
                 root.children = menus;
@@ -36,7 +45,9 @@
     window.mainpage.loadNavMenus = function (callback) {
         var ul = $(navMenuList).empty();
         $.get("common/nav-menu-data.json", function (menus) {
-            $.each(window.mainpage.navMenusData = menus, function (i, item) {
+            $.each(window.mainpage.navMenusData = menus = $.array.filter(menus, function (item) {
+                return item.disabled ? false : true;
+            }), function (i, item) {
                 var li = $("<li></li>").appendTo(ul);
                 var pp = $("<div></div>").addClass("panel-header panel-header-noborder").appendTo(li);
                 var a = $("<a></a>").attr({ href: "javascript:void(0);", target: "_self" }).hover(function () {
@@ -410,7 +421,15 @@
     window.mainpage.mainTab.loadHash = function (hash) {
         while (hash.left(1) == "#") { hash = hash.substr(1); }
         if (String.isNullOrWhiteSpace(hash)) { return; }
-        window.mainpage.mainTab.addModule("演示功能 DEMO", hash);
+        $.get("common/nav-api-menu-data.json", function (menus) {
+            var array = $.fn.tree.extensions.cascadeToArray(menus),
+                node = $.array.first(array, function (val) { return val.attributes && val.attributes.href == hash; });
+            if (node) {
+                window.mainpage.addModuleTab(node);
+            } else {
+                $.easyui.messager.show("hash is not exists");
+            }
+        }, "json");
     };
 
 
