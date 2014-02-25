@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.4
+* jQuery EasyUI 1.3.5
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -53,8 +53,9 @@
     };
 
     function setTheme(jq, theme, callback, thisArg) {
-        var oldTheme = getTheme(jq),
-            link = jq("link[href$='easyui.css']"), href = link.attr("href"), array = href.split("/");
+        var oldTheme = getTheme(jq);
+        if (oldTheme == theme) { return; }
+        var link = jq("link[href$='easyui.css']"), href = link.attr("href"), array = href.split("/");
         if (arguments.length > 1) { array[array.length - 2] = theme; } else { jq.array.insert(array, 0, theme); }
         link.attr("href", array.join("/"));
         callbackFunc(callback, oldTheme, theme, thisArg);

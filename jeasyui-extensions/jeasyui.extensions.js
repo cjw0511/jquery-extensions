@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.4
+* jQuery EasyUI 1.3.5
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -249,7 +249,7 @@
     //      eventName:
     //      eventNamespace:
     //      plugin:
-    //      callback:
+    //      callback: 一个签名为 function (win, e) 的函数，其中 win 表示所在 iframe 执行函数传入的 window 对象，e 表示最初触发该循环函数调用的事件对象。
     coreEasyui.bindPageNestedFunc = function (eventName, eventNamespace, plugin, callback) {
         if (arguments.length == 3) { callback = plugin; plugin = "jquery"; }
         if (arguments.length == 4 && !plugin) { plugin = "jquery"; }

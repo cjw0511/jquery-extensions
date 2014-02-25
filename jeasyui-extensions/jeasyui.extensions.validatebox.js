@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.4
+* jQuery EasyUI 1.3.5
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -301,7 +301,7 @@
                 }
                 t.blur(opts.promptBlur);
             }
-            if ($.string.isNullOrEmpty(t.val())) {
+            if ($.string.isNullOrEmpty(t.val()) && !$.string.isNullOrEmpty(opts.prompt)) {
                 $.util.exec(function () {
                     t.addClass("validatebox-prompt").val(opts.prompt);
                 });

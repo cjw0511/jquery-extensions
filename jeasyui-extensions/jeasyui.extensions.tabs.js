@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.4
+* jQuery EasyUI 1.3.5
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -694,6 +694,25 @@
         }
     };
 
+    function refreshCurrentTab(target, iniframe) {
+        iniframe = iniframe && !$.util.isTopMost ? true : false;
+        var current = $.util.parseJquery(target),
+            currentTabs = current.currentTabs(),
+            index;
+        if (!iniframe && currentTabs.length) {
+            index = current.currentTabIndex();
+            if (index > -1) { currentTabs.tabs("refresh", index); }
+        } else {
+            var jq = $.util.parent.$;
+            current = jq.util.parseJquery($.util.currentFrame);
+            currentTabs = current.currentTabs();
+            if (currentTabs.length) {
+                index = current.currentTabIndex();
+                if (index > -1) { currentTabs.tabs("refresh", index); }
+            }
+        }
+    };
+
     $.fn.extend({
         //  扩展 jQuery 对象的实例方法；用于关闭当前对象所在的 easyui-tabs 当前选项卡(支持当前选项卡页面为 iframe 加载的情况)。
         //  该方法定义如下参数：
@@ -701,7 +720,15 @@
         //          如果当前页面为顶级页面，
         //          或者当前对象在 iframe 中但是不在当前iframe中的某个 easyui-tabs 内，则参数参数 inframe 无效。
         //  返回值：返回当前 jQuery 链式对象(实际上返回的 jQuery 对象中，所包含的元素已经被销毁，因为其容器 tab-panel 被关闭销毁了)。
-        closeCurrentTab: function (iniframe) { return this.each(function () { closeCurrentTab(this, iniframe); }); }
+        closeCurrentTab: function (iniframe) { return this.each(function () { closeCurrentTab(this, iniframe); }); },
+
+        //  扩展 jQuery 对象的实例方法；用于刷新当前对象所在的 easyui-tabs 当前选项卡(支持当前选项卡页面为 iframe 加载的情况)。
+        //  该方法定义如下参数：
+        //      iniframe: Boolean 类型值，表示是否为刷新当前对象所在的父级页面的选项卡；默认为 false。
+        //          如果当前页面为顶级页面，
+        //          或者当前对象在 iframe 中但是不在当前iframe中的某个 easyui-tabs 内，则参数参数 inframe 无效。
+        //  返回值：返回当前 jQuery 链式对象。
+        refreshCurrentTab: function (iniframe) { return this.each(function () { refreshCurrentTab(this, iniframe); }); }
     });
 
 

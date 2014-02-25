@@ -28,7 +28,12 @@
             { "id": "11030205", "text": "选项卡标题分割线", "pid": "110302", "attributes": { "href": "examples/example.html?tabs/lineHeight" } },
             { "id": "11030206", "text": "其他扩展功能", "pid": "110302", "attributes": { "href": "examples/example.html?tabs/others" } }
         ]
-        }
+        },
+
+        { "id": "110303", "text": "Layout", "pid": "1103", "children": [
+            { "id": "11030301", "text": "快速折叠和展开面板", "pid": "110303", "attributes": { "href": "examples/example.html?layout/toggle" } },
+            { "id": "11030302", "text": "全屏显示切换", "pid": "110303", "attributes": { "href": "examples/example.html?layout/fullscreen" } }
+        ] }
     ]
     },
 

@@ -1,7 +1,7 @@
 ﻿<div>
 
     <h2>JavaScript 代码：</h2>
-    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []">
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [3,7,11,15,19,24]">
 
         $(function () {
             $("#Button1").click(function () {
@@ -13,11 +13,19 @@
             });
 
             $("#Button3").click(function () {
+                $(this).refreshCurrentTab();
+            });
+
+            $("#Button4").click(function () {
+                $(this).refreshCurrentTab(true);
+            });
+
+            $("#Button5").click(function () {
                 var opts = $(this).currentPanel().panel("options");
                 alert(opts.title);
             });
 
-            $("#Button4").click(function () {
+            $("#Button6").click(function () {
                 var opts = window.parent.$($.util.currentFrame).currentPanel().panel("options");
                 alert(opts.title);
             });
@@ -30,8 +38,11 @@
         <input id="Button1" type="button" value="关闭当前选项卡" />
         <input id="Button2" type="button" value="关闭当前IFRAME所在选项卡" />
         <br /><br />
-        <input id="Button3" type="button" value="获取当前选项卡的标题" />
-        <input id="Button4" type="button" value="获取当前IFRAME所在选项卡的标题" />
+        <input id="Button3" type="button" value="刷新当前选项卡" />
+        <input id="Button4" type="button" value="刷新当前IFRAME所在选项卡" />
+        <br /><br />
+        <input id="Button5" type="button" value="获取当前选项卡的标题" />
+        <input id="Button6" type="button" value="获取当前IFRAME所在选项卡的标题" />
 
     </textarea>
 

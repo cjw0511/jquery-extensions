@@ -22,7 +22,6 @@
 
             var theme = $.easyui.theme(), themeName = $.cookie("themeName");
             if (themeName && themeName != theme) { window.mainpage.setTheme(themeName, false); }
-            themeCombo.combobox("setValue", themeName || window.mainpage.themeData[0].path);
 
             if ($.util.browser.msie && ($.util.browser.version < 10)) {
                 portal.portal("addColumn").portal("removeColumn", portal.portal("columns") - 1).portal("resize");

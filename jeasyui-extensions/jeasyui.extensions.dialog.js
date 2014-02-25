@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery EasyUI 1.3.4
+* jQuery EasyUI 1.3.5
 * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
@@ -11,7 +11,7 @@
 * jQuery EasyUI dialog 组件扩展
 * jeasyui.extensions.dialog.js
 * 二次开发 流云
-* 最近更新：2013-09-02
+* 最近更新：2014-02-19
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -93,52 +93,53 @@
             if (!opts.toolbar.length) { opts.toolbar = null; }
         }
 
-        var buttons = [];
-        if (opts.enableApplyButton == true) {
-            var btnApply = {
-                text: opts.applyButtonText, iconCls: opts.applyButtonIconCls,
-                handler: function (dia) {
-                    if ($.isFunction(opts.onApply)) { opts.onApply.call(dia, dia); }
-                }
-            };
-            buttons.push(btnApply);
-        }
-        if (opts.enableSaveButton == true) {
-            var btnSave = {
-                text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
+        var buttons = [],
+            btnSave = {
+                id: "save", text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
                 handler: function (dia) {
                     var isFunc = $.isFunction(opts.onSave);
                     if (!isFunc || isFunc && opts.onSave.call(dia, dia) !== false) {
                         $.util.exec(function () { dia.dialog("close"); });
                     }
                 }
-            };
-            buttons.push(btnSave);
-        }
-        if (opts.enableCloseButton == true) {
-            var btnClose = {
-                text: opts.closeButtonText, iconCls: opts.closeButtonIconCls,
+            },
+            btnClose = {
+                id: "close", text: opts.closeButtonText, iconCls: opts.closeButtonIconCls,
                 handler: function (dia) { dia.dialog("close"); }
+            },
+            btnApply = {
+                id: "apply", text: opts.applyButtonText, iconCls: opts.applyButtonIconCls,
+                handler: function (dia) {
+                    var isFunc = $.isFunction(opts.onApply);
+                    if (!isFunc || isFunc && opts.onApply.call(dia, dia) !== false) {
+                        $.util.exec(function () { dia.applyButton.linkbutton("disable"); });
+                    }
+                }
             };
-            buttons.push(btnClose);
-        }
+        if (opts.enableSaveButton == true) { buttons.push(btnSave); }
+        if (opts.enableCloseButton == true) { buttons.push(btnClose); }
+        if (opts.enableApplyButton == true) { buttons.push(btnApply); }
+
         if (!$.util.likeArray(opts.buttons) || $.util.isString(opts.buttons)) { opts.buttons = []; }
         $.array.merge(opts.buttons, buttons);
-        $.each(opts.buttons, function () {
-            var handler = this.handler;
-            if ($.isFunction(handler)) { this.handler = function () { handler.call(dialog, dialog); }; }
+        $.each(opts.buttons, function (i, btn) {
+            var handler = btn.handler;
+            if ($.isFunction(handler)) { btn.handler = function () { handler.call(dialog, dialog); }; }
         });
         if (!opts.buttons.length) { opts.buttons = null; }
 
         opts = dialog.dialog(opts).dialog("options");
 
-        var buttonbar = dialog.dialog("body").children(".dialog-button").each(function () {
-            var color = dialog.css("border-bottom-color");
-            $(this).addClass("calendar-header").css({ "height": "auto", "border-top-color": color });
-        });
+        var dialogBody = dialog.dialog("body"),
+            buttonbar = dialogBody.children(".dialog-button").each(function () {
+                var color = dialog.css("border-bottom-color");
+                $(this).addClass("calendar-header").css({ "height": "auto", "border-top-color": color });
+            }),
+            bottombuttons = buttonbar.children("a");
+        if (opts.buttonsPlain) { bottombuttons.linkbutton("setPlain", true); }
         if (!opts.iniframe) {
             if (opts.href) {
-                var toolbuttons = dialog.dialog("header").find(".panel-tool a"), bottombuttons = buttonbar.children("a");
+                var toolbuttons = dialog.dialog("header").find(".panel-tool a");
                 toolbuttons.attr("disabled", "disabled");
                 bottombuttons.linkbutton("disable");
                 var onLoad = opts.onLoad;
@@ -153,6 +154,19 @@
         }
         var iframe = dialog.dialog("iframe");
         if (iframe.length) { cache.push({ current: iframe[0], parent: currentFrame }); }
+
+        $.extend(dialog, {
+            options: opts,
+            iframe: iframe,
+            buttons: bottombuttons,
+            closeButtn: buttonbar.children("#close"),
+            saveButton: buttonbar.children("#save"),
+            applyButton: buttonbar.children("#apply"),
+            save: function () { btnSave.handler(); },
+            close: function () { btnClose.handler(); },
+            apply: function () { btnApply.handler(); }
+        });
+
         return dialog;
     };
 
@@ -337,20 +351,20 @@
         //  点击保存按钮触发的事件，如果该事件范围 false，则点击保存后窗口不关闭。
         onSave: null,
 
-        //  点击应用按钮触发的事件
+        //  点击应用按钮触发的事件，如果该事件范围 false，则点击应用后该按钮不被自动禁用。
         onApply: null,
 
         //  关闭窗口时应触发的事件，easyui-dialog本身就有
         onClose: null,
 
         //  保存按钮的文字内容
-        saveButtonText: "保存",
+        saveButtonText: "确定",
+
+        //  关闭按钮的文字内容
+        closeButtonText: "取消",
 
         //  应用按钮的文字内容
         applyButtonText: "应用",
-
-        //  关闭按钮的文字内容
-        closeButtonText: "关闭",
 
         //  保存按钮的图标样式
         saveButtonIconCls: "icon-save",
@@ -359,9 +373,17 @@
         applyButtonIconCls: "icon-ok",
 
         //  关闭按钮的图标样式
-        closeButtonIconCls: "icon-cancel"
+        closeButtonIconCls: "icon-cancel",
+
+        //  底部工具栏的所有按钮是否全部设置 plain: true
+        buttonsPlain: true
     };
 
 
+    var css =
+        "div.dialog-button.calendar-header a.l-btn-plain { border: 1px solid #C1C1C1; -moz-border-radius: 0px; -webkit-border-radius: 0px; }" +
+        "div.dialog-button.calendar-header a:hover.l-btn-plain { -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; }" +
+        "div.dialog-button.calendar-header a.l-btn-plain { padding: 0 5px 0 0; }";
+    $.util.addCss(css);
 
 })(jQuery);

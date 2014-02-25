@@ -1,0 +1,42 @@
+﻿<div>
+
+    <script type="text/javascript">
+        $(function () {
+            var l = $("#cc");
+            $("#btn1").click(function () {
+                l.layout("collapseAll");
+            });
+
+            $("#btn2").click(function () {
+                l.layout("expandAll");
+            });
+
+            $("#btn3").click(function () {
+                l.layout("toggle", "south");
+            });
+
+            $("#btn4").click(function () {
+                l.layout("toggleAll");
+            });
+        });
+    </script>
+
+    <h2>jEasyUI Layout Extensions - 快速折叠和展开面板</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.layout.js 实现。</p>
+    <hr />
+    <div id="cc" class="easyui-layout" style="width: 600px; height: 400px;">
+        <div data-options="region: 'north', split: true, title: 'north panel'" style="height: 100px;"></div>
+        <div data-options="region: 'west', split: true, title: 'west panel'" style="width: 100px;"></div>
+        <div data-options="region: 'center', split: true, title: 'center panel'">
+            <input id="btn1" type="button" value="折叠全部面板" />
+            <input id="btn2" type="button" value="展开全部面板" />
+            <br />
+            <br />
+            <input id="btn3" type="button" value="切换 south panel 的折叠/展开效果" />
+            <input id="btn4" type="button" value="切换全部的折叠/展开效果" />
+        </div>
+        <div data-options="region: 'east', split: true, title: 'east panel'" style="width: 100px;"></div>
+        <div data-options="region: 'south', split: true, title: 'south panel'" style="height: 100px;"></div>
+    </div>
+
+</div>

@@ -15,12 +15,36 @@
             $("#Button2").click(function () {
                 $.easyui.showDialog({
                     title: "快速创建的 Dialog2",
-                    top: 130, left: 170, width: 600, height: 400,
+                    top: 130, left: 170, width: 600, height: 400 ,modal: false,
                     topMost: false,
                     href: "dialog/easy/useiframe/iframepage.html",
                     iniframe: true
                 });
             });
+
+
+
+
+
+            var dia = $.easyui.showDialog({
+                title: "快速创建的 Dialog2",
+                top: 130, left: 170, width: 600, height: 400,
+                topMost: false, iniframe: true, modal: false,
+                href: "dialog/easy/useiframe/iframepage.html"
+            });
+
+            $("#Button3").click(function () { dia.save(); });
+
+            $("#Button4").click(function () { dia.close(); });
+
+            $("#Button5").click(function () { dia.apply(); });
+
+
+
+
+
+
+
         });
     </script>
 
@@ -29,5 +53,9 @@
     <hr />
     <input id="Button1" type="button" value="创建Dialog1" />
     <input id="Button2" type="button" value="创建Dialog2" />
+    <hr />
+    <input id="Button3" type="button" value="save" />
+    <input id="Button4" type="button" value="close" />
+    <input id="Button5" type="button" value="apply" />
 
 </div>

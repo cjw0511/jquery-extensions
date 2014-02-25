@@ -1,0 +1,97 @@
+﻿<div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btn1").click(function () {
+                if ($.util.supportsFullScreen) {
+                    if (!$.util.isFullScreen()) {
+                        $.util.requestFullScreen();
+                    } else {
+                        window.alert("当前页面正处于全屏模式");
+                    }
+                } else {
+                    $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
+                }
+            });
+
+            $("#btn2").click(function () {
+                if ($.util.supportsFullScreen) {
+                    if ($.util.isFullScreen()) {
+                        $.util.cancelFullScreen();
+                    } else {
+                        window.alert("当前页面正处于非全屏模式");
+                    }
+                } else {
+                    $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
+                }
+            });
+
+            $("#btn3").click(function () {
+                if ($.util.supportsFullScreen) {
+                    $.util.toggleFullScreen();
+                } else {
+                    $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
+                }
+            });
+
+
+            var p = null;
+            $("#btn4").click(function () {
+                if (!p) { p = $("#cc").layout("panel", "center").panel("body"); }
+                if ($.util.supportsFullScreen) {
+                    if (!$.util.isFullScreen()) {
+                        p.requestFullScreen();
+                    } else {
+                        window.alert("center panel 当前正处于全屏模式");
+                    }
+                } else {
+                    $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
+                }
+            });
+
+            $("#btn5").click(function () {
+                if (!p) { p = $("#cc").layout("panel", "center").panel("body"); }
+                if ($.util.supportsFullScreen) {
+                    if ($.util.isFullScreen()) {
+                        p.cancelFullScreen();
+                    } else {
+                        window.alert("center panel 当前正处于非全屏模式");
+                    }
+                } else {
+                    $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
+                }
+            });
+
+            $("#btn6").click(function () {
+                if (!p) { p = $("#cc").layout("panel", "center").panel("body"); }
+                if ($.util.supportsFullScreen) {
+                    p.toggleFullScreen();
+                } else {
+                    $.easyui.messager.show("当前浏览器不支持全屏 API，请更换至最新的 Chrome/Firefox/Safari 浏览器或通过 F11 快捷键进行操作。");
+                }
+            });
+        });
+    </script>
+
+    <h2>jEasyUI Layout Extensions - 全屏显示切换</h2>
+    <p>该部分扩展由文件 jquery.jdirk.js 实现。</p>
+    <hr />
+    <input id="btn1" type="button" value="当前页面全屏显示" />
+    <input id="btn2" type="button" value="当前页面退出全屏" />
+    <input id="btn3" type="button" value="当前页面全屏切换显示" />
+    <hr />
+    <div id="cc" class="easyui-layout" style="width: 600px; height: 400px;">
+        <div data-options="region: 'north', split: true, title: 'north panel'" style="height: 100px;"></div>
+        <div data-options="region: 'west', split: true, title: 'west panel'" style="width: 100px;"></div>
+        <div data-options="region: 'center', split: true, title: 'center panel'">
+            <input id="btn4" type="button" value="center panel 全屏显示" />
+            <br /><br />
+            <input id="btn5" type="button" value="center panel 退出全屏" />
+            <br /><br />
+            <input id="btn6" type="button" value="center panel 全屏切换显示" />
+        </div>
+        <div data-options="region: 'east', split: true, title: 'east panel'" style="width: 100px;"></div>
+        <div data-options="region: 'south', split: true, title: 'south panel'" style="height: 100px;"></div>
+    </div>
+
+</div>

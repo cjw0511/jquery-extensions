@@ -2,9 +2,9 @@
 ====================
 <p>
     jQuery && jEasyUI 扩展功能集合<br />
-    该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.4 实现<br />
+    该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.5 实现<br />
     <br />
-    jQuery EasyUI 1.3.4<br />
+    jQuery EasyUI 1.3.5<br />
     Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.<br />
     <br />
     Licensed under the GPL or commercial licenses<br />
