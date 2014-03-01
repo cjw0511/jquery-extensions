@@ -1,19 +1,23 @@
 ﻿<div>
 
-<script type="text/javascript">
-    $(function () {
-        $("#Button1").click(function () {
-            $.easyui.showGridSelector({
-                
+    <script type="text/javascript">
+        $(function () {
+            $("#btn1").click(function () {
+                $.easyui.showGridSelector({
+
+                });
+            });
+
+            $("#btn2").click(function () {
+                alert($.string.isIPv4("192.168.0.255"));
             });
         });
-    });
-</script>
+    </script>
 
-<h2>jEasyUI gridselector Plugin Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.gridselector.js 实现。</p>
-<hr />
-<input id="Button1" type="button" value="ShowGridSelector" />
-
+    <h2>jEasyUI gridselector Plugin Extensions</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.gridselector.js 实现。</p>
+    <hr />
+    <input id="btn1" type="button" value="ShowGridSelector" />
+    <input id="btn2" type="button" value="TestButton" />
 
 </div>

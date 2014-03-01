@@ -8,7 +8,7 @@
     <ul>
         <li>增加了 easyui-tree 的autoBindDblClick自定义扩展属性，用于表示当设定了属性 contextMenu 时，是否将双击数据行 onDblClick 事件的响应函数</li>
         <li>增加了 easyui-tree 的dblClickMenuIndex自定义扩展属性，用于表示当设定了属性 autoBindDblClick: true，双击行数据触发的右键菜单项事件的索引号</li>
-        <li>扩展了 easyui-tree 的smooth自定义属性，用于表示当前 easyui-tree 控件是否支持平滑数据格式</li>
+        <li>扩展了 easyui-tree 的dataPlain自定义属性，用于表示当前 easyui-tree 控件是否支持平滑数据格式</li>
         <li>扩展了 easyui-tree 的selectOnContextMenu自定义属性，用于表示当右键点击 tree-node 时，是否自动选择被点击的 tree-node 对象</li>
         
         <li>扩展了 easyui-tree 的toggleOnClick自定义属性，用于表示当左键点击带有子节点的条目时，是否自动展开/折叠相应节点</li>
@@ -120,7 +120,7 @@
     </tr>
 
     <tr>
-        <td>smooth</td>
+        <td>dataPlain</td>
         <td>Boolean</td>
         <td>表示当前 easyui-tree 控件是否支持平滑数据格式。<br />
             当支持平滑数据格式时，数据元素中不需要通过指定 children 来指定子节点，而是支持通过 pid 属性来指示其父级节点。

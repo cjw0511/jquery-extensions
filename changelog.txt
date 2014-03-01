@@ -1,23 +1,29 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
-/******** 2013-02-25(1.0.34 preview) ********/
+/******** 2014-02-27(1.0.35 preview) ********/
+1、【+】 新增插件 jquery.toolbar.js，用于快速创建工具按钮栏效果；
+2、【^】 调整 jeasyui.extensions.tree.js 插件中关于 easyui-tree 扩展属性 smooth 名称，修改为 dataPlain；
+3、[+] 增强 jeasyui.extensions.window.js 插件中关于拖动 easyui-window、dialog 控件和重设置 easyui-window、dialog 控件大小时的界面显示效果。
+
+
+/******** 2014-02-25(1.0.34 preview) ********/
 1、[#] 修复 index.html 页面中关于主题切换功能在特殊情况下存在问题的 BUG；
 2、[+] 增加 jquery.jdirk.js 中部分关于全屏 API 操作的函数；
 3、[+] 增加 Layout-Layout 扩展分支的 DEMO 演示；
 
 
-/******** 2013-02-17(1.0.33 preview) ********/
+/******** 2014-02-17(1.0.33 preview) ********/
 1、[#] 修复 index.html 页面中关于主题切换功能在特殊情况下存在问题的 BUG；
 2、【+】 增加 index.html 页面自动识别锚点标记规则的功能，使得通过 URL 定位方式直接由 index.html 页面快速打开指定功能的演示 TAB。
 
 
-/******** 2013-02-08(1.0.32 preview) ********/
+/******** 2014-02-08(1.0.32 preview) ********/
 1、[#] 修复 jeasyui.extensions.js 中关于 $.easyui.messager.show 方法在特殊情况下存在 BUG 的情况；
 2、【+】 重新上架四套 jqueryui 的皮肤（cupertino、dark-hive、pepper-grinder、sunny），修复这四套皮肤之前存在的部分 BUG。
 
 
-/******** 2013-01-27(1.0.31 preview) ********/
+/******** 2014-01-27(1.0.31 preview) ********/
 1、[^] 增强 jeasyui.extensions.menu.js 中关于 easyui-menu 插件中右键点击 window.document 非 menu 区域时自动隐藏 easyui-menu 的用户体验效果；
     使得即使嵌套 iframe 的情况下，一个 HTTP WEB PAGE(浏览器同一选项卡的所有同域 WEB PAGE) 在同一时刻只能有一个 easyui-menu 控件被显示出来；
     (前提是父级页面和 IFRAME 子页面都引入了 jeasyui.extensions.menu.js 插件)。
@@ -27,7 +33,7 @@
 3、[^] 调整 jeasyui.extensions.js 插件中关于 $.messager.show/$.easyui.messager.show 方法在参数 position 不同下的打开方式，使之更人性化； 
 
 
-/******** 2013-01-15(1.0.30 preview) ********/
+/******** 2014-01-15(1.0.30 preview) ********/
 1、[+] 增加 jquery.jdirk.js 中的的部分工具性函数，用于简便的判断空值对象；
 2、[^] 调整 index.html 页面中 "捐赠列表" 和 "友情链接" 的加载方式，使之更加友好并且支持用户点击刷新。
 

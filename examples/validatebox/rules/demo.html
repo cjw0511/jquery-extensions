@@ -1,26 +1,28 @@
 ﻿<div>
 
-<script type="text/javascript">
-    $(function () {
-        var data = $.map($.fn.validatebox.defaults.rules, function (val, n) { return { value: n, text: n }; });
+    <script type="text/javascript">
+        $(function () {
+            var data = $.map($.fn.validatebox.defaults.rules, function (val, n) { return { value: n, text: n }; });
 
-        var text = $("#Text1"), cc = $("#select1").combobox({
-            width: 120, data: data, onChange: function (val) {
-                text.validatebox("options").validType = val;
-            }
+            var text = $("#Text1"),
+                cc = $("#select1").combobox({
+                    width: 120, data: data, onChange: function (val) {
+                        text.validatebox("options").validType = val;
+                    }
+                });
+
+            $("#Button1").click(function () {
+                text.validatebox("validate");
+            });
         });
+    </script>
 
-        $("#Button1").click(function () {
-            text.validatebox("validate");
-        });
-    });
-</script>
-
-<h2>jEasyUI Validatebox Extensions - 增强的 Rules</h2>
-<p>该部分扩展由文件 jeasyui.extensions.validatebox.js 实现。</p>
-<hr />
-<input id="Button1" type="button" value="刷新输入框的验证状态" />
-<select id="select1" ></select>
-<input id="Text1" class="easyui-validatebox" data-options="required: true" />
+    <h2>jEasyUI Validatebox Extensions - 增强的 Rules</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.validatebox.js 实现。</p>
+    <hr />
+    <input id="Button1" type="button" value="刷新输入框的验证状态" />
+    <select id="select1"></select>
+    <input id="Text1" class="easyui-validatebox" data-options="required: true" />
+    <input id="Text2" class="easyui-validatebox" data-options="required: true, validType: 'ip'" />
 
 </div>

@@ -98,7 +98,7 @@
                 id: "save", text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
                 handler: function (dia) {
                     var isFunc = $.isFunction(opts.onSave);
-                    if (!isFunc || isFunc && opts.onSave.call(dia, dia) !== false) {
+                    if (!isFunc || isFunc && opts.onSave.call(this, dia) !== false) {
                         $.util.exec(function () { dia.dialog("close"); });
                     }
                 }
@@ -111,7 +111,7 @@
                 id: "apply", text: opts.applyButtonText, iconCls: opts.applyButtonIconCls,
                 handler: function (dia) {
                     var isFunc = $.isFunction(opts.onApply);
-                    if (!isFunc || isFunc && opts.onApply.call(dia, dia) !== false) {
+                    if (!isFunc || isFunc && opts.onApply.call(this, dia) !== false) {
                         $.util.exec(function () { dia.applyButton.linkbutton("disable"); });
                     }
                 }
@@ -124,7 +124,7 @@
         $.array.merge(opts.buttons, buttons);
         $.each(opts.buttons, function (i, btn) {
             var handler = btn.handler;
-            if ($.isFunction(handler)) { btn.handler = function () { handler.call(dialog, dialog); }; }
+            if ($.isFunction(handler)) { btn.handler = function () { handler.call(this, dialog); }; }
         });
         if (!opts.buttons.length) { opts.buttons = null; }
 
@@ -233,10 +233,10 @@
 
     var _refresh = $.fn.dialog.methods.refresh;
     function refresh(target, href) {
-        var dia = $.util.parseJquery(target), opts = dia.dialog("options"), panel = dia.dialog("contentPanel"), panelOpts = panel.panel("options");
+        var dia = $(target), opts = dia.dialog("options"), cp = dia.dialog("contentPanel"), coOpts = cp.panel("options");
         href = href ? opts.href = href : opts.href;
-        panelOpts.iniframe = opts.iniframe;
-        panel.panel("refresh", href);
+        coOpts.iniframe = opts.iniframe;
+        cp.panel("refresh", href);
     };
 
     function getContentPanel(target) {
@@ -250,17 +250,22 @@
     };
 
     function parseExtensionsBegin(options) {
-        options._extensionsDialog = { href: options.href, content: options.content, iniframe: options.iniframe };
+        options._extensionsDialog = { href: options.href, content: options.content, iniframe: options.iniframe, bodyCls: options.bodyCls };
+        options.bodyCls = null;
         if (!options.iniframe) { return; }
         options.href = null;
         options.content = null;
         options.iniframe = false;
     };
     function parseExtensionsEnd(target) {
-        var d = $.util.parseJquery(target), opts = d.dialog("options"), exts = opts._extensionsDialog ? opts._extensionsDialog
+        var d = $(target), opts = d.dialog("options"), exts = opts._extensionsDialog ? opts._extensionsDialog
             : opts._extensionsDialog = { href: opts.href, content: opts.content, iniframe: opts.iniframe };
-        opts.href = exts.href; opts.content = exts.content; opts.iniframe = exts.iniframe;
+        opts.href = exts.href; opts.content = exts.content; opts.iniframe = exts.iniframe; opts.bodyCls = exts.bodyCls;
         if (opts.iniframe) { refresh(target, opts.href); }
+        if (opts.bodyCls) {
+            var cp = getContentPanel(target);
+            if (cp && cp.length) { cp.addClass(opts.bodyCls); }
+        }
     };
 
     var _dialog = $.fn.dialog;
@@ -268,7 +273,7 @@
         if (typeof options == "string") { return _dialog.apply(this, arguments); }
         options = options || {};
         return this.each(function () {
-            var jq = $.util.parseJquery(this), opts = $.extend({}, $.fn.dialog.parseOptions(this), options);
+            var jq = $(this), opts = $.extend({}, $.fn.dialog.parseOptions(this), options);
             parseExtensionsBegin(opts);
             _dialog.call(jq, opts);
             parseExtensionsEnd(this);

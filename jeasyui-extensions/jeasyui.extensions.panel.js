@@ -62,16 +62,16 @@
             _onResizeFn = _onResize[plugin];
         if ($.isFunction(_onResizeFn)) { _onResizeFn.apply(this, arguments); }
         if (!p.panel("inLayout")) {
-            var opts = p.panel("options");
-            opts.minWidth = $.isNumeric(opts.minWidth) ? opts.minWidth : defaults.minHeight;
-            opts.maxWidth = $.isNumeric(opts.maxWidth) ? opts.maxWidth : defaults.maxWidth;
-            opts.minHeight = $.isNumeric(opts.minHeight) ? opts.minHeight : defaults.minHeight;
-            opts.maxHeight = $.isNumeric(opts.maxHeight) ? opts.maxHeight : defaults.maxHeight;
+            var opts = p.panel("options"),
+                minWidth = $.isNumeric(opts.minWidth) ? opts.minWidth : defaults.minHeight,
+                maxWidth = $.isNumeric(opts.maxWidth) ? opts.maxWidth : defaults.maxWidth,
+                minHeight = $.isNumeric(opts.minHeight) ? opts.minHeight : defaults.minHeight,
+                maxHeight = $.isNumeric(opts.maxHeight) ? opts.maxHeight : defaults.maxHeight;
             var resizable = false;
-            if (width > opts.maxWidth) { width = opts.maxWidth; resizable = true; }
-            if (width < opts.minWidth) { width = opts.minWidth; resizable = true; }
-            if (height > opts.maxHeight) { height = opts.maxHeight; resizable = true; }
-            if (height < opts.minHeight) { height = opts.minHeight; resizable = true; }
+            if (width > maxWidth) { width = maxWidth; resizable = true; }
+            if (width < minWidth) { width = minWidth; resizable = true; }
+            if (height > maxHeight) { height = maxHeight; resizable = true; }
+            if (height < minHeight) { height = minHeight; resizable = true; }
             if (resizable && !opts.fit) {
                 p[plugin]("resize", { width: width, height: height });
             }

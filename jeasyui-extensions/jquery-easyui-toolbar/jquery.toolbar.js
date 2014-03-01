@@ -30,23 +30,17 @@
             t.children().each(function () { toolbar[0].appendChild(this); });
             t.hide();
         }
-        var state = $.data(target, "toolbar"), opts = state.options;
-        state.toolbar = toolbar;
+        var state = $.data(target, "toolbar"), opts = state.options, cc = toolbar.children();
+        state.toolbar = toolbar.addClass("dialog-toolbar toolbar");
         t.addClass("toolbar-f");
-        toolbar.addClass("dialog-toolbar toolbar");
-        wrapItems(target);
+
+        state.wrapper = $("<table class='toolbar-wrapper' cellspacing='0' cellpadding='0' ></table>").appendTo(toolbar);
+        appendItem(target, cc);
+
         setSize(target, { width: opts.width, height: opts.height });
         toolbar.bind("_resize", function () {
             setSize(target);
         });
-    };
-
-    function wrapItems(target) {
-        var t = $(target), state = $.data(target, "toolbar"),
-            toolbar = state.toolbar, opts = state.options,
-            cc = toolbar.children();
-        state.wrapper = $("<table class='toolbar-wrapper' cellspacing='0' cellpadding='0' ></table>").appendTo(toolbar);
-        appendItem(target, cc);
     };
 
     function setSize(target, size) {
@@ -91,6 +85,180 @@
     };
 
 
+
+    function appendItemToContainer(target, container, item) {
+        var t = $(target), state = $.data(target, "toolbar"), opts = state.options;
+        if ($.util.isDOM(item)) {
+            var cell = $(item).addClass("toolbar-item").appendTo(container), text = cell.text();
+            if (/^(?:div|span)$/i.test(cell[0].nodeName) && $.array.contains(["-", "—", "|"], text)) {
+                cell.addClass("dialog-tool-separator").empty();
+            }
+        } else if ($.util.isString(item)) {
+            if ($.array.contains(["-", "—", "|"], item)) {
+                appendItemToContainer(target, container, { type: "separator" });
+            } else if ($.string.isHtmlText(item)) {
+                $(item).each(function () { appendItemToContainer(target, container, this); });
+            } else {
+                appendItemToContainer(target, container, { type: "label", options: { text: item } });
+            }
+        } else {
+            var itemOpts = $.extend({}, opts.itemOptions, item || {}),
+                builder = opts.itemTypes[itemOpts.type];
+            if (!builder || !builder.init) { return; }
+            var tItem = builder.init(container[0], itemOpts.options || itemOpts).addClass("toolbar-item");
+            if (itemOpts.id) { tItem.attr("id", itemOpts.id); }
+            if (itemOpts.name) { tItem.attr("name", itemOpts.name); }
+            if (itemOpts.itemCls) { container.addClass(itemOpts.itemCls); }
+            if (itemOpts.style) { container.css(itemOpts.style); }
+            if (itemOpts.width) { container.css("width", itemOpts.width); }
+            if (itemOpts.align) { container.css("text-align", itemOpts.align); }
+            if (itemOpts.htmlAttr) { tItem.attr(itemOpts.htmlAttr); }
+            $.data(tItem[0], "toolbar-item-builder", builder);
+            $.data(tItem[0], "toolbar-item-data", itemOpts);
+        }
+    };
+
+    function appendItemOption(target, item) {
+        if (!item) { return; }
+        var t = $(target), state = $.data(target, "toolbar"),
+            tr = state.wrapper.find("tr:last");
+        if (!tr.length) { tr = $("<tr class='toolbar-row'></tr>").appendTo(state.wrapper); }
+        var container = $("<td class='toolbar-item-container'></td>").appendTo(tr);
+        appendItemToContainer(target, container, item);
+    };
+
+    function appendItem(target, item, doSize) {
+        if (!item) { return; }
+        if (doSize == null || doSize == undefined) { doSize = true; }
+        if ($.array.likeArrayNotString(item)) {
+            if (item.length) {
+                $.each(item, function (i, n) { appendItem(target, n, false); });
+            }
+        } else if ($.isFunction(item)) {
+            appendItem(target, item.call(target), false);
+        } else {
+            appendItemOption(target, item);
+        }
+        if (doSize) { setSize(target); }
+    }
+
+
+
+
+    function getItem(target, index) {
+        if (index == null || index == undefined) { return null; }
+        var ret = null, t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
+        if (!tr.length) { return ret; }
+        var tds = tr.find(">td.toolbar-item-container");
+        if ($.isNumeric(index)) {
+            if (tds.length >= index && index >= 0) { ret = tds.eq(index).find(".toolbar-item"); }
+        }
+        return ret;
+    };
+
+    function getItems(target) {
+        var ret = null, t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
+        if (!tr.length) { return ret; }
+        ret = tr.find(">td.toolbar-item-container .toolbar-item");
+        return ret;
+    };
+
+    function removeItem(target, index) {
+        var item = getItem(target, index);
+        if (item) {
+            var builder = $.data("item[0]", "toolbar-item-builder"), container = item.closest("td.toolbar-item-container");
+            if (builder && $.isFunction(builder.destroy)) { builder.destroy(item[0]); }
+            container.remove();
+        }
+    };
+
+    function updateItem(target, param) {
+        if (!param || !$.isNumeric(param.index) || !param.item) { return; }
+        var item = getItem(target, param.index), container = item.closest("td.toolbar-item-container").empty();
+        appendItemToContainer(target, container, param.item)
+    };
+
+
+
+
+    function clear(target) {
+        var state = $.data(target, "toolbar");
+        state.wrapper.empty();
+        state.data = null;
+    };
+
+    function loadData(target, data) {
+        var state = $.data(target, "toolbar"), opts = state.options;
+        state.data = opts.loadFilter.call(target, data);
+        state.wrapper.empty();
+        appendItem(target, state.data);
+        opts.onLoadSuccess.call(target, data);
+    };
+
+    function request(target, queryParams) {
+        var state = $.data(target, "toolbar"), opts = state.options;
+        opts.queryParams = queryParams || {};
+        if (opts.onBeforeLoad.call(target, opts.queryParams) == false) return;
+        opts.loader.call(target, opts.queryParams, function (data) {
+            loadData(target, data);
+        }, function () {
+            opts.onLoadError.apply(this, arguments);
+        });
+    };
+
+    function getData(target) {
+        return $.data(target, "toolbar").data;
+    };
+
+
+
+    function getItemBuilder(item) {
+        if (!item) { return null; }
+        var builder = $.data($.util.parseJquery(item)[0], "toolbar-item-builder");
+        return builder ? builder : null;
+    };
+
+    function enableItem(target, index) {
+        var item = getItem(target, index), builder = getItemBuilder(item);
+        if (builder && $.isFunction(builder.enable)) {
+            builder.enable(item[0]);
+        }
+    };
+
+    function disableItem(target, index) {
+        var item = getItem(target, index), builder = getItemBuilder(item);
+        if (builder && $.isFunction(builder.disable)) {
+            builder.disable(item[0]);
+        }
+    };
+
+    function enable(target) {
+        var items = getItems(target);
+        if (items) {
+            $.each(items, function (i, item) {
+                var builder = getItemBuilder(item);
+                if (builder && $.isFunction(builder.enable)) {
+                    builder.enable(item);
+                }
+            });
+        }
+    };
+
+    function disable(target) {
+        var items = getItems(target);
+        if (items) {
+            $.each(items, function (i, item) {
+                var builder = getItemBuilder(item);
+                if (builder && $.isFunction(builder.disable)) {
+                    builder.disable(item);
+                }
+            });
+        }
+    };
+
+
+
+
     var itemTypes = {
         separator: {
             init: function (container) {
@@ -102,15 +270,23 @@
             init: function (container, options) {
                 var opts = $.extend({}, this.defaults, options || {});
                 return $("<span class='toolbar-item-label'></span>").text(opts.text).appendTo(container);
+            },
+            enable: function (target) {
+                $(target).removeClass("toolbar-item-label-disabled");
+            },
+            disable: function (target) {
+                $(target).addClass("toolbar-item-label-disabled");
             }
         },
         button: {
             defaults: { plain: true, iconCls: "icon-ok" },
             init: function (container, options) {
                 var opts = $.extend({}, this.defaults, options || {}),
-                    fn = $.isFunction(opts.onclick) ? opts.onclick : ($.isFunction(opts.handler) ? opts.handler : null),
+                    handler = opts.onclick || opts.handler,
                     btn = $("<a class='toolbar-item-button'></a>").appendTo(container).linkbutton(opts);
-                if ($.isFunction(fn)) { btn.click(function () { fn.call(this, container); }); }
+                if (handler) {
+                    btn.click(function () { ($.isFunction(handler) ? handler : String(handler).toFunction()).call(this, container); });
+                }
                 return btn;
             },
             enable: function (target) {
@@ -140,10 +316,10 @@
                 $(target)._outerWidth(width);
             },
             enable: function (target) {
-                $(target).attr("disabled", true);
+                $(target).removeAttr("disabled", true);
             },
             disable: function (target) {
-                $(target).removeAttr("disabled", true);
+                $(target).attr("disabled", true);
             }
         },
         checkbox: {
@@ -204,8 +380,9 @@
         numberbox: {
             defaults: { width: null },
             init: function (container, options) {
-                var box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).numberbox(options);
-                if (options.width) { this.resize(box[0], options.width); }
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).numberbox(opts);
+                if (opts.width) { this.resize(box[0], opts.width); }
                 return box;
             },
             destroy: function (target) {
@@ -225,6 +402,32 @@
             },
             disable: function (target) {
                 $(target).numberbox("disable");
+            }
+        },
+        numberspinner: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).numberspinner(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).numberspinner("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).numberspinner("setValue", value);
+            },
+            getValue: function (target) {
+                return $(target).numberspinner("getValue");
+            },
+            resize: function (target, width) {
+                $(target).numberspinner("resize", width);
+            },
+            enable: function (target) {
+                $(target).numberspinner("enable");
+            },
+            disable: function (target) {
+                $(target).numberspinner("disable");
             }
         },
         datebox: {
@@ -334,100 +537,18 @@
                 $(target).combogrid("disable");
             }
         }
-    };
-    var itemOptions = {
+    }, itemOptions = {
         id: null,
+        name: null,
         type: "button",
         options: null,
         style: null,
         itemCls: null,
         width: null,
         align: null
-    };
-
-
-    function appendItemDOM(target, item) {
-        var t = $(target), state = $.data(target, "toolbar"),
-            tr = state.wrapper.find("tr:last"),
-            cell = $(item).addClass("toolbar-item"),
-            text = cell.text();
-        if (!tr.length) { tr = $("<tr class='toolbar-row'></tr>").appendTo(state.wrapper); }
-        if (/^(?:div|span)$/i.test(cell[0].nodeName) && $.array.contains(["-", "—", "|"], text)) {
-            cell.addClass("dialog-tool-separator").text("");
-        }
-        $("<td class='toolbar-item-container'></td>").append(cell).appendTo(tr);
-    };
-    function appendItemString(target, str) {
-        if (!str) { return; }
-        if ($.array.contains(["-", "—", "|"], str)) {
-            appendItemDOM(target, $("<span>-</span>")[0]);
-        } else if ($.string.isHtmlText(str)) {
-            $(str).each(function () { appendItemDOM(target, this); });
-        } else {
-            appendItemObject(target, { type: "label", options: { text: str } });
-        }
-    };
-    function appendItemObject(target, options) {
-        var opts = $.extend({}, itemOptions, options || {}),
-            t = $(target), state = $.data(target, "toolbar"),
-            tr = state.wrapper.find("tr:last");
-        if (!tr.length) { tr = $("<tr class='toolbar-row'></tr>").appendTo(state.wrapper); }
-        var td = $("<td class='toolbar-item-container'></td>").appendTo(tr),
-            container = td[0],
-            builder = state.options.itemTypes[opts.type];
-        var item = builder.init(container, opts.options || opts).addClass("toolbar-item");
-        if (opts.id != null && opts.id != undefined) { item.attr("id", opts.id); }
-        if (opts.itemCls) { td.addClass(opts.itemCls); }
-        if (opts.style) { td.css(opts.style); }
-        if (opts.width) { td.css("width", opts.width); }
-        if (opts.align) { td.css("text-align", opts.align); }
-        $.data(item[0], "toolbar-item-builder", builder);
-    }
-
-    function appendItem(target, item, dontSize, index) {
-        if (!item) { return; }
-        if ($.util.isJqueryObject(item) && item.length) {
-            item.each(function () {
-                appendItemDOM(target, this, index);
-            });
-        } else if ($.util.isDOM(item)) {
-            appendItemDOM(target, item, index);
-        } else if ($.util.isString(item)) {
-            appendItemString(target, item, index);
-        } else if ($.util.likeArray(item)) {
-            $.each(item, function (i, n) {
-                appendItem(target, n, true, index);
-            });
-        } else if ($.isFunction(item)) {
-            appendItem(target, item.call(target), true, index);
-        } else {
-            appendItemObject(target, item, index);
-        }
-        if (!dontSize) { setSize(target); }
-    };
-
-
-    function removeItem(target, index) {
-        if (index == null || index == undefined) { return; }
-        var t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
-        if (tr.length) {
-            var td = tr.find(">td");
-            if (td.length >= index && td.length < index) {
-                var container = td.eq(index), item = container.find(".toolbar-item"), builder = $.data(item[0], "toolbar-item-builder");
-                if (builder && $.isFunction(builder.destroy)) { builder.destroy(item[0]); }
-                container.remove();
-            }
-        }
-    };
-
-    function updateItem(target, param) { };
-
-
-    var loader = function (param, success, error) {
+    }, loader = function (param, success, error) {
         var opts = $(this).toolbar("options");
-        if (!opts.url) {
-            return false;
-        }
+        if (!opts.url) { return false; }
         $.ajax({
             type: opts.method, url: opts.url, data: param, dataType: "json",
             success: function (data) {
@@ -436,13 +557,11 @@
                 error.apply(this, arguments);
             }
         });
+    }, loadFilter = function (data) {
+        return $.array.likeArrayNotString(data) ? data : [];
     };
-    var loadFilter = function (data) {
-        data = $.array.likeArray && !$.util.isString(data) ? data : [];
-        return $.array.map(data, function (val) {
-            return $.extend({}, itemOptions, val || {});
-        });
-    };
+
+
 
 
 
@@ -456,33 +575,60 @@
             if (state) {
                 $.extend(state.options, options);
             } else {
-                $.data(this, "toolbar", {
+                state = $.data(this, "toolbar", {
                     options: $.extend({}, $.fn.toolbar.defaults, $.fn.toolbar.parseOptions(this), options)
                 });
             }
             initialize(this);
+            if (state.options.data) {
+                loadData(this, state.options.data);
+            }
+            request(this);
         });
     };
 
     $.fn.toolbar.parseOptions = function (target) {
-        return $.extend({}, $.parser.parseOptions(target, ["width", "height", "align", "valign", "itemTypes"]));
+        return $.extend({}, $.parser.parseOptions(target, [
+            "width", "height", "align", "valign", "itemTypes"
+        ]));
     };
+
 
     $.fn.toolbar.methods = {
 
+        //  获取当前 easyui-toolbar 控件的 options 参数对象；
+        //  返回值：返回当前 easyui-toolbar 控件的 options 参数对象，为一个 JSON-Object。
         options: function (jq) { return $.data(jq[0], 'toolbar').options; },
 
-        resize: function (jq, size) { return jq.each(function () { setSize(this, size); }); },
-
-        align: function (jq, align) { return jq.each(function () { setAlign(this, align); }); },
-
-        valign: function (jq, valign) { return jq.each(function () { setValign(this, valign); }); },
-
+        //  获取当前 easyui-toolbar 控件的工具栏包装器对象；
+        //  返回值：返回当前 easyui-toolbar 控件的工具栏包装器对象；该方法返回一个包含 html-table 的 jQuery 对象。
         wrapper: function (jq) { return $.data(jq[0], "toolbar").wrapper; },
 
+        //  获取当前 easyui-toolbar 控件的工具栏外框对象；
+        //  返回值：返回当前 easyui-toolbar 控件的工具栏外框对象；该方法返回一个包含 html-div 的 jQuery 对象。
         toolbar: function (jq) { return $.data(jq[0], "toolbar").toolbar; },
 
-        //  在当前的 easyui-toolbar 中增加一个工具栏项；该方法的参数 item 可以定义为如下类型：
+        //  设置当前 easyui-toolbar 控件的尺寸大小；该方法的参数 size 为一个 JSON-Object，该参数定义如下属性：
+        //      width : 表示工具栏的新宽度；如果设置为数值类型，则表示像素宽度；如果设置为 "auto"，则表示自适应最大宽度；
+        //      height: 表示工具栏的新高度；如果设置为数值类型，则表示像素高度；如果设置为 "auto"，则表示自适应一行按钮的高度；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        resize: function (jq, size) { return jq.each(function () { setSize(this, size); }); },
+
+        //  设置当前 easyui-toolbar 控件的工具栏项水平居中方式；该方法的参数 align 为一个 String 类型值，其可以被定义的值限定为如下范围：
+        //      left  :
+        //      right :
+        //      center:
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        align: function (jq, align) { return jq.each(function () { setAlign(this, align); }); },
+
+        //  设置当前 easyui-toolbar 控件的工具栏项垂直居中方式；该方法的参数 valign 为一个 String 类型值，其可以被定义的值限定为如下范围：
+        //      top   :
+        //      middle:
+        //      bottom:
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        valign: function (jq, valign) { return jq.each(function () { setValign(this, valign); }); },
+
+        //  在当前 easyui-toolbar 中增加一个工具栏项；该方法的参数 item 可以定义为如下类型：
         //      1、jQuery-DOM 对象：
         //      2、HTML-DOM 对象：
         //      3、String 类型：可以为以下类型：
@@ -502,11 +648,9 @@
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         appendItem: function (jq, item) { return jq.each(function () { appendItem(this, item); }); },
 
-        //  在当前的 easyui-toolbar 中移除一个工具栏项；该方法的参数 param 可以定义为如下类型：
-        //      1、Number 类型值；
-        //      2、HTML-DOM 或 jQuery-DOM 类型值；
+        //  在当前的 easyui-toolbar 中移除一个工具栏项；该方法的参数 index 表示要删除的工具栏项的索引号，从 0 开始计数；
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
-        removeItem: function (jq, param) { return jq.each(function () { removeItem(this, param); }); },
+        removeItem: function (jq, index) { return jq.each(function () { removeItem(this, index); }); },
 
         //  将当前 easyui-toolbar 中指定位置的工具栏项替换成另一个工具栏项；该方法的参数 param 为一个 JSON-Object，包含如下属性定义：
         //      index:  表示要替换的工具栏项的索引号，从 0 开始计数；
@@ -514,42 +658,73 @@
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         updateItem: function (jq, param) { return jq.each(function () { updateItem(this, param); }); },
 
-        enableItem: function (jq, index) { },
+        //  启用当前 easyui-toolbar 控件的某个工具栏子项；该方法的参数 index 表示要操作的工具栏子项的索引号，从 0 开始计数；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        enableItem: function (jq, index) { return jq.each(function () { enableItem(this, index); }); },
 
-        disableItem: function (jq, index) { },
+        //  禁用当前 easyui-toolbar 控件的某个工具栏子项；该方法的参数 index 表示要操作的工具栏子项的索引号，从 0 开始计数；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        disableItem: function (jq, index) { return jq.each(function () { disableItem(this, index); }); },
 
-        enable: function (jq) { },
+        //  启用当前 easyui-toolbar 控件的所有工具栏子项；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        enable: function (jq) { return jq.each(function () { enable(this); }); },
 
-        disable: function (jq) { },
+        //  禁用当前 easyui-toolbar 控件的所有工具栏子项；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        disable: function (jq) { return jq.each(function () { disable(this); }); },
 
-        empty: function (jq) { },
+        //  清空当前 easyui-toolbar 控件的所有工具栏子项；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        clear: function (jq) { return jq.each(function () { clear(this); }); },
 
-        load: function (jq, queryParams) { },
+        //  请求远程 url 地址所示的服务器数据并重新加载当前 easyui-toolbar 控件的所有工具栏子项；该方法的参数 queryParams 为一个 JSON-Object，表示请求远程数据时发送的查询参数；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        //  备注：执行该方法会清空当前 easyui-toolbar 控件中原来的所有子项控件。
+        load: function (jq, queryParams) { return jq.each(function () { request(this, queryParams); }); },
 
-        reload: function (jq) { },
+        //  以指定的数据重新加载当前 easyui-toolbar 控件的所有工具栏子项；该方法的参数 data 为一个数组，表示请求远程数据时发送的查询参数；数组中的每项都表示一个待加载的工具栏子项，其可以定义为如下类型：
+        //      1、jQuery-DOM 对象：
+        //      2、HTML-DOM 对象：
+        //      3、String 类型：可以为以下类型：
+        //          a："-"、"—"、"|"，表示分割线的 separator
+        //          b："<" 开头和 ">" 结尾切字符串度大于等于3，表示 HTML 代码段；
+        //          c："\t"、"\n"，表示换行
+        //          d：其他长度大于 0 的字符串，表示 label。
+        //      4、JSON-Object 对象：
+        //          id      : 
+        //          type    : $.fn.toolbar.defaults.itemTypes 中定义的工具栏项类型，例如 separator、label、button、textbox、checkbox、numberbox、validatebox、combobox、combotree、combogrid 等；
+        //          options : 初始化该工具栏项的参数；
+        //          style   :
+        //          itemCls :
+        //          width   :
+        //          align   :
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        //  备注：执行该方法会清空当前 easyui-toolbar 控件中原来的所有子项控件。
+        loadData: function (jq, data) { return jq.each(function () { loadData(this, data); }); },
 
-        loadData: function (jq, data) { },
+        //  获取当前 easyui-toolbar 控件的所有工具栏子项；
+        //  返回值：返回表示当前 easyui-toolbar 控件的所有工具栏子项所构成的一个 jQuery 格式数组对象；jQuery 数组中的每一项都是一个 class~=toolbar-item 的 html-dom 对象。
+        getItems: function (jq) { return getItems(jq[0]); },
 
-        items: function (jq) { },
+        //  获取当前 easyui-toolbar 控件的指定位置的工具栏子项；该方法的参数 index 表示要获取的工具栏子项的索引号，从 0 开始计数；
+        //  返回值：返回表示当前 easyui-toolbar 控件指定位置的工具栏子项所构成的一个 jQuery 格式数组对象；jQuery 数组中的项是一个 class~=toolbar-item 的 html-dom 对象。
+        getItem: function (jq, index) { return getItem(jq[0], index); },
 
-        getItem: function (jq, index) { },
-
-        findItem: function (jq, id) { },
-
-        getData: function (jq) { }
+        //  获取当前 easyui-toolbar 控件加载的所有数据；仅在初始化该控件指定的 data 参数、通过 loadData 方法加载的数据和通过 url 远程加载的数据，才会被返回；
+        //  返回值：返回一个数组对象，数组中的每一项都表示一个工具栏子项的数据格式(返回数据的格式参考 loadData 方法的参数 data 的数据格式)。
+        getData: function (jq) { return getData(jq[0]); }
     };
 
     $.fn.toolbar.defaults = {
 
-        method: "post",
-
+        //  表示远程服务器访问地址，用于从远程服务器加载工具栏数据；
         url: null,
 
+        //  表示 easyui-toolbar 控件在初始时需要加载的内容数据；
         data: null,
 
-        loader: loader,
-
-        loadFilter: loadFilter,
+        method: "post",
 
         //  表示 easyui-toolbar 控件的宽度，Number 类型数值；默认为 auto；
         width: "auto",
@@ -569,6 +744,12 @@
         //  回调函数中的 this 表示当前 easyui-toolbar 的 DOM 对象。
         onResize: function (width, height) { },
 
+        onLoadSuccess: function (data) { },
+
+        onLoadError: function () { },
+
+        onBeforeLoad: function (param) { },
+
         //  定义 easyui-toolbar 插件能够添加的工具栏项类型；
         //  开发人员可以通过扩展 $.fn.toolbar.defaults.itemTypes 属性来实现其自定义的 easyui-toolbar 工具栏项类型；
         //      就像扩展 $.fn.datagrid.defaults.editors 一样。
@@ -586,11 +767,11 @@
         //      combogrid   :
         itemTypes: itemTypes,
 
-        onLoadSuccess: function (data) { },
+        loader: loader,
 
-        onLoadError: function () { },
+        loadFilter: loadFilter,
 
-        onBeforeLoad: function (param) { }
+        itemOptions: itemOptions
     };
 
 
@@ -606,11 +787,11 @@
         ".toolbar-align-left { float: left; }" +
         ".toolbar-align-center {}" +
         ".toolbar-align-right { float: right; }" +
-
         ".toolbar-row {}" +
         ".toolbar-item-container { padding-left: 1px; padding-right: 1px; }" +
         ".toolbar-item, .toolbar-item>* { vertical-align: middle; }" +
-        ".toolbar-item-label {}" +
+        ".toolbar-item-label { margin-left: 4px; margin-right: 2px; }" +
+        ".toolbar-item-label-disabled { color: gray; }" +
         ".toolbar-item-input {}" +
         ".toolbar-item-button {}" +
         ".toolbar-item-checkbox {}" +

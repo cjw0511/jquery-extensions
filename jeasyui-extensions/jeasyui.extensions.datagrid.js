@@ -546,6 +546,10 @@
     };
     var getCellDisplay = function (target, pos) {
         var t = $.util.parseJquery(target), td = t.datagrid("getCellDom", pos);
+        return td && td.length ? td.html() : undefined;
+    };
+    var getCellDisplayText = function (target, pos) {
+        var t = $.util.parseJquery(target), td = t.datagrid("getCellDom", pos);
         return td && td.length ? td.text() : undefined;
     };
 
@@ -1707,6 +1711,13 @@
         //          index:  表示要获取的单元格位于哪个行的行索引号，从 0 开始；
         //  返回值：如果当前页存在指定列的指定行，则返回该列中指定行的单元格的显示数据(经过 formatter 格式化后的显示数据)；否则返回 undefined。
         getCellDisplay: function (jq, pos) { return getCellDisplay(jq[0], pos); },
+
+        //  获取 easyui-datagrid 中当前页指定单元格的显示文本(经过 formatter 格式化后的显示文本)；该函数定义如下参数：
+        //  pos：表示单元格的位置，为一个 JSON-Object 对象，该 JSON 定义如下属性：
+        //          field:  表示要获取的单元格位于哪个列；
+        //          index:  表示要获取的单元格位于哪个行的行索引号，从 0 开始；
+        //  返回值：如果当前页存在指定列的指定行，则返回该列中指定行的单元格的显示文本(经过 formatter 格式化后的显示文本)；否则返回 undefined。
+        getCellDisplayText: function (jq, pos) { return getCellDisplayText(jq[0], pos); },
 
         //  获取 easyui-datagrid 所有列的 field 所组成的一个数组集合；参数 frozen 可以定义为如下格式：
         //      Boolean 类型值：如果是 true，则表示返回的结果集中包含 frozen(冻结)列，如果是 false 则表示返回的结果集中不包含 frozen(冻结)列；

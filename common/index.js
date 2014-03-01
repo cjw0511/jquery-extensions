@@ -89,7 +89,6 @@
             lines: true,
             toggleOnClick: true,
             selectOnContextMenu: true,
-            smooth: false,
             showOption: true,
             onClick: function (node) {
                 window.mainpage.addModuleTab(node);

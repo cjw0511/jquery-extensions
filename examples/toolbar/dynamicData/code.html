@@ -1,0 +1,70 @@
+﻿<div>
+
+    <h2>JavaScript 代码：</h2>
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []">
+
+            $(function () {
+                var t = $("#tt");
+                t.toolbar({
+                    method: "get",
+                    url: "toolbar/toolbar-data.json",
+                    onResize: function (width, height) { },
+                    onLoadSuccess: function (data) { },
+                    onLoadError: $.easyui.ajaxError(),
+                    onBeforeLoad: function (param) { }
+                });
+
+                $("#btn1").click(function () { t.toolbar("enable"); });
+
+                $("#btn2").click(function () { t.toolbar("disable"); });
+
+                $("#btn3").click(function () { t.toolbar("enableItem", 1); });
+
+                $("#btn4").click(function () { t.toolbar("disableItem", 1); });
+
+                $("#btn5").click(function () {
+                    t.toolbar("loadData", [
+                        { "type": "label", "options": { "text": "学号：" } },
+                        { "type": "textbox", "id": "userName", "options": { "width": 100 } },
+                        "姓名：",
+                        { "type": "textbox", "id": "password", "options": { "width": 100 } },
+                        "-",
+                        "年龄：",
+                        { "type": "numberspinner", "options": { "width": 100, "value": 20, "min": 10, "max": 30, "disabled": true } }
+                    ]);
+                });
+
+                $("#btn6").click(function () { t.toolbar("load"); });
+            });
+
+    </textarea>
+    <h2>HTML 代码：</h2>
+    <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []">
+
+        <input id="btn1" type="button" value="enable 全部" />
+        <input id="btn2" type="button" value="disable 全部" />
+        <input id="btn3" type="button" value="enable 用户名输入框" />
+        <input id="btn4" type="button" value="disable 用户名输入框" />
+        <input id="btn5" type="button" value="重新加载数据" />
+        <input id="btn6" type="button" value="重新加载远程数据" />
+        <hr />
+        <div id="tt"></div>
+
+    </textarea>
+    <h2>toolbar/toolbar-data.json 文件数据内容</h2>
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []">
+        [
+            { "type": "label", "options": { "text": "用户名：" } },
+            { "type": "textbox", "id": "userName", "options": { "width": 100 } },
+            "密码：",
+            { "type": "textbox", "id": "password", "options": { "width": 100 }, "htmlAttr": { "type": "password" } },
+            "-",
+            "年龄：",
+            { "type": "numberbox", "options": { "width": 100, "value": 20, "min": 10, "max": 30, "required": true, "disabled": true } },
+            "年龄2：",
+            { "type": "numberspinner", "options": { "width": 100, "value": 20, "min": 10, "max": 30, "disabled": true } },
+            { "type": "button", "options": { "text": "测试按钮1", "iconCls": "icon-edit", "onclick": "function (t) { alert($(this).linkbutton(\"options\").text); }" } }
+        ]
+    </textarea>
+
+</div>

@@ -1,0 +1,49 @@
+﻿<div>
+    <script type="text/javascript">
+        $(function () {
+            var t = $("#tt");
+            t.toolbar({
+                method: "get",
+                url: "toolbar/toolbar-data.json",
+                onResize: function (width, height) { },
+                onLoadSuccess: function (data) { },
+                onLoadError: $.easyui.ajaxError(),
+                onBeforeLoad: function (param) { }
+            });
+
+            $("#btn1").click(function () { t.toolbar("enable"); });
+
+            $("#btn2").click(function () { t.toolbar("disable"); });
+
+            $("#btn3").click(function () { t.toolbar("enableItem", 1); });
+
+            $("#btn4").click(function () { t.toolbar("disableItem", 1); });
+
+            $("#btn5").click(function () {
+                t.toolbar("loadData", [
+                    { "type": "label", "options": { "text": "学号：" } },
+                    { "type": "textbox", "id": "userName", "options": { "width": 100 } },
+                    "姓名：",
+                    { "type": "textbox", "id": "password", "options": { "width": 100 } },
+                    "-",
+                    "年龄：",
+                    { "type": "numberspinner", "options": { "width": 100, "value": 20, "min": 10, "max": 30, "disabled": true } }
+                ]);
+            });
+
+            $("#btn6").click(function () { t.toolbar("load"); });
+        });
+    </script>
+
+    <h2>jEasyUI ToolBar Plugin Extensions - 动态数据加载</h2>
+    <p>该部分扩展由文件 jquery-easyui-toolbar/jquery.toolbar.js 实现。</p>
+    <hr />
+    <input id="btn1" type="button" value="enable 全部" />
+    <input id="btn2" type="button" value="disable 全部" />
+    <input id="btn3" type="button" value="enable 用户名输入框" />
+    <input id="btn4" type="button" value="disable 用户名输入框" />
+    <input id="btn5" type="button" value="重新加载数据" />
+    <input id="btn6" type="button" value="重新加载远程数据" />
+    <hr />
+    <div id="tt"></div>
+</div>

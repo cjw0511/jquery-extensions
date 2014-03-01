@@ -33,8 +33,7 @@
 
 
     var initialize = function (target) {
-        var t = $.util.parseJquery(target);
-        var state = $.data(target, "window"), opts = t.window("options"), win = t.window("window");
+        var t = $(target), state = $.data(target, "window"), opts = t.window("options"), win = t.window("window"), body = t.window("body");
         if (!opts._initialized) {
             t.window("header").on({
                 dblclick: function () {
@@ -58,11 +57,12 @@
                     }
                 }
             });
+            if (opts.bodyCls) { body.addClass(opts.bodyCls); }
             opts._initialized = true;
         }
         if (opts.draggable) {
-            var dragOpts = state.window.draggable("options");
-            var _onStartDrag = dragOpts.onStartDrag, _onStopDrag = dragOpts.onStopDrag, _onDrag = dragOpts.onDrag;
+            var dragOpts = state.window.draggable("options"),
+                _onStartDrag = dragOpts.onStartDrag, _onStopDrag = dragOpts.onStopDrag, _onDrag = dragOpts.onDrag;
             dragOpts.onStartDrag = function () {
                 _onStartDrag.apply(this, arguments);
                 t.window("body").addClass("window-body-hidden").children().addClass("window-body-hidden-proxy");
@@ -87,6 +87,26 @@
                     left: left,
                     top: top
                 });
+                return false;
+            };
+        }
+        if (opts.resizable) {
+            var resizableOpts = state.window.resizable("options"),
+                _onResize = resizableOpts.onResize;
+            resizableOpts.onResize = function (e) {
+                if (!opts.minWidth && !opts.maxWidth && !opts.minHeight && !opts.maxHeight) { return _onResize.apply(this, arguments); }
+                state.proxy.css({ left: e.data.left, top: e.data.top });
+                var width = e.data.width, height = e.data.height,
+                    minWidth = $.isNumeric(opts.minWidth) ? opts.minWidth : defaults.minHeight,
+                    maxWidth = $.isNumeric(opts.maxWidth) ? opts.maxWidth : defaults.maxWidth,
+                    minHeight = $.isNumeric(opts.minHeight) ? opts.minHeight : defaults.minHeight,
+                    maxHeight = $.isNumeric(opts.maxHeight) ? opts.maxHeight : defaults.maxHeight;
+                if (width > opts.maxWidth) { width = maxWidth; resizable = true; }
+                if (width < opts.minWidth) { width = minWidth; resizable = true; }
+                if (height > opts.maxHeight) { height = maxHeight; resizable = true; }
+                if (height < opts.minHeight) { height = minHeight; resizable = true; }
+                state.proxy._outerWidth(width);
+                state.proxy._outerHeight(height);
                 return false;
             };
         }

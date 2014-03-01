@@ -243,7 +243,10 @@
         { "id": "110801", "text": "Icons", "pid": "1108", "attributes": { "href": "examples/example.html?icons" } },
         { "id": "110802", "text": "Theme", "pid": "1108", "attributes": { "href": "examples/example.html?theme" } },
         { "id": "110803", "text": "GridSelector", "pid": "1108", "attributes": { "href": "examples/example.html?gridSelector" } },
-        { "id": "110804", "text": "Toolbar", "pid": "1108", "attributes": { "href": "examples/example.html?toolbar" } },
+        { "id": "110804", "text": "Toolbar", "pid": "1108", "children": [
+            { "id": "11080401", "text": "Toolbar常规用法", "pid": "110804", "attributes": { "href": "examples/example.html?toolbar/generic" } },
+            { "id": "11080402", "text": "Toolbar动态数据加载", "pid": "110804", "attributes": { "href": "examples/example.html?toolbar/dynamicData" } }
+        ] },
         { "id": "110805", "text": "Portal", "pid": "1108", "attributes": { "href": "examples/example.html?portal" } },
         { "id": "110806", "text": "my97", "pid": "1108", "attributes": { "href": "examples/example.html?my97" } },
         { "id": "110807", "text": "ckeditor", "pid": "1108", "attributes": { "href": "examples/example.html?ckeditor" } },

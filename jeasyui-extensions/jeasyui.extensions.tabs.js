@@ -38,6 +38,7 @@
         }
     };
 
+
     var _onContextMenu = $.fn.tabs.defaults.onContextMenu;
     var onContextMenu = function (e, title, index) {
         if ($.isFunction(_onContextMenu)) { _onContextMenu.apply(this, arguments); }
@@ -277,7 +278,7 @@
     };
 
     function getTabOption(target, which) {
-        var t = $.util.parseJquery(target), tab = tabs.tabs("getTab", which), tabOpts = tab.panel("options");
+        var t = $.util.parseJquery(target), tab = t.tabs("getTab", which), tabOpts = tab.panel("options");
         return tabOpts;
     };
 
@@ -314,7 +315,7 @@
         return $.array.merge($.array.range(panels, 0, index), $.array.range(panels, index + 1));
     };
 
-    function closableFinder (val) {
+    function closableFinder(val) {
         if ($.util.isJqueryObject(val) && val.length) {
             var state = $.data(val[0], "panel");
             return state && state.options && state.options.closable;

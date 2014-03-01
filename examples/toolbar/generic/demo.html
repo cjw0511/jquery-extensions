@@ -1,0 +1,141 @@
+﻿<div>
+    
+    <script type="text/javascript">
+        $(function () {
+            var tt = $("#tt");
+
+            $("#Button1").click(function () {
+                tt.toolbar("resize", { width: 800, height: 100 });
+            });
+
+            $("#Button2").click(function () {
+                tt.toolbar("resize", { width: "auto", height: "auto" });
+            });
+
+            $("#Button3").click(function () { tt.toolbar("align", "left"); });
+
+            $("#Button4").click(function () { tt.toolbar("align", "center"); });
+
+            $("#Button5").click(function () { tt.toolbar("align", "right"); });
+
+            $("#Button6").click(function () { tt.toolbar("valign", "top"); });
+
+            $("#Button7").click(function () { tt.toolbar("valign", "middle"); });
+
+            $("#Button8").click(function () { tt.toolbar("valign", "bottom"); });
+
+            var i = 1;
+            $("#Button9").click(function () {
+                var btn = $("<a></a>").linkbutton({
+                    plain: false,
+                    text: "按钮" + i++,
+                    iconCls: "icon-hamburg-lock"
+                }).click(function () {
+                    alert($(this).text());
+                });
+                tt.toolbar("appendItem", btn);
+            });
+
+            $("#Button10").click(function () {
+                tt.toolbar("appendItem", {
+                    type: "button",
+                    options: {
+                        iconCls: "icon-hamburg-lock",
+                        text: "按钮" + i++,
+                        handler: function () { alert($(this).text()); }
+                    },
+                    style: {
+                        width: 200, textAlign: "center"
+                    }
+                });
+            });
+
+            $("#Button11").click(function () {
+                tt.toolbar("appendItem", function () {
+                    return {
+                        options: {
+                            iconCls: "icon-hamburg-lock",
+                            text: "按钮" + i++,
+                            handler: function () { alert($(this).text()); }
+                        }
+                    };
+                });
+            });
+
+            $("#Button12").click(function () {
+                tt.toolbar("appendItem", "-");
+            });
+
+            $("#Button13").click(function () {
+                tt.toolbar("appendItem", {
+                    type: "numberbox",
+                    options: {
+                        min: 1, max: 100, width: 100, prompt: "请输入年龄"
+                    }
+                });
+            });
+
+            $("#Button14").click(function () {
+                tt.toolbar("appendItem", {
+                    type: "datebox", options: { prompt: "请输入日期" }
+                });
+            });
+
+            $("#Button15").click(function () {
+                tt.toolbar("appendItem", {
+                    type: "combotree", options: { prompt: "请输入日期", url: "tree/tree-data.json", method: "get", multiple: true }
+                });
+            });
+        });
+    </script>
+
+    <h2>jEasyUI ToolBar Plugin Extensions - 常规用法</h2>
+    <p>该部分扩展由文件 jquery-easyui-toolbar/jquery.toolbar.js 实现。</p>
+    <hr />
+    <input id="Button1" type="button" value="重设工具栏尺寸" />
+    <input id="Button2" type="button" value="恢复尺寸" />
+    <br /><br />
+    <input id="Button3" type="button" value="调整位置-横向-靠左" />
+    <input id="Button4" type="button" value="调整位置-横向-居中" />
+    <input id="Button5" type="button" value="调整位置-横向-靠右" />
+    <br /><br />
+    <input id="Button6" type="button" value="调整位置-纵向-靠上" />
+    <input id="Button7" type="button" value="调整位置-纵向-居中" />
+    <input id="Button8" type="button" value="调整位置-纵向-靠下" />
+    <br /><br />
+    <input id="Button9" type="button" value="增加一个按钮1" />
+    <input id="Button10" type="button" value="增加一个按钮2" />
+    <input id="Button11" type="button" value="增加一个按钮3" />
+    <input id="Button12" type="button" value="增加一个分割线" />
+    <input id="Button13" type="button" value="增加一个 numberbox" />
+    <input id="Button14" type="button" value="增加一个 datebox" />
+    <input id="Button15" type="button" value="增加一个 combotree" />
+    <hr />
+    <div id="tt" class="easyui-toolbar" data-options="">
+        <span>用户姓名：</span>
+        <input type="text" style="margin-left: 2px; margin-right: 2px; padding-left: 2px; padding-right: 3px;" />
+        <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-zoom'">查询</a>
+        <div class="dialog-tool-separator"></div>
+        <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-config'">配置</a>
+        <span>-</span>
+        <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-pencil'">编辑</a>
+        <a class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-busy'">删除</a>
+    </div>
+    <br /><br />
+    <div class="easyui-toolbar">
+        <input class="easyui-validatebox" data-options="prompt: '拟定企业名称'" style="width: 100px;" />
+        <span>-</span>
+        <input class="easyui-validatebox" data-options="prompt: '企业类型'" style="width: 100px;" />
+        <span>-</span>
+        <input class="easyui-validatebox" data-options="prompt: '法人'" style="width: 100px;" />
+        <span>-</span>
+        <input class="easyui-datebox" data-options="prompt: '核查有效期', width: 100" />
+        <span>-</span>
+        <label>
+            <input type="checkbox" />
+            <span>选择我</span>
+        </label>
+        <span>-</span>
+        <span>asdfasdfasdf</span>
+    </div>
+</div>

@@ -1001,7 +1001,9 @@
     coreString.prototype.toNumeric = function () { return coreString.toNumeric(this); };
 
     //  将字符串对象转换成 对象(Object) 值
-    coreString.toObject = function (str) { return JSON.parse(str); };
+    coreString.toObject = function (data) {
+        return eval("(" + $.trim(data + "") + ")");
+    };
     coreString.prototype.toObject = function () { return coreString.toObject(this); };
 
     coreString.toJSONString = function (str) {
@@ -1087,6 +1089,9 @@
 
     //  检测一个对象是否为一个数组对象或者类似于数组对象，同 coreUtil.likeArray
     coreArray.likeArray = coreUtil.likeArray;
+
+    //  同 coreUtil.likeArrayNotString
+    coreArray.likeArrayNotString = coreUtil.likeArrayNotString;
 
     //  判断传入的 数组 是否为 Null 或者为空数组。
     coreArray.isNullOrEmpty = function (array) { return !coreArray.likeArray(array) || !array.length; };
@@ -3078,6 +3083,23 @@
         return selector;
     };
     coreJquery.prototype.shine = function (interval, times) { return coreJquery.shine(this, interval, times); };
+
+
+
+    coreUtil.addFavorites = function (url, title) {
+        var favo = { url: window.location.href, title: document.title };
+        if (arguments.length == 1) { $.extend(favo, url); }
+        if (arguments.length > 1) { $.extend(favo, { url: url, title: title }); }
+        if (window.external && coreUtil.isFunction(window.external.AddFavorite)) {
+            window.external.AddFavorite(favo.url, favo.title);
+        } else {
+            window.alert("请按 Ctrl + D 为您的浏览器添加 收藏/书签!");
+        }
+    };
+
+
+
+
 
     //  用一个或多个其他对象来扩展一个对象，返回被扩展的对象；该函数定义如下参数：
     //      deep:   可选；如果设为 true，则递归合并；

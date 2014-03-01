@@ -1,0 +1,12 @@
+﻿[
+    { "type": "label", "options": { "text": "用户名：" } },
+    { "type": "textbox", "id": "userName", "options": { "width": 100 } },
+    "密码：",
+    { "type": "textbox", "id": "password", "options": { "width": 100 }, "htmlAttr": { "type": "password" } },
+    "-",
+    "年龄：",
+    { "type": "numberbox", "options": { "width": 100, "value": 20, "min": 10, "max": 30, "required": true, "disabled": true } },
+    "年龄2：",
+    { "type": "numberspinner", "options": { "width": 100, "value": 20, "min": 10, "max": 30, "disabled": true } },
+    { "type": "button", "options": { "text": "测试按钮1", "iconCls": "icon-edit", "onclick": "function (t) { alert($(this).linkbutton(\"options\").text); }" } }
+]
