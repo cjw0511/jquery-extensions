@@ -108,8 +108,10 @@
             var tItem = builder.init(container[0], itemOpts.options || itemOpts).addClass("toolbar-item");
             if (itemOpts.id) { tItem.attr("id", itemOpts.id); }
             if (itemOpts.name) { tItem.attr("name", itemOpts.name); }
-            if (itemOpts.itemCls) { container.addClass(itemOpts.itemCls); }
+            if (itemOpts.cls) { container.addClass(itemOpts.cls); }
+            if (itemOpts.itemCls) { tItem.addClass(itemOpts.itemCls); }
             if (itemOpts.style) { container.css(itemOpts.style); }
+            if (itemOpts.itemStyle) { tItem.css(itemOpts.itemStyle); }
             if (itemOpts.width) { container.css("width", itemOpts.width); }
             if (itemOpts.align) { container.css("text-align", itemOpts.align); }
             if (itemOpts.htmlAttr) { tItem.attr(itemOpts.htmlAttr); }
@@ -218,6 +220,30 @@
         return builder ? builder : null;
     };
 
+    function setItemValue(target, param) {
+        if (!param || !$.isNumeric(param.index)) { return; }
+        var item = getItem(target, index), builder = getItemBuilder(item);
+        if (builder && $.isFunction(builder.setValue)) {
+            builder.setValue(item[0], param.value);
+        }
+    };
+
+    function getItemValue(target, index) {
+        var item = getItem(target, index), builder = getItemBuilder(item);
+        return builder && $.isFunction(builder.getValue) ? builder.getValue(item[0]) : null;
+    };
+
+    function resizeItem(target, param) {
+        if (!param || !$.isNumeric(param.index) || !param.width) { return; }
+        var item = getItem(target, index), builder = getItemBuilder(item);
+        if (builder && $.isFunction(builder.resize)) {
+            builder.resize(item[0], param.width);
+        } else {
+            if (item) { item.width(param.width); }
+        }
+    };
+
+
     function enableItem(target, index) {
         var item = getItem(target, index), builder = getItemBuilder(item);
         if (builder && $.isFunction(builder.enable)) {
@@ -285,7 +311,7 @@
                     handler = opts.onclick || opts.handler,
                     btn = $("<a class='toolbar-item-button'></a>").appendTo(container).linkbutton(opts);
                 if (handler) {
-                    btn.click(function () { ($.isFunction(handler) ? handler : String(handler).toFunction()).call(this, container); });
+                    btn.click(function () { ($.isFunction(handler) ? handler : String(handler).toFunction()).call(this, $(container).closest("table.toolbar-wrapper")[0]); });
                 }
                 return btn;
             },
@@ -542,10 +568,13 @@
         name: null,
         type: "button",
         options: null,
+        cls: null,
         style: null,
         itemCls: null,
+        itemStyle: null,
         width: null,
-        align: null
+        align: null,
+        htmlAttr: null
     }, loader = function (param, success, error) {
         var opts = $(this).toolbar("options");
         if (!opts.url) { return false; }
@@ -628,6 +657,18 @@
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         valign: function (jq, valign) { return jq.each(function () { setValign(this, valign); }); },
 
+        //  获取当前 easyui-toolbar 控件的所有工具栏子项；
+        //  返回值：返回表示当前 easyui-toolbar 控件的所有工具栏子项所构成的一个 jQuery 格式数组对象；jQuery 数组中的每一项都是一个 class~=toolbar-item 的 html-dom 对象。
+        getItems: function (jq) { return getItems(jq[0]); },
+
+        //  获取当前 easyui-toolbar 控件的指定位置的工具栏子项；该方法的参数 index 表示要获取的工具栏子项的索引号，从 0 开始计数；
+        //  返回值：返回表示当前 easyui-toolbar 控件指定位置的工具栏子项所构成的一个 jQuery 格式数组对象；jQuery 数组中的项是一个 class~=toolbar-item 的 html-dom 对象。
+        getItem: function (jq, index) { return getItem(jq[0], index); },
+
+        //  获取当前 easyui-toolbar 控件加载的所有数据；仅在初始化该控件指定的 data 参数、通过 loadData 方法加载的数据和通过 url 远程加载的数据，才会被返回；
+        //  返回值：返回一个数组对象，数组中的每一项都表示一个工具栏子项的数据格式(返回数据的格式参考 loadData 方法的参数 data 的数据格式)。
+        getData: function (jq) { return getData(jq[0]); },
+
         //  在当前 easyui-toolbar 中增加一个工具栏项；该方法的参数 item 可以定义为如下类型：
         //      1、jQuery-DOM 对象：
         //      2、HTML-DOM 对象：
@@ -666,6 +707,25 @@
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         disableItem: function (jq, index) { return jq.each(function () { disableItem(this, index); }); },
 
+        //  设置当前 easyui-toolbar 控件中指定索引号工具栏子项的值；该方法的参数 param 为一个 JSON-Object，包含如下属性定义：
+        //      index: 表示要设置值的工具栏子项的索引号，从 0 开始计数；
+        //      value: 表示要设置的新值；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        //  备注：仅当 index 指定的工具栏子项存在且支持赋值(setValue)操作时，该方法才生效；
+        setItemValue: function (jq, param) { return jq.each(function () { setItemValue(this, param); }); },
+
+        //  获取当前 easyui-toolbar 控件中指定索引号工具栏子项的值；方法的参数 index 表示要获取值的工具栏子项的索引号，从 0 开始计数；
+        //  返回值：返回指定索引号位置的工具栏子项的值；
+        //  备注：仅当 index 指定的工具栏子项存在且支持取值(getValue)操作时，该方法才生效；
+        getItemValue: function (jq, index) { return getItemValue(jq[0], index); },
+
+        //  重新设置当前 easyui-toolbar 控件中指定索引号工具栏子项的宽度值；该方法的参数 param 为一个 JSON-Object，包含如下属性定义：
+        //      index: 表示要设置宽度值的工具栏子项的索引号，从 0 开始计数；
+        //      width: 表示要设置的新宽度值；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        //  备注：仅当 index 指定的工具栏子项存在且支持 resize 操作时，该方法才生效；
+        resizeItem: function (jq, param) { return jq.each(function () { resizeItem(this, param); }); },
+
         //  启用当前 easyui-toolbar 控件的所有工具栏子项；
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         enable: function (jq) { return jq.each(function () { enable(this); }); },
@@ -701,19 +761,7 @@
         //          align   :
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         //  备注：执行该方法会清空当前 easyui-toolbar 控件中原来的所有子项控件。
-        loadData: function (jq, data) { return jq.each(function () { loadData(this, data); }); },
-
-        //  获取当前 easyui-toolbar 控件的所有工具栏子项；
-        //  返回值：返回表示当前 easyui-toolbar 控件的所有工具栏子项所构成的一个 jQuery 格式数组对象；jQuery 数组中的每一项都是一个 class~=toolbar-item 的 html-dom 对象。
-        getItems: function (jq) { return getItems(jq[0]); },
-
-        //  获取当前 easyui-toolbar 控件的指定位置的工具栏子项；该方法的参数 index 表示要获取的工具栏子项的索引号，从 0 开始计数；
-        //  返回值：返回表示当前 easyui-toolbar 控件指定位置的工具栏子项所构成的一个 jQuery 格式数组对象；jQuery 数组中的项是一个 class~=toolbar-item 的 html-dom 对象。
-        getItem: function (jq, index) { return getItem(jq[0], index); },
-
-        //  获取当前 easyui-toolbar 控件加载的所有数据；仅在初始化该控件指定的 data 参数、通过 loadData 方法加载的数据和通过 url 远程加载的数据，才会被返回；
-        //  返回值：返回一个数组对象，数组中的每一项都表示一个工具栏子项的数据格式(返回数据的格式参考 loadData 方法的参数 data 的数据格式)。
-        getData: function (jq) { return getData(jq[0]); }
+        loadData: function (jq, data) { return jq.each(function () { loadData(this, data); }); }
     };
 
     $.fn.toolbar.defaults = {

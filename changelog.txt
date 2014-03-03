@@ -1,6 +1,9 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2014-03-03(1.0.36 preview) ********/
+1、【+】 新增插件 jeasyui.extensions.gridselector.js，其中已实现 showGridSelector 功能；
+
 /******** 2014-02-27(1.0.35 preview) ********/
 1、【+】 新增插件 jquery.toolbar.js，用于快速创建工具按钮栏效果；
 2、【^】 调整 jeasyui.extensions.tree.js 插件中关于 easyui-tree 扩展属性 smooth 名称，修改为 dataPlain；

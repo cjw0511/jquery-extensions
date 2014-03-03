@@ -504,6 +504,33 @@
 
 
 
+    coreUtil.filterProperties = function (obj, propertieNames, excluding) {
+        propertieNames = coreUtil.likeArrayNotString(propertieNames) ? propertieNames : [];
+        var ret = {};
+        for (var k in obj) {
+            if (excluding ? coreArray.contains(propertieNames, k) : !coreArray.contains(propertieNames, k)) { ret[k] = obj[k]; }
+        }
+        return ret;
+    };
+
+    //  排除 JSON 对象指定名称列表的属性，并返回该 JSON 对象的一个新副本；该函数定义如下参数：
+    //      obj: 待操作的 JSON 对象；
+    //      propertieNames:需要从 obj 中排除的属性名称，为一个数组对象，数组中的每一项都是一个 String 类型值；
+    //  返回值：返回一个 JSON 对象，该对象包含 obj 中除 propertieNames 列表外的所有属性。
+    coreUtil.excludeProperties = function (obj, propertieNames) {
+        return coreUtil.filterProperties(obj, propertieNames, false);
+    };
+
+    //  提取 JSON 对象指定名称列表的属性，并返回该 JSON 对象的一个新副本；该函数定义如下参数：
+    //      obj: 待操作的 JSON 对象；
+    //      propertieNames:需要从 obj 中排除的属性名称，为一个数组对象，数组中的每一项都是一个 String 类型值；
+    //  返回值：返回一个 JSON 对象，该对象包含 obj 中 propertieNames 列表制定的所有属性。
+    coreUtil.extractProperties = function (obj, propertieNames) {
+        return coreUtil.filterProperties(obj, propertieNames, true);
+    };
+
+
+
 
 
 
