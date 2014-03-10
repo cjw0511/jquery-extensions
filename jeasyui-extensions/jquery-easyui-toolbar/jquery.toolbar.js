@@ -11,7 +11,7 @@
 * jQuery EasyUI toolbar 插件扩展
 * jeasyui.plugins.toolbar.js
 * 二次开发 流云
-* 最近更新：2013-10-31
+* 最近更新：2014-03-06
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -87,11 +87,18 @@
 
 
     function appendItemToContainer(target, container, item) {
-        var t = $(target), state = $.data(target, "toolbar"), opts = state.options;
+        var state = $.data(target, "toolbar"), opts = state.options;
         if ($.util.isDOM(item)) {
             var cell = $(item).addClass("toolbar-item").appendTo(container), text = cell.text();
             if (/^(?:div|span)$/i.test(cell[0].nodeName) && $.array.contains(["-", "—", "|"], text)) {
                 cell.addClass("dialog-tool-separator").empty();
+                $.data(cell[0], "toolbar-item-data", {
+                    actions: opts.itemOptions.separator, target: cell, options: {}, type: "separator", container: container
+                });
+            } else {
+                $.data(cell[0], "toolbar-item-data", {
+                    actions: null, target: cell, options: {}, type: "custom", container: container
+                });
             }
         } else if ($.util.isString(item)) {
             if ($.array.contains(["-", "—", "|"], item)) {
@@ -103,9 +110,9 @@
             }
         } else {
             var itemOpts = $.extend({}, opts.itemOptions, item || {}),
-                builder = opts.itemTypes[itemOpts.type];
-            if (!builder || !builder.init) { return; }
-            var tItem = builder.init(container[0], itemOpts.options || itemOpts).addClass("toolbar-item");
+                actions = opts.itemTypes[itemOpts.type];
+            if (!actions || !actions.init) { return; }
+            var tItem = actions.init(container[0], itemOpts.options || itemOpts).addClass("toolbar-item");
             if (itemOpts.id) { tItem.attr("id", itemOpts.id); }
             if (itemOpts.name) { tItem.attr("name", itemOpts.name); }
             if (itemOpts.cls) { container.addClass(itemOpts.cls); }
@@ -115,14 +122,15 @@
             if (itemOpts.width) { container.css("width", itemOpts.width); }
             if (itemOpts.align) { container.css("text-align", itemOpts.align); }
             if (itemOpts.htmlAttr) { tItem.attr(itemOpts.htmlAttr); }
-            $.data(tItem[0], "toolbar-item-builder", builder);
-            $.data(tItem[0], "toolbar-item-data", itemOpts);
+            $.data(tItem[0], "toolbar-item-data", {
+                actions: actions, target: tItem, options: itemOptions.options, type: itemOpts.type, container: container
+            });
         }
     };
 
     function appendItemOption(target, item) {
         if (!item) { return; }
-        var t = $(target), state = $.data(target, "toolbar"),
+        var state = $.data(target, "toolbar"),
             tr = state.wrapper.find("tr:last");
         if (!tr.length) { tr = $("<tr class='toolbar-row'></tr>").appendTo(state.wrapper); }
         var container = $("<td class='toolbar-item-container'></td>").appendTo(tr);
@@ -147,36 +155,50 @@
 
 
 
+    function getItemIndex(target, item) {
+        var ret = -1;
+        if (!item) { return ret; }
+        item = $.util.parseJquery(item);
+        var t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
+        if (!tr.length || $.contains(tr[0], item[0])) { return ret; }
+        ret = item.closest("toolbar-item-container").index();
+        return ret;
+    }
+
     function getItem(target, index) {
         if (index == null || index == undefined) { return null; }
-        var ret = null, t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
-        if (!tr.length) { return ret; }
-        var tds = tr.find(">td.toolbar-item-container");
+        var item = null, t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
+        if (!tr.length) { return item; }
+        var tds = tr.find(">td.toolbar-item-container"), td = null;
         if ($.isNumeric(index)) {
-            if (tds.length >= index && index >= 0) { ret = tds.eq(index).find(".toolbar-item"); }
+            if (tds.length >= index && index >= 0) { itemEle = tds.eq(index).find(".toolbar-item"); }
         }
-        return ret;
+        if (itemEle.length) {
+            item = $.data(itemEle[0], "toolbar-item-data");
+        }
+        return item;
     };
 
     function getItems(target) {
-        var ret = null, t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
-        if (!tr.length) { return ret; }
-        ret = tr.find(">td.toolbar-item-container .toolbar-item");
+        var ret = [], t = $(target), wrapper = t.toolbar("wrapper");
+        wrapper.find("tr:last>td.toolbar-item-container .toolbar-item").each(function () {
+            var item = $.data(this, "toolbar-item-data");
+            if (item) { ret.push(item); }
+        });
         return ret;
     };
 
     function removeItem(target, index) {
         var item = getItem(target, index);
         if (item) {
-            var builder = $.data("item[0]", "toolbar-item-builder"), container = item.closest("td.toolbar-item-container");
-            if (builder && $.isFunction(builder.destroy)) { builder.destroy(item[0]); }
-            container.remove();
+            if (item.actions && $.isFunction(item.actions.destroy)) { actions.destroy(item.target[0]); }
+            item.container.remove();
         }
     };
 
     function updateItem(target, param) {
         if (!param || !$.isNumeric(param.index) || !param.item) { return; }
-        var item = getItem(target, param.index), container = item.closest("td.toolbar-item-container").empty();
+        var item = getItem(target, param.index), container = item.container.empty();
         appendItemToContainer(target, container, param.item)
     };
 
@@ -214,72 +236,74 @@
 
 
 
-    function getItemBuilder(item) {
-        if (!item) { return null; }
-        var builder = $.data($.util.parseJquery(item)[0], "toolbar-item-builder");
-        return builder ? builder : null;
+
+    function setItemFocus(target, index) {
+        var item = getItem(target, index);
+        if (item) {
+            if (item.actions && $.isFunction(item.actions.setFocus)) {
+                item.actions.setFocus(item.target[0]);
+            } else {
+                item.target.focus();
+            }
+        }
     };
 
     function setItemValue(target, param) {
         if (!param || !$.isNumeric(param.index)) { return; }
-        var item = getItem(target, index), builder = getItemBuilder(item);
-        if (builder && $.isFunction(builder.setValue)) {
-            builder.setValue(item[0], param.value);
+        var item = getItem(target, param.index);
+        if (item && item.actions && $.isFunction(item.actions.setValue)) {
+            item.actions.setValue(item.target[0], param.value);
         }
     };
 
     function getItemValue(target, index) {
-        var item = getItem(target, index), builder = getItemBuilder(item);
-        return builder && $.isFunction(builder.getValue) ? builder.getValue(item[0]) : null;
+        var item = getItem(target, index);
+        return item && item.actions && $.isFunction(item.actions.getValue) ? item.actions.getValue(item.target[0]) : null;
     };
 
     function resizeItem(target, param) {
         if (!param || !$.isNumeric(param.index) || !param.width) { return; }
-        var item = getItem(target, index), builder = getItemBuilder(item);
-        if (builder && $.isFunction(builder.resize)) {
-            builder.resize(item[0], param.width);
-        } else {
-            if (item) { item.width(param.width); }
+        var item = getItem(target, index);
+        if (item) {
+            if (item.actions && $.isFunction(item.actions.resize)) {
+                item.actions.resize(item.target[0], param.width);
+            } else {
+                item.target.width(param.width);
+            }
         }
     };
 
 
     function enableItem(target, index) {
-        var item = getItem(target, index), builder = getItemBuilder(item);
-        if (builder && $.isFunction(builder.enable)) {
-            builder.enable(item[0]);
+        var item = getItem(target, index);
+        if (item && item.actions && $.isFunction(item.actions.enable)) {
+            item.actions.enable(item.target[0]);
         }
     };
 
     function disableItem(target, index) {
-        var item = getItem(target, index), builder = getItemBuilder(item);
-        if (builder && $.isFunction(builder.disable)) {
-            builder.disable(item[0]);
+        var item = getItem(target, index);
+        if (item && item.actions && $.isFunction(item.actions.disable)) {
+            item.actions.disable(item.target[0]);
         }
     };
 
     function enable(target) {
         var items = getItems(target);
-        if (items) {
-            $.each(items, function (i, item) {
-                var builder = getItemBuilder(item);
-                if (builder && $.isFunction(builder.enable)) {
-                    builder.enable(item);
-                }
-            });
-        }
+        $.each(items, function (i, item) {
+            if (item.actions && $.isFunction(item.actions.enable)) {
+                item.actions.enable(item.target[0]);
+            }
+        });
     };
 
     function disable(target) {
         var items = getItems(target);
-        if (items) {
-            $.each(items, function (i, item) {
-                var builder = getItemBuilder(item);
-                if (builder && $.isFunction(builder.disable)) {
-                    builder.disable(item);
-                }
-            });
-        }
+        $.each(items, function (i, item) {
+            if (item.actions && $.isFunction(item.actions.disable)) {
+                item.actions.disable(item.target[0]);
+            }
+        });
     };
 
 
@@ -480,6 +504,9 @@
             },
             disable: function (target) {
                 $(target).datebox("disable");
+            },
+            setFocus: function (target) {
+                $(target).datebox("textbox").focus();
             }
         },
         combobox: {
@@ -507,6 +534,9 @@
             },
             disable: function (target) {
                 $(target).combobox("disable");
+            },
+            setFocus: function (target) {
+                $(target).combobox("textbox").focus();
             }
         },
         combotree: {
@@ -534,6 +564,9 @@
             },
             disable: function (target) {
                 $(target).combotree("disable");
+            },
+            setFocus: function (target) {
+                $(target).combotree("textbox").focus();
             }
         },
         combogrid: {
@@ -561,6 +594,9 @@
             },
             disable: function (target) {
                 $(target).combogrid("disable");
+            },
+            setFocus: function (target) {
+                $(target).combogrid("textbox").focus();
             }
         }
     }, itemOptions = {
@@ -657,13 +693,24 @@
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         valign: function (jq, valign) { return jq.each(function () { setValign(this, valign); }); },
 
-        //  获取当前 easyui-toolbar 控件的所有工具栏子项；
-        //  返回值：返回表示当前 easyui-toolbar 控件的所有工具栏子项所构成的一个 jQuery 格式数组对象；jQuery 数组中的每一项都是一个 class~=toolbar-item 的 html-dom 对象。
+        //  获取当前 easyui-toolbar 控件的所有工具栏子项数据；
+        //  返回值：返回表示当前 easyui-toolbar 控件的所有工具栏子项数据所构成的一个数组，数组的每个元素格式参考 getItem 方法的返回值。
         getItems: function (jq) { return getItems(jq[0]); },
 
-        //  获取当前 easyui-toolbar 控件的指定位置的工具栏子项；该方法的参数 index 表示要获取的工具栏子项的索引号，从 0 开始计数；
-        //  返回值：返回表示当前 easyui-toolbar 控件指定位置的工具栏子项所构成的一个 jQuery 格式数组对象；jQuery 数组中的项是一个 class~=toolbar-item 的 html-dom 对象。
+        //  获取当前 easyui-toolbar 控件的指定位置的工具栏子项数据；该方法的参数 index 表示要获取的工具栏子项的索引号，从 0 开始计数；
+        //  返回值：返回表示当前 easyui-toolbar 控件指定位置的工具栏子项数据所构成的一个包含如下属性的 JSON-Object：
+        //      actions:    表示该工具栏子项的初始化构造器；其值为 $.fn.toolbar.defaults.itemTypes 中的一个子项；
+        //      options:    表示该工具栏子项初始化时的 options 参数数据；
+        //      target :    表示该工具栏子项包含 "toolbar-item" 样式类的元素的 jQuery-DOM 对象；
+        //      type   :    表示该工具栏子项的类型，如果是自定义加载的 html-DOM 对象则为 "custom"
+        //      container:  表示该工具栏子项所在的 jQuery-DOM(html-td) 对象；
         getItem: function (jq, index) { return getItem(jq[0], index); },
+
+        //  获取指定的工具栏子项在当前 easyui-toolbar 控件中的索引号；
+        //      该方法的参数 item 表示一个工具栏子项，为一个 String 格式的 jQuery 选择器，或者是一个 HTML-DOM 对象，或者是一个 jQuery-DOM 对象。
+        //  返回值：返回指定的工具栏子项在当前 easyui-toolbar 控件中的索引号，从 0 开始计数；
+        //      如果 item 所示的对象不存在于当前 easyui-toolbar 中，则返回 -1。
+        getItemIndex: function (jq, item) { return getItemIndex(jq[0], item); },
 
         //  获取当前 easyui-toolbar 控件加载的所有数据；仅在初始化该控件指定的 data 参数、通过 loadData 方法加载的数据和通过 url 远程加载的数据，才会被返回；
         //  返回值：返回一个数组对象，数组中的每一项都表示一个工具栏子项的数据格式(返回数据的格式参考 loadData 方法的参数 data 的数据格式)。
@@ -706,6 +753,12 @@
         //  禁用当前 easyui-toolbar 控件的某个工具栏子项；该方法的参数 index 表示要操作的工具栏子项的索引号，从 0 开始计数；
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         disableItem: function (jq, index) { return jq.each(function () { disableItem(this, index); }); },
+
+        //  设置当前 easyui-toolbar 控件中指定索引号工具栏子项使其获取焦点；该方法的参数 param 为一个 JSON-Object，包含如下属性定义：
+        //      index: 表示要设置值的工具栏子项的索引号，从 0 开始计数；
+        //      value: 表示要设置的新值；
+        //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
+        setItemFocus: function (jq, index) { return jq.each(function () { setItemFocus(this, index); }); },
 
         //  设置当前 easyui-toolbar 控件中指定索引号工具栏子项的值；该方法的参数 param 为一个 JSON-Object，包含如下属性定义：
         //      index: 表示要设置值的工具栏子项的索引号，从 0 开始计数；

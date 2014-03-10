@@ -456,19 +456,19 @@
     };
 
     coreJquery.fn.currentDatagrid = function () {
-        var p = this.closest(".datagrid-wrap.panel-body"), dg = p.find(">.datagrid-view>eq(2)");
+        var p = this.closest(".datagrid-wrap.panel-body"), dg = p.find(">.datagrid-view>:eq(2)");
         while (p.length && !$.data(dg[0], "datagrid")) {
             p = p.parent().closest(".datagrid-wrap.panel-body");
-            dg = p.find(">.datagrid-view>eq(2)");
+            dg = p.find(">.datagrid-view>:eq(2)");
         }
         return dg;
     };
 
     coreJquery.fn.currentPropertygrid = function () {
-        var p = this.closest(".datagrid-wrap.panel-body"), pg = p.find(">.datagrid-view>eq(2)");
+        var p = this.closest(".datagrid-wrap.panel-body"), pg = p.find(">.datagrid-view>:eq(2)");
         while (p.length && !$.data(pg[0], "propertygrid")) {
             p = p.parent().closest(".datagrid-wrap.panel-body");
-            pg = p.find(">.datagrid-view>eq(2)");
+            pg = p.find(">.datagrid-view>:eq(2)");
         }
         return pg;
     };
@@ -480,10 +480,10 @@
     };
 
     coreJquery.fn.currentTreegrid = function () {
-        var p = this.closest(".datagrid-wrap.panel-body"), tg = p.find(">.datagrid-view>eq(2)");
+        var p = this.closest(".datagrid-wrap.panel-body"), tg = p.find(">.datagrid-view>:eq(2)");
         while (p.length && !$.data(tg[0], "treegrid")) {
             p = p.parent().closest(".datagrid-wrap.panel-body");
-            tg = p.find(">.datagrid-view>eq(2)");
+            tg = p.find(">.datagrid-view>:eq(2)");
         }
         return tg;
     };

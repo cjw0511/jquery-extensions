@@ -31,10 +31,10 @@
 
 
     function initTabsPanelPaddingTopLine(target) {
-        var tabs = $.util.parseJquery(target), opts = tabs.tabs("options"), position = opts.tabPosition;
+        var t = $(target), opts = $.data(target, "tabs").options, position = opts.tabPosition;
         if ($.isNumeric(opts.lineHeight) && opts.lineHeight > 0) {
             if (!$.array.contains(["top", "bottom", "left", "right"], position)) { position = "top"; }
-            tabs.children("div.tabs-panels").css("padding-" + position, opts.lineHeight.toString() + "px").children().children().css("border-" + position + "-width", "1px");
+            t.children("div.tabs-panels").css("padding-" + position, opts.lineHeight.toString() + "px").children().children().css("border-" + position + "-width", "1px");
         }
     };
 
@@ -132,7 +132,7 @@
     var _updateTab = $.fn.tabs.methods.update;
     function updateTab(target, param) {
         param = $.extend({ tab: null, options: null }, param);
-        var tabs = $.util.parseJquery(target), opts = tabs.tabs("options"),
+        var tabs = $(target), opts = $.data(target, "tabs").options,
             index = tabs.tabs("getTabIndex", param.tab),
             panelOpts = $.union({}, param.options, $.fn.tabs.extensions.panelOptions),
             tools = panelOpts.tools,
@@ -159,7 +159,7 @@
                 }
             };
         if (panelOpts.refreshable) {
-            if ($.array.likeArray(panelOpts.tools)) {
+            if ($.util.likeArrayNotString(panelOpts.tools)) {
                 panelOpts.tools = $.array.merge([], panelOpts.tools, refreshButton);
             } else {
                 panelOpts.tools = [refreshButton];
@@ -171,7 +171,7 @@
                 panelOpts.onLoad = function () {
                     if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
                     $.util.exec(loading);
-                    $.util.parseJquery(this).panel("options").onLoad = onLoad;
+                    $(this).panel("options").onLoad = onLoad;
                 };
             }
         }

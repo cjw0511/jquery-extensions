@@ -3015,6 +3015,29 @@
 
 
 
+    //  禁用页面的 window.console 脚本功能；
+    //  返回值：无返回值。
+    coreUtil.disableConsole = function () {
+        try {
+            var _console = window.console;
+            if (Object.defineProperties) {
+                Object.defineProperties(window, "console", {
+                    get: function () {
+                        if (_console._commandLineAPI) {
+                            throw "抱歉, 为了用户安全, 本站已禁用 console 脚本功能";
+                        }
+                        return _console;
+                    },
+                    set: function (val) {
+                        return _console = val;
+                    }
+                });
+            }
+        } catch (e) { }
+    };
+
+
+
     //  下段代码提供 javascript 控制浏览器 进入/退出 全屏模式的 API。
     var fullScreen = {
         supports: false, eventName: "", prefix: "", prefixes: "webkit moz o ms khtml".split(" "),
