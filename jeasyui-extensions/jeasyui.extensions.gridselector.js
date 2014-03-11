@@ -30,20 +30,21 @@
     //  增加自定义扩展方法 $.easyui.showGridSelector；该方法弹出一个 easyui-datagrid 选择框窗口；该方法定义如下参数：
     //      options: 这是一个 JSON-Object 对象；
     //              具体格式参考 $.easyui.showDialog 方法的参数 options 的格式 和 easyui-datagrid 的初始化参数 options 的格式；
-    //              该参数格式在 $.easyui.showDialog 参数 options 格式基础上扩展了如下属性：
+    //              该参数格式在 $.easyui.showDialog 和 easyui-datagrid 参数 options 格式基础上扩展了如下属性：
+    //          extToolbar:
     //          selected:
-    //          onSelect:
+    //          onEnter :
     //  返回值：返回弹出窗口的 easyui-dialog 控件对象(jQuery-DOM 格式)。
     $.easyui.showGridSelector = function (options) {
         var opts = $.extend({
-            width: 580, minWidth: 580, height: 360, minHeight: 360,
-            title: "选择数据",
+            width: 580, height: 360, minWidth: 580, minHeight: 360,
+            title: "选择数据，" + (options.singleSelect ? "单选" : "多选"),
             iconCls: "icon-hamburg-zoom",
             maximizable: true,
             collapsible: true,
             selected: null,
             extToolbar: false,
-            onSelect: function (value) { }
+            onEnter: function (val) { }
         }, options);
         var value = opts.singleSelect ? opts.selected : ($.util.likeArrayNotString(opts.selected) ? opts.selected : (opts.selected ? [opts.selected] : [])),
             tempData = value ? ($.util.likeArrayNotString(value) ? $.array.clone(value) : value) : null,
@@ -55,37 +56,41 @@
                 enableApplyButton: false,
                 toolbar: "",
                 onSave: function () {
-                    if ($.isFunction(opts.onSelect)) { return opts.onSelect.call(dg[0], value); }
+                    if ($.isFunction(opts.onEnter)) { return opts.onEnter.call(dg[0], value); }
                 }
             }));
         $.util.exec(function () {
             var container = dia.find(".grid-selector-container"),
                 dgOpts = $.util.excludeProperties(opts, ["id", "width", "height", "left", "top", "cls", "bodyCls", "style", "content", "href"]),
-                refreshSelected = function () {
+                selectRow = function (row) {
+                    var tOpts = dg.datagrid("options"), idField = tOpts.idField;
+                    dg.datagrid("selectRecord", idField && row && row[idField] ? row[idField] : row);
+                },
+                refreshValue = function () {
                     var tOpts = dg.datagrid("options");
                     if (opts.singleSelect) {
                         var row = dg.datagrid("getSelected");
-                        value = row ? row[tOpts.idField] : null;
+                        value = row ? row : null;
                     } else {
-                        var rows = dg.datagrid("getSelections");
-                        value = $.array.map(rows, function (val) { return val[tOpts.idField]; });
+                        value = dg.datagrid("getSelections");
                     }
                 };
             dgOpts = $.extend({ striped: true, checkOnSelect: true, selectOnCheck: true, rownumbers: true }, dgOpts, {
                 noheader: true, fit: true, border: false, doSize: true,
-                onSelect: function (index, row) { refreshSelected(); },
-                onUnselect: function (index, row) { refreshSelected(); },
-                onSelectAll: function (rows) { refreshSelected(); },
-                onUnselectAll: function (rows) { refreshSelected(); },
+                onSelect: function (index, row) { refreshValue(); },
+                onUnselect: function (index, row) { refreshValue(); },
+                onSelectAll: function (rows) { refreshValue(); },
+                onUnselectAll: function (rows) { refreshValue(); },
                 onLoadSuccess: function (data) {
                     if (!tempData) { return; }
                     if ($.util.likeArrayNotString(tempData)) {
                         $.each(tempData, function (i, val) {
-                            dg.datagrid("selectRecord", val);
+                            selectRow(val);
                         });
                     } else {
-                        dg.datagrid("selectRecord", tempData);
+                        selectRow(tempData);
                     }
+                    refreshValue();
                 }
             });
             if ($.util.likeArrayNotString(opts.toolbar) && opts.extToolbar) {
@@ -103,7 +108,138 @@
         return dia;
     };
 
-    $.easyui.showDblGridSelector = function (options) { };
+    //  增加自定义扩展方法 $.easyui.showDblGridSelector；该方法弹出一个包含两个 easyui-datagrid 控件的选择框窗口；该方法定义如下参数：
+    //      options: 这是一个 JSON-Object 对象；
+    //              具体格式参考 $.easyui.showDialog 方法的参数 options 的格式 和 easyui-datagrid 的初始化参数 options 的格式；
+    //              该参数格式在 $.easyui.showDialog 和 easyui-datagrid 参数 options 格式基础上扩展了如下属性：
+    //          extToolbar:
+    //          centerWidth:
+    //          selected:
+    //          onEnter :
+    $.easyui.showDblGridSelector = function (options) {
+        var opts = $.extend({
+            width: 900, height: 580, minWidth: 600, minHeight: 480,
+            title: "选择数据，多选",
+            iconCls: "icon-hamburg-zoom",
+            maximizable: true,
+            collapsible: true,
+            selected: null,
+            centerWidth: 55,
+            extToolbar: false,
+            onEnter: function (value) { }
+        }, options);
+        var value = $.util.likeArrayNotString(opts.selected) ? opts.selected : (opts.selected ? [opts.selected] : []),
+            tempData = $.array.clone(value), dg = null,
+            dia = $.easyui.showDialog($.extend({}, opts, {
+                content: "<div class=\"grid-selector-container\"></div>",
+                saveButtonText: "确定",
+                saveButtonIconCls: "icon-ok",
+                enableApplyButton: false,
+                toolbar: opts.extToolbar ? "" : opts.toolbar,
+                onSave: function () {
+                    if ($.isFunction(opts.onEnter)) { return opts.onEnter.call(dg[0], value); }
+                }
+            }));
+        $.util.exec(function () {
+            var diaOpts = dia.dialog("options"), onResize = diaOpts.onResize,
+                container = dia.find(".grid-selector-container"), northPanel = null, width = (opts.width - opts.centerWidth) / 2,
+                leftPanel = $("<div data-options=\"region: 'west', split: false, border: false\"></div>").width(width).appendTo(container),
+                centerPanel = $("<div data-options=\"region: 'center', border: true, bodyCls: 'grid-selector-buttons'\"></div>").appendTo(container),
+                rightPanel = $("<div data-options=\"region: 'east', split: false, border: false\"></div>").width(width).appendTo(container),
+                dgOpts = $.util.excludeProperties(opts, ["id", "width", "height", "left", "top", "cls", "bodyCls", "style", "content", "href"]),
+                dgOpts1 = $.extend({ striped: true, checkOnSelect: true, selectOnCheck: true, rownumbers: true }, dgOpts, {
+                    singleSelect: false, title: "待选择项", toolbar: "", fit: true, border: false, doSize: true,
+                    noheader: false, iconCls: null, collapsible: false, minimizable: false, maximizable: false, closable: false,
+                    rowContextMenu: [
+                        { text: "选择该行", iconCls: null, handler: function (e, index, row) { selectRow(row); refreshValue(); } }, "-",
+                        { text: "选择全部", iconCls: null, handler: function (e, index, row) { btn1.trigger("click"); } },
+                        { text: "选择勾选部分", iconCls: null, handler: function (e, index, row) { btn2.trigger("click"); } }
+                    ]
+                }),
+                dgOpts2 = $.extend({}, dgOpts1, {
+                    url: null, queryParams: {}, remoteSort: false, pargination: false, title: "已选择项", iconCls: null,
+                    rowContextMenu: [
+                        { text: "取消该行", iconCls: null, handler: function (e, index, row) { unselectRow(row); refreshValue(); } }, "-",
+                        { text: "取消全部", iconCls: null, handler: function (e, index, row) { btn4.trigger("click"); } },
+                        { text: "取消勾选部分", iconCls: null, handler: function (e, index, row) { btn3.trigger("click"); } }
+                    ]
+                }),
+                dg1 = $("<table></table>").appendTo(leftPanel),
+                dg2 = dg = $("<table></table>").appendTo(rightPanel),
+                btn1 = $("<a data-options=\"plain: true, iconCls: 'pagination-last'\"></a>").linkbutton().tooltip({ content: "选择全部" }).appendTo(centerPanel).click(function () {
+                    var rows = dg1.datagrid("getRows"), data = $.array.clone(rows);
+                    $.each(data, function (i, val) { selectRow(val); });
+                    dg1.datagrid("unselectAll");
+                    refreshValue();
+                }),
+                btn2 = $("<a data-options=\"plain: true, iconCls: 'pagination-next'\"></a>").linkbutton().tooltip({ content: "选择勾选部分" }).appendTo(centerPanel).click(function () {
+                    var rows = dg1.datagrid("getSelections"), data = $.array.clone(rows);
+                    $.each(data, function (i, val) { selectRow(val); });
+                    dg1.datagrid("unselectAll");
+                    refreshValue();
+                }),
+                btn3 = $("<a data-options=\"plain: true, iconCls: 'pagination-prev'\"></a>").linkbutton().tooltip({ content: "取消勾选部分" }).appendTo(centerPanel).click(function () {
+                    var rows = dg2.datagrid("getSelections"), data = $.array.clone(rows);
+                    $.each(data, function (i, val) { unselectRow(val); });
+                    dg2.datagrid("unselectAll");
+                    refreshValue();
+                }),
+                btn4 = $("<a data-options=\"plain: true, iconCls: 'pagination-first'\"></a>").linkbutton().tooltip({ content: "取消全部" }).appendTo(centerPanel).click(function () {
+                    var rows = dg2.datagrid("getRows"), data = $.array.clone(rows);
+                    $.each(data, function (i, val) { unselectRow(val); });
+                    dg2.datagrid("unselectAll");
+                    refreshValue();
+                }),
+                selectRow = function (row) {
+                    if (!row) { return; }
+                    var tOpts = dg2.datagrid("options"), idField = tOpts.idField;
+                    if (!row[idField]) {
+                        var rows = dg1.datagrid("getRows"), index = dg1.datagrid("getRowIndex", row);
+                        if (index > -1) { row = rows[index]; }
+                    }
+                    var isExists = dg2.datagrid("getRowIndex", row[idField] ? row[idField] : row) > -1;
+                    if (!isExists) { dg2.datagrid("appendRow", row); }
+                },
+                unselectRow = function (row) {
+                    if (!row) { return; }
+                    var index = dg2.datagrid("getRowIndex", row);
+                    if (index > -1) { dg2.datagrid("deleteRow", index); }
+                },
+                refreshValue = function () {
+                    var rows = dg2.datagrid("getRows");
+                    value = $.array.clone(rows);
+                };
+            diaOpts.onResize = function (w, h) {
+                if ($.isFunction(onResize)) { onResize.apply(this, arguments); }
+                $.util.exec(function () {
+                    var ww = (dia.panel("options").width - diaOpts.centerWidth) / 2;
+                    leftPanel.panel("resize", { width: ww });
+                    rightPanel.panel("resize", { width: ww });
+                    container.layout("resize");
+                });
+            };
+            if (opts.extToolbar && opts.toolbar) {
+                northPanel = $("<div data-options=\"region: 'north', split: false, border: false\"></div>").appendTo(container);
+                $("<div class=\"grid-selector-toolbar\"></div>").appendTo(northPanel).toolbar({ data: opts.toolbar });;
+            }
+            dg1.datagrid(dgOpts1);
+            dg2.datagrid(dgOpts2);
+
+            dgOpts1 = dg1.datagrid("options"), onLoadSuccess = dgOpts1.onLoadSuccess, init = false,
+            dgOpts1.onLoadSuccess = function () {
+                if ($.isFunction(onLoadSuccess)) { onLoadSuccess.apply(this, arguments); }
+                if (!init) {
+                    $.each(tempData, function (i, val) { selectRow(val); });
+                    refreshValue();
+                    init = true;
+                }
+            };
+
+            container.layout({ fit: true });
+        });
+        return dia;
+    };
+
 
     $.easyui.showTreeSelector = function (options) { };
 
@@ -115,6 +251,12 @@
 
 
 
+
+    var css =
+        ".grid-selector-buttons { border-top-width: 0px; border-bottom-width: 0px; text-align: center; background-color: #efefef; padding-top: 50px; }" +
+        ".grid-selector-buttons a { margin: 5px 0px 5px 0px; }"
+        ;
+    $.util.addCss(css);
 
 
 })(jQuery);

@@ -32,6 +32,14 @@
             });
 
             $("#btn6").click(function () { t.toolbar("load"); });
+
+            $("#btn7").click(function () { t.toolbar("setItemFocus", 0); });
+
+            $("#btn8").click(function () { t.toolbar("setItemFocus", 1); });
+
+            $("#btn9").click(function () { t.toolbar("setItemFocus", 8); });
+
+            $("#btn10").click(function () { t.toolbar("setItemFocus", 9); });
         });
     </script>
 
@@ -45,5 +53,26 @@
     <input id="btn5" type="button" value="重新加载数据" />
     <input id="btn6" type="button" value="重新加载远程数据" />
     <hr />
+    <input id="btn7" type="button" value="setItemFocus 0" />
+    <input id="btn8" type="button" value="setItemFocus 1" />
+    <input id="btn9" type="button" value="setItemFocus 8" />
+    <input id="btn10" type="button" value="setItemFocus 9" />
+    <hr />
     <div id="tt"></div>
+    <div class="easyui-toolbar">
+        <input class="easyui-validatebox" data-options="prompt: '拟定企业名称'" style="width: 100px;" />
+        <span>-</span>
+        <input class="easyui-validatebox" data-options="prompt: '企业类型'" style="width: 100px;" />
+        <span>-</span>
+        <input class="easyui-validatebox" data-options="prompt: '法人'" style="width: 100px;" />
+        <span>-</span>
+        <input class="easyui-datebox" data-options="prompt: '核查有效期', width: 100" />
+        <span>-</span>
+        <label>
+            <input type="checkbox" />
+            <span>选择我</span>
+        </label>
+        <span>-</span>
+        <span>asdfasdfasdf</span>
+    </div>
 </div>

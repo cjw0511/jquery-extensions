@@ -16,9 +16,10 @@
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
-*   3、jeasyui.extensions.menu.js v1.0 beta late
-*   4、jeasyui.extensions.panel.js v1.0 beta late
-*   5、jeasyui.extensions.window.js v1.0 beta late
+*   3、jeasyui.extensions.linkbutton.js v1.0 beta late
+*   4、jeasyui.extensions.menu.js v1.0 beta late
+*   5、jeasyui.extensions.panel.js v1.0 beta late
+*   6、jeasyui.extensions.window.js v1.0 beta late
 *
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -120,7 +121,7 @@
         if (opts.enableCloseButton == true) { buttons.push(btnClose); }
         if (opts.enableApplyButton == true) { buttons.push(btnApply); }
 
-        if (!$.util.likeArray(opts.buttons) || $.util.isString(opts.buttons)) { opts.buttons = []; }
+        if (!$.util.likeArrayNotString(opts.buttons)) { opts.buttons = []; }
         $.array.merge(opts.buttons, buttons);
         $.each(opts.buttons, function (i, btn) {
             var handler = btn.handler;
@@ -185,6 +186,8 @@
     //          saveButtonIconCls:
     //          applyButtonIconCls:
     //          closeButtonIconCls:
+    //          buttonsPlain:
+    //      另，重写 easyui-dialog 官方 api 的 buttons 属性，使其不支持 String-jQuerySelector 格式
     //  备注：
     //  返回值：返回弹出的 easyui-dialog 的 jQuery 对象。
     $.easyui.showDialog = function (options) {
@@ -386,8 +389,8 @@
 
 
     var css =
-        "div.dialog-button.calendar-header a.l-btn-plain { border: 1px solid #C1C1C1; -moz-border-radius: 0px; -webkit-border-radius: 0px; }" +
-        "div.dialog-button.calendar-header a:hover.l-btn-plain { -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; }" +
+        "div.dialog-button.calendar-header a.l-btn-plain { border: 1px solid #C1C1C1; border-radius: 0px; }" +
+        "div.dialog-button.calendar-header a:hover.l-btn-plain { border-radius: 0px; }" +
         "div.dialog-button.calendar-header a.l-btn-plain { padding: 0 5px 0 0; }";
     $.util.addCss(css);
 

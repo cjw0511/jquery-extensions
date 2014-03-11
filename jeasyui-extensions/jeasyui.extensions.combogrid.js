@@ -61,7 +61,12 @@
                 setValue: function (target, value) {
                     $.util.parseJquery(target).combogrid($.isArray(value) ? "setValues" : "setValue", value);
                 },
-                resize: function (target, width) { $(target).combogrid("resize"); }
+                resize: function (target, width) {
+                    $(target).combogrid("resize");
+                },
+                setFocus: function (target) {
+                    $(target).combogrid("textbox").focus();
+                }
             }
         });
     }

@@ -63,6 +63,32 @@
         if ($.isFunction(opts.onInsertRow)) { opts.onInsertRow.call(target, param.index, param.row); }
     };
 
+
+    var _beginEdit = $.fn.datagrid.methods.beginEdit;
+    var beginEdit = function (target, index) {
+        var t = $(target), opts = t.datagrid("options"), ret = _beginEdit.call(t, t, index);
+        if (opts.autoFocusField) {
+            var editors = t.datagrid("getEditors", index);
+            if (editors.length) {
+                var editor = $.array.first(editors, function (val) { return val.field == opts.autoFocusField; });
+                if (!editor) { editor = editors[0]; }
+                if (editor) {
+                    $.util.exec(function () {
+                        if (editor.actions && $.isFunction(editor.actions.setFocus)) {
+                            editor.actions.setFocus(editor.target[0]);
+                        } else {
+                            editor.target.focus();
+                        }
+                    });
+                }
+            }
+        }
+        return ret;
+    };
+
+
+
+
     var isChecked = function (target, index) {
         var t = $.util.parseJquery(target), rows = t.datagrid("getChecked"),
             list = $.array.map(rows, function (val) { return t.datagrid("getRowIndex", val); });
@@ -555,7 +581,7 @@
 
     var _getColumnFields = $.fn.datagrid.methods.getColumnFields;
     var getColumnFields = function (target, frozen) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if (frozen == null || frozen == undefined || $.util.isBoolean(frozen)) { return _getColumnFields.call(t, t, frozen); }
         if ($.util.isString(frozen)) {
             return $.array.merge([], _getColumnFields.call(t, t, true), _getColumnFields.call(t, t, false));
@@ -579,7 +605,7 @@
     };
 
     var getColumns = function (target, frozen) {
-        var t = $.util.parseJquery(target), fields = getColumnFields(target, frozen);
+        var t = $(target), fields = getColumnFields(target, frozen);
         return $.array.map(fields, function (val) { return t.datagrid("getColumnOption", val); });
     };
 
@@ -760,19 +786,12 @@
     /************************  initExtend Methods   End  ************************/
 
 
-    var initColumnExtendProperty = $.fn.datagrid.extensions.initColumnExtendProperty = function (colOpts) {
-        if (colOpts.tooltip == null || colOpts.tooltip == undefined) { colOpts.tooltip = false; }
-        if (colOpts.filterable == null || colOpts.filterable == undefined || !$.util.isBoolean(colOpts.filterable)) { colOpts.filterable = true; }
-        if (colOpts.hidable == null || colOpts.hidable == undefined || !$.util.isBoolean(colOpts.hidable)) { colOpts.hidable = true; }
-        if (colOpts.filter == null || colOpts.filter == undefined || !$.util.isString(colOpts.filter)) { colOpts.filter = "checkbox"; }
-        if (colOpts.precision == null || colOpts.precision == undefined || !$.isNumeric(colOpts.precision)) { colOpts.precision = 1; }
-        if (colOpts.step == null || colOpts.step == undefined || !$.isNumeric(colOpts.step)) { colOpts.step = 1; }
-    };
-
     var initColumnExtendProperties = $.fn.datagrid.extensions.initColumnExtendProperties = function (t, exts) {
         if (exts._initializedExtendProperties) { return; }
         var cols = t.datagrid("getColumns", "all");
-        $.each(cols, function () { initColumnExtendProperty(this); });
+        $.each(cols, function (i, n) {
+            $.union(n, $.fn.datagrid.extensions.columnOptions);
+        });
         exts._initializedExtendProperties = true;
     };
 
@@ -1227,7 +1246,7 @@
                     onClose: function () { $.util.parseJquery(this).dialog("destroy"); }
                 }).dialog("open");
             };
-            $.array.merge(mm, ["-", { text: "处理更多(共" + distinctVals.length + "项)...", iconCls: "icon-standard-application-view-detail", handler: handler}]);
+            $.array.merge(mm, ["-", { text: "处理更多(共" + distinctVals.length + "项)...", iconCls: "icon-standard-application-view-detail", handler: handler }]);
         }
         return mm;
     };
@@ -1262,10 +1281,11 @@
         var m6 = { text: "移至最上", iconCls: "icon-standard-arrow-up", disabled: !(move == true || move.top == true), handler: function () { t.datagrid("moveRow", { source: rowIndex, target: 0, point: "top" }); } };
         var m7 = { text: "上移", iconCls: "icon-standard-up", disabled: !(move == true || move.up == true), handler: function () { t.datagrid("shiftRow", { point: "up", index: rowIndex }); } };
         var m8 = { text: "下移", iconCls: "icon-standard-down", disabled: !(move == true || move.down == true), handler: function () { t.datagrid("shiftRow", { point: "down", index: rowIndex }); } };
-        var m9 = { text: "移至最下", iconCls: "icon-standard-arrow-down", disabled: !(move == true || move.bottom == true), handler: function () {
-            var rows = t.datagrid("getRows");
-            t.datagrid("moveRow", { source: rowIndex, target: rows.length - 1, point: "bottom" });
-        }
+        var m9 = {
+            text: "移至最下", iconCls: "icon-standard-arrow-down", disabled: !(move == true || move.bottom == true), handler: function () {
+                var rows = t.datagrid("getRows");
+                t.datagrid("moveRow", { source: rowIndex, target: rows.length - 1, point: "bottom" });
+            }
         };
         var m10 = { text: "导出当前页", iconCls: "icon-standard-page-white-put", disabled: !(exp == true || exp.current == true), handler: function () { return t.datagrid("exportExcel", false); } };
         var m11 = { text: "导出全部", iconCls: "icon-standard-page-white-stack", disabled: !(exp == true || exp.all == true), handler: function () { return t.datagrid("exportExcel", true); } };
@@ -1369,7 +1389,7 @@
             });
         }
         function buildText(row) {
-            var cols = t.datagrid("getColumns", "all"), content = $("<table></table>").css({ padding: "5px" }); ;
+            var cols = t.datagrid("getColumns", "all"), content = $("<table></table>").css({ padding: "5px" });;
             $.each(cols, function (i, colOpts) {
                 if (!colOpts || !colOpts.field || !colOpts.title) { return; }
                 var msg = t.datagrid("getCellDisplay", { field: colOpts.field, index: index });
@@ -1488,7 +1508,7 @@
     };
 
     var loadFilter = function (data) {
-        return data ? ($.isArray(data) ? { total: data.length, rows: data} : data) : { total: 0, rows: [] };
+        return data ? ($.isArray(data) ? { total: data.length, rows: data } : data) : { total: 0, rows: [] };
     };
 
     var _onLoadSuccess = $.fn.datagrid.defaults.onLoadSuccess;
@@ -1558,6 +1578,9 @@
 
         //  覆盖 easyui-datagrid 的原生方法，以支持相应属性、事件和扩展功能；
         insertRow: function (jq, param) { return jq.each(function () { insertRow(this, param); }); },
+
+        //  覆盖 easyui-datagrid 的原生方法，以支持相应属性、事件和扩展功能；
+        beginEdit: function (jq, index) { return jq.each(function () { beginEdit(this, index); }); },
 
         //  扩展 easyui-datagrid 的自定义方法；判断指定的 data-row(数据行) 是否被 check；该方法的参数 index 表示要判断的行的索引号，从 0 开始计数；
         //  返回值：如果参数 index 所表示的 data-row(数据行) 被 check，则返回 true，否则返回 false。
@@ -2024,7 +2047,7 @@
         //          disabled:   Boolean 类型值，表示是否禁用右键菜单中的“翻页”菜单项功能，默认为 false；
         //          submenu:    表示这四个菜单项是否以子菜单方式呈现，默认为 true；
         //  备注：当 enableRowContextMenu 属性设置为 true 时，该属性才有效。
-        pagingMenu: false,
+        pagingMenu: { submenu: false },
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否启用右键菜单中的“刷新当前页”菜单项的功能；
         //  Boolean 类型值，默认为 true。
@@ -2053,6 +2076,19 @@
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否在一个时刻只允许一行数据开启编辑状态(当某行数据开启编辑状态时，其他正在编辑的行将会被自动执行 endEdit 操作)；
         //  Boolean 类型值，默认为 true。
         singleEditing: true,
+
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示在对某行执行 beginEdit 后，是否让特定字段的编辑器对象自动获取输入焦点；
+        //  该属性可以为 Boolean（默认，true） 类型或者 String 类型值；
+        //  如果是 Boolean 类型，则表示是否启用编辑器对象自动获取焦点功能，在值为 true 的情况下该行的第一个编辑器对象将在 beginEdit 操作后自动获取焦点；
+        //  如果是 String 类型，其值表示指定的 field 名称，则表示启用该功能并且指定的 field 将在 beginEdit 操作后自动获取焦点。
+        autoFocusField: true,
+
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示 easyui-datagrid 的数据行在可编辑状态下，当正在进行编辑操作时按下 Enter 键是否对当前行执行 endEdit 操作并对下一行执行 beginEdit 操作。
+        //  Boolean 类型值，默认为 true。
+        autoWrapEdit: true,
+
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示 easyui-datagrid 的数据行在可编辑状态下，当按下 ESC 键时自动执行 cancelEdit 操作。
+        cancelEditOnEsc: true,
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示当前表格的列过滤器设置参数；该参数是一个 JSON 格式的对象，该对象定义如下属性：
         //      panelHeight: 列过滤器控件面板的高度，默认为 100，该值最小为 60；
@@ -2254,9 +2290,55 @@
     //
     //  备注： 当 filterable 的值设置为 true 时，参数 filter 方有效；
     //         当 filterable 的值设置为 true 且 filter 的值为 "caps" 或 "lower" 时，参数 precision 和 step 方有效。
+    var columnOptions = $.fn.datagrid.extensions.columnOptions = {
+        tootip: false,
+        filterable: true,
+        hidable: true,
+        filter: "checkbox",
+        precision: 1,
+        step: 1
+    };
+
 
     $.extend($.fn.datagrid.defaults, defaults);
     $.extend($.fn.datagrid.methods, methods);
+
+
+    $.extend($.fn.datagrid.defaults.editors.datebox, { setFocus: function (target) { $(target).datebox("textbox").focus(); } });
+    $.extend($.fn.datagrid.defaults.editors.combobox, { setFocus: function (target) { $(target).combobox("textbox").focus(); } });
+    $.extend($.fn.datagrid.defaults.editors.combotree, { setFocus: function (target) { $(target).combotree("textbox").focus(); } });
+
+
+
+    $(document).on("keydown", "div.datagrid div.datagrid-editable input.datagrid-editable-input", function (e) {
+        switch (e.which) {
+            case 13:
+                autoNextRowEdit();
+                break;
+            case 27:
+                autoCancelEdit();
+                break;
+            default: break;
+        }
+        function autoNextRowEdit() {
+            var input = $(e.target), t = input.currentDatagrid(), opts = t.datagrid("options"), isTg = $.data(t[0], "treegrid") ? true : false;
+            if (!opts.autoWrapEdit || isTg) { return; }
+            var rows = t.datagrid("getRows");
+            if (!rows || !rows.length) { return; }
+            var len = rows.length, field = input.closest("td[field]").attr("field"),
+                index = window.parseInt(input.closest("tr[datagrid-row-index]").attr("datagrid-row-index"));
+            t.datagrid("endEdit", index);
+            if (index < len - 1) { t.datagrid("beginEdit", index + 1); }
+        }
+        function autoCancelEdit() {
+            var input = $(e.target), t = input.currentDatagrid(), opts = t.datagrid("options"), isTg = $.data(t[0], "treegrid") ? true : false;
+            if (!opts.cancelEditOnEsc || isTg) { return; }
+            var index = window.parseInt(input.closest("tr[datagrid-row-index]").attr("datagrid-row-index"));
+            t.datagrid("cancelEdit", index);
+        }
+    });
+
+
 
     //  增加扩展插件中要用到的自定义样式
     var css =

@@ -1,47 +1,66 @@
 ﻿<div>
 
-<h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [26,27,28]" >
-    
-    $(function () {
-        $("#t1").datagrid({
-            title: 'test datagrid',
-            width: 1200,
-            height: 400,
-            method: "get",
-            url: "datagrid/datagrid-data.json",
-            idField: 'ID',
-            remoteSort: false,
-            frozenColumns: [[
-                { field: 'ck', checkbox: true },
-                { field: 'ID', title: 'ID', width: 80, sortable: true }
-            ]],
-            columns: [[
-                { field: 'Code', title: '编号(Code)', width: 120, editor: "text" },
-                { field: 'Name', title: '名称(Name)', width: 140, editor: "text" },
-                { field: 'Age', title: '年龄(Age)', width: 120, editor: "text" },
-                { field: 'Height', title: '身高(Height)', width: 140, editor: "text" },
-                { field: 'Weight', title: '体重(Weight)', width: 140, editor: "text" },
-                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180 },
-                { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
-            ]],
-            pagination: true,
-            //enableHeaderClickMenu: false,
-            //enableHeaderContextMenu: false,
-            //enableRowContextMenu: false,
-            autoEditing: true,          //该属性启用双击行时自定开启该行的编辑状态
-            extEditing: true,           //该属性启用行编辑状态的 ExtEditing 风格效果，该属性默认为 true。
-            singleEditing: true         //该属性启用datagrid的只允许单行编辑效果，该属性默认为 true。
-        });
-    });
+    <h2>JavaScript 代码：</h2>
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [26,27,28]">
 
-</textarea>
-<h2>HTML 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
-    
-    <table id="t1"></table> 
+            $(function () {
+                var t = $("#t1").datagrid({
+                    title: 'test datagrid',
+                    width: 1200,
+                    height: 400,
+                    method: "get",
+                    url: "datagrid/datagrid-data.json",
+                    idField: 'ID',
+                    remoteSort: false,
+                    frozenColumns: [[
+                        { field: 'ck', checkbox: true },
+                        { field: 'ID', title: 'ID', width: 80, sortable: true }
+                    ]],
+                    columns: [[
+                        { field: 'Code', title: '编号(Code)', width: 120, editor: "text" },
+                        { field: 'Name', title: '名称(Name)', width: 140, editor: "text" },
+                        { field: 'Age', title: '年龄(Age)', width: 120, editor: "text" },
+                        { field: 'Height', title: '身高(Height)', width: 140, editor: "text" },
+                        { field: 'Weight', title: '体重(Weight)', width: 140, editor: "text" },
+                        { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180 },
+                        { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
+                    ]],
+                    rowContextMenu: [
+                        { text: "编辑", iconCls: "icon-edit", handler: function (e, index) { t.datagrid("beginEdit", index); } }
+                    ],
+                    pagination: true,
+                    //enableHeaderClickMenu: false,
+                    //enableHeaderContextMenu: false,
+                    //enableRowContextMenu: false,
+                    autoEditing: true,          //该属性启用双击行时自定开启该行的编辑状态
+                    extEditing: true,           //该属性启用行编辑状态的 ExtEditing 风格效果，该属性默认为 true。
+                    singleEditing: true         //该属性启用datagrid的只允许单行编辑效果，该属性默认为 true。
+                });
 
-</textarea>
+
+
+                $(document).on("keydown", "div.datagrid div.datagrid-editable input.datagrid-editable-input", function (e) {
+                    if (e.which == 13) {
+                        var input = $(this), field = input.closest("td[field]").attr("field"),
+                            index = input.closest("tr[datagrid-row-index]").attr("datagrid-row-index").toNumber(), len = t.datagrid("getRows").length;
+                        t.datagrid("endEdit", index);
+                        if (index < len - 1) {
+                            t.datagrid("beginEdit", index + 1);
+                            $.util.exec(function () {
+                                t.datagrid("getCellDom", { index: index + 1, field: field }).find("input.datagrid-editable-input").focus();
+                            });
+                        }
+                    }
+                });
+            });
+
+    </textarea>
+    <h2>HTML 代码：</h2>
+    <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []">
+
+        <table id="t1"></table>
+
+    </textarea>
 
 
 </div>
