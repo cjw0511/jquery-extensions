@@ -10,5 +10,6 @@
     { "type": "datebox", "options": { "width": 100, "value": "1989-05-11" } },
     "年龄2：",
     { "type": "numberspinner", "options": { "width": 100, "value": 20, "min": 10, "max": 30, "disabled": true } },
-    { "type": "button", "options": { "text": "测试按钮1", "iconCls": "icon-edit", "onclick": "function (t) { alert($(this).linkbutton(\"options\").text); }" } }
+    { "type": "button", "options": { "text": "测试按钮1", "iconCls": "icon-edit", "onclick": "function (t) { alert($(this).linkbutton(\"options\").text); }" } },
+    { "type": "searchbox", "options": { "width": 100, "value": "xxoo", "prompt": "请输入插件内容", "disabled": false, "searcher": "function (val, name) { $.easyui.messager.show('您输入的内容为 val:' + val + ', name: ' + name); }" } }
 ]

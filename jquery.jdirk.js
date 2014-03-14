@@ -1041,6 +1041,7 @@
 
     //  将字符串对象转换成 函数(function) 值
     coreString.toFunction = function (str) {
+        if (coreUtil.isFunction(str)) { return str; }
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
         str = coreString.trim(str);
         if (!str.startsWith("function")) { str = "function(){" + str + "}"; }

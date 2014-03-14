@@ -208,13 +208,13 @@
         options = options || "无数据显示。";
         dialogOption = dialogOption || {};
         var opts = $.extend({ topMost: $.easyui.showDialog.defaults.topMost }, dialogOption), jq = opts.topMost ? $.util.$ : $;
-        var content = jq("<table></table>").css({ padding: "10px", width: "100%" }), type = jq.type(options);
+        var content = jq("<table class=\"dialog-options-body\" ></table>"), type = jq.type(options);
         if ($.array.contains(["array", "object", "function"], type)) {
             for (var key in options) {
-                content.append("<tr><td style='text-align: right; width: 100px;'>" + key + ":</td><td>" + options[key] + "</td></tr>");
+                content.append("<tr class=\"dialog-options-row\"><td class=\"dialog-options-cell\">" + key + ":</td><td class=\"dialog-options-cell-content\">" + options[key] + "</td></tr>");
             }
         } else {
-            content.append("<tr><td style='text-align: right; width: 100px;'>options:</td><td>" + String(options) + "</td></tr>");
+            content.append("<tr class=\"dialog-options-row\"><td class=\"dialog-options-cell\">options:</td><td class=\"dialog-options-cell-content\">" + String(options) + "</td></tr>");
         }
         $.extend(opts, {
             title: "显示 options 值",
@@ -391,7 +391,13 @@
     var css =
         "div.dialog-button.calendar-header a.l-btn-plain { border: 1px solid #C1C1C1; border-radius: 0px; }" +
         "div.dialog-button.calendar-header a:hover.l-btn-plain { border-radius: 0px; }" +
-        "div.dialog-button.calendar-header a.l-btn-plain { padding: 0 5px 0 0; }";
+        "div.dialog-button.calendar-header a.l-btn-plain { padding: 0 5px 0 0; }" +
+        ".dialog-options-body { padding: 10px; width: 100%; }" +
+        ".dialog-options-row { }" +
+        ".dialog-options-cell { text-align: right; width: 100px; }" +
+        ".dialog-options-cell-content { text-align: left; }" +
+        ""
+    ;
     $.util.addCss(css);
 
 })(jQuery);

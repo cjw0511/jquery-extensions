@@ -1408,15 +1408,12 @@
         var view = t.datagrid("getPanel").find("div.datagrid-view"),
             view1 = view.find("div.datagrid-view1"),
             view2 = view.find("div.datagrid-view2"),
-            body = view2.find("div.datagrid-body"),
-            width = view1.outerWidth(), pos = view.position(),
-            left = diff > 0 ? diff : 0;
-        body.css("position", "relative");
-        var height = tr.outerHeight(),
-            top = tr.position().top + height + body.scrollTop() - view2.find("div.datagrid-header").outerHeight();
-        var p = $("<div></div>").addClass("dialog-button datagrid-rowediting-panel").appendTo(body).css("top", top).attr("datagrid-row-index", index);
-        $("<a></a>").linkbutton({ plain: false, iconCls: "icon-ok", text: "保存" }).appendTo(p).click(function () { t.datagrid("endEdit", index); });
-        $("<a></a>").linkbutton({ plain: false, iconCls: "icon-cancel", text: "取消" }).appendTo(p).click(function () { t.datagrid("cancelEdit", index); });
+            body = view2.find("div.datagrid-body").css("position", "relative"),
+            width = view1.outerWidth(), height = tr.outerHeight(), pos = tr.position(),
+            top = pos.top + height + body.scrollTop() - view2.find("div.datagrid-header").outerHeight();
+        var p = $("<div class=\"dialog-button datagrid-rowediting-panel\"></div>").appendTo(body).css("top", top).attr("datagrid-row-index", index);
+        $("<a></a>").appendTo(p).linkbutton({ plain: false, iconCls: "icon-ok", text: "保存" }).click(function () { t.datagrid("endEdit", index); });
+        $("<a></a>").appendTo(p).linkbutton({ plain: false, iconCls: "icon-cancel", text: "取消" }).click(function () { t.datagrid("cancelEdit", index); });
         var diff = (opts.width - p.outerWidth()) / 2 - width, left = diff > 0 ? diff : 0;
         p.css("left", left);
     };
@@ -2061,7 +2058,7 @@
         //  该属性可以是一个 Boolean 类型值；也可以是一个格式为 function(rowIndex, rowData) 的回调函数；
         //  如果该参数是一个回调函数，则表示启用行数据的 tooltip 功能，并且该函数的返回值为 tooltip 的 content 值。
         //  默认为 Boolean 类型，值为 false。
-        //  注意：当启用该配置属性后，所有列的 tootip 属性就会自动失效。
+        //  注意：当启用该配置属性后，所有列的 tooltip 属性就会自动失效。
         rowTooltip: false,
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示在触发 beginEdit 事件后，是否构建仿 ext-grid-rowediting 行编辑的“保存”和“取消”按钮面板；
@@ -2291,7 +2288,7 @@
     //  备注： 当 filterable 的值设置为 true 时，参数 filter 方有效；
     //         当 filterable 的值设置为 true 且 filter 的值为 "caps" 或 "lower" 时，参数 precision 和 step 方有效。
     var columnOptions = $.fn.datagrid.extensions.columnOptions = {
-        tootip: false,
+        tooltip: false,
         filterable: true,
         hidable: true,
         filter: "checkbox",
@@ -2312,12 +2309,8 @@
 
     $(document).on("keydown", "div.datagrid div.datagrid-editable input.datagrid-editable-input", function (e) {
         switch (e.which) {
-            case 13:
-                autoNextRowEdit();
-                break;
-            case 27:
-                autoCancelEdit();
-                break;
+            case 13: autoNextRowEdit(); break;
+            case 27: autoCancelEdit(); break;
             default: break;
         }
         function autoNextRowEdit() {

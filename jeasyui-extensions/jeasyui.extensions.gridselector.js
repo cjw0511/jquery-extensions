@@ -36,6 +36,7 @@
     //          onEnter :
     //  返回值：返回弹出窗口的 easyui-dialog 控件对象(jQuery-DOM 格式)。
     $.easyui.showGridSelector = function (options) {
+        if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showGridSelector.apply(this, arguments); }
         var opts = $.extend({
             width: 580, height: 360, minWidth: 580, minHeight: 360,
             title: "选择数据，" + (options.singleSelect ? "单选" : "多选"),
@@ -117,6 +118,7 @@
     //          selected:
     //          onEnter :
     $.easyui.showDblGridSelector = function (options) {
+        if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showDblGridSelector.apply(this, arguments); }
         var opts = $.extend({
             width: 900, height: 580, minWidth: 600, minHeight: 480,
             title: "选择数据，多选",
@@ -157,7 +159,7 @@
                     ]
                 }),
                 dgOpts2 = $.extend({}, dgOpts1, {
-                    url: null, queryParams: {}, remoteSort: false, pargination: false, title: "已选择项", iconCls: null,
+                    url: null, queryParams: {}, remoteSort: false, pagination: false, title: "已选择项", iconCls: null,
                     rowContextMenu: [
                         { text: "取消该行", iconCls: null, handler: function (e, index, row) { unselectRow(row); refreshValue(); } }, "-",
                         { text: "取消全部", iconCls: null, handler: function (e, index, row) { btn4.trigger("click"); } },
@@ -174,12 +176,14 @@
                 }),
                 btn2 = $("<a data-options=\"plain: true, iconCls: 'pagination-next'\"></a>").linkbutton().tooltip({ content: "选择勾选部分" }).appendTo(centerPanel).click(function () {
                     var rows = dg1.datagrid("getSelections"), data = $.array.clone(rows);
+                    if (!data.length) { return $.easyui.messager.show("您未选择任何数据。"); }
                     $.each(data, function (i, val) { selectRow(val); });
                     dg1.datagrid("unselectAll");
                     refreshValue();
                 }),
                 btn3 = $("<a data-options=\"plain: true, iconCls: 'pagination-prev'\"></a>").linkbutton().tooltip({ content: "取消勾选部分" }).appendTo(centerPanel).click(function () {
                     var rows = dg2.datagrid("getSelections"), data = $.array.clone(rows);
+                    if (!data.length) { return $.easyui.messager.show("您未选择任何数据。"); }
                     $.each(data, function (i, val) { unselectRow(val); });
                     dg2.datagrid("unselectAll");
                     refreshValue();
@@ -241,13 +245,21 @@
     };
 
 
-    $.easyui.showTreeSelector = function (options) { };
+    $.easyui.showTreeSelector = function (options) {
+        if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showTreeSelector.apply(this, arguments); }
+    };
 
-    $.easyui.showDblTreeSelector = function (options) { };
+    $.easyui.showDblTreeSelector = function (options) {
+        if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showDblTreeSelector.apply(this, arguments); }
+    };
 
-    $.easyui.showTreeGridSelector = function (options) { };
+    $.easyui.showTreeGridSelector = function (options) {
+        if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showTreeGridSelector.apply(this, arguments); }
+    };
 
-    $.easyui.showDblTreeGridSelector = function (options) { };
+    $.easyui.showDblTreeGridSelector = function (options) {
+        if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showDblTreeGridSelector.apply(this, arguments); }
+    };
 
 
 
@@ -255,7 +267,7 @@
     var css =
         ".grid-selector-buttons { border-top-width: 0px; border-bottom-width: 0px; text-align: center; background-color: #efefef; padding-top: 50px; }" +
         ".grid-selector-buttons a { margin: 5px 0px 5px 0px; }"
-        ;
+    ;
     $.util.addCss(css);
 
 

@@ -34,6 +34,19 @@
                 extEditing: true,           //该属性启用行编辑状态的 ExtEditing 风格效果，该属性默认为 true。
                 singleEditing: false        //该属性为 false 时禁用 datagrid 的只允许单行编辑效果，也就是允许多行同时编辑
             });
+
+
+            var i = 20,
+                getRow = function () {
+                    return { ID: ++i, Code: i, Name: "TestName" + i, Age: 18, Height: 159, Weight: 49, CreateDate: "2008-02-11" };
+                };
+            $("#Button1").click(function () {
+                t.datagrid("appendRow", getRow());
+            });
+
+            $("#Button2").click(function () {
+                t.datagrid("insertRow", { index: 1, row: getRow() });
+            });
         });
     </script>
 
@@ -41,6 +54,10 @@
     <p>该部分扩展由文件 jeasyui.extensions.datagrid.js 实现。</p>
     <hr />
     <p>双击表格中的任意行试试，该表格可以同时编辑多行</p>
+    <hr />
+    <input id="Button1" type="button" value="appendRow测试数据" />
+    <input id="Button2" type="button" value="insertRow测试数据" />
+    <hr />
     <table id="t1"></table>
     <hr />
     由于收到 xxx.json 文件数据源不能进行逻辑分析处理的限制，此处点击翻页后，仅页码更新而数据不会更新

@@ -3,7 +3,7 @@
     <script type="text/javascript">
         $(function () {
             var opts = {
-                topMost: false, left: 100, top: 100,
+                topMost: true, left: 100, top: 100,
                 extToolbar: true,
                 toolbar: [
                     "姓名：",
@@ -20,7 +20,7 @@
                     }
                 ],
                 method: "get",
-                url: "datagrid/datagrid-data.json",
+                url: $.util.resolveUrl("jqext/examples/datagrid/datagrid-data.json"),
                 idField: "ID",
                 remoteSort: false,
                 singleSelect: false,

@@ -335,9 +335,9 @@
                     handler = opts.onclick || opts.handler,
                     btn = $("<a class='toolbar-item-button'></a>").appendTo(container).linkbutton(opts);
                 if (handler) {
-                    btn.click(function () { ($.isFunction(handler) ? handler : String(handler).toFunction()).call(this, $(container).closest("table.toolbar-wrapper")[0]); });
+                    handler = $.string.toFunction(handler);
                 }
-                return btn;
+                return btn.click(function () { handler.call(this, $(container).closest("table.toolbar-wrapper")[0]); });
             },
             enable: function (target) {
                 $(target).linkbutton("enable");
@@ -597,6 +597,38 @@
             },
             setFocus: function (target) {
                 $(target).combogrid("textbox").focus();
+            }
+        },
+        searchbox: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container);
+                if (opts.searcher) {
+                    opts.searcher = $.string.toFunction(opts.searcher);
+                }
+                return box.searchbox(opts);
+            },
+            destroy: function (target) {
+                $(target).searchbox("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).searchbox("setValue", value);
+            },
+            getValue: function (target) {
+                return $(target).searchbox("getValue");
+            },
+            resize: function (target, width) {
+                $(target).searchbox("resize", width);
+            },
+            enable: function (target) {
+                $(target).searchbox("enable");
+            },
+            disable: function (target) {
+                $(target).searchbox("disable");
+            },
+            setFocus: function (target) {
+                $(target).searchbox("textbox").focus();
             }
         }
     }, itemOptions = {

@@ -134,8 +134,8 @@
         if (typeof options == "string") { return _window.apply(this, arguments); }
         options = options || {};
         return this.each(function () {
-            var jq = $.util.parseJquery(this);
-            _window.call(jq, options);
+            var jq = $(this), opts = $.extend({}, $.fn.window.parseOptions(this), options);
+            _window.call(jq, opts);
             initialize(this);
         });
     };
