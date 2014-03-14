@@ -1,9 +1,10 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
-/******** 2014-03-12(1.0.38 preview) ********/
+/******** 2014-03-14(1.0.38 preview) ********/
 1、【+】 增加新的插件扩展 jeasyui.extensions.searchbox.js 以实现对 easyui-search 组件的扩展功能；目前已经实现为该组件扩展了 enable、disable 方法和 disabled 属性；
 2、[+] 插件 jquery.toolbar.js 中，工具栏子项列表增加对 easyui-searchbox 控件的支持，其属性类型值为 "searchbox"；
+3、[#] 修复 jeasyui.extensions.datagrid.js 插件中存在的部分 BUG；
 
 
 /******** 2014-03-07(1.0.37 preview) ********/

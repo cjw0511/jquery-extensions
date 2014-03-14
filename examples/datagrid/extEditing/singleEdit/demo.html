@@ -48,6 +48,14 @@
             $("#Button2").click(function () {
                 t.datagrid("insertRow", { index: 1, row: getRow() });
             });
+
+            $("#Button3").click(function () {
+                t.datagrid("updateRow", { index: 1, row: { Name: "TestName" + ++i } });
+            });
+
+            $("#Button4").click(function () {
+                t.datagrid("loadData", []);
+            });
         });
     </script>
 
@@ -59,6 +67,8 @@
     <hr />
     <input id="Button1" type="button" value="appendRow测试数据" />
     <input id="Button2" type="button" value="insertRow测试数据" />
+    <input id="Button3" type="button" value="updateRow测试数据" />
+    <input id="Button4" type="button" value="清除所有数据" />
     <hr />
     <table id="t1"></table>
     <hr />

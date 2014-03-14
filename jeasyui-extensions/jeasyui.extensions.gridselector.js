@@ -143,7 +143,7 @@
                 }
             }));
         $.util.exec(function () {
-            var diaOpts = dia.dialog("options"), onResize = diaOpts.onResize,
+            var diaOpts = dia.dialog("options"), onResize = diaOpts.onResize, init = false,
                 container = dia.find(".grid-selector-container"), northPanel = null, width = (opts.width - opts.centerWidth) / 2,
                 leftPanel = $("<div data-options=\"region: 'west', split: false, border: false\"></div>").width(width).appendTo(container),
                 centerPanel = $("<div data-options=\"region: 'center', border: true, bodyCls: 'grid-selector-buttons'\"></div>").appendTo(container),
@@ -156,10 +156,18 @@
                         { text: "选择该行", iconCls: null, handler: function (e, index, row) { selectRow(row); refreshValue(); } }, "-",
                         { text: "选择全部", iconCls: null, handler: function (e, index, row) { btn1.trigger("click"); } },
                         { text: "选择勾选部分", iconCls: null, handler: function (e, index, row) { btn2.trigger("click"); } }
-                    ]
+                    ],
+                    onLoadSuccess: function () {
+                        $.fn.datagrid.defaults.onLoadSuccess.apply(this, arguments);
+                        if (!init) {
+                            $.each(tempData, function (i, val) { selectRow(val); });
+                            refreshValue();
+                            init = true;
+                        }
+                    }
                 }),
                 dgOpts2 = $.extend({}, dgOpts1, {
-                    url: null, queryParams: {}, remoteSort: false, pagination: false, title: "已选择项", iconCls: null,
+                    url: null, queryParams: {}, remoteSort: false, pagination: false, title: "已选择项", iconCls: null, pagingMenu: false, refreshMenu: false,
                     rowContextMenu: [
                         { text: "取消该行", iconCls: null, handler: function (e, index, row) { unselectRow(row); refreshValue(); } }, "-",
                         { text: "取消全部", iconCls: null, handler: function (e, index, row) { btn4.trigger("click"); } },
@@ -168,27 +176,27 @@
                 }),
                 dg1 = $("<table></table>").appendTo(leftPanel),
                 dg2 = dg = $("<table></table>").appendTo(rightPanel),
-                btn1 = $("<a data-options=\"plain: true, iconCls: 'pagination-last'\"></a>").linkbutton().tooltip({ content: "选择全部" }).appendTo(centerPanel).click(function () {
+                btn1 = $("<a></a>").linkbutton({ plain: true, iconCls: "pagination-last" }).tooltip({ content: "选择全部" }).appendTo(centerPanel).click(function () {
                     var rows = dg1.datagrid("getRows"), data = $.array.clone(rows);
                     $.each(data, function (i, val) { selectRow(val); });
                     dg1.datagrid("unselectAll");
                     refreshValue();
                 }),
-                btn2 = $("<a data-options=\"plain: true, iconCls: 'pagination-next'\"></a>").linkbutton().tooltip({ content: "选择勾选部分" }).appendTo(centerPanel).click(function () {
+                btn2 = $("<a></a>").linkbutton({ plain: true, iconCls: "pagination-next" }).tooltip({ content: "选择勾选部分" }).appendTo(centerPanel).click(function () {
                     var rows = dg1.datagrid("getSelections"), data = $.array.clone(rows);
                     if (!data.length) { return $.easyui.messager.show("您未选择任何数据。"); }
                     $.each(data, function (i, val) { selectRow(val); });
                     dg1.datagrid("unselectAll");
                     refreshValue();
                 }),
-                btn3 = $("<a data-options=\"plain: true, iconCls: 'pagination-prev'\"></a>").linkbutton().tooltip({ content: "取消勾选部分" }).appendTo(centerPanel).click(function () {
+                btn3 = $("<a></a>").linkbutton({ plain: true, iconCls: "pagination-prev" }).tooltip({ content: "取消勾选部分" }).appendTo(centerPanel).click(function () {
                     var rows = dg2.datagrid("getSelections"), data = $.array.clone(rows);
                     if (!data.length) { return $.easyui.messager.show("您未选择任何数据。"); }
                     $.each(data, function (i, val) { unselectRow(val); });
                     dg2.datagrid("unselectAll");
                     refreshValue();
                 }),
-                btn4 = $("<a data-options=\"plain: true, iconCls: 'pagination-first'\"></a>").linkbutton().tooltip({ content: "取消全部" }).appendTo(centerPanel).click(function () {
+                btn4 = $("<a></a>").linkbutton({ plain: true, iconCls: "pagination-first" }).tooltip({ content: "取消全部" }).appendTo(centerPanel).click(function () {
                     var rows = dg2.datagrid("getRows"), data = $.array.clone(rows);
                     $.each(data, function (i, val) { unselectRow(val); });
                     dg2.datagrid("unselectAll");
@@ -228,16 +236,6 @@
             }
             dg1.datagrid(dgOpts1);
             dg2.datagrid(dgOpts2);
-
-            dgOpts1 = dg1.datagrid("options"), onLoadSuccess = dgOpts1.onLoadSuccess, init = false,
-            dgOpts1.onLoadSuccess = function () {
-                if ($.isFunction(onLoadSuccess)) { onLoadSuccess.apply(this, arguments); }
-                if (!init) {
-                    $.each(tempData, function (i, val) { selectRow(val); });
-                    refreshValue();
-                    init = true;
-                }
-            };
 
             container.layout({ fit: true });
         });

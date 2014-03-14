@@ -7,11 +7,11 @@
 * http://www.gnu.org/licenses/gpl.txt
 * http://www.jeasyui.com/license_commercial.php
 *
-* jQuery EasyUI datagrid Extensions 1.2.2 release
+* jQuery EasyUI datagrid Extensions 1.0 beta
 * jQuery EasyUI datagrid 组件扩展
 * jeasyui.extensions.datagrid.js
 * 二次开发 流云
-* 最近更新：2013-09-30
+* 最近更新：2014-03-14
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -162,7 +162,7 @@
 
     var enableRowDnd = function (target) {
         var t = $.util.parseJquery(target), opts = t.datagrid("options");
-        t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table.datagrid-btable tr.datagrid-row").draggable({
+        t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable({
             disabled: false, revert: true, cursor: "default", deltaX: 10, deltaY: 5,
             proxy: function (source) {
                 var tr = $.util.parseJquery(source), index = parseInt(tr.attr("datagrid-row-index")),
@@ -252,7 +252,7 @@
 
     var disableRowDnd = function (target) {
         var t = $.util.parseJquery(target), opts = t.datagrid("options");
-        t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table.datagrid-btable tr.datagrid-row").draggable("disable");
+        t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable("disable");
         opts.dndRow = false;
     };
 
@@ -290,10 +290,10 @@
         if ($.isFunction(opts.onBeforeMoveColumn) && opts.onBeforeMoveColumn.call(target, param.source, param.target, param.point) == false) { return; }
         var panel = t.datagrid("getPanel"), view = panel.find("div.datagrid-view"),
             view1 = view.find("div.datagrid-view1"), view2 = view.find("div.datagrid-view2"),
-            headerRow1 = view1.find("table.datagrid-htable tr.datagrid-header-row"),
-            headerRow2 = view2.find("table.datagrid-htable tr.datagrid-header-row"),
-            borderRow1 = view1.find("table.datagrid-btable tr.datagrid-row"),
-            borderRow2 = view2.find("table.datagrid-btable tr.datagrid-row"),
+            headerRow1 = view1.find("div.datagrid-header table tr.datagrid-header-row"),
+            headerRow2 = view2.find("div.datagrid-header table tr.datagrid-header-row"),
+            borderRow1 = view1.find("div.datagrid-body table tr.datagrid-row"),
+            borderRow2 = view2.find("div.datagrid-body table tr.datagrid-row"),
             sourceHeaderTd = sourceFrozen ? headerRow1.find("td[field=" + param.source + "]") : headerRow2.find("td[field=" + param.source + "]"),
             targetHeaderTd = targetFrozen ? headerRow1.find("td[field=" + param.target + "]") : headerRow2.find("td[field=" + param.target + "]"),
             sourceRow = sourceFrozen ? borderRow1 : borderRow2,
@@ -551,7 +551,7 @@
     var getRowDom = function (target, index) {
         if (!$.isNumeric(index) || index < 0) { return $(); }
         var t = $.util.parseJquery(target), panel = t.datagrid("getPanel");
-        return panel.find("div.datagrid-view div.datagrid-body table.datagrid-btable tr.datagrid-row[datagrid-row-index=" + index + "]");
+        return panel.find("div.datagrid-view div.datagrid-body table tr.datagrid-row[datagrid-row-index=" + index + "]");
     };
 
     var getRowData = function (target, index) {
@@ -1363,7 +1363,7 @@
     /************************  initExtend initColumnTooltip Begin  ************************/
     var initColumnTooltip = function (t, opts) {
         var rows = t.datagrid("getRows");
-        t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table.datagrid-btable tr.datagrid-row").each(function () {
+        t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").each(function () {
             var tr = $(this), index = parseInt(tr.attr("datagrid-row-index")), row = rows[index];
             initColumnRowTooltip(t, opts, index, row, tr);
         });
@@ -1535,7 +1535,7 @@
         var t = $.util.parseJquery(this), opts = t.datagrid("options");
         initializeRowExtEditor(t, opts, index);
         initSingleEditing(t, opts, index);
-        t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table.datagrid-btable tr.datagrid-row").draggable("disable");
+        t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable("disable");
     }
 
     var _onAfterEdit = $.fn.datagrid.defaults.onAfterEdit;
