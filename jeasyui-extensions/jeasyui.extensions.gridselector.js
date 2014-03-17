@@ -20,6 +20,7 @@
 *   4、jeasyui.extensions.panel.js v1.0 beta late
 *   5、jeasyui.extensions.window.js v1.0 beta late
 *   6、jeasyui.extensions.dialog.js v1.0 beta late
+*   7、jeasyui.extensions.datagrid.js v1.0 beta late
 *
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -83,6 +84,8 @@
                 onSelectAll: function (rows) { refreshValue(); },
                 onUnselectAll: function (rows) { refreshValue(); },
                 onLoadSuccess: function (data) {
+                    $.fn.datagrid.defaults.onLoadSuccess.apply(this, arguments);
+                    if ($.isFunction(opts.onLoadSuccess)) { opts.onLoadSuccess.apply(this, arguments); }
                     if (!tempData) { return; }
                     if ($.util.likeArrayNotString(tempData)) {
                         $.each(tempData, function (i, val) {
@@ -114,7 +117,6 @@
     //              具体格式参考 $.easyui.showDialog 方法的参数 options 的格式 和 easyui-datagrid 的初始化参数 options 的格式；
     //              该参数格式在 $.easyui.showDialog 和 easyui-datagrid 参数 options 格式基础上扩展了如下属性：
     //          extToolbar:
-    //          centerWidth:
     //          selected:
     //          onEnter :
     $.easyui.showDblGridSelector = function (options) {
@@ -144,7 +146,8 @@
             }));
         $.util.exec(function () {
             var diaOpts = dia.dialog("options"), onResize = diaOpts.onResize, init = false,
-                container = dia.find(".grid-selector-container"), northPanel = null, width = (opts.width - opts.centerWidth) / 2,
+                container = dia.find(".grid-selector-container"), northPanel = null,
+                width = (($.isNumeric(opts.width) ? opts.width : dia.outerWidth()) - opts.centerWidth) / 2,
                 leftPanel = $("<div data-options=\"region: 'west', split: false, border: false\"></div>").width(width).appendTo(container),
                 centerPanel = $("<div data-options=\"region: 'center', border: true, bodyCls: 'grid-selector-buttons'\"></div>").appendTo(container),
                 rightPanel = $("<div data-options=\"region: 'east', split: false, border: false\"></div>").width(width).appendTo(container),
@@ -159,6 +162,7 @@
                     ],
                     onLoadSuccess: function () {
                         $.fn.datagrid.defaults.onLoadSuccess.apply(this, arguments);
+                        if ($.isFunction(opts.onLoadSuccess)) { opts.onLoadSuccess.apply(this, arguments); }
                         if (!init) {
                             $.each(tempData, function (i, val) { selectRow(val); });
                             refreshValue();
@@ -172,10 +176,11 @@
                         { text: "取消该行", iconCls: null, handler: function (e, index, row) { unselectRow(row); refreshValue(); } }, "-",
                         { text: "取消全部", iconCls: null, handler: function (e, index, row) { btn4.trigger("click"); } },
                         { text: "取消勾选部分", iconCls: null, handler: function (e, index, row) { btn3.trigger("click"); } }
-                    ]
+                    ],
+                    onLoadSuccess: $.fn.datagrid.defaults.onLoadSuccess
                 }),
-                dg1 = $("<table></table>").appendTo(leftPanel),
-                dg2 = dg = $("<table></table>").appendTo(rightPanel),
+                dg1 = $("<div></div>").appendTo(leftPanel),
+                dg2 = dg = $("<div class=\"grid-selector\"></div>").appendTo(rightPanel),
                 btn1 = $("<a></a>").linkbutton({ plain: true, iconCls: "pagination-last" }).tooltip({ content: "选择全部" }).appendTo(centerPanel).click(function () {
                     var rows = dg1.datagrid("getRows"), data = $.array.clone(rows);
                     $.each(data, function (i, val) { selectRow(val); });
@@ -247,15 +252,11 @@
         if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showTreeSelector.apply(this, arguments); }
     };
 
-    $.easyui.showDblTreeSelector = function (options) {
-        if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showDblTreeSelector.apply(this, arguments); }
-    };
-
     $.easyui.showTreeGridSelector = function (options) {
         if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showTreeGridSelector.apply(this, arguments); }
     };
 
-    $.easyui.showDblTreeGridSelector = function (options) {
+    $.easyui.showTreeWithGridSelector = function (options) {
         if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showDblTreeGridSelector.apply(this, arguments); }
     };
 

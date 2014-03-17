@@ -1980,7 +1980,23 @@
     };
     $.fn.datagrid.parseOptions = function (_1e6) {
         var t = $(_1e6);
-        return $.extend({}, $.fn.panel.parseOptions(_1e6), $.parser.parseOptions(_1e6, ["url", "toolbar", "idField", "sortName", "sortOrder", "pagePosition", "resizeHandle", { fitColumns: "boolean", autoRowHeight: "boolean", striped: "boolean", nowrap: "boolean" }, { rownumbers: "boolean", singleSelect: "boolean", checkOnSelect: "boolean", selectOnCheck: "boolean" }, { pagination: "boolean", pageSize: "number", pageNumber: "number" }, { multiSort: "boolean", remoteSort: "boolean", showHeader: "boolean", showFooter: "boolean" }, { scrollbarSize: "number" }]), { pageList: (t.attr("pageList") ? eval(t.attr("pageList")) : undefined), loadMsg: (t.attr("loadMsg") != undefined ? t.attr("loadMsg") : undefined), rowStyler: (t.attr("rowStyler") ? eval(t.attr("rowStyler")) : undefined) });
+        return $.extend(
+            {},
+            $.fn.panel.parseOptions(_1e6),
+            $.parser.parseOptions(_1e6, [
+                "url", "toolbar", "idField", "sortName", "sortOrder", "pagePosition", "resizeHandle",
+                { fitColumns: "boolean", autoRowHeight: "boolean", striped: "boolean", nowrap: "boolean" },
+                { rownumbers: "boolean", singleSelect: "boolean", checkOnSelect: "boolean", selectOnCheck: "boolean" },
+                { pagination: "boolean", pageSize: "number", pageNumber: "number" },
+                { multiSort: "boolean", remoteSort: "boolean", showHeader: "boolean", showFooter: "boolean" },
+                { scrollbarSize: "number" }
+            ]),
+            {
+                pageList: (t.attr("pageList") ? eval(t.attr("pageList")) : undefined),
+                loadMsg: (t.attr("loadMsg") != undefined ? t.attr("loadMsg") : undefined),
+                rowStyler: (t.attr("rowStyler") ? eval(t.attr("rowStyler")) : undefined)
+            }
+            );
     };
     $.fn.datagrid.parseData = function (_1e7) {
         var t = $(_1e7);

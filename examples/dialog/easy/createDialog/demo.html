@@ -18,7 +18,10 @@
                     title: "快速创建的 Dialog - Test2",
                     top: 40, left: 80, width: 700, height: 500,
                     href: "dialog/easy/createDialog/test-layout.html",
-                    topMost: false
+                    topMost: false,
+                    buttons: [
+                        { text: "test button", iconCls: "icon-ok", index: 111, handler: function (dia) { dia.close(); } }
+                    ]
                 });
             });
         });

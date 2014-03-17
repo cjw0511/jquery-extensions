@@ -1,57 +1,61 @@
 ﻿<div>
 
-<h2>JavaScript 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []" >
-    
-    $(function () {
-        $("#Button1").click(function () {
-            $.easyui.icons.showSelector({
-                onSelect: function (val) { alert(val); }
+    <h2>JavaScript 代码：</h2>
+    <textarea name="dp-syntaxhighlighter" class="brush: js; highlight: []">
+
+            $(function () {
+                $("#Button1").click(function () {
+                    $.easyui.icons.showSelector({
+                        onEnter: function (val) { alert(val); }
+                    });
+                });
+
+                $("#Button2").click(function () {
+                    $.easyui.icons.showSelector({
+                        size: "32",
+                        onEnter: function (val) { alert(val); }
+                    });
+                });
+
+                $("#Button3").click(function () {
+                    $.easyui.icons.showSelector({
+                        multiple: true,
+                        onEnter: function (val) { alert(val); }
+                    });
+                });
+
+                $("#Button4").click(function () {
+                    $.easyui.icons.showSelector({
+                        multiple: true,
+                        size: "32",
+                        onEnter: function (val) { alert(val); }
+                    });
+                });
             });
-        });
 
-        $("#Button2").click(function () {
-            $.easyui.icons.showSelector({
-                size: "32",
-                onSelect: function (val) { alert(val); }
-            });
-        });
+    </textarea>
+    <h2>HTML 代码：</h2>
+    <textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []">
 
-        $("#Button3").click(function () {
-            $.easyui.icons.showSelector({
-                multiple: true,
-                onSelect: function (val) { alert(val); }
-            });
-        });
+        <input id="Button1" type="button" value="ShowSelector-单选-16" />
+        <input id="Button2" type="button" value="ShowSelector-单选-32" />
+        <input id="Button3" type="button" value="ShowSelector-多选-16" />
+        <input id="Button4" type="button" value="ShowSelector-多选-32" />
 
-        $("#Button4").click(function () {
-            $.easyui.icons.showSelector({
-                multiple: true,
-                size: "32",
-                onSelect: function (val) { alert(val); }
-            });
-        });
-    });
-
-</textarea>
-<h2>HTML 代码：</h2>
-<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
-    
-    <input id="Button1" type="button" value="ShowSelector-单选-16" />
-    <input id="Button2" type="button" value="ShowSelector-单选-32" />
-    <input id="Button3" type="button" value="ShowSelector-多选-16" />
-    <input id="Button4" type="button" value="ShowSelector-多选-32" />
-
-    单选16px:<select id="Select1" class="easyui-comboicons" data-options="width: 180, autoShowPanel: false, multiple: false, size: '16'"></select> 
-    <br /><br />
-    单选32px:<select id="Select2" class="easyui-comboicons" data-options="width: 180, autoShowPanel: false, multiple: false, size: '32'"></select> 
-    <br /><br />
-    多选16px:<select id="Select3" class="easyui-comboicons" data-options="width: 180, autoShowPanel: false, multiple: true, size: '16'"></select> 
-    <br /><br />
-    多选32px:<select id="Select4" class="easyui-comboicons" data-options="width: 180, autoShowPanel: false, multiple: true, size: '32'"></select> 
+        单选16px:
+        <select id="Select1" class="easyui-comboicons" data-options="width: 280, autoShowPanel: false, multiple: false, size: '16', value: 'icon-standard-application-form-edit'"></select>
+        <br /><br />
+        单选32px:
+        <select id="Select2" class="easyui-comboicons" data-options="width: 280, autoShowPanel: false, multiple: false, size: '32'"></select>
+        <br /><br />
+        多选16px:
+        <select id="Select3" class="easyui-comboicons" data-options="width: 280, autoShowPanel: false, multiple: true, size: '16', value: ['icon-standard-application-form-edit', 'icon-standard-application-tile-vertical']"></select>
+        <br /><br />
+        多选32px:
+        <select id="Select4" class="easyui-comboicons" data-options="width: 280, autoShowPanel: false, multiple: true, size: '32'"></select>
 
 
-</textarea>
+    </textarea>
 
 
 </div>

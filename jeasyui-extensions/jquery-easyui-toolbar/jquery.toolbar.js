@@ -685,9 +685,7 @@
     };
 
     $.fn.toolbar.parseOptions = function (target) {
-        return $.extend({}, $.parser.parseOptions(target, [
-            "width", "height", "align", "valign", "itemTypes"
-        ]));
+        return $.extend({}, $.parser.parseOptions(target, ["url", "data", "method", "width", "height", "align", "valign"]));
     };
 
 

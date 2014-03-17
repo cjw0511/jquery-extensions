@@ -11,7 +11,7 @@
 * jQuery EasyUI dialog 组件扩展
 * jeasyui.extensions.dialog.js
 * 二次开发 流云
-* 最近更新：2014-02-19
+* 最近更新：2014-03-14
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -94,9 +94,10 @@
             if (!opts.toolbar.length) { opts.toolbar = null; }
         }
 
-        var buttons = [],
+        var buttons = [
             btnSave = {
                 id: "save", text: opts.saveButtonText, iconCls: opts.saveButtonIconCls,
+                index: opts.saveButtonIndex, hidden: opts.enableSaveButton ? false : true,
                 handler: function (dia) {
                     var isFunc = $.isFunction(opts.onSave);
                     if (!isFunc || isFunc && opts.onSave.call(this, dia) !== false) {
@@ -106,26 +107,30 @@
             },
             btnClose = {
                 id: "close", text: opts.closeButtonText, iconCls: opts.closeButtonIconCls,
+                index: opts.closeButtonIndex, hidden: opts.enableCloseButton ? false : true,
                 handler: function (dia) { dia.dialog("close"); }
             },
             btnApply = {
                 id: "apply", text: opts.applyButtonText, iconCls: opts.applyButtonIconCls,
+                index: opts.applyButtonIndex, hidden: opts.enableApplyButton ? false : true,
                 handler: function (dia) {
                     var isFunc = $.isFunction(opts.onApply);
                     if (!isFunc || isFunc && opts.onApply.call(this, dia) !== false) {
-                        $.util.exec(function () { dia.applyButton.linkbutton("disable"); });
+                        dia.applyButton.linkbutton("disable");
                     }
                 }
-            };
-        if (opts.enableSaveButton == true) { buttons.push(btnSave); }
-        if (opts.enableCloseButton == true) { buttons.push(btnClose); }
-        if (opts.enableApplyButton == true) { buttons.push(btnApply); }
+            }
+        ];
 
         if (!$.util.likeArrayNotString(opts.buttons)) { opts.buttons = []; }
         $.array.merge(opts.buttons, buttons);
+        opts.buttons = $.array.filter(opts.buttons, function (val) { return $.util.parseFunction(val.hidden, val) ? false : true; });
         $.each(opts.buttons, function (i, btn) {
             var handler = btn.handler;
             if ($.isFunction(handler)) { btn.handler = function () { handler.call(this, dialog); }; }
+        });
+        $.array.sort(opts.buttons, function (a, b) {
+            return ($.isNumeric(a.index) ? a.index : 0) - ($.isNumeric(b.index) ? b.index : 0);
         });
         if (!opts.buttons.length) { opts.buttons = null; }
 
@@ -355,6 +360,12 @@
 
         //  是否启用关闭按钮
         enableCloseButton: true,
+
+        saveButtonIndex: 101,
+
+        closeButtonIndex: 102,
+
+        applyButtonIndex: 103,
 
         //  点击保存按钮触发的事件，如果该事件范围 false，则点击保存后窗口不关闭。
         onSave: null,

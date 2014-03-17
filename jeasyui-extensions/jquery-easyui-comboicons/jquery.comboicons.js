@@ -11,7 +11,7 @@
 * jQuery EasyUI comboicons 插件扩展
 * jquery.comboicons.js
 * 二次开发 流云
-* 最近更新：2013-09-04
+* 最近更新：2014-03-14
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -20,75 +20,82 @@
 *   4、jeasyui.extensions.panel.js v1.0 beta late
 *   5、jeasyui.extensions.window.js v1.0 beta late
 *   6、jeasyui.extensions.dialog.js v1.0 beta late
-*   7、jeasyui.extensions.toolbar.js v1.0 beta late
-*   8、icons/jeasyui.icons.all.js 和 icons/icon-all.css v1.0 beta late
-*   9、jeasyui.extensions.icons.js v1.0 beta late
+*   7、icons/jeasyui.icons.all.js 和 icons/icon-all.css v1.0 beta late
+*   8、jeasyui.extensions.icons.js v1.0 beta late
 *
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
 
-    function createCombo(target) {
-        var t = $.util.parseJquery(target).addClass("comboicons-f"),
-            state = $.data(target, "comboicons"), opts = state.options
-        return t.combo($.extend({}, opts, {
-            onShowPanel: function () {
-                t.combo("panel").hide();
-                state.dialog = $.easyui.icons.showSelector({
-                    size: opts.size,
-                    selected: t.combo(opts.multiple ? "getValues" : "getValue"),
-                    multiple: opts.multiple,
-                    onSelect: function (val) {
-                        if (val) {
-                            var isArray = $.isArray(val), text = isArray ? val.join(", ") : val;
-                            t.combo(isArray ? "setValues" : "setValue", val).combo("setText", text);
-                        } else {
-                            t.combo("clear");
+    function create(target) {
+        var state = $.data(target, "comboicons"), opts = state.options,
+            t = $(target).addClass("comboicons-f").combo($.extend({}, opts, {
+                onShowPanel: function () {
+                    t.combo("panel").hide();
+                    state.dialog = $.easyui.icons.showSelector({
+                        width: opts.panelWidth, height: opts.panelHeight, size: opts.size,
+                        selected: t.combo(opts.multiple ? "getValues" : "getValue"),
+                        multiple: opts.multiple,
+                        buttons: [
+                            {
+                                index: 101.5, text: "清除", iconCls: "icon-standard-cancel", handler: function (d) {
+                                    t.combo("clear");
+                                    d.close();
+                                }
+                            }
+                        ],
+                        onEnter: function (val) {
+                            if (val) {
+                                var isArray = $.isArray(val), text = isArray ? val.join(", ") : val;
+                                t.combo(isArray ? "setValues" : "setValue", val).combo("setText", text);
+                            } else {
+                                t.combo("clear");
+                            }
+                        },
+                        onClose: function () {
+                            var state = $.data(target, "combo");
+                            if (state && state.options) { t.combo("hidePanel"); }
                         }
-                    },
-                    onClose: function () {
-                        var state = $.data(target, "combo");
-                        if (state && state.options) { t.combo("hidePanel"); }
+                    });
+                    var dopts = state.dialog.dialog("options");
+                    if (!$.util.isTopMost && !dopts.topMost || $.util.isTopMost) {
+                        var textbox = t.combo("textbox"), offset = textbox.offset();
+                        state.dialog.dialog("move", $.extend(offset, { top: offset.top + textbox.outerHeight() + 2 }))
                     }
-                });
-                if ($.util.isTopMost) {
-                    var textbox = t.combo("textbox"), offset = textbox.offset();
-                    state.dialog.dialog("move", $.extend(offset, { top: offset.top + textbox.outerHeight() + 2 }))
+                    if ($.isFunction(opts.onShowPanel)) { opts.onShowPanel.apply(this, arguments); }
+                },
+                onHidePanel: function () {
+                    if (state.dialog) {
+                        var dia = state.dialog, dopts = dia.dialog("options");
+                        state.dialog = null;
+                        if (!dopts.closed) { dia.dialog("close"); }
+                    }
+                    if ($.isFunction(opts.onHidePanel)) { opts.onHidePanel.apply(this, arguments); }
+                },
+                onDestroy: function () {
+                    if (state.dialog) {
+                        state.dialog.dialog("destroy");
+                        state.dialog = null;
+                    }
+                    if ($.isFunction(opts.onDestroy)) { opts.onDestroy.apply(this, arguments); }
+                },
+                onChange: function (newValue, oldValue) {
+                    if ($.isFunction(opts.onChange)) {
+                        opts.onChange.apply(this, arguments);
+                    }
                 }
-                if ($.isFunction(opts.onShowPanel)) { opts.onShowPanel.apply(this, arguments); }
-            },
-            onHidePanel: function () {
-                if (state.dialog) {
-                    var dia = state.dialog, dopts = dia.dialog("options");
-                    state.dialog = null;
-                    if (!dopts.closed) { dia.dialog("close"); }
-                }
-                if ($.isFunction(opts.onHidePanel)) { opts.onHidePanel.apply(this, arguments); }
-            },
-            onDestroy: function () {
-                if (state.dialog) {
-                    state.dialog.dialog("destroy");
-                    state.dialog = null;
-                }
-                if ($.isFunction(opts.onDestroy)) { opts.onDestroy.apply(this, arguments); }
-            },
-            onChange: function (newValue, oldValue) {
-                if ($.isFunction(opts.onChange)) {
-                    opts.onChange.apply(this, arguments);
-                }
-            }
-        }));
+            }));
+
+        if (opts.value) {
+            t.combo("setText", $.util.likeArrayNotString(opts.value) ? $.array.join(opts.value, opts.separator) : opts.value);
+        }
     };
 
     function setValues(target, values) {
         values = $.isArray(values) ? values : [values];
         var text = values.join(", ");
         $(target).combo("setValues", values).combo("setText", text);
-    };
-
-    function setValue(target, value) {
-        $(target).combo("setValue", value).combo("setText", value);
     };
 
 
@@ -109,33 +116,33 @@
                 $.extend(state.options, options);
             } else {
                 $.data(this, "comboicons", { options: $.extend({}, $.fn.comboicons.defaults, $.fn.comboicons.parseOptions(this), options) });
-                createCombo(this);
+                create(this);
             }
         });
     };
 
     $.fn.comboicons.parseOptions = function (target) {
-        return $.extend({}, $.fn.combo.parseOptions(target));
+        return $.extend({}, $.fn.combo.parseOptions(target, ["size", "iconCls"]));
     };
 
     $.fn.comboicons.methods = {
         options: function (jq) {
-            var copts = jq.combo("options");
-            return $.extend($.data(jq[0], 'comboicons').options, {
-                originalValue: copts.originalValue,
-                disabled: copts.disabled,
-                readonly: copts.readonly
+            var opts = jq.combo("options"), copts = $.data(jq[0], 'comboicons').options;
+            return $.extend(copts, {
+                originalValue: opts.originalValue, disabled: opts.disabled, readonly: opts.readonly
             });
         },
 
         setValues: function (jq, values) { return jq.each(function () { setValues(this, values); }); },
 
-        setValue: function (jq, value) { return jq.each(function () { setValue(this, value); }); }
+        setValue: function (jq, value) { return jq.each(function () { setValues(this, [value]); }); }
     };
 
     $.fn.comboicons.defaults = $.extend({}, $.fn.combo.defaults, {
         size: "16",
-        iconCls: "icon-hamburg-zoom"
+        iconCls: "icon-hamburg-zoom",
+        panelWidth: 500,
+        panelHeight: 360
     });
 
 

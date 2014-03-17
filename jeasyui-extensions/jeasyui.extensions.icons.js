@@ -36,7 +36,7 @@
     //          selected:
     //          multiple:
     //          size:
-    //          onSelect:
+    //          onEnter :
     //  返回值：返回弹出窗口的 easyui-dialog 控件对象(jQuery-DOM 格式)。
     $.easyui.icons.showSelector = function (options) {
         if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.icons.showSelector.apply(this, arguments); }
@@ -49,7 +49,7 @@
             selected: null,
             multiple: false,
             size: null,
-            onSelect: function (value) { }
+            onEnter: function (value) { }
         }, options);
         opts.size = opts.size || "16";
         opts.title = opts.title + ", " + (opts.multiple ? "多选" : "单选") + ", 尺寸:" + opts.size;
@@ -60,7 +60,7 @@
                 saveButtonIconCls: "icon-ok",
                 enableApplyButton: false,
                 topMost: true,
-                onSave: function () { if ($.isFunction(opts.onSelect)) { return opts.onSelect.call(this, value); } }
+                onSave: function () { if ($.isFunction(opts.onEnter)) { return opts.onEnter.call(this, value); } }
             }));
         $.util.exec(function () {
             var content = dia.find("div.icons-layout").layout({ fit: true }),

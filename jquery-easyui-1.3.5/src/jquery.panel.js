@@ -490,10 +490,20 @@
             });
         }
     };
+
     $.fn.panel.parseOptions = function (_68) {
         var t = $(_68);
-        return $.extend({}, $.parser.parseOptions(_68, ["id", "width", "height", "left", "top", "title", "iconCls", "cls", "headerCls", "bodyCls", "tools", "href", { cache: "boolean", fit: "boolean", border: "boolean", noheader: "boolean" }, { collapsible: "boolean", minimizable: "boolean", maximizable: "boolean" }, { closable: "boolean", collapsed: "boolean", minimized: "boolean", maximized: "boolean", closed: "boolean" }]), { loadingMessage: (t.attr("loadingMessage") != undefined ? t.attr("loadingMessage") : undefined) });
+        return $.extend(
+            {},
+            $.parser.parseOptions(_68, [
+                "id", "width", "height", "left", "top", "title", "iconCls", "cls", "headerCls", "bodyCls", "tools", "href",
+                { cache: "boolean", fit: "boolean", border: "boolean", noheader: "boolean" },
+                { collapsible: "boolean", minimizable: "boolean", maximizable: "boolean" },
+                { closable: "boolean", collapsed: "boolean", minimized: "boolean", maximized: "boolean", closed: "boolean" }
+            ]),
+            { loadingMessage: (t.attr("loadingMessage") != undefined ? t.attr("loadingMessage") : undefined) });
     };
+
     $.fn.panel.defaults = {
         id: null, title: null, iconCls: null, width: "auto", height: "auto", left: null, top: null, cls: null, headerCls: null, bodyCls: null, style: {}, href: null, cache: true, fit: false, border: true, doSize: true, noheader: false, content: null, collapsible: false, minimizable: false, maximizable: false, closable: false, collapsed: false, minimized: false, maximized: false, closed: false, tools: null, href: null, loadingMessage: "Loading...", extractor: function (_69) {
             var _6a = /<body[^>]*>((.|[\n\r])*)<\/body>/im;

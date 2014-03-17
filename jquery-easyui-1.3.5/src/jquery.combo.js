@@ -441,10 +441,24 @@
     };
     $.fn.combo.parseOptions = function (_6e) {
         var t = $(_6e);
-        return $.extend({}, $.fn.validatebox.parseOptions(_6e), $.parser.parseOptions(_6e, ["width", "height", "separator", { panelWidth: "number", editable: "boolean", hasDownArrow: "boolean", delay: "number", selectOnNavigation: "boolean" }]), { panelHeight: (t.attr("panelHeight") == "auto" ? "auto" : parseInt(t.attr("panelHeight")) || undefined), multiple: (t.attr("multiple") ? true : undefined), disabled: (t.attr("disabled") ? true : undefined), readonly: (t.attr("readonly") ? true : undefined), value: (t.val() || undefined) });
+        return $.extend({},
+            $.fn.validatebox.parseOptions(_6e),
+            $.parser.parseOptions(_6e, [
+                "width", "height", "separator",
+                { panelWidth: "number", editable: "boolean", hasDownArrow: "boolean", delay: "number", selectOnNavigation: "boolean" }
+            ]),
+            {
+                panelHeight: (t.attr("panelHeight") == "auto" ? "auto" : parseInt(t.attr("panelHeight")) || undefined),
+                multiple: (t.attr("multiple") ? true : undefined),
+                disabled: (t.attr("disabled") ? true : undefined),
+                readonly: (t.attr("readonly") ? true : undefined),
+                value: (t.val() || undefined)
+            });
     };
     $.fn.combo.defaults = $.extend({}, $.fn.validatebox.defaults, {
-        width: "auto", height: 22, panelWidth: null, panelHeight: 200, multiple: false, selectOnNavigation: true, separator: ",", editable: true, disabled: false, readonly: false, hasDownArrow: true, value: "", delay: 200, deltaX: 19, keyHandler: {
+        width: "auto", height: 22, panelWidth: null, panelHeight: 200, multiple: false, selectOnNavigation: true, separator: ",",
+        editable: true, disabled: false, readonly: false, hasDownArrow: true, value: "", delay: 200, deltaX: 19,
+        keyHandler: {
             up: function (e) {
             }, down: function (e) {
             }, left: function (e) {

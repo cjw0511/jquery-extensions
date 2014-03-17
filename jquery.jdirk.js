@@ -86,6 +86,7 @@
         core_slice = core_array.slice,
         core_splice = core_array.splice,
         core_sort = core_array.sort,
+        core_join = core_array.join,
         core_isArray = Array.isArray;
 
     //  定义版本
@@ -1806,8 +1807,20 @@
         var temps = coreArray.likeArray(array) ? array : [];
         core_sort.call(temps, callback);
         return array;
-    }
+    };
     coreArray.prototype.sort = function (callback) { return coreArray.sort(this, callback); };
+
+    //  把数组中的所有元素放入一个字符串，元素是通过指定的分隔符进行分隔的。该函数定义如下参数：
+    //      array:      必需。 一个数组对象。
+    //      separator:  可选。指定要使用的分隔符。如果省略该参数，则使用逗号作为分隔符。
+    //  返回值：返回一个字符串。该字符串是通过把 arrayObject 的每个元素转换为字符串，然后把这些字符串连接起来，在两个元素之间插入 separator 字符串而生成的。
+    coreArray.join = function (array, separator) {
+        var temps = coreArray.likeArrayNotString(array) ? array : [];
+        core_join.call(temps, separator);
+        return array;
+    };
+    coreArray.prototype.join = function (separator) { return coreArray.join(this, separator); };
+
 
     //  获取指定数组的前 N 项元素所构成的一个新数组；该函数定义如下参数：
     //      array:  必需。 一个数组对象。
@@ -2671,13 +2684,20 @@
     coreUtil.parseFunction = function (callback, args, thisArg) {
         var val = callback, obj = { length: 0 };
         if (coreUtil.isFunction(callback)) {
-            if (coreUtil.likeArray(args) && thisArg) {
-                coreArray.copy(args, obj);
-                obj.callee = callback;
-                val = callback.apply(thisArg, obj);
-            } else {
-                val = callback();
+            if (arguments.length == 1) {
+                args = [];
+                thisArg = this;
+            } else if (arguments.length == 2) {
+                if (coreArray.likeArrayNotString(args)) {
+                    thisArg = this;
+                } else {
+                    thisArg = args;
+                    args = [];
+                }
             }
+            coreArray.copy(args, obj);
+            obj.callee = callback;
+            val = callback.apply(thisArg, obj);
         }
         return val;
     };

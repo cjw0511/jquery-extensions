@@ -1035,11 +1035,11 @@
         cell = $.util.parseJquery(cell); cell.off(".hoverArrow");
         var arrow = $("<span class='s-btn-downarrow datagrid-header-cell-arrow'>&nbsp;</span>").click(function (e) {
             var span = $(this), offset = span.offset(), height = span.outerHeight(),
-                    field = span.parent().parent().attr("field"),
-                    eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, e),
-                    items = parseHeaderContextMenuItems(t, opts, exts, e, field, eventData);
+                field = span.parent().parent().attr("field"),
+                eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, e),
+                items = parseHeaderContextMenuItems(t, opts, exts, e, field, eventData);
             var mm = $.easyui.showMenu({ items: items, left: offset.left, top: offset.top + height }),
-                    mmOpts = mm.menu("options"), onHide = mmOpts.onHide;
+                mmOpts = mm.menu("options"), onHide = mmOpts.onHide;
             arrow.hidable = false;
             mmOpts.onHide = function () {
                 arrow.hidable = true;
@@ -1193,25 +1193,26 @@
                     }
                 }, "-"
             ];
-        var hasMore = distinctVals.length >= 15, data = hasMore ? $.array.left(distinctVals, 10) : distinctVals;
-        var items = $.array.map(data, function (val) {
-            var filterRows = $.array.filter(rows, function (value) { return value[field] == val; }),
-                filterLength = filterRows.length,
-                hiddenLength = $.array.sum(exts.filterData, function (value) { return value[field] == val ? 1 : 0; }),
-                iconCls = !hiddenLength ? "tree-checkbox1" : (hiddenLength >= filterLength ? "tree-checkbox0" : "tree-checkbox2");
-            var handler = function (e, field, eventData, t, item, menu) {
-                var hiddenLength = $.array.sum(exts.filterData, function (value) { return value[field] == val ? 1 : 0; });
-                t.datagrid(hiddenLength ? "showRows" : "hideRows", filterRows);
-                menu.menu("setIcon", { target: this, iconCls: hiddenLength ? "tree-checkbox1" : "tree-checkbox0" });
-                $(this).parent().children("div.menu-item:first").each(function () {
-                    menu.menu("setIcon", {
-                        target: this,
-                        iconCls: (!exts.filterData || !exts.filterData.length) ? "tree-checkbox1" : (exts.filterData.length >= rows.length ? "tree-checkbox0" : "tree-checkbox2")
+        var hasMore = distinctVals.length >= 15,
+            data = hasMore ? $.array.left(distinctVals, 10) : distinctVals,
+            items = $.array.map(data, function (val) {
+                var filterRows = $.array.filter(rows, function (value) { return value[field] == val; }),
+                    filterLength = filterRows.length,
+                    hiddenLength = $.array.sum(exts.filterData, function (value) { return value[field] == val ? 1 : 0; }),
+                    iconCls = !hiddenLength ? "tree-checkbox1" : (hiddenLength >= filterLength ? "tree-checkbox0" : "tree-checkbox2");
+                var handler = function (e, field, eventData, t, item, menu) {
+                    var hiddenLength = $.array.sum(exts.filterData, function (value) { return value[field] == val ? 1 : 0; });
+                    t.datagrid(hiddenLength ? "showRows" : "hideRows", filterRows);
+                    menu.menu("setIcon", { target: this, iconCls: hiddenLength ? "tree-checkbox1" : "tree-checkbox0" });
+                    $(this).parent().children("div.menu-item:first").each(function () {
+                        menu.menu("setIcon", {
+                            target: this,
+                            iconCls: (!exts.filterData || !exts.filterData.length) ? "tree-checkbox1" : (exts.filterData.length >= rows.length ? "tree-checkbox0" : "tree-checkbox2")
+                        });
                     });
-                });
-            };
-            return { text: val, iconCls: iconCls, hideOnClick: false, handler: handler };
-        });
+                };
+                return { text: val, iconCls: iconCls, hideOnClick: false, handler: handler };
+            });
         $.array.merge(mm, items);
         if (hasMore) {
             var colOpt = t.datagrid("getColumnOption", field), title = colOpt.title ? colOpt.title : colOpt.field, handler = function () {
@@ -1487,11 +1488,6 @@
         return ret;
     };
 
-    var clearFilterData = $.fn.datagrid.extensions.clearFilterData = function (opts) {
-        var exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {});
-        exts.filterData = [];
-    };
-
     var loader = $.fn.datagrid.extensions.loader = function (param, success, error) {
         var t = $.util.parseJquery(this), opts = t.datagrid("options");
         initExtensions(t, opts);
@@ -1499,7 +1495,7 @@
         param = $.fn.datagrid.extensions.parsePagingQueryParams(opts, param);
         $.ajax({
             type: opts.method, url: opts.url, data: param, dataType: "json",
-            success: function (data) { clearFilterData(opts); success(data); },
+            success: function (data) { success(data); },
             error: function () { error.apply(this, arguments); }
         });
     };

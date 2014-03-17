@@ -107,10 +107,10 @@
         if ($.isFunction(opts.onBeforeMoveColumn) && opts.onBeforeMoveColumn.call(target, param.source, param.target, param.point) == false) { return; }
         var panel = t.treegrid("getPanel"), view = panel.find("div.datagrid-view"),
             view1 = view.find("div.datagrid-view1"), view2 = view.find("div.datagrid-view2"),
-            headerRow1 = view1.find("table.datagrid-htable tr.datagrid-header-row"),
-            headerRow2 = view2.find("table.datagrid-htable tr.datagrid-header-row"),
-            borderRow1 = view1.find("table.datagrid-btable tr.datagrid-row"),
-            borderRow2 = view2.find("table.datagrid-btable tr.datagrid-row"),
+            headerRow1 = view1.find("div.datagrid-header table tr.datagrid-header-row"),
+            headerRow2 = view2.find("div.datagrid-header table tr.datagrid-header-row"),
+            borderRow1 = view1.find("div.datagrid-body table tr.datagrid-row"),
+            borderRow2 = view2.find("div.datagrid-body table tr.datagrid-row"),
             sourceHeaderTd = sourceFrozen ? headerRow1.find("td[field=" + param.source + "]") : headerRow2.find("td[field=" + param.source + "]"),
             targetHeaderTd = targetFrozen ? headerRow1.find("td[field=" + param.target + "]") : headerRow2.find("td[field=" + param.target + "]"),
             sourceRow = sourceFrozen ? borderRow1 : borderRow2,
@@ -299,7 +299,7 @@
 
     var enableRowDnd = function (target) {
         var t = $.util.parseJquery(target), opts = t.treegrid("options");
-        t.treegrid("getPanel").find("div.datagrid-view div.datagrid-body table.datagrid-btable tr.datagrid-row").draggable({
+        t.treegrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable({
             disabled: false, revert: true, cursor: "default", deltaX: 10, deltaY: 5,
             proxy: function (source) {
                 var tr = $.util.parseJquery(source), id = tr.attr("node-id"), dom = t.treegrid("getRowDom", id).clone();
@@ -308,7 +308,6 @@
                 var td = dom.find("td").each(function (i) { if (i < 6) { temp.append(this); } });
                 if (td.length > 6) { $("<td>...</td>").css("width", "40px").appendTo(temp); }
                 return $("<table></table>").addClass("tree-node-proxy").appendTo("body").append(temp).hide();
-                if (tr.closest("table.datagrid-btable").hasClass("datagrid-btable-frozen")) { return false; }
             }, onBeforeDrag: function (e) {
                 var tr = $.util.parseJquery(this), id = tr.attr("node-id"), row = t.treegrid("find", id);
                 if ($.isFunction(opts.onBeforeDrag) && opts.onBeforeDrag.call(target, row) == false) { return false; }
@@ -404,7 +403,7 @@
 
     var disableRowDnd = function (target) {
         var t = $.util.parseJquery(target), opts = t.treegrid("options");
-        t.treegrid("getPanel").find("div.datagrid-view div.datagrid-body table.datagrid-btable tr.datagrid-row").draggable("disable");
+        t.treegrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable("disable");
         opts.dndRow = false;
     };
 
@@ -976,11 +975,11 @@
         cell = $.util.parseJquery(cell); cell.off(".hoverArrow");
         var arrow = $("<span class='s-btn-downarrow datagrid-header-cell-arrow'>&nbsp;</span>").click(function (e) {
             var span = $(this), offset = span.offset(), height = span.outerHeight(),
-                    field = span.parent().parent().attr("field"),
-                    eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, e),
-                    items = parseHeaderContextMenuItems(t, opts, exts, e, field, eventData);
+                field = span.parent().parent().attr("field"),
+                eventData = $.fn.datagrid.extensions.parseContextMenuEventData(t, opts, e),
+                items = parseHeaderContextMenuItems(t, opts, exts, e, field, eventData);
             var mm = $.easyui.showMenu({ items: items, left: offset.left, top: offset.top + height }),
-                    mmOpts = mm.menu("options"), onHide = mmOpts.onHide;
+                mmOpts = mm.menu("options"), onHide = mmOpts.onHide;
             arrow.hidable = false;
             mmOpts.onHide = function () {
                 arrow.hidable = true;
@@ -1117,28 +1116,29 @@
                     }
                 }, "-"
             ];
-        var hasMore = distinctVals.length >= 15, data = hasMore ? $.array.left(distinctVals, 10) : distinctVals;
-        var items = $.array.map(data, function (val) {
-            var filterRows = $.array.filter(rows, function (value) { return value[field] == val; }),
-                filterLength = filterRows.length,
-                filterData = t.treegrid("getHiddenRows"),
-                hiddenLength = $.array.sum(filterData, function (value) { return value[field] == val ? 1 : 0; }),
-                iconCls = !hiddenLength ? "tree-checkbox1" : (hiddenLength >= filterLength ? "tree-checkbox0" : "tree-checkbox2");
-            var handler = function (e, field, eventData, t, item, menu) {
-                var filterData = t.treegrid("getHiddenRows"),
-                    hiddenLength = $.array.sum(filterData, function (value) { return value[field] == val ? 1 : 0; });
-                t.treegrid(hiddenLength ? "showRows" : "hideRows", $.array.map(filterRows, function (val) { return val[opts.idField]; }));
-                menu.menu("setIcon", { target: this, iconCls: hiddenLength ? "tree-checkbox1" : "tree-checkbox0" });
-                $(this).parent().children("div.menu-item:first").each(function () {
-                    var filterData = t.treegrid("getHiddenRows");
-                    menu.menu("setIcon", {
-                        target: this,
-                        iconCls: (!exts.filterData.length) ? "tree-checkbox1" : (filterData.length >= rows.length ? "tree-checkbox0" : "tree-checkbox2")
+        var hasMore = distinctVals.length >= 15,
+            data = hasMore ? $.array.left(distinctVals, 10) : distinctVals,
+            items = $.array.map(data, function (val) {
+                var filterRows = $.array.filter(rows, function (value) { return value[field] == val; }),
+                    filterLength = filterRows.length,
+                    filterData = t.treegrid("getHiddenRows"),
+                    hiddenLength = $.array.sum(filterData, function (value) { return value[field] == val ? 1 : 0; }),
+                    iconCls = !hiddenLength ? "tree-checkbox1" : (hiddenLength >= filterLength ? "tree-checkbox0" : "tree-checkbox2");
+                var handler = function (e, field, eventData, t, item, menu) {
+                    var filterData = t.treegrid("getHiddenRows"),
+                        hiddenLength = $.array.sum(filterData, function (value) { return value[field] == val ? 1 : 0; });
+                    t.treegrid(hiddenLength ? "showRows" : "hideRows", $.array.map(filterRows, function (val) { return val[opts.idField]; }));
+                    menu.menu("setIcon", { target: this, iconCls: hiddenLength ? "tree-checkbox1" : "tree-checkbox0" });
+                    $(this).parent().children("div.menu-item:first").each(function () {
+                        var filterData = t.treegrid("getHiddenRows");
+                        menu.menu("setIcon", {
+                            target: this,
+                            iconCls: (!exts.filterData.length) ? "tree-checkbox1" : (filterData.length >= rows.length ? "tree-checkbox0" : "tree-checkbox2")
+                        });
                     });
-                });
-            };
-            return { text: val, iconCls: iconCls, hideOnClick: false, handler: handler };
-        });
+                };
+                return { text: val, iconCls: iconCls, hideOnClick: false, handler: handler };
+            });
         $.array.merge(mm, items);
         if (hasMore) {
             var colOpt = t.treegrid("getColumnOption", field), title = colOpt.title ? colOpt.title : colOpt.field, handler = function () {
@@ -1326,7 +1326,7 @@
 
     /************************  initExtend initColumnTooltip Begin  ************************/
     var initColumnTooltip = function (t, opts) {
-        t.treegrid("getPanel").find("div.datagrid-view div.datagrid-body table.datagrid-btable tr.datagrid-row").each(function () {
+        t.treegrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").each(function () {
             var tr = $(this), id = tr.attr("node-id"), row = t.treegrid("find", id);
             initColumnRowTooltip(t, opts, id, row, tr);
         });
@@ -1439,11 +1439,6 @@
         exts._initialized = true;
     };
 
-    var clearFilterData = $.fn.treegrid.extensions.clearFilterData = function (opts) {
-        var exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
-        exts.filterData = [];
-    };
-
     var loader = $.fn.treegrid.extensions.loader = function (param, success, error) {
         var t = $.util.parseJquery(this), opts = t.treegrid("options");
         initExtensions(t, opts);
@@ -1451,7 +1446,7 @@
         param = $.fn.datagrid.extensions.parsePagingQueryParams(opts, param);
         $.ajax({
             type: opts.method, url: opts.url, data: param, dataType: "json",
-            success: function (data) { $.fn.treegrid.extensions.clearFilterData(opts); success(data); },
+            success: function (data) { success(data); },
             error: function () { error.apply(this, arguments); }
         });
     };
