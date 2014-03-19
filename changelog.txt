@@ -1,13 +1,20 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
-/******** 2014-03-17(1.0.38 preview) ********/
+/******** 2014-03-19(1.0.38 preview) ********/
 1、【+】 增加新的插件扩展 jeasyui.extensions.searchbox.js 以实现对 easyui-search 组件的扩展功能；目前已经实现为该组件扩展了 enable、disable 方法和 disabled 属性；
 2、【+】 插件 jeasyui.extensions.gridselector.js 新增双表弹窗选择框方法 showDblGridSelector；
 3、【+】 新增扩展插件 jquery.comboselector.js，实现 easyui-combo 组件对表格弹窗选择器的调用；目前已支持 showGridSelector 和 showDblGridSelector 方法生成的弹窗选择器；
-4、[+] 插件 jquery.toolbar.js 中，工具栏子项列表增加对 easyui-searchbox 控件的支持，其属性类型值为 "searchbox"；
-5、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 插件中存在的部分 BUG；
-6、[#] 修复 jquery.comboicons.js 插件中存在的部分 BUG；
+4、【+】 新增扩展插件 jquery.my97.js，实现 easyui-combo 组件对 my97WdatePicker 日期选择控件的调用，easyui-my97 支持 my97WdatePicker 所有原生属性；
+5、【+】 新增 jquery.toolbar.js 插件工具栏子项控件对
+        "separator"、"label"、"checkbox"、"linkbutton(button)"、"validatebox"、"numberbox"、"numberspinner"、"timespinner"、
+        "combo"、"datebox"、"datetimebox"、"combobox"、"combotree"、"combogrid"、"comboicons"、"comboselector"、"my97"、"searchbox" 的支持
+6、【+】 新增 jquery.datagrid.js 插件中行单元格编辑器控件对
+        "combogrid"、"searchbox"、"comboicons"、"comboselector"、"my97" 的支持，并且让 easyui-datagrid 的所有类型单元格编辑器支持 autoFocusField 属性效果；
+7、[+] 插件 jquery.toolbar.js 中，工具栏子项列表增加对 easyui-searchbox 控件的支持，其属性类型值为 "searchbox"；
+8、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 插件中存在的部分 BUG；
+9、[#] 修复 jquery.comboicons.js 插件中存在的部分 BUG；
+10、[#] 修复部分插件因重写 easyui 组件而存在的算法 BUG；
 
 
 /******** 2014-03-07(1.0.37 preview) ********/

@@ -59,17 +59,22 @@
 
     var _searchbox = $.fn.searchbox;
     $.fn.searchbox = function (options, param) {
-        if (typeof options == "string") { return _searchbox.apply(this, arguments); }
+        if (typeof options == "string") {
+            return _searchbox.apply(this, arguments);
+        }
         options = options || {};
         return this.each(function () {
-            var jq = $(this), opts = $.extend({}, $.fn.searchbox.parseOptions(this), options);
+            var jq = $(this), hasInit = $.data(this, "searchbox") ? true : false,
+                opts = hasInit ? options : $.extend({}, $.fn.searchbox.parseOptions(this), $.parser.parseOptions(this, [{
+                    disabled: jq.attr("disabled") ? true : undefined
+                }]), options);
             _searchbox.call(jq, opts);
             initialize(this);
         });
     };
     $.union($.fn.searchbox, _searchbox);
 
-    
+
     var methods = $.fn.searchbox.extensions.methods = {
 
         disable: function (jq) { return jq.each(function () { setDisabled(this, true); }); },
@@ -85,5 +90,32 @@
 
     $.extend($.fn.searchbox.defaults, defaults);
     $.extend($.fn.searchbox.methods, methods);
+
+
+    $.extend($.fn.datagrid.defaults.editors, {
+        searchbox: {
+            init: function (container, options) {
+                var box = $("<input type=\"text\"></input>").appendTo(container).searchbox(options);
+                box.searchbox("textbox").addClass("datagrid-editable-input");
+                return box;
+            },
+            destroy: function (target) {
+                $(target).searchbox("destroy");
+            },
+            getValue: function (target) {
+                return $(target).searchbox("getValue");
+            },
+            setValue: function (target, value) {
+                $(target).searchbox("setValue", value);
+            },
+            resize: function (target, width) {
+                $(target).searchbox("resize", width);
+            },
+            setFocus: function (target) {
+                $(target).searchbox("textbox").focus();
+            }
+        }
+    });
+
 
 })(jQuery);

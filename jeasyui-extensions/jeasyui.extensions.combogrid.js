@@ -16,9 +16,10 @@
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
-*   3、jeasyui.extensions.menu.js v1.0 beta late
-*   4、jeasyui.extensions.datagrid.js v1.0 beta late
-*   5、jeasyui.extensions.panel.js v1.0 beta late 和 jeasyui.extensions.window.js v1.0 beta late(可选)
+*   3、jeasyui.extensions.combo.js v1.0 beta late
+*   4、jeasyui.extensions.menu.js v1.0 beta late
+*   5、jeasyui.extensions.datagrid.js v1.0 beta late
+*   6、jeasyui.extensions.panel.js v1.0 beta late 和 jeasyui.extensions.window.js v1.0 beta late(可选)
 *
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -30,16 +31,17 @@
 
     var methods = $.fn.combogrid.extensions.methods = {};
     var defaults = $.fn.combogrid.extensions.defaults = $.extend({}, $.fn.datagrid.extensions.defaults, {
+
         //  覆盖 easyui-combogrid 的事件 onLoadSuccess 以支持 easyui-datagrid 的自定义扩展功能；
         onLoadSuccess: function (data) {
-            var t = $.util.parseJquery(this), grid = t.combogrid("grid");
-            $.fn.datagrid.extensions.defaults.onLoadSuccess.call(grid, data);
+            var t = $(this), grid = t.combogrid("grid");
+            $.fn.datagrid.extensions.defaults.onLoadSuccess.call(grid[0], data);
         },
 
         //  覆盖 easyui-combogrid 的事件 onResizeColumn 以支持 easyui-datagrid 的自定义扩展功能；
         onResizeColumn: function (field, width) {
-            var t = $.util.parseJquery(this), grid = t.combogrid("grid");
-            $.fn.datagrid.extensions.defaults.onResizeColumn.call(grid, field, width);
+            var t = $(this), grid = t.combogrid("grid");
+            $.fn.datagrid.extensions.defaults.onResizeColumn.call(grid[0], field, width);
         }
     });
 
@@ -51,18 +53,22 @@
         $.extend($.fn.datagrid.defaults.editors, {
             combogrid: {
                 init: function (container, options) {
-                    return $("<select class='datagrid-editable-input' ></select>").appendTo(container).combogrid(options);
+                    var box = $("<input type=\"text\" ></input>").appendTo(container).combogrid(options);
+                    box.combogrid("textbox").addClass("datagrid-editable-input");
+                    return box;
                 },
-                destroy: function (target) { $.util.parseJquery(target).combogrid("destroy"); },
+                destroy: function (target) {
+                    $.util.parseJquery(target).combogrid("destroy");
+                },
                 getValue: function (target) {
-                    var t = $.util.parseJquery(target), opts = t.combogrid("options");
+                    var t = $(target), opts = t.combogrid("options");
                     return t.combogrid(opts.multiple ? "getValues" : "getValue");
                 },
                 setValue: function (target, value) {
-                    $.util.parseJquery(target).combogrid($.isArray(value) ? "setValues" : "setValue", value);
+                    $(target).combogrid($.isArray(value) ? "setValues" : "setValue", value);
                 },
                 resize: function (target, width) {
-                    $(target).combogrid("resize");
+                    $(target).combogrid("resize", width);
                 },
                 setFocus: function (target) {
                     $(target).combogrid("textbox").focus();

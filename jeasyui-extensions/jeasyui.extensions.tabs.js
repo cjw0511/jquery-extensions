@@ -11,7 +11,7 @@
 * jQuery EasyUI tabs 组件扩展
 * jeasyui.extensions.tabs.js
 * 二次开发 流云
-* 最近更新：2013-11-08
+* 最近更新：2014-03-18
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -140,16 +140,16 @@
             updateProgress = $.array.contains(["mask", "progress", "none"], opts.updateProgress) ? opts.updateProgress : "mask",
             loading = function () {
                 if (updateProgress == "mask") {
-                    $.easyui.loaded({ topMost: true });
+                    $.easyui.loading({ topMost: true });
                 } else if (updateProgress == "progress") {
-                    $.easyui.messager.progress("close");
+                    $.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
                 }
             },
             loaded = function () {
                 if (updateProgress == "mask") {
-                    $.easyui.loading({ topMost: true });
+                    $.easyui.loaded({ topMost: true });
                 } else if (updateProgress == "progress") {
-                    $.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
+                    $.easyui.messager.progress("close");
                 }
             },
             refreshButton = {
@@ -166,11 +166,11 @@
             }
         }
         if (updateProgress != "none" && (!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab)) {
-            loaded();
+            loading();
             if (!panelOpts.iniframe) {
                 panelOpts.onLoad = function () {
                     if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
-                    $.util.exec(loading);
+                    $.util.exec(loaded);
                     $(this).panel("options").onLoad = onLoad;
                 };
             }
@@ -181,11 +181,18 @@
         panelOpts.tools = tools;
         initTabsPanelPaddingTopLine(target);
         var li = tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li").eq(index).off("dblclick.closeOnDblClick").on("dblclick.closeOnDblClick", function () {
-            if (panelOpts.closeOnDblClick && panelOpts.closable) { tabs.tabs("close", panelOpts.title); }
+            if (panelOpts.closeOnDblClick && panelOpts.closable) {
+                tabs.tabs("close", panelOpts.title);
+            }
         });
         if (panelOpts.closeOnDblClick && panelOpts.closable) { li.attr("title", "双击此选项卡标题可以将其关闭"); }
         if (updateProgress != "none" && panelOpts.iniframe) {
-            $.util.exec(function () { tab.panel("iframe").bind("load", loading); });
+            $.util.exec(function () {
+                tab.panel("iframe").bind("load", function () {
+                    loaded();
+                    if ($.isFunction(opts.onLoad)) { opts.onLoad.call(target, tab); }
+                });
+            });
         }
         return ret;
     };

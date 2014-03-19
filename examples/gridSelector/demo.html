@@ -3,7 +3,7 @@
     <script type="text/javascript">
 
         window.opts = {
-            topMost: true,
+            topMost: false,
             extToolbar: true,
             toolbar: [
                 "姓名：",
@@ -20,7 +20,7 @@
                 }
             ],
             method: "get",
-            url: $.util.resolveUrl("jqext/examples/datagrid/datagrid-data.json"),
+            url: "datagrid/datagrid-data.json",
             idField: "ID",
             textField: "Name",
             //value: [1, 2, 3],
@@ -83,13 +83,13 @@
     <input id="btn3" type="button" value="ShowDblGridSelector" />
     <input id="btn4" type="button" value="ShowDblGridSelector width pagination" />
     <hr />
-    单表选择框1：<input id="selector1" type="text" />
+    单表选择框1：<input id="selector1" type="text" data-options="width: 300" />
     <br /><br />
-    双表选择框1：<input id="selector2" type="text" value="2" text="况文娟" />
+    双表选择框1：<input id="selector2" type="text" data-options="width: 300" value="2" text="况文娟" />
     <br /><br />
-    单表选择框2：<input id="selector3" type="text" />
+    单表选择框2：<input id="selector3" type="text" data-options="width: 300" />
     <br /><br />
-    双表选择框2：<input id="selector4" type="text" />
+    双表选择框2：<input id="selector4" type="text" data-options="width: 300" />
 
 
 </div>

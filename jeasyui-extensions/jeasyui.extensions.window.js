@@ -131,10 +131,16 @@
 
     var _window = $.fn.window;
     $.fn.window = function (options, param) {
-        if (typeof options == "string") { return _window.apply(this, arguments); }
+        if (typeof options == "string") {
+            return _window.apply(this, arguments);
+        }
         options = options || {};
         return this.each(function () {
-            var jq = $(this), opts = $.extend({}, $.fn.window.parseOptions(this), options);
+            var jq = $(this), hasInit = $.data(this, "window") ? true : false,
+                opts = hasInit ? options : $.extend({}, $.fn.window.parseOptions(this), $.parser.parseOptions(this, [{
+                    autoHCenter: "boolean", autoVCenter: "boolean", autoCloseOnEsc: "boolean",
+                    autoRestore: "boolean", enableHeaderContextMenu: "boolean"
+                }]), options);
             _window.call(jq, opts);
             initialize(this);
         });

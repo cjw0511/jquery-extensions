@@ -1032,7 +1032,6 @@
     };
 
     function initHeaderCellClickMenu(t, opts, exts, cell) {
-        cell = $.util.parseJquery(cell); cell.off(".hoverArrow");
         var arrow = $("<span class='s-btn-downarrow datagrid-header-cell-arrow'>&nbsp;</span>").click(function (e) {
             var span = $(this), offset = span.offset(), height = span.outerHeight(),
                 field = span.parent().parent().attr("field"),
@@ -1048,9 +1047,15 @@
             };
             return false;
         }).prependTo(cell);
-        cell.on({
-            "mouseenter.hoverArrow": function () { arrow.addClass("datagrid-header-cell-arrow-show"); },
-            "mouseleave.hoverArrow": function () { if (!$.util.isBoolean(arrow.hidable) || arrow.hidable) { arrow.removeClass("datagrid-header-cell-arrow-show"); } }
+        $(cell).off(".hoverArrow").on({
+            "mouseenter.hoverArrow": function () {
+                arrow.addClass("datagrid-header-cell-arrow-show");
+            },
+            "mouseleave.hoverArrow": function () {
+                if (!$.util.isBoolean(arrow.hidable) || arrow.hidable) {
+                    arrow.removeClass("datagrid-header-cell-arrow-show");
+                }
+            }
         });
     };
 
@@ -1507,7 +1512,7 @@
     var _onLoadSuccess = $.fn.datagrid.defaults.onLoadSuccess;
     var onLoadSuccess = $.fn.datagrid.extensions.onLoadSuccess = function (data) {
         if ($.isFunction(_onLoadSuccess)) { _onLoadSuccess.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.datagrid("options"),
+        var t = $(this), opts = t.datagrid("options"),
             exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {});
         initHeaderColumnFilterContainer(t, opts, exts);
         initRowDndExtensions(t, opts);
@@ -2297,9 +2302,50 @@
     $.extend($.fn.datagrid.methods, methods);
 
 
-    $.extend($.fn.datagrid.defaults.editors.datebox, { setFocus: function (target) { $(target).datebox("textbox").focus(); } });
-    $.extend($.fn.datagrid.defaults.editors.combobox, { setFocus: function (target) { $(target).combobox("textbox").focus(); } });
-    $.extend($.fn.datagrid.defaults.editors.combotree, { setFocus: function (target) { $(target).combotree("textbox").focus(); } });
+
+    var editors = $.fn.datagrid.defaults.editors,
+        checkbox_init = editors.checkbox.init,
+        datebox_init = editors.datebox.init,
+        combobox_init = editors.combobox.init,
+        combotree_init = editors.combotree.init;
+    $.extend(editors.checkbox, {
+        init: function (container, options) {
+            return checkbox_init.apply(this, arguments).addClass("datagrid-editable-input datagrid-editable-checkbox"); 
+        },
+        setFocus: function (target) {
+            $(target).datebox("textbox").focus();
+        }
+    });
+    $.extend(editors.datebox, {
+        init: function (container, options) {
+            var box = datebox_init.apply(this, arguments);
+            box.datebox("textbox").addClass("datagrid-editable-input");
+            return box;
+        },
+        setFocus: function (target) {
+            $(target).datebox("textbox").focus();
+        }
+    });
+    $.extend(editors.combobox, {
+        init: function (container, options) {
+            var box = combobox_init.apply(this, arguments);
+            box.combobox("textbox").addClass("datagrid-editable-input");
+            return box;
+        },
+        setFocus: function (target) {
+            $(target).combobox("textbox").focus();
+        }
+    });
+    $.extend(editors.combotree, {
+        init: function (container, options) {
+            var box = combotree_init.apply(this, arguments);
+            box.combotree("textbox").addClass("datagrid-editable-input");
+            return box;
+        },
+        setFocus: function (target) {
+            $(target).combotree("textbox").focus();
+        }
+    });
 
 
 
@@ -2353,7 +2399,9 @@
         ".datagrid-header-filter-slider { }" +
         ".datagrid-header-filter-sliderwrap { overflow: hidden; padding-left: 30px; padding-top: 15px; }" +
         ".datagrid-header-filter-sliderwrap .slider-rulelabel span { font-size: 11px; }" +
-        ".datagrid-header-filter-numeric { width: 60px; height: 12px; font-size: 11px; }"
+        ".datagrid-header-filter-numeric { width: 60px; height: 12px; font-size: 11px; }" +
+        ".datagrid-editable-checkbox { }"
+    ;
     $.util.addCss(css);
 })(jQuery);
 

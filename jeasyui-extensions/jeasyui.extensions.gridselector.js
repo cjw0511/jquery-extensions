@@ -11,7 +11,7 @@
 * jQuery EasyUI gridselector 组件扩展
 * jeasyui.extensions.gridselector.js
 * 二次开发 流云
-* 最近更新：2014-02-28
+* 最近更新：2014-03-17
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -85,7 +85,9 @@
                 onUnselectAll: function (rows) { refreshValue(); },
                 onLoadSuccess: function (data) {
                     $.fn.datagrid.defaults.onLoadSuccess.apply(this, arguments);
-                    if ($.isFunction(opts.onLoadSuccess)) { opts.onLoadSuccess.apply(this, arguments); }
+                    if ($.isFunction(opts.onLoadSuccess) && opts.onLoadSuccess != $.fn.datagrid.defaults.onLoadSuccess) {
+                        opts.onLoadSuccess.apply(this, arguments);
+                    }
                     if (!tempData) { return; }
                     if ($.util.likeArrayNotString(tempData)) {
                         $.each(tempData, function (i, val) {
@@ -162,7 +164,9 @@
                     ],
                     onLoadSuccess: function () {
                         $.fn.datagrid.defaults.onLoadSuccess.apply(this, arguments);
-                        if ($.isFunction(opts.onLoadSuccess)) { opts.onLoadSuccess.apply(this, arguments); }
+                        if ($.isFunction(opts.onLoadSuccess) && opts.onLoadSuccess != $.fn.datagrid.defaults.onLoadSuccess) {
+                            opts.onLoadSuccess.apply(this, arguments);
+                        }
                         if (!init) {
                             $.each(tempData, function (i, val) { selectRow(val); });
                             refreshValue();

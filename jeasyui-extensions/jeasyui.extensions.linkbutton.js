@@ -80,8 +80,14 @@
 
     var _linkbutton = $.fn.linkbutton;
     $.fn.linkbutton = function (options, param) {
-        if (typeof options == "string") { return _linkbutton.apply(this, arguments); }
-        return _linkbutton.apply(this, arguments).each(function () {
+        if (typeof options == "string") {
+            return _linkbutton.apply(this, arguments);
+        }
+        options = options || {};
+        return this.each(function () {
+            var jq = $(this), hasInit = $.data(this, "linkbutton") ? true : false,
+                opts = hasInit ? options : $.extend({}, $.fn.linkbutton.parseOptions(this), options);
+            _linkbutton.call(jq, opts);
             initialize(this);
         });
     };

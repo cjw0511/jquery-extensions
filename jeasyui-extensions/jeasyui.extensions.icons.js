@@ -11,7 +11,7 @@
 * jQuery EasyUI icons 组件扩展
 * jeasyui.extensions.icons.js
 * 二次开发 流云
-* 最近更新：2013-09-29
+* 最近更新：2014-03-18
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -20,8 +20,7 @@
 *   4、jeasyui.extensions.panel.js v1.0 beta late
 *   5、jeasyui.extensions.window.js v1.0 beta late
 *   6、jeasyui.extensions.dialog.js v1.0 beta late
-*   7、jeasyui.extensions.toolbar.js v1.0 beta late
-*   8、icons/jeasyui.icons.all.js 和 icons/icon-all.css v1.0 beta late
+*   7、icons/jeasyui.icons.all.js 和 icons/icon-all.css v1.0 beta late
 *
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org

@@ -149,10 +149,16 @@
 
     var _panel = $.fn.panel;
     $.fn.panel = function (options, param) {
-        if (typeof options == "string") { return _panel.apply(this, arguments); }
+        if (typeof options == "string") {
+            return _panel.apply(this, arguments);
+        }
         options = options || {};
         return this.each(function () {
-            var jq = $.util.parseJquery(this), opts = $.extend({}, $.fn.panel.parseOptions(this), options);
+            var jq = $(this), hasInit = $.data(this, "panel") ? true : false,
+                opts = hasInit ? options : $.extend({}, $.fn.panel.parseOptions(this), $.parser.parseOptions(this, [
+                    { minWidth: "number", maxWidth: "number", minHeight: "number", maxHeight: "number" },
+                    { iniframe: "boolean", inContainer: "boolean" }
+                ]), options);
             parseExtensionsBegin(opts);
             _panel.call(jq, opts);
             parseExtensionsEnd(this);

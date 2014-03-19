@@ -11,17 +11,18 @@
 * jQuery EasyUI comboicons 插件扩展
 * jquery.comboicons.js
 * 二次开发 流云
-* 最近更新：2014-03-14
+* 最近更新：2014-03-17
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
-*   3、jeasyui.extensions.menu.js v1.0 beta late
-*   4、jeasyui.extensions.panel.js v1.0 beta late
-*   5、jeasyui.extensions.window.js v1.0 beta late
-*   6、jeasyui.extensions.dialog.js v1.0 beta late
-*   7、icons/jeasyui.icons.all.js 和 icons/icon-all.css v1.0 beta late
-*   8、jeasyui.extensions.icons.js v1.0 beta late
+*   3、jeasyui.extensions.combo.js v1.0 beta late
+*   4、jeasyui.extensions.menu.js v1.0 beta late
+*   5、jeasyui.extensions.panel.js v1.0 beta late
+*   6、jeasyui.extensions.window.js v1.0 beta late
+*   7、jeasyui.extensions.dialog.js v1.0 beta late
+*   8、icons/jeasyui.icons.all.js 和 icons/icon-all.css v1.0 beta late
+*   9、jeasyui.extensions.icons.js v1.0 beta late
 *
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -93,9 +94,10 @@
     };
 
     function setValues(target, values) {
-        values = $.isArray(values) ? values : [values];
-        var text = values.join(", ");
-        $(target).combo("setValues", values).combo("setText", text);
+        var t = $(target), opts = t.comboicons("options"),
+            array = $.util.likeArrayNotString(values) ? values : [values],
+            text = array.join(opts.separator);
+        t.combo("setValues", array).combo("setText", text);
     };
 
 
@@ -122,7 +124,7 @@
     };
 
     $.fn.comboicons.parseOptions = function (target) {
-        return $.extend({}, $.fn.combo.parseOptions(target, ["size", "iconCls"]));
+        return $.extend({}, $.fn.combo.parseOptions(target), $.parser.parseOptions(target, ["size", "iconCls"]));
     };
 
     $.fn.comboicons.methods = {
@@ -144,6 +146,35 @@
         panelWidth: 500,
         panelHeight: 360
     });
+
+
+    if ($.fn.datagrid) {
+        $.extend($.fn.datagrid.defaults.editors, {
+            comboicons: {
+                init: function (container, options) {
+                    var box = $("<input type=\"text\"></input>").appendTo(container).comboicons(options);
+                    box.comboicons("textbox").addClass("datagrid-editable-input");
+                    return box;
+                },
+                destroy: function (target) {
+                    $(target).comboicons("destroy");
+                },
+                getValue: function (target) {
+                    var t = $(target), opts = t.comboicons("options");
+                    return t.comboicons(opts.multiple ? "getValues" : "getValue");
+                },
+                setValue: function (target, value) {
+                    $(target).comboicons($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
+                },
+                resize: function (target, width) {
+                    $(target).comboicons("resize", width);
+                },
+                setFocus: function (target) {
+                    $(target).comboicons("textbox").focus();
+                }
+            }
+        });
+    }
 
 
     $.parser.plugins.push("comboicons");

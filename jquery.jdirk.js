@@ -1065,8 +1065,8 @@
     //      num:    需要进行舍入计算的数值;
     //      precision:  舍入操作保留的精度(意即保留多少为小数)，默认为 0;
     coreNumber.round = function (num, precision) {
-        if (!$.isNumeric(num)) { throw "传入的参数 num 必须是一个数值"; }
-        precision = $.isNumeric(precision) ? precision : 0;
+        if (!coreUtil.isNumeric(num)) { throw "传入的参数 num 必须是一个数值"; }
+        precision = coreUtil.isNumeric(precision) ? precision : 0;
         var str = new Number(num).toFixed(precision);
         return precision ? parseFloat(str) : parseInt(str);
     };
@@ -1082,8 +1082,8 @@
     //          返回值：返回数值 num 按照指定的精度进行舍入操作后的值；
     //          备注：该重载会调用函数 coreNumber.round 进行数值舍入操作。
     coreNumber.precision = function (num, precision) {
-        if (!$.isNumeric(num)) { throw "传入的参数 num 必须是一个数值"; }
-        if ($.isNumeric(precision)) { return coreNumber.round(num, precision); } else {
+        if (!coreUtil.isNumeric(num)) { throw "传入的参数 num 必须是一个数值"; }
+        if (coreUtil.isNumeric(precision)) { return coreNumber.round(num, precision); } else {
             var str = String(num), i = str.indexOf(".");
             return i == -1 ? 0 : str.length - str.indexOf(".") - 1;
         }
@@ -1619,7 +1619,7 @@
     //      count: 要提取的元素项的数量，必须是一个正整数；该参数可选；如果不传入该参数或传入的值超出范围，则默认为 1。
     coreArray.take = function (array, count) {
         array = coreArray.likeArray(array) ? array : [];
-        if (!$.isNumeric(count) || count < 1) { count = 1; }
+        if (!coreUtil.isNumeric(count) || count < 1) { count = 1; }
         var temps = [];
         for (var i = 0; i < array.length; i++) { if (i < count) { temps.push(array[i]); } }
         return temps;
@@ -1830,7 +1830,7 @@
     //      如果 length 的值大于 array.length，则返回 array 的一个副本；
     coreArray.left = function (array, length) {
         array = coreArray.likeArray(array) ? array : [];
-        if (!length || !$.isNumeric(length) || length < 0) { return []; }
+        if (!length || !coreUtil.isNumeric(length) || length < 0) { return []; }
         if (length > array.length) { return coreArray.clone(array); }
         return coreArray.range(array, 0, length);
     };
@@ -1844,7 +1844,7 @@
     //      如果 length 的值大于 array.length，则返回 array 的一个副本；
     coreArray.right = function (array, length) {
         array = coreArray.likeArray(array) ? array : [];
-        if (!length || !$.isNumeric(length) || length < 0) { return []; }
+        if (!length || !coreUtil.isNumeric(length) || length < 0) { return []; }
         if (length > array.length) { return coreArray.clone(array); }
         return coreArray.range(array, array.length + 1 - length);
     };
@@ -1861,8 +1861,17 @@
     //  javascript 的日期函数功能扩充。
     /////////////////////////////////////////////////////////////////////////////////////////////// 
 
-    //  判断指定的对象是否为合法的日期(Date)格式对象；传入的参数可以为日期格式字符串。
-    coreDate.isDate = function (date) { return coreUtil.isDate(date) || coreString.isDate(date); };
+    //  判断指定的对象是否为合法的日期(Date)格式对象；
+    coreDate.isDate = function (date) { return coreUtil.isDate(date); };
+
+    //  判断指定的对象是否为一个日期(Date)对象或者是一个日期格式的字符串。
+    coreDate.likeDate = function (date) { return coreDate.isDate(date) || coreString.isDate(date); };
+
+    //  将 String 或 Number 类型值转换成 Date 类型值；
+    //  返回值：该方法返回一个新创建的 Date 类型值；
+    coreDate.toDate = function (obj) {
+        return coreUtil.isDate(obj) ? obj : (coreUtil.isString(obj) ? coreString.toDate(obj) : new Date(obj));
+    };
 
     //  判断指定的日期字符串是否是合法的长日期格式；
     //  该函数依赖于 coreString.isLongDate 函数。
@@ -1879,7 +1888,7 @@
         var y = 0;
         if (coreDate.isDate(date)) {
             y = new Date(date).getYear();
-        } else if ($.isNumeric(date)) {
+        } else if (coreUtil.isNumeric(date)) {
             y = date;
         } else {
             throw "传入的参数 date 的数据类型必须为 Date、String 或者 Number。";
@@ -1896,14 +1905,7 @@
 
     //  创建一个新的 日期(Date) 对象，返回的值与当前 日期对象 的值相同；
     coreDate.clone = function (date) {
-        var d = 0;
-        if (coreDate.isDate(date)) {
-            d = new Date(date).getTime();
-        } else if (window.isNumeric(date)) {
-            d = date;
-        } else {
-            throw "传入的参数 date 的数据类型必须为 Date、String 或者 Number。";
-        }
+        var d = coreDate.toDate(date).getTime();
         return new Date(d);
     };
     coreDate.prototype.clone = function () { return coreDate.clone(this); };
@@ -1915,8 +1917,8 @@
     //      如果 date1 < date2，则返回一个小于 0 的值；
     //      如果 date1 == date2，则返回 0。
     coreDate.compare = function (date1, date2) {
-        date1 = coreUtil.isDate(date1) ? date1 : new Date(date1);
-        date2 = coreUtil.isDate(date2) ? date1 : new Date(date2);
+        date1 = coreDate.toDate(date1);
+        date2 = coreDate.toDate(date2);
         var d1 = date1.getTime(), d2 = date2.getTime();
         return coreUtil.compare(d1, d2);
     };
@@ -1925,7 +1927,7 @@
 
     //  获取指定日期对象当前表示的季度（0 - 3）
     coreDate.getQuarter = function (date) {
-        date = coreUtil.isDate(date) ? date : new Date(date);
+        date = coreDate.toDate(date);
         var m = date.getMonth();
         var q = 0;
         if (m >= 0 && m < 3) {
@@ -1943,14 +1945,14 @@
 
     //  获取当前日期对象表示所在周的星期几（0 - 6）
     coreDate.getDayOfWeek = function (date) {
-        date = coreUtil.isDate(date) ? date : new Date(date);
+        date = coreDate.toDate(date);
         return date.getDay();
     };
     coreDate.prototype.getDayOfWeek = function () { return coreDate.getDayOfWeek(this); }
 
     //  获取当前日期对象所在年的第几周计数。
     coreDate.getWeek = function (date, weekStart) {
-        date = coreUtil.isDate(date) ? date : new Date(date);
+        date = coreDate.toDate(date);
         weekStart = (weekStart || 0) - 0;
         if (!coreUtil.isNumeric(weekStart) || weekStart > 6) { weekStart = 0; }
         var year = date.getFullYear(),
@@ -1963,7 +1965,7 @@
 
     //  获取当前日期对象所在月的第几周计数。
     coreDate.getWeekOfMonth = function (date, weekStart) {
-        date = coreUtil.isDate(date) ? date : new Date(date);
+        date = coreDate.toDate(date);
         weekStart = (weekStart || 0) - 0;
         if (!coreUtil.isNumeric(weekStart) || weekStart > 6) { weekStart = 0; }
         var dayOfWeek = date.getDay(),
@@ -1977,6 +1979,7 @@
     //      millisec: 要添加的毫秒数，可以是一个负数。
     //  返回值：date 添加指定毫秒数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addTime = function (date, millisec) {
+        date = coreDate.toDate(date);
         var d = Date.parse(date);
         if (!coreUtil.isNumeric(millisec)) { millisec = Date.parse(millisec); }
         return new Date(d + millisec);
@@ -1988,6 +1991,7 @@
     //      days: 要添加的天数，可以是一个负数。
     //  返回值：date 添加指定天数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addDays = function (date, days) {
+        date = coreDate.toDate(date);
         var d = Date.parse(date);
         if (!coreUtil.isNumeric(days)) { return new Date(d); }
         var millisec = 86400000 * days;
@@ -2000,6 +2004,7 @@
     //      hours: 要添加的小时数，可以是一个负数。
     //  返回值：date 添加指定小时数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addHours = function (date, hours) {
+        date = coreDate.toDate(date);
         var d = Date.parse(date);
         if (!coreUtil.isNumeric(hours)) { return new Date(d); }
         var millisec = 3600000 * hours;
@@ -2012,6 +2017,7 @@
     //      millisec: 要添加的毫秒数，可以是一个负数。
     //  返回值：date 添加指定毫秒数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addMilliseconds = function (date, millisec) {
+        date = coreDate.toDate(date);
         var d = Date.parse(date);
         if (!coreUtil.isNumeric(millisec)) { return new Date(d); }
         return new Date(d + millisec);
@@ -2023,6 +2029,7 @@
     //      minutes: 要添加的分钟数，可以是一个负数。
     //  返回值：date 添加指定分钟数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addMinutes = function (date, minutes) {
+        date = coreDate.toDate(date);
         var d = Date.parse(date);
         if (!coreUtil.isNumeric(minutes)) { return new Date(d); }
         var millisec = 60000 * minutes;
@@ -2035,6 +2042,7 @@
     //      weeks: 要添加的星期周数，可以是一个负数。
     //  返回值：date 添加指定星期周数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addWeeks = function (date, weeks) {
+        date = coreDate.toDate(date);
         var d = Date.parse(date);
         if (!coreUtil.isNumeric(weeks)) { return new Date(d); }
         var millisec = 86400000 * 7 * weeks;
@@ -2047,7 +2055,7 @@
     //      months: 要添加的月数，可以是一个负数。
     //  返回值：date 添加指定月数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addMonths = function (date, months) {
-        if (!coreUtil.isDate(date)) { date = new Date(date); }
+        date = coreDate.toDate(date);
         if (!coreUtil.isNumeric(months)) { months = 0; }
         return new Date(date.getFullYear(), date.getMonth() + months, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
     };
@@ -2058,6 +2066,7 @@
     //      seconds: 要添加的秒数，可以是一个负数。
     //  返回值：date 添加指定秒数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addSeconds = function (date, seconds) {
+        date = coreDate.toDate(date);
         var d = Date.parse(date);
         if (!coreUtil.isNumeric(seconds)) { return new Date(d); }
         var millisec = 1000 * seconds;
@@ -2070,6 +2079,7 @@
     //      ticks: 要添加的百纳秒数，可以是一个负数。
     //  返回值：date 添加指定百纳秒数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addTicks = function (date, ticks) {
+        date = coreDate.toDate(date);
         var d = Date.parse(date);
         if (!coreUtil.isNumeric(ticks)) { return new Date(d); }
         var millisec = 0.000001 * ticks;
@@ -2082,7 +2092,7 @@
     //      years: 要添加的年数，可以是一个负数。
     //  返回值：date 添加指定年数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addYears = function (date, years) {
-        if (!coreUtil.isDate(date)) { date = new Date(date); }
+        date = coreDate.toDate(date);
         if (!coreUtil.isNumeric(years)) { years = 0; }
         return new Date(date.getFullYear() + years, date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
     };
@@ -2093,7 +2103,7 @@
     //      quarters: 要添加的季度数，可以是一个负数。
     //  返回值：date 添加指定季度数后的新值；注意，该方法不会修改源日期对象 date，而是返回一个新创建的日期对象。
     coreDate.addQuarters = function (date, quarters) {
-        if (!coreUtil.isDate(date)) { date = new Date(date); }
+        date = coreDate.toDate(date);
         if (!coreUtil.isNumeric(quarters)) { quarters = 0; }
         return new Date(date.getFullYear(), date.getMonth() + quarters * 3, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
     };
@@ -2177,7 +2187,8 @@
     //  返回值：返回 date 日期对象 和 value 日期对象 指定部分的数值的差。
     coreDate.diff = function (date, datepart, value) {
         if (!coreUtil.isString(datepart)) { return null; }
-        value = coreUtil.isDate(value) ? value : new Date(value);
+        date = coreDate.toDate(date);
+        value = coreDate.toDate(value);
         datepart = datepart.toLowerCase();
         var d = null;
         switch (datepart) {
@@ -2239,7 +2250,7 @@
     //  返回值：返回指定日期对象的指定部分的值；
     coreDate.part = function (date, datepart) {
         if (!coreUtil.isString(datepart)) { return null; }
-        date = coreUtil.isDate(date) ? date : new Date(date);
+        date = coreDate.toDate(date);
         datepart = datepart.toLowerCase();
         var d = null;
         switch (datepart) {
@@ -2289,7 +2300,7 @@
     //      date:   要进行格式化的日期对象
     //      format: 返回字符串格式定义；如果该参数不传入，则默认值为 "yyyy-MM-dd"
     coreDate.format = function (date, format) {
-        if (!coreUtil.isDate(date)) { return null; };
+        date = coreDate.toDate(date);
         format = coreUtil.isEmptyObjectOrNull(format) ? "yyyy-MM-dd" : format;
         switch (typeof date) {
             case "string":
@@ -2320,7 +2331,7 @@
 
     //  获取当前日期时间的长字符串格式，返回的日期时间字符串格式如 “2013年05月16日 星期四 夏季, 下午 15:38:11”
     coreDate.toLongDateTimeString = function (date) {
-        date = coreUtil.isDate(date) ? date : new Date(date);
+        date = coreDate.toDate(date);
         var year = date.getFullYear(),
             month = date.getMonth(),
             day = date.getDate(),

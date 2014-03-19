@@ -11,11 +11,36 @@
 * jQuery EasyUI toolbar 插件扩展
 * jeasyui.plugins.toolbar.js
 * 二次开发 流云
-* 最近更新：2014-03-06
+* 最近更新：2014-03-18
 *
 * 依赖项：
-*   1、jquery.jdirk.js v1.0 beta late
-*   2、jeasyui.extensions.js v1.0 beta late
+*   1、jquery.jdirk.js
+*   2、jeasyui.extensions.js
+*   3、jeasyui.extensions.linkbutton
+*   4、jeasyui.extensions.validatebox
+*   5、combo
+*   5、numberbox
+*   6、numberspinner
+*   6、timespinner
+*   7、datebox
+*   7、datetimebox
+*   7、combobox
+*   7、combotree
+*   7、combogrid
+*   8、jeasyui.extensions.combo
+*   9、jeasyui.extensions.combobox
+*   10、jeasyui.extensions.menu
+*   11、jeasyui.extensions.panel
+*   12、jeasyui.extensions.window
+*   13、jeasyui.extensions.dialog
+*   14、jeasyui.extensions.tree
+*   15、jeasyui.extensions.combotree
+*   16、jeasyui.extensions.datagrid
+*   17、jeasyui.extensions.combogrid
+*   18、jeasyui.extensions.searchbox
+*   19、jeasyui.extensions.comboicons
+*   20、jeasyui.extensions.comboselector
+*   21、jeasyui.extensions.my97
 *
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -480,6 +505,32 @@
                 $(target).numberspinner("disable");
             }
         },
+        timespinner: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).timespinner(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).timespinner("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).timespinner("setValue", value);
+            },
+            getValue: function (target) {
+                return $(target).timespinner("getValue");
+            },
+            resize: function (target, width) {
+                $(target).timespinner("resize", width);
+            },
+            enable: function (target) {
+                $(target).timespinner("enable");
+            },
+            disable: function (target) {
+                $(target).timespinner("disable");
+            }
+        },
         datebox: {
             defaults: {},
             init: function (container, options) {
@@ -509,6 +560,65 @@
                 $(target).datebox("textbox").focus();
             }
         },
+        datetimebox: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).datetimebox(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).datetimebox("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).datetimebox("setValue", value);
+            },
+            getValue: function (target) {
+                return $(target).datetimebox("getValue");
+            },
+            resize: function (target, width) {
+                $(target).datetimebox("resize", width);
+            },
+            enable: function (target) {
+                $(target).datetimebox("enable");
+            },
+            disable: function (target) {
+                $(target).datetimebox("disable");
+            },
+            setFocus: function (target) {
+                $(target).datetimebox("textbox").focus();
+            }
+        },
+        combo: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).combo(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).combo("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).combo($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
+            },
+            getValue: function (target) {
+                var combo = $(target), opts = combo.combo("options");
+                return $(target).combo(opts.multiples ? "getValues" : "getValue");
+            },
+            resize: function (target, width) {
+                $(target).combo("resize", width);
+            },
+            enable: function (target) {
+                $(target).combo("enable");
+            },
+            disable: function (target) {
+                $(target).combo("disable");
+            },
+            setFocus: function (target) {
+                $(target).combo("textbox").focus();
+            }
+        },
         combobox: {
             defaults: {},
             init: function (container, options) {
@@ -520,7 +630,7 @@
                 $(target).combobox("destroy");
             },
             setValue: function (target, value) {
-                $(target).combobox($.isArray(value) ? "setValues" : "setValue", value);
+                $(target).combobox($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
             },
             getValue: function (target) {
                 var combo = $(target), opts = combo.combobox("options");
@@ -550,7 +660,7 @@
                 $(target).combotree("destroy");
             },
             setValue: function (target, value) {
-                $(target).combotree($.isArray(value) ? "setValues" : "setValue", value);
+                $(target).combotree($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
             },
             getValue: function (target) {
                 var combo = $(target), opts = combo.combotree("options");
@@ -580,7 +690,7 @@
                 $(target).combogrid("destroy");
             },
             setValue: function (target, value) {
-                $(target).combogrid($.isArray(value) ? "setValues" : "setValue", value);
+                $(target).combogrid($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
             },
             getValue: function (target) {
                 var combo = $(target), opts = combo.combogrid("options");
@@ -597,6 +707,96 @@
             },
             setFocus: function (target) {
                 $(target).combogrid("textbox").focus();
+            }
+        },
+        comboicons: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).comboicons(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).comboicons("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).comboicons($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
+            },
+            getValue: function (target) {
+                var combo = $(target), opts = combo.comboicons("options");
+                return $(target).comboicons(opts.multiples ? "getValues" : "getValue");
+            },
+            resize: function (target, width) {
+                $(target).comboicons("resize", width);
+            },
+            enable: function (target) {
+                $(target).comboicons("enable");
+            },
+            disable: function (target) {
+                $(target).comboicons("disable");
+            },
+            setFocus: function (target) {
+                $(target).comboicons("textbox").focus();
+            }
+        },
+        comboselector: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).comboselector(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).comboselector("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).comboselector($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
+            },
+            getValue: function (target) {
+                var combo = $(target), opts = combo.comboselector("options");
+                return $(target).comboselector(opts.multiples ? "getValues" : "getValue");
+            },
+            resize: function (target, width) {
+                $(target).comboselector("resize", width);
+            },
+            enable: function (target) {
+                $(target).comboselector("enable");
+            },
+            disable: function (target) {
+                $(target).comboselector("disable");
+            },
+            setFocus: function (target) {
+                $(target).comboselector("textbox").focus();
+            }
+        },
+        my97: {
+            defaults: {},
+            init: function (container, options) {
+                var opts = $.extend({}, this.defaults, options || {}),
+                    box = $("<input type='text' class='toolbar-item-input' />").appendTo(container).my97(opts);
+                return box;
+            },
+            destroy: function (target) {
+                $(target).my97("destroy");
+            },
+            setValue: function (target, value) {
+                $(target).my97($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
+            },
+            getValue: function (target) {
+                var combo = $(target), opts = combo.my97("options");
+                return $(target).my97(opts.multiples ? "getValues" : "getValue");
+            },
+            resize: function (target, width) {
+                $(target).my97("resize", width);
+            },
+            enable: function (target) {
+                $(target).my97("enable");
+            },
+            disable: function (target) {
+                $(target).my97("disable");
+            },
+            setFocus: function (target) {
+                $(target).my97("textbox").focus();
             }
         },
         searchbox: {

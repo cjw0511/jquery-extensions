@@ -278,10 +278,13 @@
 
     var _dialog = $.fn.dialog;
     $.fn.dialog = function (options, param) {
-        if (typeof options == "string") { return _dialog.apply(this, arguments); }
+        if (typeof options == "string") {
+            return _dialog.apply(this, arguments);
+        }
         options = options || {};
         return this.each(function () {
-            var jq = $(this), opts = $.extend({}, $.fn.dialog.parseOptions(this), options);
+            var jq = $(this), hasInit = $.data(this, "dialog") ? true : false,
+                opts = hasInit ? options : $.extend({}, $.fn.dialog.parseOptions(this), options);
             parseExtensionsBegin(opts);
             _dialog.call(jq, opts);
             parseExtensionsEnd(this);
@@ -312,7 +315,9 @@
         //  重写 easyui-dialog 控件的 refresh 方法，用于支持 iniframe 属性。
         refresh: function (jq, href) { return jq.each(function () { refresh(this, href); }); }
     };
-    var defaults = $.fn.dialog.extensions.defaults = $.extend({}, $.fn.window.extensions.defaults, {});
+    var defaults = $.fn.dialog.extensions.defaults = $.extend({}, $.fn.window.extensions.defaults, {
+
+    });
 
     $.extend($.fn.dialog.defaults, defaults);
     $.extend($.fn.dialog.methods, methods);

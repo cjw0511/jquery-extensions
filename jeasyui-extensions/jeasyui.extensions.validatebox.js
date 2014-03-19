@@ -319,10 +319,15 @@
 
     var _validatebox = $.fn.validatebox;
     $.fn.validatebox = function (options, param) {
-        if (typeof options == "string") { return _validatebox.apply(this, arguments); }
+        if (typeof options == "string") {
+            return _validatebox.apply(this, arguments);
+        }
         options = options || {};
         return this.each(function () {
-            var jq = $.util.parseJquery(this), opts = $.extend({}, $.fn.validatebox.parseOptions(this), options);
+            var jq = $(this), hasInit = $.data(this, "validatebox") ? true : false,
+                opts = hasInit ? options : $.extend({}, $.fn.validatebox.parseOptions(this), $.parser.parseOptions(this, [
+                    "prompt", { autoFocus: "boolean" }
+                ]), options);
             _validatebox.call(jq, opts);
             initialize(this);
         });

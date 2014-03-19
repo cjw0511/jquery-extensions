@@ -25,20 +25,20 @@
     $.fn.combo.extensions = {};
 
     function setPrompt(target, prompt) {
-        var t = $.util.parseJquery(target), opts = t.combo("options"), textbox = t.combo("textbox");
+        var t = $(target), opts = t.combo("options"), textbox = t.combo("textbox");
         opts.prompt = prompt;
         textbox.validatebox("setPrompt", prompt);
     };
 
     function setIcon(target, iconCls) {
-        var t = $.util.parseJquery(target), state = $.data(target, "combo"), combo = state.combo;
+        var t = $(target), state = $.data(target, "combo"), combo = state.combo;
         var arrow = combo.find("span.combo-arrow").removeAttr("class").addClass("combo-arrow");
         if (iconCls) { arrow.addClass(iconCls); }
         t.combo("options").iconCls = iconCls;
     }
 
     function setRequired(target, required) {
-        var t = $.util.parseJquery(target), opts = t.combo("options"), textbox = t.combo("textbox");
+        var t = $(target), opts = t.combo("options"), textbox = t.combo("textbox");
         opts.required = textbox.validatebox("options").required = required;
     };
 
@@ -58,7 +58,7 @@
 
 
     function initialize(target) {
-        var t = $.util.parseJquery(target), state = $.data(target, "combo"),
+        var t = $(target), state = $.data(target, "combo"),
             opts = t.combo("options"), panel = state.panel,
             combo = state.combo, arrow = combo.find(".combo-arrow"),
             exts = opts.extensions ? opts.extensions : opts.extensions = {};
@@ -86,8 +86,16 @@
 
     var _combo = $.fn.combo;
     $.fn.combo = function (options, param) {
-        if (typeof options == "string") { return _combo.apply(this, arguments); }
-        return _combo.apply(this, arguments).each(function () {
+        if (typeof options == "string") {
+            return _combo.apply(this, arguments);
+        }
+        options = options || {};
+        return this.each(function () {
+            var jq = $(this), hasInit = $.data(this, "combo") ? true : false,
+                opts = hasInit ? options : $.extend({}, $.fn.combo.parseOptions(this), $.parser.parseOptions(this, [
+                    "iconCls", { autoShowPanel: "boolean" }
+                ]), options);
+            _combo.call(jq, opts);
             initialize(this);
         });
     };

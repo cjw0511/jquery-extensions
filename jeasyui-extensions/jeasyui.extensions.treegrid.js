@@ -972,7 +972,6 @@
     };
 
     function initHeaderCellClickMenu(t, opts, exts, cell) {
-        cell = $.util.parseJquery(cell); cell.off(".hoverArrow");
         var arrow = $("<span class='s-btn-downarrow datagrid-header-cell-arrow'>&nbsp;</span>").click(function (e) {
             var span = $(this), offset = span.offset(), height = span.outerHeight(),
                 field = span.parent().parent().attr("field"),
@@ -988,9 +987,15 @@
             };
             return false;
         }).prependTo(cell);
-        cell.on({
-            "mouseenter.hoverArrow": function () { arrow.addClass("datagrid-header-cell-arrow-show"); },
-            "mouseleave.hoverArrow": function () { if (!$.util.isBoolean(arrow.hidable) || arrow.hidable) { arrow.removeClass("datagrid-header-cell-arrow-show"); } }
+        $(cell).off(".hoverArrow").on({
+            "mouseenter.hoverArrow": function () {
+                arrow.addClass("datagrid-header-cell-arrow-show");
+            },
+            "mouseleave.hoverArrow": function () {
+                if (!$.util.isBoolean(arrow.hidable) || arrow.hidable) {
+                    arrow.removeClass("datagrid-header-cell-arrow-show");
+                }
+            }
         });
     };
 
@@ -2375,6 +2380,7 @@
     //  增加扩展插件中要用到的自定义样式
     var css =
         ".datagrid-body td.datagrid-header-cell-append { border-color: red; border-width: 2px; border-style: dotted; }"
+    ;
     $.util.addCss(css);
 
 })(jQuery);

@@ -496,4 +496,5 @@
     var css =
         ".mask-container { position: relative; }";
     $.util.addCss(css);
+
 })(jQuery);

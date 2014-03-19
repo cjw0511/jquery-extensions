@@ -16,12 +16,13 @@
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
-*   3、jeasyui.extensions.menu.js v1.0 beta late
-*   4、jeasyui.extensions.panel.js v1.0 beta late
-*   5、jeasyui.extensions.window.js v1.0 beta late
-*   6、jeasyui.extensions.dialog.js v1.0 beta late
-*   7、jeasyui.extensions.datagrid.js v1.0 beta late
-*   8、jeasyui.extensions.gridselector.js v1.0 beta late
+*   3、jeasyui.extensions.combo.js v1.0 beta late
+*   4、jeasyui.extensions.menu.js v1.0 beta late
+*   5、jeasyui.extensions.panel.js v1.0 beta late
+*   6、jeasyui.extensions.window.js v1.0 beta late
+*   7、jeasyui.extensions.dialog.js v1.0 beta late
+*   8、jeasyui.extensions.datagrid.js v1.0 beta late
+*   9、jeasyui.extensions.gridselector.js v1.0 beta late
 *
 * Copyright (c) 2013 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -236,6 +237,35 @@
 
         onBeforeLoad: function (param) { }
     });
+
+
+    if ($.fn.datagrid) {
+        $.extend($.fn.datagrid.defaults.editors, {
+            comboselector: {
+                init: function (container, options) {
+                    var box = $("<input type=\"text\"></input>").appendTo(container).comboselector(options);
+                    box.comboselector("textbox").addClass("datagrid-editable-input");
+                    return box;
+                },
+                destroy: function (target) {
+                    $(target).comboselector("destroy");
+                },
+                getValue: function (target) {
+                    var t = $(target), opts = t.comboselector("options");
+                    return t.comboselector(opts.multiple ? "getValues" : "getValue");
+                },
+                setValue: function (target, value) {
+                    $(target).comboselector($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
+                },
+                resize: function (target, width) {
+                    $(target).comboselector("resize", width);
+                },
+                setFocus: function (target) {
+                    $(target).comboselector("textbox").focus();
+                }
+            }
+        });
+    }
 
 
     $.parser.plugins.push("comboselector");
