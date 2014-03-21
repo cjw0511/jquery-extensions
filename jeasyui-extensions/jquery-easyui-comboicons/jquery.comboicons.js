@@ -144,7 +144,8 @@
         size: "16",
         iconCls: "icon-hamburg-zoom",
         panelWidth: 500,
-        panelHeight: 360
+        panelHeight: 360,
+        autoShowPanel: false
     });
 
 

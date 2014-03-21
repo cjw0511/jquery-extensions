@@ -88,7 +88,7 @@
 
     function initBays(bays, options) {
         var opts = $.extend({}, options || {});
-        opts.baysContainer = opts.baysContainer ? $.util.parseJquery(opts.baysContainer) : null;
+        opts.baysContainer = opts.baysContainer ? $(opts.baysContainer) : null;
         if (!opts.baysContainer || !opts.baysContainer.length) { return null; }
         $[opts.shipMethod.toLowerCase()](opts.shipUrl, opts.shipQueryParams, function (ship) {
             var shipFilter = $.isFunction(bays.shipDataFilter) ? bays.shipDataFilter : $.baygui.editor.defaults.shipDataFilter;

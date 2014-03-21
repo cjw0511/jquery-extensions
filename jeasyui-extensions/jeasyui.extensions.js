@@ -42,7 +42,7 @@
     //      options:    表示初始化 easyui-tooltip 的参数信息，为一个 JSON-Object；
     //  备注：通过该方法设置的 easyui-tooltip 属性，在触发 mouseover 事件时，加载 easyui-tooltip，在 tooltip-tip 隐藏时，easyui-tooltip 自动调用 destroy 销毁；
     coreEasyui.tooltip.init = function (target, options) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         t.mouseover(function () {
             t.tooltip($.extend({ trackMouse: true }, options, { onHide: function () {
                 if ($.isFunction(options.onHide)) { options.onHide.apply(this, arguments); }
@@ -191,7 +191,7 @@
         var opts = { msg: defaults.loading, locale: "body", topMost: false };
         options = options || {};
         $.extend(opts, options);
-        var jq = opts.topMost ? $.util.$ : $, locale = jq.util.parseJquery(opts.locale), array = locale.children().map(function () {
+        var jq = opts.topMost ? $.util.$ : $, locale = jq(opts.locale), array = locale.children().map(function () {
             var zindex = $(this).css("z-index");
             return $.isNumeric(zindex) ? parseInt(zindex) : 0;
         }), zindex = $.array.max(array);
@@ -226,7 +226,7 @@
                 $.extend(opts, { locale: arguments[0], topMost: arguments[1] });
             }
         }
-        var jq = opts.topMost ? $.util.$ : $, locale = jq.util.parseJquery(opts.locale);
+        var jq = opts.topMost ? $.util.$ : $, locale = jq(opts.locale);
         locale.removeClass("mask-container");
         locale.children("div.datagrid-mask-msg,div.datagrid-mask").remove();
     };
@@ -354,7 +354,7 @@
     //      pluginName：要判断的插件名称，例如 "panel"、"dialog"、"datagrid" 等；
     //  返回值：如果 selector 所表示的 jQuery 对象中的第一个 DOM 元素为 pluginName 参数所示的 easyui 插件且已经被初始化，则返回 true，否则返回 false。
     coreEasyui.isEasyUI = function (selector, pluginName) {
-        return $.util.parseJquery(selector).isEasyUI(pluginName);
+        return $(selector).isEasyUI(pluginName);
     };
 
 
@@ -492,9 +492,5 @@
 
     $.union(coreJquery);
     $.fn.union(coreJquery.fn);
-
-    var css =
-        ".mask-container { position: relative; }";
-    $.util.addCss(css);
 
 })(jQuery);

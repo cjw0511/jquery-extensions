@@ -1045,7 +1045,13 @@
     };
     $.fn.tree.parseOptions = function (_10f) {
         var t = $(_10f);
-        return $.extend({}, $.parser.parseOptions(_10f, ["url", "method", { checkbox: "boolean", cascadeCheck: "boolean", onlyLeafCheck: "boolean" }, { animate: "boolean", lines: "boolean", dnd: "boolean" }]));
+        return $.extend({},
+            $.parser.parseOptions(_10f, [
+                "url", "method",
+                { checkbox: "boolean", cascadeCheck: "boolean", onlyLeafCheck: "boolean" },
+                { animate: "boolean", lines: "boolean", dnd: "boolean" }
+            ])
+        );
     };
     $.fn.tree.parseData = function (_110) {
         var data = [];

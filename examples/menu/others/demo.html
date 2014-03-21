@@ -1,0 +1,54 @@
+﻿<div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#cc").bind("contextmenu", function (e) {
+                e.preventDefault();
+                $("#mm").menu("show", {
+                    left: e.pageX, top: e.pageY
+                });
+            });
+
+            $("#combo1").comboicons();
+        });
+    </script>
+
+    <h2>jEasyUI Menu Extensions - 其他功能</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.menu.js 实现。</p>
+    <hr />
+    <p>该 DEMO 演示鼠标右键菜单，并且可以自定义右键菜单的样式</p>
+    <div id="cc" style="border-width: 1px; border-style: solid; border-color: Black; width: 400px; height: 200px; padding: 10px;">
+        请用鼠标右键点击此区域
+    </div>
+
+    <div id="mm" class="easyui-menu">
+        <div>New</div>
+        <div>
+            <span>Open</span>
+            <div class="menu-content" style="text-align:left;padding:10px">
+                <div style="font-weight:bold;font-size:16px">Select your Language:</div>
+                <ul style="margin:0;padding:0 0 0 40px">
+                    <li><a href="javascript:void(0)">Java</a></li>
+                    <li><a href="javascript:void(0)">Basic</a></li>
+                    <li><a href="javascript:void(0)">C++</a></li>
+                    <li><a href="javascript:void(0)">Fortran</a></li>
+                    <li>
+                        <span>Other</span>
+                        <input />
+                    </li>
+                </ul>
+                <div style="padding:10px 0 0 30px">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">Ok</a>
+                </div>
+            </div>
+        </div>
+        <div data-options="iconCls:'icon-save'">Save</div>
+        <div data-options="iconCls:'icon-print'">
+            <div class="menu-content">
+                <input id="combo1" data-options="width: 80" />
+            </div>
+        </div>
+        <div class="menu-sep"></div>
+        <div>Exit</div>
+    </div>
+</div>

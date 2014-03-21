@@ -25,7 +25,7 @@
     $.fn.linkbutton.extensions = {};
 
     function initialize(target) {
-        var t = $.util.parseJquery(target), opts = t.linkbutton("options"),
+        var t = $(target), opts = t.linkbutton("options"),
             exts = opts.extensions ? opts.extensions : opts.extensions = {};
         if (!exts._initialized) {
             setStyle(target, opts.style);
@@ -34,7 +34,7 @@
     };
 
     function setIcon(target, iconCls) {
-        var t = $.util.parseJquery(target), opts = t.linkbutton("options"),
+        var t = $(target), opts = t.linkbutton("options"),
             span = t.find("span.l-btn-empty"), isEmpty = span.length ? true : false;
         if (!isEmpty) { span = t.find("span.l-btn-text"); }
         span.removeClass(opts.iconCls).addClass(iconCls);
@@ -42,7 +42,7 @@
     };
 
     function setText(target, text) {
-        var t = $.util.parseJquery(target), opts = t.linkbutton("options"),
+        var t = $(target), opts = t.linkbutton("options"),
             textspan = t.find("span.l-btn-text");
         if (text) {
             textspan.empty().removeClass("l-btn-icon-left l-btn-icon-right").addClass("l-btn-text l-btn-icon-" + opts.iconAlign).addClass(opts.iconCls).text(text);
@@ -54,7 +54,7 @@
     };
 
     function setIconAlign(target, iconAlign) {
-        var t = $.util.parseJquery(target), opts = t.linkbutton("options");
+        var t = $(target), opts = t.linkbutton("options");
         if (!t.find("span.l-btn-empty").length) {
             $.util.exec(function () {
                 t.find("span.l-btn-text").removeClass("l-btn-icon-left l-btn-icon-right").addClass("l-btn-icon-" + opts.iconAlign);
@@ -65,12 +65,12 @@
 
     function setStyle(target, style) {
         if (style) {
-            $.util.parseJquery(target).css(style);
+            $(target).css(style);
         }
     };
 
     function setPlain(target, plain) {
-        var t = $.util.parseJquery(target), opts = t.linkbutton("options");
+        var t = $(target), opts = t.linkbutton("options");
         plain = plain ? true : false;
         t[plain ? "addClass" : "removeClass"]("l-btn-plain");
         opts.plain = plain;

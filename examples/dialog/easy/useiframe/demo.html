@@ -2,6 +2,9 @@
 
     <script type="text/javascript">
         $(function () {
+
+            var dia = null;
+
             $("#Button1").click(function () {
                 $.easyui.showDialog({
                     title: "快速创建的 Dialog1",
@@ -22,22 +25,36 @@
                 });
             });
 
-
-
+            $("#Button3").click(function () {
+                $.easyui.showDialog({
+                    title: "快速创建的 Dialog3 - Baidu",
+                    top: 130, left: 170, width: 600, height: 400, modal: false,
+                    topMost: false,
+                    href: "http://www.baidu.com",
+                    iniframe: true
+                });
+            });
 
 
             var dia = $.easyui.showDialog({
                 title: "快速创建的 Dialog2",
-                top: 130, left: 170, width: 600, height: 400,
-                topMost: false, iniframe: true, modal: false,
-                href: "dialog/easy/useiframe/iframepage.html"
+                top: 130, left: 170, width: 600, height: 400, modal: false,
+                topMost: false,
+                href: "dialog/easy/useiframe/iframepage.html",
+                iniframe: true
             });
 
-            $("#Button3").click(function () { dia.save(); });
+            $("#Button4").click(function () {
+                dia.save();
+            });
 
-            $("#Button4").click(function () { dia.close(); });
+            $("#Button5").click(function () {
+                dia.close();
+            });
 
-            $("#Button5").click(function () { dia.apply(); });
+            $("#Button6").click(function () {
+                dia.apply();
+            });
 
 
 
@@ -53,9 +70,10 @@
     <hr />
     <input id="Button1" type="button" value="创建Dialog1" />
     <input id="Button2" type="button" value="创建Dialog2" />
+    <input id="Button3" type="button" value="创建Dialog3-baidu" />
     <hr />
-    <input id="Button3" type="button" value="save" />
-    <input id="Button4" type="button" value="close" />
-    <input id="Button5" type="button" value="apply" />
+    <input id="Button4" type="button" value="save" />
+    <input id="Button5" type="button" value="close" />
+    <input id="Button6" type="button" value="apply" />
 
 </div>

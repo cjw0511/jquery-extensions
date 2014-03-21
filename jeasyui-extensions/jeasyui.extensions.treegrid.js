@@ -35,7 +35,7 @@
     var _insert = $.fn.treegrid.methods.insert;
     var updateRow = function (target, param) {
         if (!param || param.id == undefined || !param.row) { return; }
-        var t = $.util.parseJquery(target), opts = t.treegrid("options");
+        var t = $(target), opts = t.treegrid("options");
         if ($.isFunction(opts.onBeforeUpdate) && opts.onBeforeUpdate.call(target, param.id, param.row) == false) { return; }
         _update.call(t, t, param);
         initHeaderColumnFilterContainer(t, opts);
@@ -45,7 +45,7 @@
     };
     var appendRow = function (target, param) {
         if (!param || !param.data) { return; }
-        var t = $.util.parseJquery(target), opts = t.treegrid("options");
+        var t = $(target), opts = t.treegrid("options");
         if ($.isFunction(opts.onBeforeAppend) && opts.onBeforeAppend.call(target, param.parent, param.data) == false) { return; }
         _append.call(t, t, param);
         initHeaderColumnFilterContainer(t, opts);
@@ -55,7 +55,7 @@
     };
     var insertRow = function (target, param) {
         if (!param || !param.data || (!param.before && !param.after)) { return; }
-        var t = $.util.parseJquery(target), opts = t.treegrid("options");
+        var t = $(target), opts = t.treegrid("options");
         if ($.isFunction(opts.onBeforeInsert) && opts.onBeforeInsert.call(target, param.before, param.after, param.data) == false) { return; }
         _insert.call(t, t, param);
         initHeaderColumnFilterContainer(t, opts);
@@ -74,20 +74,20 @@
     };
 
     var getLevel = function (target, id) {
-        var t = $.util.parseJquery(target), tr = t.treegrid("getRowDom", id);
+        var t = $(target), tr = t.treegrid("getRowDom", id);
         if (!tr || !tr.length) { return 0; }
         return tr.eq(0).parentsUntil("div.datagrid-body", "tr.treegrid-tr-tree").length + 1;
     };
 
 
     var freezeColumn = function (target, field) {
-        var t = $.util.parseJquery(target), fields = t.treegrid("getColumnFields"), frozenFields = t.treegrid("getColumnFields", true);
+        var t = $(target), fields = t.treegrid("getColumnFields"), frozenFields = t.treegrid("getColumnFields", true);
         if (!frozenFields || !frozenFields.length || !$.array.contains(fields, field) || $.array.contains(frozenFields, field)) { return; }
         t.treegrid("moveColumn", { source: field, target: frozenFields[frozenFields.length - 1], point: "after" });
     };
 
     var unfreezeColumn = function (target, field) {
-        var t = $.util.parseJquery(target), fields = t.treegrid("getColumnFields"), frozenFields = t.treegrid("getColumnFields", true);
+        var t = $(target), fields = t.treegrid("getColumnFields"), frozenFields = t.treegrid("getColumnFields", true);
         if (!fields || !fields.length || $.array.contains(fields, field) || !$.array.contains(frozenFields, field)) { return; }
         t.treegrid("moveColumn", { source: field, target: fields[0], point: "before" });
     };
@@ -95,7 +95,7 @@
     var moveColumn = function (target, param) {
         if (!param || !param.source || !param.target || param.source == param.target || !param.point) { return; };
         if (!$.array.contains(["before", "after"], param.point)) { param.point = "before"; }
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if (t.treegrid("hasMuliRowHeader")) { return; }
         var opts = t.treegrid("options"), sourceFrozen, targetFrozen,
             fields = t.treegrid("getColumnFields"), frozenFields = t.treegrid("getColumnFields", true);
@@ -118,7 +118,7 @@
         if (sourceRow.length != targetRow.length) { return; }
         targetHeaderTd[param.point](sourceHeaderTd);
         targetRow.each(function (i, n) {
-            var targetBodyTr = $.util.parseJquery(this), id = targetBodyTr.attr("node-id");
+            var targetBodyTr = $(this), id = targetBodyTr.attr("node-id");
             var targetBodyTd = targetBodyTr.find("td[field=" + param.target + "]"), sourceBodyTd = $(sourceRow[i]).find("td[field=" + param.source + "]");
             targetBodyTd[param.point](sourceBodyTd);
         });
@@ -174,7 +174,7 @@
     var shiftColumn = function (target, param) {
         if (!param || !param.field || !param.point) { return; };
         if (!$.array.contains(["before", "after"], param.point)) { param.point = "before"; }
-        var t = $.util.parseJquery(target), fields = t.treegrid("getColumnFields", "all"),
+        var t = $(target), fields = t.treegrid("getColumnFields", "all"),
             index = $.array.indexOf(fields, param.field);
         if (index == -1 || (param.point == "before" && index == 0) || (param.point == "after" && index == fields.length - 1)) { return; }
         var target = fields[param.point == "before" ? index - 1 : index + 1];
@@ -182,7 +182,7 @@
     };
 
     var deleteColumn = function (target, field) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"),
+        var t = $(target), opts = t.treegrid("options"),
             exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
         if ($.isFunction(opts.onBeforeDeleteColumn) && opts.onBeforeDeleteColumn.call(target, field) == false) { return; }
         $.fn.datagrid.extensions.removeField(opts, field, exts);
@@ -191,31 +191,31 @@
     };
 
     var popColumn = function (target, field) {
-        var t = $.util.parseJquery(target), colOpts = t.treegrid("getColumnOption", field);
+        var t = $(target), colOpts = t.treegrid("getColumnOption", field);
         if (colOpts) { t.treegrid("deleteColumn", field); }
         return colOpts
     };
 
 
     var isChecked = function (target, id) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"), rows = t.treegrid("getChecked");
+        var t = $(target), opts = t.treegrid("options"), rows = t.treegrid("getChecked");
         return $.array.contains(rows, id, function (val) { return val[opts.idField] == id; });
     };
 
     var isSelected = function (target, id) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"), rows = t.treegrid("getSelections");
+        var t = $(target), opts = t.treegrid("options"), rows = t.treegrid("getSelections");
         return $.array.contains(rows, id, function (val) { return val[opts.idField] == id; });
     };
 
     var isRootNode = function (target, id) {
-        var t = $.util.parseJquery(target), roots = t.treegrid("getRoots"), node = t.treegrid("find", id);
+        var t = $(target), roots = t.treegrid("getRoots"), node = t.treegrid("find", id);
         return node && $.array.contains(roots, node);
     };
 
     var moveRow = function (target, param) {
         if (!param || !param.source || !param.target || !param.point) { return; }
         if (!$.array.contains(["append", "top", "bottom"], param.point)) { param.point = "append"; }
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"),
+        var t = $(target), opts = t.treegrid("options"),
             sourceNode = t.treegrid("find", param.source), targetNode = t.treegrid("find", param.target);
         if (!sourceNode || !targetNode || sourceNode == targetNode) { return; }
         if ($.isFunction(opts.onBeforeDrop) && opts.onBeforeDrop.call(target, targetNode, sourceNode, param.point) == false) { return; }
@@ -232,7 +232,7 @@
 
     var shiftRow = function (target, param) {
         if (!param || !param.id || !param.point || !$.array.contains(["up", "upLevel", "down", "downLevel"], param.point)) { return; }
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"), node;
+        var t = $(target), opts = t.treegrid("options"), node;
         switch (param.point) {
             case "up": node = t.treegrid("prevRow", param.id); break;
             case "upLevel": node = t.treegrid("getParent", param.id); break;
@@ -252,38 +252,38 @@
     };
 
     var isParent = function (target, param) {
-        var t = $.util.parseJquery(target), node = t.treegrid("find", param.id2);
+        var t = $(target), node = t.treegrid("find", param.id2);
         var children = t.treegrid("getChildren", param.id1);
         return $.array.contains(children, node);
     };
 
     var isChild = function (target, param) {
-        var t = $.util.parseJquery(target), node = t.treegrid("find", param.id1);
+        var t = $(target), node = t.treegrid("find", param.id1);
         var children = t.treegrid("getChildren", param.id2);
         return $.array.contains(children, node);
     };
 
     var isSibling = function (target, param) {
-        var t = $.util.parseJquery(target), p1 = t.treegrid("getParent", param.id1), p2 = t.treegrid("getParent", param.id2);
+        var t = $(target), p1 = t.treegrid("getParent", param.id1), p2 = t.treegrid("getParent", param.id2);
         return p1 && p2 && p1 == p2;
     };
 
     var getNextRow = function (target, id) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         var row = t.treegrid("getRowDom", id).nextAll("tr.datagrid-row:first"), rowId = row.attr("node-id");
         if (!row.length || !rowId) { return null; }
         return t.treegrid("find", rowId);
     };
 
     var getPrevRow = function (target, id) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         var row = t.treegrid("getRowDom", id).prevAll("tr.datagrid-row:first"), rowId = row.attr("node-id");
         if (!row.length || !rowId) { return null; }
         return t.treegrid("find", rowId);
     };
 
     var getNears = function (target, id) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options");
+        var t = $(target), opts = t.treegrid("options");
         if (t.treegrid("isRoot", id)) { return t.treegrid("getRoots"); }
         var p = t.treegrid("getParent", id);
         if (!p) { return t.treegrid("getRoots"); }
@@ -291,35 +291,35 @@
     };
 
     var getNearChildren = function (target, id) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"),
+        var t = $(target), opts = t.treegrid("options"),
             children = t.treegrid("getChildren", id);
         return $.array.filter(children, function (val) { return t.treegrid("getParent", val[opts.idField])[opts.idField] == id; });
     };
 
 
     var enableRowDnd = function (target) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options");
+        var t = $(target), opts = t.treegrid("options");
         t.treegrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable({
             disabled: false, revert: true, cursor: "default", deltaX: 10, deltaY: 5,
             proxy: function (source) {
-                var tr = $.util.parseJquery(source), id = tr.attr("node-id"), dom = t.treegrid("getRowDom", id).clone();
+                var tr = $(source), id = tr.attr("node-id"), dom = t.treegrid("getRowDom", id).clone();
                 var temp = $("<tr></tr>").addClass("datagrid-row datagrid-row-selected");
                 $("<td><span class='tree-dnd-icon tree-dnd-no' ></span></td>").appendTo(temp);
                 var td = dom.find("td").each(function (i) { if (i < 6) { temp.append(this); } });
                 if (td.length > 6) { $("<td>...</td>").css("width", "40px").appendTo(temp); }
                 return $("<table></table>").addClass("tree-node-proxy").appendTo("body").append(temp).hide();
             }, onBeforeDrag: function (e) {
-                var tr = $.util.parseJquery(this), id = tr.attr("node-id"), row = t.treegrid("find", id);
+                var tr = $(this), id = tr.attr("node-id"), row = t.treegrid("find", id);
                 if ($.isFunction(opts.onBeforeDrag) && opts.onBeforeDrag.call(target, row) == false) { return false; }
                 if (e.which != 1) { return false; }
                 if (e.target.type == "checkbox") { return false; }
                 t.treegrid("getRowDom", { id: id, cascade: true }).droppable({ accept: "no-accept" });
             }, onStartDrag: function () {
-                var tr = $.util.parseJquery(this), id = tr.attr("node-id"), row = t.treegrid("find", id);
+                var tr = $(this), id = tr.attr("node-id"), row = t.treegrid("find", id);
                 tr.draggable("proxy").css({ left: -10000, top: -10000 });
                 if ($.isFunction(opts.onBeforeDrag)) { opts.onStartDrag.call(target, row); }
             }, onStopDrag: function () {
-                var tr = $.util.parseJquery(this), id = tr.attr("node-id"), row = t.treegrid("find", id);
+                var tr = $(this), id = tr.attr("node-id"), row = t.treegrid("find", id);
                 t.treegrid("getRowDom", { id: id, cascade: true }).droppable({ accept: "tr.datagrid-row" });
                 if ($.isFunction(opts.onStopDrag)) { opts.onStopDrag.call(target, row); }
             }, onDrag: function (e) {
@@ -331,7 +331,7 @@
         }).droppable({
             accept: "tr.datagrid-row",
             onDragEnter: function (e, source) {
-                var droper = $.util.parseJquery(this), drager = $.util.parseJquery(source),
+                var droper = $(this), drager = $(source),
                     droperId = droper.attr("node-id"), dragerId = drager.attr("node-id"),
                     droperRow = t.treegrid("find", droperId), dragerRow = t.treegrid("find", dragerId),
                     droperRowDom = t.treegrid("getRowDom", droperId),
@@ -348,7 +348,7 @@
                 }
             },
             onDragOver: function (e, source) {
-                var droper = $.util.parseJquery(this), dnd = droper.data("dnd"), drager = dnd.drager,
+                var droper = $(this), dnd = droper.data("dnd"), drager = dnd.drager,
                     droperId = dnd.droperId, dragerId = dnd.dragerId,
                     droperRow = dnd.droperRow, dragerRow = dnd.dragerRow,
                     mark = dnd.mark, treeFieldDom = dnd.treeFieldDom;
@@ -378,7 +378,7 @@
                 }
             },
             onDragLeave: function (e, source) {
-                var droper = $.util.parseJquery(this), dnd = droper.data("dnd"), drager = dnd.drager,
+                var droper = $(this), dnd = droper.data("dnd"), drager = dnd.drager,
                     droperRow = dnd.droperRow, dragerRow = dnd.dragerRow, mark = dnd.mark, treeFieldDom = dnd.treeFieldDom;
                 setDroppableStatus(drager, false);
                 mark.removeClass("datagrid-header-cell-top datagrid-header-cell-bottom");
@@ -386,7 +386,7 @@
                 if ($.isFunction(opts.onDragLeave)) { opts.onDragLeave.call(target, droperRow, dragerRow); }
             },
             onDrop: function (e, source) {
-                var droper = $.util.parseJquery(this), dnd = droper.data("dnd"),
+                var droper = $(this), dnd = droper.data("dnd"),
                     droperId = dnd.droperId, dragerId = dnd.dragerId, mark = dnd.mark, treeFieldDom = dnd.treeFieldDom,
                     point = treeFieldDom.hasClass("datagrid-header-cell-append") ? "append" : (mark.hasClass("datagrid-header-cell-top") ? "top" : "bottom");
                 t.treegrid("moveRow", { target: droperId, source: dragerId, point: point });
@@ -402,7 +402,7 @@
     };
 
     var disableRowDnd = function (target) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options");
+        var t = $(target), opts = t.treegrid("options");
         t.treegrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable("disable");
         opts.dndRow = false;
     };
@@ -414,7 +414,7 @@
 
 
     var getRows = function (target, cascade) {
-        var t = $.util.parseJquery(target), rows = t.treegrid("getRoots"), opts = t.treegrid("options");
+        var t = $(target), rows = t.treegrid("getRoots"), opts = t.treegrid("options");
         rows = rows && rows.length ? rows : [];
         return cascade ? $.array.reduce(rows, function (prev, val, index) {
             prev.push(val);
@@ -427,14 +427,14 @@
     var getColumnData = function (target, param) {
         param = $.isPlainObject(param) ? param : { field: param, cascade: false };
         var field = param.field, cascade = param.cascade,
-            t = $.util.parseJquery(target), rows = t.treegrid("getRows", cascade);
+            t = $(target), rows = t.treegrid("getRows", cascade);
         return $.array.map(rows, function (val) { return val[field]; });
     };
 
     var getRowDom = function (target, param) {
         param = $.isPlainObject(param) ? param : { id: param, cascade: false };
         var id = param.id, cascade = param.cascade ? true : false,
-            t = $.util.parseJquery(target), opts = t.treegrid("options"), panel = t.treegrid("getPanel"),
+            t = $(target), opts = t.treegrid("options"), panel = t.treegrid("getPanel"),
             dom = panel.find(".datagrid-view .datagrid-body tr.datagrid-row[node-id=" + id + "]");
         if (cascade) {
             var children = t.treegrid("getChildren", id);
@@ -444,28 +444,28 @@
     };
 
     var getNode = function (target, id) {
-        return $.util.parseJquery(target).treegrid("find", id);
+        return $(target).treegrid("find", id);
     };
 
     var getCellDom = function (target, pos) {
         if (!pos || !pos.field || pos.id == null || pos.id == undefined) { return $(); }
-        var t = $.util.parseJquery(target), tr = t.treegrid("getRowDom", pos.id);
+        var t = $(target), tr = t.treegrid("getRowDom", pos.id);
         return tr.find("td[field=" + pos.field + "] .datagrid-cell");
     };
     var getCellData = function (target, pos) {
         if (!pos || !pos.field || pos.id == null || pos.id == undefined) { return undefined; }
-        var t = $.util.parseJquery(target), row = t.treegrid("find", pos.id);
+        var t = $(target), row = t.treegrid("find", pos.id);
         return row[pos.field];
     };
     var getCellDisplay = function (target, pos) {
-        var t = $.util.parseJquery(target), cell = t.treegrid("getCellDom", pos);
+        var t = $(target), cell = t.treegrid("getCellDom", pos);
         return cell && cell.length ? cell.text() : undefined;
     };
 
     var getDistinctRows = function (target, param) {
         param = $.isPlainObject(param) ? param : { field: param, cascade: false };
         var field = param.field, cascade = param.cascade,
-            t = $.util.parseJquery(target), fields = t.treegrid("getColumnFields", "all");
+            t = $(target), fields = t.treegrid("getColumnFields", "all");
         if (!$.array.contains(fields, field)) { return []; }
         var rows = t.treegrid("getRows", cascade), data = $.array.clone(rows);
         $.array.distinct(data, function (a, b) { return a[field] == b[field]; });
@@ -475,7 +475,7 @@
     var getDistinctColumnData = function (target, param) {
         param = $.isPlainObject(param) ? param : { field: param, cascade: false };
         var field = param.field, cascade = param.cascade,
-            t = $.util.parseJquery(target), fields = t.treegrid("getColumnFields", "all");
+            t = $(target), fields = t.treegrid("getColumnFields", "all");
         if (!$.array.contains(fields, field)) { return []; }
         var data = t.treegrid("getColumnData", { field: field, cascade: cascade });
         $.array.distinct(data, function (a, b) { return a == b; });
@@ -484,14 +484,14 @@
 
     var _find = $.fn.treegrid.methods.find;
     var findRow = function (target, param, grid) {
-        var t = grid || $.util.parseJquery(target);
+        var t = grid || $(target);
         if (!$.isFunction(param)) { return _find.call(t, t, param); }
         var rows = t.treegrid("getRows", true);
         return $.array.first(rows, param);
     };
 
     var findRows = function (target, param) {
-        var t = $.util.parseJquery(target), ret;
+        var t = $(target), ret;
         if ($.isFunction(param)) {
             ret = $.array.filter(t.treegrid("getRows", true), param);
         } else if ($.array.likeArray(param) && !$.util.isString(param)) {
@@ -504,7 +504,7 @@
     };
 
     var showRow = function (target, param, grid, options, extensions, refreshable) {
-        var t = grid || $.util.parseJquery(target), opts = options || t.treegrid("options"),
+        var t = grid || $(target), opts = options || t.treegrid("options"),
             isFunc = $.isFunction(param), val = isFunc ? findRow(target, param, t) : null,
             id = isFunc ? (val ? val[opts.idField] : null) : ($.isPlainObject(param) && (opts.idField in param) ? param[opts.idField] : param);
         if (id == null || id == undefined) { return; }
@@ -523,7 +523,7 @@
     };
 
     var hideRow = function (target, param, grid, options, extensions, refreshable) {
-        var t = grid || $.util.parseJquery(target), opts = options || t.treegrid("options"),
+        var t = grid || $(target), opts = options || t.treegrid("options"),
             isFunc = $.isFunction(param), val = isFunc ? findRow(target, param, t) : null,
             id = isFunc ? (val ? val[opts.idField] : null) : ($.isPlainObject(param) && (opts.idField in param) ? param[opts.idField] : param);
         if (id == null || id == undefined) { return; }
@@ -541,7 +541,7 @@
     };
 
     var showRows = function (target, param) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"), rows = t.treegrid("getRows", true), array,
+        var t = $(target), opts = t.treegrid("options"), rows = t.treegrid("getRows", true), array,
             exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
         if (param === true) {
             exts.filterData = [];
@@ -561,7 +561,7 @@
     };
 
     var hideRows = function (target, param) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"), rows = t.treegrid("getRows", true), array,
+        var t = $(target), opts = t.treegrid("options"), rows = t.treegrid("getRows", true), array,
             exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
         if (param === true) {
             t.treegrid("unselectAll").treegrid("uncheckAll");
@@ -582,7 +582,7 @@
     };
 
     var getHiddenRows = function (target, cascade) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"),
+        var t = $(target), opts = t.treegrid("options"),
             exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
         if (cascade) { return exts.filterData; }
         var roots = t.treegrid("getRoots");
@@ -590,13 +590,13 @@
     };
 
     var getVisibleRows = function (target, cascade) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"), rows = t.treegrid("getRows", cascade),
+        var t = $(target), opts = t.treegrid("options"), rows = t.treegrid("getRows", cascade),
             exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
         return $.array.filter(rows, function (val) { return $.array.contains(exts.filterData, val) ? false : true; });
     };
 
     var deleteRow = function (target, param) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if (!$.isFunction(param)) { t.treegrid("remove", param); }
         var rows = t.treegrid("getRows", true), opts = t.treegrid("options"), row = $.array.first(rows, param), id = row ? row[opts.idField] : null;
         t.treegrid("remove", id);
@@ -606,7 +606,7 @@
         var isArray = $.array.likeArray(param) && !$.util.isString(param);
         if (isArray) { $.each(param, function (index, val) { deleteRow(target, val); }); return; }
         if ($.isFunction(param)) {
-            var t = $.util.parseJquery(target), opts = t.treegrid("options"), rows = t.treegrid("getRows", true), data = $.array.filter(rows, param);
+            var t = $(target), opts = t.treegrid("options"), rows = t.treegrid("getRows", true), data = $.array.filter(rows, param);
             $.each(function () {
                 var node = findRow(target, this[opts.idField], t);
                 if (node != null && node != undefined) { t.treegrid("remove", this[opts.idField]); }
@@ -616,7 +616,7 @@
 
     var setColumnTitle = function (target, param) {
         if (param && param.field && param.title) {
-            var t = $.util.parseJquery(target), colOpts = t.treegrid("getColumnOption", param.field);
+            var t = $(target), colOpts = t.treegrid("getColumnOption", param.field);
             colOpts.title = param.title;
             t.datagrid("setColumnTitle", param);
         }
@@ -626,7 +626,7 @@
     var _unselect = $.fn.treegrid.methods.unselect;
     var selectRow = function (target, param) {
         param = $.isPlainObject(param) ? param : { id: param, cascade: false };
-        var id = param.id, cascade = param.cascade ? true : false, t = $.util.parseJquery(target);
+        var id = param.id, cascade = param.cascade ? true : false, t = $(target);
         _select.call(t, t, id);
         if (cascade) {
             var opts = t.treegrid("options");
@@ -636,7 +636,7 @@
 
     var unselectRow = function (target, param) {
         param = $.isPlainObject(param) ? param : { id: param, cascade: false };
-        var id = param.id, cascade = param.cascade ? true : false, t = $.util.parseJquery(target);
+        var id = param.id, cascade = param.cascade ? true : false, t = $(target);
         _unselect.call(t, t, id);
         if (cascade) {
             var opts = t.treegrid("options");
@@ -646,7 +646,7 @@
 
     var checkRow = function (target, param) {
         param = $.isPlainObject(param) ? param : { id: param, cascade: false };
-        var id = param.id, cascade = param.cascade ? true : false, t = $.util.parseJquery(target);
+        var id = param.id, cascade = param.cascade ? true : false, t = $(target);
         t.datagrid("checkRow", id);
         if (cascade) {
             var opts = t.treegrid("options");
@@ -656,7 +656,7 @@
 
     var uncheckRow = function (target, param) {
         param = $.isPlainObject(param) ? param : { id: param, cascade: false };
-        var id = param.id, cascade = param.cascade ? true : false, t = $.util.parseJquery(target);
+        var id = param.id, cascade = param.cascade ? true : false, t = $(target);
         t.datagrid("uncheckRow", id);
         if (cascade) {
             var opts = t.treegrid("options");
@@ -666,7 +666,7 @@
 
 
     var setColumnFilter = function (target, columnFilter) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"),
+        var t = $(target), opts = t.treegrid("options"),
             exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {}),
             panel = t.treegrid("getPanel"),
             selector = "div.datagrid-view div.datagrid-header tr.datagrid-header-row div.datagrid-header-filter-container";
@@ -688,7 +688,7 @@
     };
 
     var columnFilterSelect = function (target, param) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if ($.util.isBoolean(param)) { t.treegrid(param ? "showRows" : "hideRows", true); return; }
         if (!param || !param.field) { return; }
         var field = param.field, value = param.value, isArray = $.array.likeArray(value) && !$.util.isString(value),
@@ -698,14 +698,14 @@
     };
 
     var setOffset = function (target, offset) {
-        var t = $.util.parseJquery(target), opts = t.treegrid("options"),
+        var t = $(target), opts = t.treegrid("options"),
             exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
         opts.offset = exts.offset = $.fn.datagrid.extensions.parseOffset(offset);
         t.datagrid("setOffset", opts.offset);
     };
 
     var livesearch = function (target, param) {
-        var t = $.util.parseJquery(target), panel = t.treegrid("getPanel"), opts = t.treegrid("options"), treeField = opts.treeField,
+        var t = $(target), panel = t.treegrid("getPanel"), opts = t.treegrid("options"), treeField = opts.treeField,
             cells, field, value = param, regular = false, ignoreCase = true, regexp;
         if ($.isPlainObject(param)) {
             value = param.value;
@@ -1082,7 +1082,7 @@
         return $.array.map(exts.fieldOptions, function (val) {
             var handler = function (e, field, eventData, t, item, menu) {
                 if (val.field == opts.treeField) { $.messager.show("树节点列不能被隐藏。"); return; }
-                var m = $.util.parseJquery(this),
+                var m = $(this),
                     count = m.parent().find(".menu-item:gt(1) .tree-checkbox1").length;
                 if ((count == 1 && !val.hidden) || !val.hidable) { return; }
                 t.treegrid(val.hidden ? "showColumn" : "hideColumn", val.field);
@@ -1175,7 +1175,7 @@
                 }).dialog({
                     title: "过滤/显示", iconCls: "icon-standard-application-view-detail", height: 260, width: 220, left: e.pageX, top: e.pageY,
                     collapsible: false, minimizable: false, maximizable: false, closable: true, modal: true, resizable: true,
-                    onClose: function () { $.util.parseJquery(this).dialog("destroy"); }
+                    onClose: function () { $(this).dialog("destroy"); }
                 }).dialog("open");
             };
             $.array.merge(mm, ["-", { text: "处理更多(共" + distinctVals.length + "项)...", iconCls: "icon-standard-application-view-detail", handler: handler }]);
@@ -1445,7 +1445,7 @@
     };
 
     var loader = $.fn.treegrid.extensions.loader = function (param, success, error) {
-        var t = $.util.parseJquery(this), opts = t.treegrid("options");
+        var t = $(this), opts = t.treegrid("options");
         initExtensions(t, opts);
         if (!opts.url) { return false; }
         param = $.fn.datagrid.extensions.parsePagingQueryParams(opts, param);
@@ -1459,7 +1459,7 @@
     var _onLoadSuccess = $.fn.treegrid.defaults.onLoadSuccess;
     var onLoadSuccess = $.fn.treegrid.extensions.onLoadSuccess = function (data) {
         if ($.isFunction(_onLoadSuccess)) { _onLoadSuccess.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.treegrid("options"),
+        var t = $(this), opts = t.treegrid("options"),
             exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
         initHeaderColumnFilterContainer(t, opts, exts);
         initRowDndExtensions(t, opts);
@@ -1469,7 +1469,7 @@
     var _onResizeColumn = $.fn.treegrid.defaults.onResizeColumn;
     var onResizeColumn = $.fn.treegrid.extensions.onResizeColumn = function (field, width) {
         if ($.isFunction(_onResizeColumn)) { _onResizeColumn.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.treegrid("options");
+        var t = $(this), opts = t.treegrid("options");
         if (opts.columnFilter) {
             var panel = t.treegrid("getPanel"), colOpts = t.treegrid("getColumnOption", field),
                 container = panel.find("div.datagrid-header-filter-container[field=" + field + "]");
@@ -1480,7 +1480,7 @@
     var _onBeforeEdit = $.fn.treegrid.defaults.onBeforeEdit;
     var onBeforeEdit = $.fn.treegrid.extensions.onBeforeEdit = function (row) {
         if ($.isFunction(_onBeforeEdit)) { _onBeforeEdit.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.datagrid("options");
+        var t = $(this), opts = t.datagrid("options");
         initializeRowExtEditor(t, opts, row[opts.idField]);
         initSingleEditing(t, opts, row[opts.idField]);
         t.treegrid("getPanel").find("div.datagrid-view div.datagrid-body table.datagrid-btable tr.datagrid-row").draggable("disable");
@@ -1489,7 +1489,7 @@
     var _onAfterEdit = $.fn.treegrid.defaults.onAfterEdit;
     var onAfterEdit = $.fn.treegrid.extensions.onAfterEdit = function (row, changes) {
         if ($.isFunction(_onAfterEdit)) { _onAfterEdit.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.treegrid("options"),
+        var t = $(this), opts = t.treegrid("options"),
             exts = opts._extensionsTreegrid ? opts._extensionsTreegrid : (opts._extensionsTreegrid = {});
         disposeRowExtEditor(t, opts, row[opts.idField]);
         initHeaderColumnFilterContainer(t, opts, exts);
@@ -1500,7 +1500,7 @@
     var _onCancelEdit = $.fn.treegrid.defaults.onCancelEdit;
     var onCancelEdit = $.fn.treegrid.extensions.onCancelEdit = function (row) {
         if ($.isFunction(_onCancelEdit)) { _onCancelEdit.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.treegrid("options");
+        var t = $(this), opts = t.treegrid("options");
         disposeRowExtEditor(t, opts, row[opts.idField]);
         initRowDndExtensions(t, opts);
         initColumnRowTooltip(t, opts, row[opts.idField], row);
@@ -1514,7 +1514,7 @@
         if ($.isFunction(_loadFilter)) { data = _loadFilter.apply(this, arguments); }
         var isArray = $.array.likeArray(data) && !$.util.isString(data), rows = isArray ? data : data.rows;
         if (!rows.length) { return data; }
-        var t = $.util.parseJquery(this), opts = t.treegrid("options");
+        var t = $(this), opts = t.treegrid("options");
         rows = opts.dataPlain ? $.fn.tree.extensions.dataPlainConverter(rows, opts) : rows;
         if (parent != null && parent != undefined) { return isArray ? rows : { total: rows.length, rows: rows }; }
         return isArray ? rows : { total: data.length || rows.length, rows: rows };
@@ -1523,7 +1523,7 @@
     var _onExpand = $.fn.treegrid.defaults.onExpand;
     var onExpand = $.fn.treegrid.extensions.onExpand = function (row) {
         if ($.isFunction(_onExpand)) { _onExpand.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.treegrid("options");
+        var t = $(this), opts = t.treegrid("options");
         if (opts.onlyNodeExpand) {
             var rows = t.treegrid("getNears", row[opts.idField]), animate = opts.animate
             opts.animate = false;
@@ -2375,12 +2375,5 @@
     };
 
     $.extend($.fn.treegrid.defaults.view, view);
-
-
-    //  增加扩展插件中要用到的自定义样式
-    var css =
-        ".datagrid-body td.datagrid-header-cell-append { border-color: red; border-width: 2px; border-style: dotted; }"
-    ;
-    $.util.addCss(css);
 
 })(jQuery);

@@ -28,13 +28,13 @@
 
 
     var getData = function (target, param) {
-        var form = $.util.parseJquery(target);
+        var form = $(target);
         return form.serializeObject(param);
     };
 
     var _submit = $.fn.form.methods.submit;
     var submit = function (target, options) {
-        var form = $.util.parseJquery(target);
+        var form = $(target);
         if (/^(?:form)$/i.test(this.nodeName)) { return _submit.call(form, form, options); }
         var opts = $.extend({}, $.fn.form.defaults, options || {});
         if (opts.onSubmit && opts.onSubmit.call(target, param) == false) { return; }
@@ -46,7 +46,7 @@
 
 
     var load = function (target, data) {
-        var form = $.util.parseJquery(target);
+        var form = $(target);
         if (!$.data(target, 'form')) {
             $.data(target, 'form', { options: $.extend({}, $.fn.form.defaults) });
         }

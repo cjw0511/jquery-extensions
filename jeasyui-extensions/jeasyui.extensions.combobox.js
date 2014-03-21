@@ -28,13 +28,13 @@
 
 
     function getItem(target) {
-        var t = $.util.parseJquery(target), opts = t.combobox("options"),
+        var t = $(target), opts = t.combobox("options"),
             value = t.combobox("getValue"), data = t.combobox("getData");
         return $.array.first(data, function (val) { return val[opts.valueField] == value; });
     };
 
     function getItems(target) {
-        var t = $.util.parseJquery(target), opts = t.combobox("options"),
+        var t = $(target), opts = t.combobox("options"),
             values = t.combobox("getValues"), data = t.combobox("getData");
         return $.array.filter(data, function (val) {
             return $.array.contains(values, val[opts.valueField]);
@@ -60,7 +60,7 @@
     };
 
     function load(target, param) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if (!param) { return; }
         if (typeof param === "string") { return t.combobox("reload", param); }
         var opts = t.combobox("options");

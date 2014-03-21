@@ -593,7 +593,7 @@
         var menu = $("<div></div>").appendTo("body"),
             opts = $.extend({}, $.fn.menu.defaults, {
                 left: window.event ? window.event.clientX : 0, top: window.event ? window.event.clientY : 0,
-                slideOut: false, items: null, hideDisabledMenu: false, hideOnUnhover: false, minWidth: 140
+                slideOut: false, items: null, hideDisabledMenu: false, minWidth: 140
             }, options || {});
         opts.items = $.util.likeArrayNotString(opts.items) ? opts.items : [];
         if (opts.id) { menu.attr("id", opts.id); }
@@ -700,5 +700,12 @@
     //      bold:           Boolean 类型值，默认为 false；表示该菜单项是否字体加粗；
     //      style:          JSON-Object 类型值，默认为 null；表示要附加到该菜单项的样式；
     //  备注：上述增加的 menu-item 的自定义扩展属性，只有通过 $.easyui.createMenu 或者 $.easyui.showMenu 生成菜单时，才有效。
+
+
+    $.extend($.fn.menu.defaults, {
+
+        hideOnUnhover: false
+    });
+
 
 })(jQuery);

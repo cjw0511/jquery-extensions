@@ -180,7 +180,14 @@
     };
     $.fn.searchbox.parseOptions = function (_2a) {
         var t = $(_2a);
-        return $.extend({}, $.parser.parseOptions(_2a, ["width", "height", "prompt", "menu"]), { value: t.val(), searcher: (t.attr("searcher") ? eval(t.attr("searcher")) : undefined) });
+        return $.extend({},
+            $.parser.parseOptions(_2a, [
+                "width", "height", "prompt", "menu"
+            ]),
+            {
+                value: t.val(), searcher: (t.attr("searcher") ? eval(t.attr("searcher")) : undefined)
+            }
+            );
     };
     $.fn.searchbox.defaults = {
         width: "auto", height: 22, prompt: "", value: "", menu: null, searcher: function (_2b, _2c) {

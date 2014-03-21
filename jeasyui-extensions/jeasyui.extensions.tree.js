@@ -32,19 +32,19 @@
     /******************** initExtensions Methods Begin ********************/
 
     function isRootNode(treeTarget, target) {
-        var t = $.util.parseJquery(treeTarget);
-        target = $.util.parseJquery(target)[0];
+        var t = $(treeTarget);
+        target = $(target)[0];
         return $.array.contains(t.tree("getRoots"), target, function (t1, t2) {
             return t1.target == t2;
         });
     };
 
     function showOption(treeTarget, target) {
-        var t = $.util.parseJquery(treeTarget), opts, pos;
+        var t = $(treeTarget), opts, pos;
         if (target) {
-            target = $.util.parseJquery(target)[0];
+            target = $(target)[0];
             opts = t.tree("getNode", target);
-            pos = $.util.parseJquery(target).offset();
+            pos = $(target).offset();
         } else {
             opts = t.tree("options");
             pos = t.offset();
@@ -55,7 +55,7 @@
 
 
     function getLevel(treeTarget, target) {
-        var t = $.util.parseJquery(treeTarget), node = $.util.parseJquery(target);
+        var t = $(treeTarget), node = $(target);
         if (!t[0] || !node[0] || !node.is(".tree-node[node-id]") || !$.contains(t[0], node[0])) { return 0; }
         return node.parentsUntil("ul.tree", "ul").length + 1;
     };
@@ -63,9 +63,9 @@
     function moveNode(treeTarget, param) {
         if (!param || !param.source || !param.target || !param.point) { return; }
         if (!$.array.contains(["append", "top", "bottom"], param.point)) { param.point = "append"; }
-        param.source = $.util.parseJquery(param.source)[0]; param.target = $.util.parseJquery(param.target)[0];
+        param.source = $(param.source)[0]; param.target = $(param.target)[0];
         if (param.source == param.target) { return; }
-        var t = $.util.parseJquery(treeTarget), opts = t.tree("options");
+        var t = $(treeTarget), opts = t.tree("options");
         if ($.isFunction(opts.onBeforeDrop) && opts.onBeforeDrop.call(treeTarget, param.target, param.source, param.point) == false) { return; }
         if (t.tree("isParent", { target1: param.source, target2: param.target })) { return; }
         var node = t.tree("pop", param.source);
@@ -80,8 +80,8 @@
 
     function shiftNode(treeTarget, param) {
         if (!param || !param.target || !param.point || !$.array.contains(["up", "upLevel", "down", "downLevel"], param.point)) { return; }
-        param.target = $.util.parseJquery(param.target)[0];
-        var t = $.util.parseJquery(treeTarget), source = param.target, targetNode;
+        param.target = $(param.target)[0];
+        var t = $(treeTarget), source = param.target, targetNode;
         switch (param.point) {
             case "up": targetNode = t.tree("prev", source); break;
             case "upLevel": targetNode = t.tree("getParent", source); break;
@@ -101,44 +101,44 @@
     };
 
     function isChild(target, param) {
-        var t = $.util.parseJquery(target),
-            target1 = $.util.parseJquery(param.target1)[0], target2 = $.util.parseJquery(param.target2)[0];
+        var t = $(target),
+            target1 = $(param.target1)[0], target2 = $(param.target2)[0];
         var children = t.tree("getChildren", target2);
         return $.array.some(children, function (val) { return val.target == target1; });
     };
 
     function isParent(target, param) {
-        var t = $.util.parseJquery(target),
-            target1 = $.util.parseJquery(param.target1)[0], target2 = $.util.parseJquery(param.target2)[0];
+        var t = $(target),
+            target1 = $(param.target1)[0], target2 = $(param.target2)[0];
         var children = t.tree("getChildren", target1);
         return $.array.some(children, function (val) { return val.target == target2; });
     };
 
     function isSibling(target, param) {
-        var t = $.util.parseJquery(target),
-            target1 = $.util.parseJquery(param.target1)[0], target2 = $.util.parseJquery(param.target2)[0],
+        var t = $(target),
+            target1 = $(param.target1)[0], target2 = $(param.target2)[0],
             p1 = t.tree("getParent", target1), p2 = t.tree("getParent", target2);
         return p1.target == p2.target;
     };
 
     function getNextNode(treeTarget, target) {
-        var item = $.util.parseJquery(target);
+        var item = $(target);
         if (!item.hasClass("tree-node")) { return null; }
         var target = item[0], next = item.closest("li").next().children("div.tree-node");
         if (!next.length) { return null; }
-        return next.length ? $.util.parseJquery(treeTarget).tree("getNode", next[0]) : null;
+        return next.length ? $(treeTarget).tree("getNode", next[0]) : null;
     };
 
     function getPrevNode(treeTarget, target) {
-        var item = $.util.parseJquery(target);
+        var item = $(target);
         if (!item.hasClass("tree-node")) { return null; }
         var target = item[0], prev = item.closest("li").prev().children("div.tree-node");
         if (!prev.length) { return null; }
-        return prev.length ? $.util.parseJquery(treeTarget).tree("getNode", prev[0]) : null;
+        return prev.length ? $(treeTarget).tree("getNode", prev[0]) : null;
     };
 
     function getNears(treeTarget, target) {
-        var t = $.util.parseJquery(treeTarget); target = $.util.parseJquery(target);
+        var t = $(treeTarget); target = $(target);
         if (!$.contains(t[0], target[0]) || !target.is("div.tree-node")) { return null; }
         return target.closest("ul").find("li>div.tree-node").map(function () {
             return t.tree("getNode", this);
@@ -146,7 +146,7 @@
     };
 
     function getNearChildren(treeTarget, target) {
-        var t = $.util.parseJquery(treeTarget); target = $.util.parseJquery(target);
+        var t = $(treeTarget); target = $(target);
         if (!$.contains(t[0], target[0]) || !target.is("div.tree-node")) {
             return null;
         }
@@ -156,11 +156,11 @@
     };
 
     function unselect(treeTarget, target) {
-        $.util.parseJquery(target).removeClass("tree-node-selected");
+        $(target).removeClass("tree-node-selected");
     };
 
     function remoteLoad(target, param) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if (!param) { return t.tree("reload"); }
         if (typeof param == "string") {
             t.tree("options").url = param;
@@ -298,7 +298,7 @@
     };
 
     var loader = $.fn.tree.extensions.loader = function (param, success, error) {
-        var t = $.util.parseJquery(this), opts = t.tree("options");
+        var t = $(this), opts = t.tree("options");
         initExtensions(t, opts);
         if (!opts.url) { return false; }
         param = parseQueryParams(opts, param);
@@ -312,7 +312,7 @@
     var _onExpand = $.fn.tree.defaults.onExpand;
     var onExpand = $.fn.tree.extensions.onExpand = function (node) {
         if ($.isFunction(_onExpand)) { _onExpand.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.tree("options");
+        var t = $(this), opts = t.tree("options");
         if (opts.onlyNodeExpand) {
             var nodes = t.tree("getNears", node.target), animate = opts.animate
             opts.animate = false;
@@ -328,7 +328,7 @@
         if ($.isFunction(_loadFilter)) { data = _loadFilter.apply(this, arguments); }
         data = $.array.likeArray(data) && !$.util.isString(data) ? data : [];
         if (!data.length) { return data; }
-        var t = $.util.parseJquery(this), opts = t.tree("options");
+        var t = $(this), opts = t.tree("options");
         return opts.dataPlain ? $.fn.tree.extensions.dataPlainConverter(data, opts) : data;
     };
     /******************** initExtensions   End ********************/

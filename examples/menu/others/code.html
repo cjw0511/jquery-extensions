@@ -1,0 +1,44 @@
+﻿<div>
+
+<h2>JavaScript 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: js; highlight: [4,10,11,12,13,14]" >
+    
+    $(function () {
+        $("#cc").bind("contextmenu", function (e) {
+            e.preventDefault();
+            $.easyui.showMenu({
+                left: e.pageX, top: e.pageY,
+                items: [
+                    { text: "测试菜单1", iconCls: "icon-hamburg-address" },
+                    { text: "测试菜单2", handler: function (e, item) { alert(item.text); } },
+                    {
+                        text: function () { return "自定义菜单项" },
+                        disabled: function () { return window.event.clientX < 300; },
+                        style: { color: "red" },
+                        bold: true,
+                        handler: function (e, item) { alert(item.text); }
+                    },
+                    "-",
+                    {
+                        text: "测试菜单3", children: [
+                            { text: "测试子菜单1", handler: function (e, item) { alert(item.text); } },
+                            { text: "测试子菜单2", handler: function (e, item) { alert(item.text); } }
+                        ]
+                    },
+                ]
+            });
+        });
+    });
+
+</textarea>
+<h2>HTML 代码：</h2>
+<textarea name="dp-syntaxhighlighter" class="brush: html; highlight: []" >
+    
+    <div id="cc" style="border-width: 1px; border-style: solid; border-color: Black; width: 400px; height: 200px; padding: 10px;" >
+        请用鼠标右键点击此区域
+    </div>
+
+</textarea>
+
+
+</div>

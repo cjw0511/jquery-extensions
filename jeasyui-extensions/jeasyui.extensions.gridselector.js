@@ -11,7 +11,7 @@
 * jQuery EasyUI gridselector 组件扩展
 * jeasyui.extensions.gridselector.js
 * 二次开发 流云
-* 最近更新：2014-03-17
+* 最近更新：2014-03-21
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -26,6 +26,9 @@
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
+
+
+    $.util.namespace("$.easyui");
 
 
     //  增加自定义扩展方法 $.easyui.showGridSelector；该方法弹出一个 easyui-datagrid 选择框窗口；该方法定义如下参数：
@@ -263,15 +266,5 @@
     $.easyui.showTreeWithGridSelector = function (options) {
         if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.showDblTreeGridSelector.apply(this, arguments); }
     };
-
-
-
-
-    var css =
-        ".grid-selector-buttons { border-top-width: 0px; border-bottom-width: 0px; text-align: center; background-color: #efefef; padding-top: 50px; }" +
-        ".grid-selector-buttons a { margin: 5px 0px 5px 0px; }"
-    ;
-    $.util.addCss(css);
-
 
 })(jQuery);

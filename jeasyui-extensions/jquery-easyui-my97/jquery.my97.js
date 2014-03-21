@@ -174,8 +174,4 @@
         $.fn.form.comboList.push("my97");
     }
 
-    var css =
-        ".combo-panel-noborder { border-width: 0px; filter: alpha(opacity=0); opacity: 0; }";
-    $.util.addCss(css);
-
 })(jQuery);

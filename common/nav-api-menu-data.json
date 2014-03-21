@@ -40,7 +40,8 @@
     { "id": "1104", "text": "Menu and Button", "pid": "11", "children": [
         { "id": "110401", "text": "Menu", "pid": "1104", "children": [
             { "id": "11040101", "text": "动态批量创建Menu", "pid": "110401", "attributes": { "href": "examples/example.html?menu/default" } },
-            { "id": "11040102", "text": "自定义Menu-Item的样式", "pid": "110401", "attributes": { "href": "examples/example.html?menu/custom" } }
+            { "id": "11040102", "text": "自定义Menu-Item的样式", "pid": "110401", "attributes": { "href": "examples/example.html?menu/custom" } },
+            { "id": "11040103", "text": "其他功能", "pid": "110401", "attributes": { "href": "examples/example.html?menu/others" } }
         ]
         },
         { "id": "110402", "text": "LinkButton", "pid": "1104", "attributes": { "href": "examples/example.html?linkbutton" } }

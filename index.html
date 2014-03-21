@@ -19,6 +19,8 @@
     <script src="jquery.jdirk.js" type="text/javascript"></script>
     <!--<script src="release/jquery.jdirk.min.js"></script>-->
 
+    <link href="jeasyui-extensions/jeasyui.extensions.css" rel="stylesheet" type="text/css" />
+
     <script src="jeasyui-extensions/jeasyui.extensions.js" type="text/javascript"></script>
     <script src="jeasyui-extensions/jeasyui.extensions.linkbutton.js" type="text/javascript"></script>
     <script src="jeasyui-extensions/jeasyui.extensions.validatebox.js" type="text/javascript"></script>
@@ -54,7 +56,6 @@
     <script src="jeasyui-extensions/jquery-easyui-my97/jquery.my97.js" type="text/javascript"></script>
 
     <script src="jeasyui-extensions/jquery-easyui-portal/jquery.portal.js" type="text/javascript"></script>
-    <link href="jeasyui-extensions/jquery-easyui-portal/portal.css" rel="stylesheet" type="text/css" />
 
     <!--导入首页启动时需要的相应资源文件(首页相应功能的 js 库、css样式以及渲染首页界面的 js 文件)-->
     <script src="common/index.js" type="text/javascript"></script>
@@ -128,7 +129,7 @@
                     <div id="westLayout" class="easyui-layout" data-options="fit: true">
                         <div data-options="region: 'center', border: false" style="border-bottom-width: 1px;">
                             <div id="westCenterLayout" class="easyui-layout" data-options="fit: true">
-                                <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
+                                <div data-options="region: 'north', split: false, border: false" style="height: 33px;">
                                     <div class="easyui-toolbar">
                                         <a id="navMenu_expand" class="easyui-splitbutton" data-options="iconCls: 'icon-metro-expand2', menu: '#navMenu_toggleMenu'">展开</a>
                                         <a id="navMenu_Favo" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-feed-add'">收藏</a>
@@ -203,7 +204,7 @@
             <div id="mainTab" class="easyui-tabs" data-options="fit: true, border: true, showOption: true, enableNewTabMenu: true, repeatable: true, tools: '#mainTab_tools', enableJumpTabMenu: true, onSelect: function (title, index) { window.mainpage.mainTab.updateHash(index); }">
                 <div id="homePanel" data-options="title: '主页', iconCls: 'icon-hamburg-home'">
                     <div class="easyui-layout" data-options="fit: true">
-                        <div data-options="region: 'north', split: false, border: false" style="height: 31px;">
+                        <div data-options="region: 'north', split: false, border: false" style="height: 33px;">
                             <div class="easyui-toolbar">
                                 <a id="A1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-add'">添加一列</a>
                                 <a id="A2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-delete'">删除一列</a>

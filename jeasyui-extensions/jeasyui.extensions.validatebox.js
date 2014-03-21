@@ -247,10 +247,10 @@
                     switch (String(type).toLowerCase()) {
                         case "jquery":
                         case "dom":
-                            val = $.util.parseJquery(val).val();
+                            val = $(val).val();
                             break;
                         case "id":
-                            val = $.util.parseJquery("#" + val).val();
+                            val = $("#" + val).val();
                             break;
                         case "string":
                         default:
@@ -268,7 +268,7 @@
 
 
     function initialize(target) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         var opts = t.validatebox("options");
         if (!opts._initialized) {
             setPrompt(target, opts.prompt, opts);
@@ -280,7 +280,7 @@
     };
 
     function setPrompt(target, prompt, opts) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         opts = opts || t.validatebox("options");
         opts.prompt = prompt;
         if ($.html5.testProp("placeholder", t[0].nodeName)) {
@@ -360,9 +360,6 @@
     $.extend($.fn.validatebox.defaults, defaults);
     $.extend($.fn.validatebox.methods, methods);
 
-    var css =
-        ".validatebox-prompt{ color: #ccc; }";
-    $.util.addCss(css);
 
 
 

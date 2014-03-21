@@ -11,7 +11,7 @@
 * jQuery EasyUI window 组件扩展
 * jeasyui.extensions.window.js
 * 二次开发 流云
-* 最近更新：2013-09-22
+* 最近更新：2014-03-21
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -61,18 +61,26 @@
             opts._initialized = true;
         }
         if (opts.draggable) {
-            var dragOpts = state.window.draggable("options"),
-                _onStartDrag = dragOpts.onStartDrag, _onStopDrag = dragOpts.onStopDrag, _onDrag = dragOpts.onDrag;
+            var dragOpts = state.window.draggable("options"), cursor = dragOpts.cursor,
+                onBeforeDrag = dragOpts.onBeforeDrag, onStartDrag = dragOpts.onStartDrag, onStopDrag = dragOpts.onStopDrag, onDrag = dragOpts.onDrag;
+            dragOpts.cursor = "default";
+            dragOpts.onBeforeDrag = function (e) {
+                var ret = onBeforeDrag.apply(this, arguments);
+                if (ret == false) { return ret; }
+                if (e.which != 1) { return false; }
+                dragOpts.cursor = cursor;
+            };
             dragOpts.onStartDrag = function () {
-                _onStartDrag.apply(this, arguments);
+                onStartDrag.apply(this, arguments);
                 t.window("body").addClass("window-body-hidden").children().addClass("window-body-hidden-proxy");
             };
             dragOpts.onStopDrag = function () {
-                _onStopDrag.apply(this, arguments);
+                onStopDrag.apply(this, arguments);
                 t.window("body").removeClass("window-body-hidden").children().removeClass("window-body-hidden-proxy");
+                dragOpts.cursor = "default";
             };
             dragOpts.onDrag = function (e) {
-                if (!opts.inContainer) { return _onDrag.apply(this, arguments); }
+                if (!opts.inContainer) { return onDrag.apply(this, arguments); }
                 var left = e.data.left, top = e.data.top,
                     p = win.parent(), root = p.is("body"),
                     scope = $.extend({}, root ? $.util.windowSize() : { width: p.innerWidth(), height: p.innerHeight() }),
@@ -214,12 +222,5 @@
             $(this).prevAll("div.panel.window:first").shine();
         });
     });
-
-
-    var css =
-        ".window-body-hidden { background-color: #95b8e7; filter: alpha(opacity=60); opacity: 0.6; }" +
-        ".window-body-hidden-proxy { visibility: hidden; }" +
-        ".window-proxy { background-color: #0e2d5f; filter: alpha(opacity=60); opacity: 0.6; }";
-    $.util.addCss(css);
 
 })(jQuery);

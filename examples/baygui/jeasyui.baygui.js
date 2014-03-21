@@ -33,9 +33,9 @@
 
     $.baygui.inst = function (options) {
         var bays = this, opts = $.extend({}, $.baygui.defaults, options || {});
-        opts.boxesGrid = opts.boxesGrid ? $.util.parseJquery(opts.boxesGrid) : null;
-        opts.baysContainer = opts.baysContainer ? $.util.parseJquery(opts.baysContainer) : null;
-        opts.bayCellBoard = opts.bayCellBoard ? $.util.parseJquery(opts.bayCellBoard).addClass("bays-selected-label") : null;
+        opts.boxesGrid = opts.boxesGrid ? $(opts.boxesGrid) : null;
+        opts.baysContainer = opts.baysContainer ? $(opts.baysContainer) : null;
+        opts.bayCellBoard = opts.bayCellBoard ? $(opts.bayCellBoard).addClass("bays-selected-label") : null;
         if (!opts.boxesGrid || !opts.boxesGrid.length || !opts.baysContainer || !opts.baysContainer.length) { return null; }
 
         //opts.columnFilter = { panelHeight: 80, position: "top" }; //如果此行取消注释，则需另将下一行代码注释掉

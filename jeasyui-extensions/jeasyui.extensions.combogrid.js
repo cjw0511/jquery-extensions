@@ -58,7 +58,7 @@
                     return box;
                 },
                 destroy: function (target) {
-                    $.util.parseJquery(target).combogrid("destroy");
+                    $(target).combogrid("destroy");
                 },
                 getValue: function (target) {
                     var t = $(target), opts = t.combogrid("options");

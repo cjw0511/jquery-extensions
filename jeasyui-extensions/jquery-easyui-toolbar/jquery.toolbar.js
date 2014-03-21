@@ -9,7 +9,7 @@
 *
 * jQuery EasyUI toolbar Plugin Extensions 1.0 beta
 * jQuery EasyUI toolbar 插件扩展
-* jeasyui.plugins.toolbar.js
+* jquery.toolbar.js
 * 二次开发 流云
 * 最近更新：2014-03-18
 *
@@ -84,27 +84,26 @@
     };
 
     function setAlign(target, align) {
+        align = String(align);
+        if (!$.array.contains(["left", "center", "right"], align.toLowerCase())) { return; }
         var t = $(target), state = $.data(target, "toolbar"),
             wrapper = state.wrapper, opts = state.options, left = 0;
         opts.align = align;
-        wrapper.removeClass("toolbar-align-left toolbar-align-center toolbar-align-right");
-        wrapper.addClass("toolbar-align-" + align);
-        if (align == "center") {
-            var toolbar = state.toolbar, tWidth = toolbar.width(), width = wrapper.width();
-            left = Math.max((tWidth - width) / 2, 0);
-        }
-        wrapper.css("left", left);
+        wrapper.removeClass("toolbar-align-left toolbar-align-center toolbar-align-right").addClass("toolbar-align-" + align);
     };
 
     function setValign(target, valign) {
+        valign = String(valign);
+        if (!$.array.contains(["top", "middle", "bottom"], valign.toLowerCase())) { return; }
         var t = $(target), state = $.data(target, "toolbar"),
             toolbar = state.toolbar, wrapper = state.wrapper, opts = state.options,
-            tHeight = toolbar.height(), height = wrapper.height(), top;
+            outerHeight = toolbar.height(), height = wrapper.height(), top;
         opts.valign = valign;
+        wrapper.removeClass("toolbar-valign-top toolbar-valign-middle toolbar-valign-bottom").addClass("toolbar-valign-" + valign);
         switch (valign) {
             case "top": top = 0; break;
-            case "middle": top = (tHeight - height) / 2; break;
-            case "bottom": top = tHeight - height; break;
+            case "middle": top = (outerHeight - height) / 2; break;
+            case "bottom": top = (outerHeight - height); break;
         }
         wrapper.css("top", Math.max(top, 0));
     };
@@ -125,7 +124,8 @@
                     actions: null, target: cell, options: {}, type: "custom", container: container
                 });
             }
-        } else if ($.util.isString(item)) {
+        } else if ($.array.contains(["string", "number", "date"], $.type(item))) {
+            item = $.string.trim(item);
             if ($.array.contains(["-", "—", "|"], item)) {
                 appendItemToContainer(target, container, { type: "separator" });
             } else if ($.string.isHtmlText(item)) {
@@ -162,19 +162,17 @@
         appendItemToContainer(target, container, item);
     };
 
-    function appendItem(target, item, doSize) {
+    function appendItem(target, item) {
         if (!item) { return; }
-        if (doSize == null || doSize == undefined) { doSize = true; }
         if ($.array.likeArrayNotString(item)) {
             if (item.length) {
-                $.each(item, function (i, n) { appendItem(target, n, false); });
+                $.each(item, function (i, n) { appendItem(target, n); });
             }
         } else if ($.isFunction(item)) {
             appendItem(target, item.call(target), false);
         } else {
             appendItemOption(target, item);
         }
-        if (doSize) { setSize(target); }
     }
 
 
@@ -183,7 +181,7 @@
     function getItemIndex(target, item) {
         var ret = -1;
         if (!item) { return ret; }
-        item = $.util.parseJquery(item);
+        item = $(item);
         var t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
         if (!tr.length || $.contains(tr[0], item[0])) { return ret; }
         ret = item.closest("toolbar-item-container").index();
@@ -1108,28 +1106,5 @@
 
 
     $.parser.plugins.push("toolbar");
-
-
-    var css =
-        ".toolbar-f {}" +
-        ".toolbar { width: auto; height: auto; min-height: 26px; overflow: hidden; }" +
-        ".toolbar-wrapper { position: relative; }" +
-        ".toolbar-wrapper td .dialog-tool-separator { height: 22px; margin-left: 2px; margin-right: 2px; }" +
-        ".toolbar-align-left { float: left; }" +
-        ".toolbar-align-center {}" +
-        ".toolbar-align-right { float: right; }" +
-        ".toolbar-row {}" +
-        ".toolbar-item-container { padding-left: 1px; padding-right: 1px; }" +
-        ".toolbar-item, .toolbar-item>* { vertical-align: middle; }" +
-        ".toolbar-item-label { margin-left: 4px; margin-right: 2px; }" +
-        ".toolbar-item-label-disabled { color: gray; }" +
-        ".toolbar-item-input {}" +
-        ".toolbar-item-button {}" +
-        ".toolbar-item-checkbox {}" +
-        ".toolbar-item-checkbox-input {}" +
-        ".toolbar-item-checkbox-text {}" +
-        ".toolbar-item-checkbox-disabled {}" +
-        "";
-    $.util.addCss(css);
 
 })(jQuery);

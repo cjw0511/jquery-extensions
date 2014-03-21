@@ -33,7 +33,7 @@
     var _insertRow = $.fn.datagrid.methods.insertRow;
     var updateRow = function (target, param) {
         if (!param || !param.row || !$.isNumeric(param.index)) { return; }
-        var t = $.util.parseJquery(target), opts = t.datagrid("options");
+        var t = $(target), opts = t.datagrid("options");
         if ($.isFunction(opts.onBeforeUpdateRow) && opts.onBeforeUpdateRow.call(target, param.index, param.row) == false) { return; }
         _updateRow.call(t, t, param);
         initHeaderColumnFilterContainer(t, opts);
@@ -43,7 +43,7 @@
     };
     var appendRow = function (target, row) {
         if (!row) { return; }
-        var t = $.util.parseJquery(target), opts = t.datagrid("options");
+        var t = $(target), opts = t.datagrid("options");
         if ($.isFunction(opts.onBeforeAppendRow) && opts.onBeforeAppendRow.call(target, row) == false) { return; }
         _appendRow.call(t, t, row);
         var rows = t.datagrid("getRows"), index = rows.length - 1;
@@ -54,7 +54,7 @@
     };
     var insertRow = function (target, param) {
         if (!param || !param.row || !$.isNumeric(param.index)) { return; }
-        var t = $.util.parseJquery(target), opts = t.datagrid("options");
+        var t = $(target), opts = t.datagrid("options");
         if ($.isFunction(opts.onBeforeInsertRow) && opts.onBeforeInsertRow.call(target, param.index, param.row) == false) { return; }
         _insertRow.call(t, t, param);
         initHeaderColumnFilterContainer(t, opts);
@@ -90,25 +90,25 @@
 
 
     var isChecked = function (target, index) {
-        var t = $.util.parseJquery(target), rows = t.datagrid("getChecked"),
+        var t = $(target), rows = t.datagrid("getChecked"),
             list = $.array.map(rows, function (val) { return t.datagrid("getRowIndex", val); });
         return $.array.contains(list, index);
     };
 
     var isSelected = function (target, index) {
-        var t = $.util.parseJquery(target), rows = t.datagrid("getSelections"),
+        var t = $(target), rows = t.datagrid("getSelections"),
             list = $.array.map(rows, function (val) { return t.datagrid("getRowIndex", val); });
         return $.array.contains(list, index);
     };
 
     var freezeColumn = function (target, field) {
-        var t = $.util.parseJquery(target), fields = t.datagrid("getColumnFields"), frozenFields = t.datagrid("getColumnFields", true);
+        var t = $(target), fields = t.datagrid("getColumnFields"), frozenFields = t.datagrid("getColumnFields", true);
         if (!frozenFields || !frozenFields.length || !$.array.contains(fields, field) || $.array.contains(frozenFields, field)) { return; }
         t.datagrid("moveColumn", { source: field, target: frozenFields[frozenFields.length - 1], point: "after" });
     };
 
     var unfreezeColumn = function (target, field) {
-        var t = $.util.parseJquery(target), fields = t.datagrid("getColumnFields"), frozenFields = t.datagrid("getColumnFields", true);
+        var t = $(target), fields = t.datagrid("getColumnFields"), frozenFields = t.datagrid("getColumnFields", true);
         if (!fields || !fields.length || $.array.contains(fields, field) || !$.array.contains(frozenFields, field)) { return; }
         t.datagrid("moveColumn", { source: field, target: fields[0], point: "before" });
     };
@@ -116,7 +116,7 @@
     var moveRow = function (target, param) {
         if (!param || !$.isNumeric(param.source) || !$.isNumeric(param.target) || param.source == param.target || !param.point) { return; }
         if (!$.array.contains(["top", "bottom"], param.point)) { param.point = "top"; }
-        var t = $.util.parseJquery(target), opts = t.datagrid("options"), rows = t.datagrid("getRows"),
+        var t = $(target), opts = t.datagrid("options"), rows = t.datagrid("getRows"),
             sourceRow = rows[param.source], targetRow = rows[param.target];
         if (!sourceRow || !targetRow) { return; }
         if ($.isFunction(opts.onBeforeDrop) && opts.onBeforeDrop.call(target, targetRow, sourceRow, param.point) == false) { return; }
@@ -138,34 +138,34 @@
 
     var shiftRow = function (target, param) {
         if (!param || !$.isNumeric(param.index) || !param.point || !$.array.contains(["up", "down"], param.point)) { return; }
-        var t = $.util.parseJquery(target), opts = t.datagrid("options"), index = param.point == "up" ? param.index - 1 : param.index + 1,
+        var t = $(target), opts = t.datagrid("options"), index = param.point == "up" ? param.index - 1 : param.index + 1,
             point = param.point == "up" ? "top" : "bottom";
         t.datagrid("moveRow", { source: param.index, target: index, point: point });
     };
 
     var getNextRow = function (target, index) {
-        var t = $.util.parseJquery(target), rows = t.datagrid("getRows"), i = index + 1;
+        var t = $(target), rows = t.datagrid("getRows"), i = index + 1;
         return rows[i] ? rows[i] : null;
     };
 
     var getPrevRow = function (target, index) {
-        var t = $.util.parseJquery(target), rows = t.datagrid("getRows"), i = index - 1;
+        var t = $(target), rows = t.datagrid("getRows"), i = index - 1;
         return rows[i] ? rows[i] : null;
     };
 
     var popRow = function (target, index) {
-        var t = $.util.parseJquery(target), rows = t.datagrid("getRows"), row = rows[index];
+        var t = $(target), rows = t.datagrid("getRows"), row = rows[index];
         if (!row) { return null; }
         t.datagrid("deleteRow", index);
         return row;
     };
 
     var enableRowDnd = function (target) {
-        var t = $.util.parseJquery(target), opts = t.datagrid("options");
+        var t = $(target), opts = t.datagrid("options");
         t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable({
             disabled: false, revert: true, cursor: "default", deltaX: 10, deltaY: 5,
             proxy: function (source) {
-                var tr = $.util.parseJquery(source), index = parseInt(tr.attr("datagrid-row-index")),
+                var tr = $(source), index = parseInt(tr.attr("datagrid-row-index")),
                     dom = t.datagrid("getRowDom", index).clone(),
                     temp = $("<tr></tr>").addClass("datagrid-row datagrid-row-selected");
                 $("<td><span class='tree-dnd-icon tree-dnd-no' ></span></td>").appendTo(temp);
@@ -173,16 +173,16 @@
                 if (td.length > 6) { $("<td>...</td>").css("width", "40px").appendTo(temp); }
                 return $("<table></table>").addClass("tree-node-proxy").appendTo("body").append(temp).hide();
             }, onBeforeDrag: function (e) {
-                var tr = $.util.parseJquery(this), index = parseInt(tr.attr("datagrid-row-index")), row = t.datagrid("getRowData", index);
+                var tr = $(this), index = parseInt(tr.attr("datagrid-row-index")), row = t.datagrid("getRowData", index);
                 if ($.isFunction(opts.onBeforeDrag) && opts.onBeforeDrag.call(target, index, row) == false) { return false; }
                 if (e.which != 1) { return false; }
                 if (e.target.type == "checkbox") { return false; }
             }, onStartDrag: function () {
-                var tr = $.util.parseJquery(this), index = parseInt(tr.attr("datagrid-row-index")), row = t.datagrid("getRowData", index);
+                var tr = $(this), index = parseInt(tr.attr("datagrid-row-index")), row = t.datagrid("getRowData", index);
                 tr.draggable("proxy").css({ left: -10000, top: -10000 });
                 if ($.isFunction(opts.onBeforeDrag)) { opts.onStartDrag.call(target, index, row); }
             }, onStopDrag: function () {
-                var tr = $.util.parseJquery(this), index = parseInt(tr.attr("datagrid-row-index")), row = t.datagrid("getRowData", index);
+                var tr = $(this), index = parseInt(tr.attr("datagrid-row-index")), row = t.datagrid("getRowData", index);
                 if ($.isFunction(opts.onStopDrag)) { opts.onStopDrag.call(target, index, row); }
             }, onDrag: function (e) {
                 var x1 = e.pageX, y1 = e.pageY, x2 = e.data.startX, y2 = e.data.startY;
@@ -193,7 +193,7 @@
         }).droppable({
             accept: "tr.datagrid-row",
             onDragEnter: function (e, source) {
-                var droper = $.util.parseJquery(this), drager = $.util.parseJquery(source),
+                var droper = $(this), drager = $(source),
                     droperIndex = parseInt(droper.attr("datagrid-row-index")),
                     dragerIndex = parseInt(drager.attr("datagrid-row-index")),
                     droperRow = t.datagrid("getRowData", droperIndex), dragerRow = t.datagrid("getRowData", dragerIndex),
@@ -211,7 +211,7 @@
                 }
             },
             onDragOver: function (e, source) {
-                var droper = $.util.parseJquery(this), dnd = droper.data("dnd"), drager = dnd.drager,
+                var droper = $(this), dnd = droper.data("dnd"), drager = dnd.drager,
                     droperRow = dnd.droperRow, dragerRow = dnd.dragerRow, mark = dnd.mark;
                 if (droper.droppable("options").disabled) { return; }
                 var pageY = source.pageY, top = droper.offset().top, height = top + droper.outerHeight();
@@ -229,14 +229,14 @@
                 }
             },
             onDragLeave: function (e, source) {
-                var droper = $.util.parseJquery(this), dnd = droper.data("dnd"), drager = dnd.drager,
+                var droper = $(this), dnd = droper.data("dnd"), drager = dnd.drager,
                     droperRow = dnd.droperRow, dragerRow = dnd.dragerRow, mark = dnd.mark;
                 setDroppableStatus(drager, false);
                 mark.removeClass("datagrid-header-cell-top datagrid-header-cell-bottom");
                 if ($.isFunction(opts.onDragLeave)) { opts.onDragLeave.call(target, droperRow, dragerRow); }
             },
             onDrop: function (e, source) {
-                var droper = $.util.parseJquery(this), dnd = droper.data("dnd"),
+                var droper = $(this), dnd = droper.data("dnd"),
                     droperIndex = dnd.droperIndex, dragerIndex = dnd.dragerIndex, mark = dnd.mark,
                     point = mark.hasClass("datagrid-header-cell-top") ? "top" : "bottom";
                 t.datagrid("moveRow", { target: droperIndex, source: dragerIndex, point: point });
@@ -251,7 +251,7 @@
     };
 
     var disableRowDnd = function (target) {
-        var t = $.util.parseJquery(target), opts = t.datagrid("options");
+        var t = $(target), opts = t.datagrid("options");
         t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable("disable");
         opts.dndRow = false;
     };
@@ -259,7 +259,7 @@
 
 
     var getNextColumn = function (target, field) {
-        var t = $.util.parseJquery(target),
+        var t = $(target),
             fields = $.array.merge([], t.datagrid("getColumnFields", true), t.datagrid("getColumnFields", false)),
             index = $.array.indexOf(fields, field);
         if (index == -1 || index + 1 >= fields.length) { return null; }
@@ -267,7 +267,7 @@
     };
 
     var getPrevColumn = function (target, field) {
-        var t = $.util.parseJquery(target),
+        var t = $(target),
             fields = $.array.merge([], t.datagrid("getColumnFields", true), t.datagrid("getColumnFields", false)),
             index = $.array.indexOf(fields, field);
         if (index < 1) { return null; }
@@ -278,7 +278,7 @@
     var moveColumn = function (target, param) {
         if (!param || !param.source || !param.target || param.source == param.target || !param.point) { return; };
         if (!$.array.contains(["before", "after"], param.point)) { param.point = "before"; }
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if (t.datagrid("hasMuliRowHeader")) { return; }
         var opts = t.datagrid("options"), sourceFrozen, targetFrozen,
             fields = t.datagrid("getColumnFields"), frozenFields = t.datagrid("getColumnFields", true);
@@ -343,7 +343,7 @@
     var shiftColumn = function (target, param) {
         if (!param || !param.field || !param.point) { return; };
         if (!$.array.contains(["before", "after"], param.point)) { param.point = "before"; }
-        var t = $.util.parseJquery(target), fields = t.datagrid("getColumnFields", "all"),
+        var t = $(target), fields = t.datagrid("getColumnFields", "all"),
             index = $.array.indexOf(fields, param.field);
         if (index == -1 || (param.point == "before" && index == 0) || (param.point == "after" && index == fields.length - 1)) { return; }
         var target = fields[param.point == "before" ? index - 1 : index + 1];
@@ -352,7 +352,7 @@
 
 
     var deleteColumn = function (target, field) {
-        var t = $.util.parseJquery(target), opts = t.datagrid("options"),
+        var t = $(target), opts = t.datagrid("options"),
             exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {});
         if ($.isFunction(opts.onBeforeDeleteColumn) && opts.onBeforeDeleteColumn.call(target, field) == false) { return; }
         removeField(opts, field, exts);
@@ -361,7 +361,7 @@
     };
 
     var popColumn = function (target, field) {
-        var t = $.util.parseJquery(target), colOpts = t.datagrid("getColumnOption", field);
+        var t = $(target), colOpts = t.datagrid("getColumnOption", field);
         if (colOpts) { t.datagrid("deleteColumn", field); }
         return colOpts
     };
@@ -407,13 +407,13 @@
 
 
     var hasMuliRowHeader = function (target) {
-        var t = $.util.parseJquery(target), opts = t.datagrid("options");
+        var t = $(target), opts = t.datagrid("options");
         return (opts.columns && opts.columns.length > 1 && opts.columns[1].length > 0)
             || (opts.frozenColumns && opts.frozenColumns.length > 1 && opts.frozenColumns[1].length > 0);
     };
 
     var findRows = function (target, param) {
-        var t = $.util.parseJquery(target), rows = t.datagrid("getRows"), ret;
+        var t = $(target), rows = t.datagrid("getRows"), ret;
         if ($.isFunction(param)) {
             ret = $.array.filter(rows, param);
         } else if ($.array.likeArray(param) && !$.util.isString(param)) {
@@ -426,13 +426,13 @@
     };
 
     var findRow = function (target, param, grid, rows) {
-        var t = grid || $.util.parseJquery(target), data = rows || t.datagrid("getRows"), opts = t.datagrid("options");
+        var t = grid || $(target), data = rows || t.datagrid("getRows"), opts = t.datagrid("options");
         return $.array.first(data, $.isFunction(param) ? param : function (val) { return val[opts.idField] == param; });
     };
 
     var _deleteRow = $.fn.datagrid.methods.deleteRow;
     var deleteRow = function (target, param) {
-        var t = $.util.parseJquery(target), isFunc = $.isFunction(param), index;
+        var t = $(target), isFunc = $.isFunction(param), index;
         if (isFunc) {
             var rows = t.datagrid("getRows"), row = $.array.first(rows, param);
             if (row) { _deleteRow.call(t, t, row); }
@@ -446,7 +446,7 @@
         var isArray = $.array.likeArray(param) && !$.util.isString(param);
         if (isArray) { $.each(param, function (index, val) { deleteRow(target, val); }); return; }
         if ($.isFunction(param)) {
-            var t = $.util.parseJquery(target), rows = t.datagrid("getRows");
+            var t = $(target), rows = t.datagrid("getRows");
             $.each(rows, function (index, row) {
                 if (param.call(this, this, index, rows) == true) {
                     var i = t.datagrid("getRowIndex", this);
@@ -458,7 +458,7 @@
 
     var setColumnTitle = function (target, param) {
         if (param && param.field && param.title) {
-            var t = $.util.parseJquery(target), colOpts = t.datagrid("getColumnOption", param.field),
+            var t = $(target), colOpts = t.datagrid("getColumnOption", param.field),
                 field = param.field, title = param.title,
                 panel = t.datagrid("getPanel"),
                 td = panel.find("div.datagrid-view div.datagrid-header tr.datagrid-header-row td[field=" + field + "]");
@@ -469,7 +469,7 @@
     var setColumnWidth = function (target, param) {
         if (param && param.field && param.width && $.isNumeric(param.width)) {
             var state = $.data(target, "datagrid"),
-                t = $.util.parseJquery(target),
+                t = $(target),
                 opts = t.datagrid("options"),
                 colOpts = t.datagrid("getColumnOption", param.field),
                 field = param.field, width = param.width,
@@ -491,7 +491,7 @@
     var sortGrid = function (target, options) {
         options = options || {};
         options = $.extend({ sortName: null, sortOrder: "asc" }, options);
-        var t = $.util.parseJquery(target),
+        var t = $(target),
             state = $.data(target, "datagrid"),
             opts = t.datagrid("options"),
             col = t.datagrid("getColumnOption", options.sortName);
@@ -516,7 +516,7 @@
         return o;
     };
     var setOffset = function (target, offset) {
-        var t = $.util.parseJquery(target), opts = t.datagrid("options"),
+        var t = $(target), opts = t.datagrid("options"),
             exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {});
         opts.offset = exts.offset = $.fn.datagrid.extensions.parseOffset(offset);
         if (exts.offset && exts.offset.enable) {
@@ -534,7 +534,7 @@
 
     var getColumnDom = function (target, param) {
         if ($.string.isNullOrEmpty(param)) { return $(); }
-        var t = $.util.parseJquery(target), panel = t.datagrid("getPanel"),
+        var t = $(target), panel = t.datagrid("getPanel"),
             isObject = !$.string.isString(param),
             field = isObject ? param.field : param,
             header = isObject ? param.header : false,
@@ -544,38 +544,38 @@
     };
 
     var getColumnData = function (target, field) {
-        var t = $.util.parseJquery(target), rows = t.datagrid("getRows");
+        var t = $(target), rows = t.datagrid("getRows");
         return $.array.map(rows, function (val) { return val[field]; });
     };
 
     var getRowDom = function (target, index) {
         if (!$.isNumeric(index) || index < 0) { return $(); }
-        var t = $.util.parseJquery(target), panel = t.datagrid("getPanel");
+        var t = $(target), panel = t.datagrid("getPanel");
         return panel.find("div.datagrid-view div.datagrid-body table tr.datagrid-row[datagrid-row-index=" + index + "]");
     };
 
     var getRowData = function (target, index) {
         if (!$.isNumeric(index) || index < 0) { return undefined; }
-        var t = $.util.parseJquery(target), rows = t.datagrid("getRows");
+        var t = $(target), rows = t.datagrid("getRows");
         return rows[index];
     };
 
     var getCellDom = function (target, pos) {
         if (!pos || !pos.field || !$.isNumeric(pos.index) || pos.index < 0) { return $(); }
-        var t = $.util.parseJquery(target), tr = t.datagrid("getRowDom", pos.index);
+        var t = $(target), tr = t.datagrid("getRowDom", pos.index);
         return tr.find("td[field=" + pos.field + "] .datagrid-cell");
     };
     var getCellData = function (target, pos) {
         if (!pos || !pos.field || !$.isNumeric(pos.index) || pos.index < 0) { return; }
-        var t = $.util.parseJquery(target), row = t.datagrid("getRowData", pos.index);
+        var t = $(target), row = t.datagrid("getRowData", pos.index);
         return row[pos.field];
     };
     var getCellDisplay = function (target, pos) {
-        var t = $.util.parseJquery(target), td = t.datagrid("getCellDom", pos);
+        var t = $(target), td = t.datagrid("getCellDom", pos);
         return td && td.length ? td.html() : undefined;
     };
     var getCellDisplayText = function (target, pos) {
-        var t = $.util.parseJquery(target), td = t.datagrid("getCellDom", pos);
+        var t = $(target), td = t.datagrid("getCellDom", pos);
         return td && td.length ? td.text() : undefined;
     };
 
@@ -589,7 +589,7 @@
     };
 
     var getDistinctRows = function (target, field) {
-        var t = $.util.parseJquery(target), fields = t.datagrid("getColumnFields", "all");
+        var t = $(target), fields = t.datagrid("getColumnFields", "all");
         if (!$.array.contains(fields, field)) { return []; }
         var rows = t.datagrid("getRows"), data = $.array.clone(rows);
         $.array.distinct(data, function (a, b) { return a[field] == b[field]; });
@@ -597,7 +597,7 @@
     };
 
     var getDistinctColumnData = function (target, field) {
-        var t = $.util.parseJquery(target), fields = t.datagrid("getColumnFields", "all");
+        var t = $(target), fields = t.datagrid("getColumnFields", "all");
         if (!$.array.contains(fields, field)) { return []; }
         var data = t.datagrid("getColumnData", field);
         $.array.distinct(data, function (a, b) { return a == b; });
@@ -630,7 +630,7 @@
     };
 
     var showRow = function (target, param, grid, options, data, extensions, refreshable) {
-        var t = grid || $.util.parseJquery(target), rows = data || t.datagrid("getRows"),
+        var t = grid || $(target), rows = data || t.datagrid("getRows"),
             row = $.isFunction(param) ? findRow(target, param, t, rows) : param, index = t.datagrid("getRowIndex", row),
             refreshable = (refreshable == null || refreshable == undefined || refreshable == true) ? true : false;
         if (index > -1) {
@@ -644,7 +644,7 @@
     };
 
     var hideRow = function (target, param, grid, options, data, extensions, refreshable) {
-        var t = grid || $.util.parseJquery(target), rows = data || t.datagrid("getRows"),
+        var t = grid || $(target), rows = data || t.datagrid("getRows"),
             row = $.isFunction(param) ? findRow(target, param, t, rows) : param, index = t.datagrid("getRowIndex", row),
             refreshable = refreshable == null || refreshable == undefined || refreshable == true ? true : false;
         if (index > -1) {
@@ -658,7 +658,7 @@
     };
 
     var showRows = function (target, param) {
-        var t = $.util.parseJquery(target), opts = t.datagrid("options"), rows = t.datagrid("getRows"), array,
+        var t = $(target), opts = t.datagrid("options"), rows = t.datagrid("getRows"), array,
             exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {});
         if (param === true) {
             exts.filterData = [];
@@ -677,7 +677,7 @@
     };
 
     var hideRows = function (target, param) {
-        var t = $.util.parseJquery(target), opts = t.datagrid("options"), rows = t.datagrid("getRows"), array,
+        var t = $(target), opts = t.datagrid("options"), rows = t.datagrid("getRows"), array,
             exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {});
         if (param === true) {
             t.datagrid("unselectAll").datagrid("uncheckAll");
@@ -697,20 +697,20 @@
     };
 
     var getHiddenRows = function (target) {
-        var t = $.util.parseJquery(target), opts = t.datagrid("options"),
+        var t = $(target), opts = t.datagrid("options"),
             exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {});
         return exts.filterData;
     };
 
     var getVisibleRows = function (target) {
-        var t = $.util.parseJquery(target), opts = t.datagrid("options"), rows = t.datagrid("getRows"),
+        var t = $(target), opts = t.datagrid("options"), rows = t.datagrid("getRows"),
             exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {}),
             filterData = $.isArray(exts.filterData) ? exts.filterData : [];
         return $.array.filter(rows, function (val) { return $.array.contains(filterData, val) ? false : true; });
     };
 
     var setColumnFilter = function (target, columnFilter) {
-        var t = $.util.parseJquery(target),
+        var t = $(target),
             opts = t.datagrid("options"), exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {}),
             panel = t.datagrid("getPanel"),
             selector = "div.datagrid-view div.datagrid-header tr.datagrid-header-row div.datagrid-header-filter-container";
@@ -733,7 +733,7 @@
     };
 
     var columnFilterSelect = function (target, param) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if ($.util.isBoolean(param)) { t.datagrid(param ? "showRows" : "hideRows", true); return; }
         if (!param || !param.field) { return; }
         var field = param.field, value = param.value, isArray = $.array.likeArray(value) && !$.util.isString(value),
@@ -746,7 +746,7 @@
 
 
     var highlightColumn = function (target, field) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         var state = $.data(t[0], "datagrid"), opts = state.options;
         if (state.highlightField) {
             t.datagrid("getColumnDom", { field: state.highlightField, header: true }).removeClass("datagrid-row-over");
@@ -758,7 +758,7 @@
     };
 
     var livesearch = function (target, param) {
-        var t = $.util.parseJquery(target), panel = t.datagrid("getPanel"), cells, field, value = param, regular = false, ignoreCase = true, regexp;
+        var t = $(target), panel = t.datagrid("getPanel"), cells, field, value = param, regular = false, ignoreCase = true, regexp;
         if ($.isPlainObject(param)) {
             value = param.value;
             field = param.field;
@@ -1159,7 +1159,7 @@
     function parseHeaderColumnsShowHideMenu(t, opts, exts, e, field, eventData) {
         return $.array.map(exts.fieldOptions, function (val) {
             var handler = function (e, field, eventData, t, item, menu) {
-                var m = $.util.parseJquery(this),
+                var m = $(this),
                     count = m.parent().find(".menu-item:gt(1) .tree-checkbox1").length;
                 if ((count == 1 && !val.hidden) || !val.hidable) { return; }
                 t.datagrid(val.hidden ? "showColumn" : "hideColumn", val.field);
@@ -1249,7 +1249,7 @@
                 }).dialog({
                     title: "过滤/显示", iconCls: "icon-standard-application-view-detail", height: 260, width: 220, left: e.pageX, top: e.pageY,
                     collapsible: false, minimizable: false, maximizable: false, closable: true, modal: true, resizable: true,
-                    onClose: function () { $.util.parseJquery(this).dialog("destroy"); }
+                    onClose: function () { $(this).dialog("destroy"); }
                 }).dialog("open");
             };
             $.array.merge(mm, ["-", { text: "处理更多(共" + distinctVals.length + "项)...", iconCls: "icon-standard-application-view-detail", handler: handler }]);
@@ -1494,7 +1494,7 @@
     };
 
     var loader = $.fn.datagrid.extensions.loader = function (param, success, error) {
-        var t = $.util.parseJquery(this), opts = t.datagrid("options");
+        var t = $(this), opts = t.datagrid("options");
         initExtensions(t, opts);
         if (!opts.url) { return false; }
         param = $.fn.datagrid.extensions.parsePagingQueryParams(opts, param);
@@ -1522,7 +1522,7 @@
     var _onResizeColumn = $.fn.datagrid.defaults.onResizeColumn;
     var onResizeColumn = $.fn.datagrid.extensions.onResizeColumn = function (field, width) {
         if ($.isFunction(_onResizeColumn)) { _onResizeColumn.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.datagrid("options");
+        var t = $(this), opts = t.datagrid("options");
         if (opts.columnFilter) {
             var panel = t.datagrid("getPanel"), colOpts = t.datagrid("getColumnOption", field),
                 container = panel.find("div.datagrid-header-filter-container[field=" + field + "]");
@@ -1533,7 +1533,7 @@
     var _onBeforeEdit = $.fn.datagrid.defaults.onBeforeEdit;
     var onBeforeEdit = $.fn.datagrid.extensions.onBeforeEdit = function (index, row) {
         if ($.isFunction(_onBeforeEdit)) { _onBeforeEdit.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.datagrid("options");
+        var t = $(this), opts = t.datagrid("options");
         initializeRowExtEditor(t, opts, index);
         initSingleEditing(t, opts, index);
         t.datagrid("getPanel").find("div.datagrid-view div.datagrid-body table tr.datagrid-row").draggable("disable");
@@ -1542,7 +1542,7 @@
     var _onAfterEdit = $.fn.datagrid.defaults.onAfterEdit;
     var onAfterEdit = $.fn.datagrid.extensions.onAfterEdit = function (index, row, changes) {
         if ($.isFunction(_onAfterEdit)) { _onAfterEdit.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.datagrid("options"),
+        var t = $(this), opts = t.datagrid("options"),
             exts = opts._extensionsDatagrid ? opts._extensionsDatagrid : (opts._extensionsDatagrid = {});
         disposeRowExtEditor(t, opts, index);
         initHeaderColumnFilterContainer(t, opts, exts);
@@ -1553,7 +1553,7 @@
     var _onCancelEdit = $.fn.datagrid.defaults.onCancelEdit;
     var onCancelEdit = $.fn.datagrid.extensions.onCancelEdit = function (index, row) {
         if ($.isFunction(_onCancelEdit)) { _onCancelEdit.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.datagrid("options");
+        var t = $(this), opts = t.datagrid("options");
         disposeRowExtEditor(t, opts, index);
         initRowDndExtensions(t, opts);
         initColumnRowTooltip(t, opts, index, row);
@@ -2373,35 +2373,5 @@
         }
     });
 
-
-
-    //  增加扩展插件中要用到的自定义样式
-    var css =
-        ".datagrid-rowediting-panel { position: absolute; display: block; border: 1px solid #ddd; padding: 5px 5px; }" +
-        ".datagrid-body td.datagrid-header-cell-top { border-top-color: red; border-top-width: 2px; border-top-style: dotted; }" +
-        ".datagrid-body td.datagrid-header-cell-bottom { border-bottom-color: red; border-bottom-width: 2px; border-bottom-style: dotted; }" +
-        ".datagrid-cell-hightlight { font-weight: bold; background-color: Yellow; }" +
-        ".datagrid-header-cell-arrow { float: right; cursor: pointer; border-left-style: dotted; display: none; border-left-width: 0px; }" +
-        ".datagrid-header-cell-arrow-show { display: inline; border-left-width: 1px; }" +
-        ".datagrid-header-filter { text-align: center; overflow: auto; }" +
-        ".datagrid-header-filter-top { vertical-align: top; }" +
-        ".datagrid-header-filter-bottom { vertical-align: bottom; }" +
-        ".datagrid-header-filter-cell { white-space: nowrap; }" +
-        ".datagrid-header-filter-line { border-width: 0px; border-top-width: 1px; border-style: dotted; border-color: #ccc; margin-top: 3px; margin-bottom: 3px; }" +
-        ".datagrid-header-filter-container { padding-top: 5px; overflow: auto; font-size: 11px; text-align: left; }" +
-        ".datagrid-header-filter-livebox-text { margin-left: 10px; margin-top: 10px; overflow: auto; font-size: 11px; text-align: left; }" +
-        ".datagrid-header-filter-livebox { margin-left: 10px; width: 60px; height: 12px; font-size: 11px; }" +
-        ".datagrid-header-filter-item { overflow: hidden; padding: 0px; margin: 0px; cursor: pointer; white-space: nowrap; margin: 2px; }" +
-        ".datagrid-header-filter-item:hover { filter: alpha(opacity=60); opacity: 0.6; }" +
-        ".datagrid-header-filter-item-text { padding-left: 20px; float: left; }" +
-        ".datagrid-header-filter-item-icon { left: 2px; top: 50%; width: 16px; height: 16px; margin-top: -3px; }" +
-        ".datagrid-header-filter-itemwrap { overflow: hidden; padding-left: 5px; white-space: nowrap; height: 20px; }" +
-        ".datagrid-header-filter-slider { }" +
-        ".datagrid-header-filter-sliderwrap { overflow: hidden; padding-left: 30px; padding-top: 15px; }" +
-        ".datagrid-header-filter-sliderwrap .slider-rulelabel span { font-size: 11px; }" +
-        ".datagrid-header-filter-numeric { width: 60px; height: 12px; font-size: 11px; }" +
-        ".datagrid-editable-checkbox { }"
-    ;
-    $.util.addCss(css);
 })(jQuery);
 

@@ -117,8 +117,7 @@
             });
             if ($.easyui.iconStyles.length) { tabs.tabs("select", 0); }
             function refreshToolbar() {
-                var wrapper = toolbar.toolbar("wrapper");
-                wrapper.find("td").remove();
+                toolbar.toolbar("clear");
                 if (value) {
                     if ($.isArray(value)) {
                         var title = value.join("\n"),
@@ -133,10 +132,13 @@
                                 tabs.find("ul>li.selected").removeClass("selected");
                                 dia.setValue(null);
                             });
-                        toolbar.toolbar("appendItem", ["当前共选中的图标数量为：", String(value.length), tip, clear]);
+                        toolbar.toolbar("appendItem", [
+                            "当前共选中的图标数量为：", value.length, tip, clear
+                        ]);
                     } else {
-                        var icon = $("<a></a>").linkbutton({ plain: true, iconCls: value })
-                        toolbar.toolbar("appendItem", ["当前选中的图标值为：", icon, value]);
+                        toolbar.toolbar("appendItem", [
+                            "当前选中的图标值为：", { type: "button", options: { iconCls: value, plain: true } }, value
+                        ]);
                     }
                 } else {
                     toolbar.toolbar("appendItem", "当前没有选中图标");
@@ -155,18 +157,5 @@
         });
         return dia;
     };
-
-
-    var css =
-        "ul.icon-selector-ul { padding: 10px; margin: 0px; }" +
-        "ul.icon-selector-ul li { list-style-type: none; float: left; cursor: pointer; margin: 2px; width: 20px; height: 20px; }" +
-        "ul.icon-selector-ul li { border-width: 1px; border-color: #fff; border-style: solid; }" +
-        "ul.icon-selector-ul li:hover { border-color: Red; }" +
-        "ul.icon-selector-ul li span { line-height: 16px; padding-left: 16px; display: inline-block; }" +
-        "ul.icon-selector-ul-32 li { width: 36px; height: 36px; }" +
-        "ul.icon-selector-ul-32 li span { line-height: 32px; padding-left: 32px; }" +
-        "ul.icon-selector-ul li.selected { border-color: Red; background-color: rgb(221, 221, 221); }"
-    $.util.addCss(css);
-
 
 })(jQuery);

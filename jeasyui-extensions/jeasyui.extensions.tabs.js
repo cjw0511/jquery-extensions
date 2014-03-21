@@ -42,7 +42,7 @@
     var _onContextMenu = $.fn.tabs.defaults.onContextMenu;
     var onContextMenu = function (e, title, index) {
         if ($.isFunction(_onContextMenu)) { _onContextMenu.apply(this, arguments); }
-        var t = $.util.parseJquery(this), opts = t.tabs("options");
+        var t = $(this), opts = t.tabs("options");
         if (opts.enableConextMenu) {
             e.preventDefault();
             var panel = t.tabs("getTab", index),
@@ -140,9 +140,9 @@
             updateProgress = $.array.contains(["mask", "progress", "none"], opts.updateProgress) ? opts.updateProgress : "mask",
             loading = function () {
                 if (updateProgress == "mask") {
-                    $.easyui.loading({ topMost: true });
+                    $.easyui.loading({ topMost: true, msg: panelOpts.loadingMessage });
                 } else if (updateProgress == "progress") {
-                    $.easyui.messager.progress({ title: "操作提醒", msg: "正在加载...", interval: 100 });
+                    $.easyui.messager.progress({ title: "操作提醒", msg: panelOpts.loadingMessage, interval: 100 });
                 }
             },
             loaded = function () {
@@ -167,38 +167,27 @@
         }
         if (updateProgress != "none" && (!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab)) {
             loading();
-            if (!panelOpts.iniframe) {
-                panelOpts.onLoad = function () {
-                    if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
-                    $.util.exec(loaded);
-                    $(this).panel("options").onLoad = onLoad;
-                };
-            }
+            panelOpts.onLoad = function () {
+                if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
+                $.util.exec(loaded);
+                $(this).panel("options").onLoad = onLoad;
+            };
         }
         var ret = _updateTab.call(tabs, tabs, { tab: param.tab, options: panelOpts });
         var tab = tabs.tabs("getTab", index);
         panelOpts = tab.panel("options");
         panelOpts.tools = tools;
         initTabsPanelPaddingTopLine(target);
-        var li = tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li").eq(index).off("dblclick.closeOnDblClick").on("dblclick.closeOnDblClick", function () {
-            if (panelOpts.closeOnDblClick && panelOpts.closable) {
+        if (panelOpts.closeOnDblClick && panelOpts.closable) {
+            tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li").eq(index).off("dblclick.closeOnDblClick").on("dblclick.closeOnDblClick", function () {
                 tabs.tabs("close", panelOpts.title);
-            }
-        });
-        if (panelOpts.closeOnDblClick && panelOpts.closable) { li.attr("title", "双击此选项卡标题可以将其关闭"); }
-        if (updateProgress != "none" && panelOpts.iniframe) {
-            $.util.exec(function () {
-                tab.panel("iframe").bind("load", function () {
-                    loaded();
-                    if ($.isFunction(opts.onLoad)) { opts.onLoad.call(target, tab); }
-                });
-            });
+            }).attr("title", "双击此选项卡标题可以将其关闭");
         }
         return ret;
     };
 
     function refreshTab(target, which) {
-        var tabs = $.util.parseJquery(target), opts = tabs.tabs("options"),
+        var tabs = $(target), opts = tabs.tabs("options"),
             panel = tabs.tabs("getTab", which), panelOpts = panel.panel("options"),
             index = tabs.tabs("getTabIndex", panel);
         if ($.string.isNullOrWhiteSpace(panelOpts.href) && $.string.isNullOrWhiteSpace(panelOpts.content)) { return; }
@@ -207,13 +196,13 @@
     };
 
     function isSelected(target, which) {
-        var tabs = $.util.parseJquery(target), selected = tabs.tabs("getSelected"), index = tabs.tabs("getTabIndex", selected);
+        var tabs = $(target), selected = tabs.tabs("getSelected"), index = tabs.tabs("getTabIndex", selected);
         var thisTab = tabs.tabs("getTab", which), thisIndex = tabs.tabs("getTabIndex", thisTab);
         return thisIndex == index;
     };
 
     function isClosable(target, which) {
-        var tabs = $.util.parseJquery(target), panel = tabs.tabs("getTab", which), panelOpts = panel.panel("options");
+        var tabs = $(target), panel = tabs.tabs("getTab", which), panelOpts = panel.panel("options");
         return panelOpts.closable;
     };
 
@@ -235,7 +224,7 @@
         $("<td align='right'></td>").append(ckIniframe).append(lblIniframe).appendTo(tr3);
 
         which = which || 0;
-        var tabs = $.util.parseJquery(target),
+        var tabs = $(target),
             index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", tabs.tabs("getTab", which)),
             header = tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li:eq(" + index + ")"),
             offset = header.offset(), position = $.extend({}, { left: offset.left + 10, top: offset.top + 10 });
@@ -278,46 +267,46 @@
     };
 
     function repeatTab(target, which) {
-        var tabs = $.util.parseJquery(target), panel = tabs.tabs("getTab", which), panelOpts = panel.panel("options");
+        var tabs = $(target), panel = tabs.tabs("getTab", which), panelOpts = panel.panel("options");
         var opts = $.extend({}, panelOpts, { selected: true, closable: true }), i = 2, title = opts.title;
         while (tabs.tabs("getTab", opts.title = title + "-" + i.toString())) { i++; }
         tabs.tabs("add", opts);
     };
 
     function getTabOption(target, which) {
-        var t = $.util.parseJquery(target), tab = t.tabs("getTab", which), tabOpts = tab.panel("options");
+        var t = $(target), tab = t.tabs("getTab", which), tabOpts = tab.panel("options");
         return tabOpts;
     };
 
     function getSelectedOption(target) {
-        var t = $.util.parseJquery(target), tab = t.tabs("getSelected"), tabOpts = tab.panel("options");
+        var t = $(target), tab = t.tabs("getSelected"), tabOpts = tab.panel("options");
         return tabOpts;
     };
 
     function getSelectedIndex(target) {
-        var t = $.util.parseJquery(target), tab = t.tabs("getSelected"), index = t.tabs("getTabIndex", tab);
+        var t = $(target), tab = t.tabs("getSelected"), index = t.tabs("getTabIndex", tab);
         return index;
     };
 
     function getSelectedTitle(target) {
-        var t = $.util.parseJquery(target), tabOpts = t.tabs("getSelectedOption"), title = tabOpts.title;
+        var t = $(target), tabOpts = t.tabs("getSelectedOption"), title = tabOpts.title;
         return title;
     };
 
     function leftTabs(target, which) {
-        var tabs = $.util.parseJquery(target), index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", tabs.tabs("getTab", which)),
+        var tabs = $(target), index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", tabs.tabs("getTab", which)),
             panels = tabs.tabs("tabs");
         return $.array.range(panels, 0, index);
     };
 
     function rightTabs(target, which) {
-        var tabs = $.util.parseJquery(target), index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", tabs.tabs("getTab", which)),
+        var tabs = $(target), index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", tabs.tabs("getTab", which)),
             panels = tabs.tabs("tabs");
         return $.array.range(panels, index + 1);
     };
 
     function otherTabs(target, which) {
-        var tabs = $.util.parseJquery(target), index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", tabs.tabs("getTab", which)),
+        var tabs = $(target), index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", tabs.tabs("getTab", which)),
             panels = tabs.tabs("tabs");
         return $.array.merge($.array.range(panels, 0, index), $.array.range(panels, index + 1));
     };
@@ -330,47 +319,47 @@
     };
 
     function closableTabs(target) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("tabs");
+        var tabs = $(target), panels = tabs.tabs("tabs");
         return $.array.filter(panels, closableFinder);
     };
 
     function leftClosableTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("leftTabs", which);
+        var tabs = $(target), panels = tabs.tabs("leftTabs", which);
         return $.array.filter(panels, closableFinder);
     };
 
     function rightClosableTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("rightTabs", which);
+        var tabs = $(target), panels = tabs.tabs("rightTabs", which);
         return $.array.filter(panels, closableFinder);
     };
 
     function otherClosableTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("otherTabs", which);
+        var tabs = $(target), panels = tabs.tabs("otherTabs", which);
         return $.array.filter(panels, closableFinder);
     };
 
     function closeLeftTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("leftTabs", which);
+        var tabs = $(target), panels = tabs.tabs("leftTabs", which);
         $.each(panels, function () { tabs.tabs("close", tabs.tabs("getTabIndex", this)); });
     };
 
     function closeRightTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("rightTabs", which);
+        var tabs = $(target), panels = tabs.tabs("rightTabs", which);
         $.each(panels, function () { tabs.tabs("close", tabs.tabs("getTabIndex", this)); });
     };
 
     function closeOtherTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("otherTabs", which);
+        var tabs = $(target), panels = tabs.tabs("otherTabs", which);
         $.each(panels, function () { tabs.tabs("close", tabs.tabs("getTabIndex", this)); });
     };
 
     function closeAllTabs(target) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("tabs");
+        var tabs = $(target), panels = tabs.tabs("tabs");
         $.each($.array.clone(panels), function () { tabs.tabs("close", tabs.tabs("getTabIndex", this)); });
     };
 
     function closeClosableTab(target, which) {
-        var tabs = $.util.parseJquery(target), panel = tabs.tabs("getTab", which);
+        var tabs = $(target), panel = tabs.tabs("getTab", which);
         if (panel && panel.panel("options").closable) {
             var index = $.isNumeric(which) ? which : tabs.tabs("getTabIndex", panel);
             tabs.tabs("close", index);
@@ -378,27 +367,27 @@
     };
 
     function closeLeftClosableTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("leftClosableTabs", which);
+        var tabs = $(target), panels = tabs.tabs("leftClosableTabs", which);
         $.each($.array.clone(panels), function () { tabs.tabs("close", tabs.tabs("getTabIndex", this)); });
     };
 
     function closeRightClosableTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("rightClosableTabs", which);
+        var tabs = $(target), panels = tabs.tabs("rightClosableTabs", which);
         $.each($.array.clone(panels), function () { tabs.tabs("close", tabs.tabs("getTabIndex", this)); });
     };
 
     function closeOtherClosableTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("otherClosableTabs", which);
+        var tabs = $(target), panels = tabs.tabs("otherClosableTabs", which);
         $.each($.array.clone(panels), function () { tabs.tabs("close", tabs.tabs("getTabIndex", this)); });
     };
 
     function closeAllClosableTabs(target, which) {
-        var tabs = $.util.parseJquery(target), panels = tabs.tabs("closableTabs", which);
+        var tabs = $(target), panels = tabs.tabs("closableTabs", which);
         $.each($.array.clone(panels), function () { tabs.tabs("close", tabs.tabs("getTabIndex", this)); });
     };
 
     function showOption(target, which) {
-        var t = $.util.parseJquery(target), opts, pos;
+        var t = $(target), opts, pos;
         if (which != null && which != undefined) {
             var p = t.tabs("getTab", which);
             opts = p.panel("options");
@@ -415,7 +404,7 @@
         if (!param || param.source == undefined || param.target == undefined || !param.point) { return; }
         var source = param.source, target = param.target,
             point = $.array.contains(["before", "after"], param.point) ? param.point : "before",
-            t = $.util.parseJquery(tabTarget), tabs = t.tabs("tabs"),
+            t = $(tabTarget), tabs = t.tabs("tabs"),
             sourcePanel = t.tabs("getTab", source), targetPanel = t.tabs("getTab", target),
             sourceIndex = t.tabs("getTabIndex", sourcePanel),
             sourceHeader = sourcePanel.panel("header"), targetHeader = targetPanel.panel("header");
@@ -430,7 +419,7 @@
     };
 
     function insertTab(tabTarget, options) {
-        var target = options.target, t = $.util.parseJquery(tabTarget);
+        var target = options.target, t = $(tabTarget);
         options.target = undefined;
         t.tabs("add", options);
         var tabs = t.tabs("tabs");
@@ -439,12 +428,12 @@
 
     function setTitle(target, param) {
         if (!param || !(param.which || $.isNumeric(param.which)) || !param.title) { return; }
-        var t = $.util.parseJquery(target), tab = t.tabs("getTab", param.which);
+        var t = $(target), tab = t.tabs("getTab", param.which);
         tab.panel("setTitle", param.title);
     };
 
     function jumpTab(target, which) {
-        var t = $.util.parseJquery(target),
+        var t = $(target),
             tab = (which == null || which == undefined) ? t.tabs("getSelected") : t.tabs("getTab", which),
             opts = tab.panel("options");
         if (opts.href && opts.iniframe) {
@@ -454,7 +443,7 @@
         }
     };
 
-    var panelOptions = $.fn.tabs.extensions.panelOptions = {
+    var panelOptions = $.fn.tabs.extensions.panelOptions = $.extend({}, $.fn.panel.defaults, {
 
         //  该选项卡的 href 是否在 iframe 中打开。
         iniframe: false,
@@ -471,7 +460,7 @@
         href: null,
 
         iconCls: "icon-standard-application-form"
-    };
+    });
     var methods = $.fn.tabs.extensions.methods = {
         //  覆盖 easyui-tabs 的原生方法 update，以支持扩展的功能；
         update: function (jq, param) { return jq.each(function () { updateTab(this, param); }); },
@@ -685,7 +674,7 @@
 
     function closeCurrentTab(target, iniframe) {
         iniframe = iniframe && !$.util.isTopMost ? true : false;
-        var current = $.util.parseJquery(target),
+        var current = $(target),
             currentTabs = current.currentTabs(),
             index;
         if (!iniframe && currentTabs.length) {
@@ -693,7 +682,7 @@
             if (index > -1) { currentTabs.tabs("close", index); }
         } else {
             var jq = $.util.parent.$;
-            current = jq.util.parseJquery($.util.currentFrame);
+            current = jq($.util.currentFrame);
             currentTabs = current.currentTabs();
             if (currentTabs.length) {
                 index = current.currentTabIndex();
@@ -704,7 +693,7 @@
 
     function refreshCurrentTab(target, iniframe) {
         iniframe = iniframe && !$.util.isTopMost ? true : false;
-        var current = $.util.parseJquery(target),
+        var current = $(target),
             currentTabs = current.currentTabs(),
             index;
         if (!iniframe && currentTabs.length) {
@@ -712,7 +701,7 @@
             if (index > -1) { currentTabs.tabs("refresh", index); }
         } else {
             var jq = $.util.parent.$;
-            current = jq.util.parseJquery($.util.currentFrame);
+            current = jq($.util.currentFrame);
             currentTabs = current.currentTabs();
             if (currentTabs.length) {
                 index = current.currentTabIndex();

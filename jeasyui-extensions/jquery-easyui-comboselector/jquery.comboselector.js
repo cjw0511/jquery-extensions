@@ -226,6 +226,8 @@
         panelWidth: "auto",
         panelHeight: "auto",
 
+        autoShowPanel: false,
+
         iconCls: "icon-standard-application-form-magnify",
 
         selectorTypes: selectorTypes,

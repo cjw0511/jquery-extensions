@@ -225,6 +225,8 @@
             title: "显示 options 值",
             width: 480,
             height: 260,
+            minWidth: 360,
+            minHeight: 220,
             content: content,
             autoVCenter: false,
             autoHCenter: false,
@@ -402,18 +404,5 @@
         //  底部工具栏的所有按钮是否全部设置 plain: true
         buttonsPlain: true
     };
-
-
-    var css =
-        "div.dialog-button.calendar-header a.l-btn-plain { border: 1px solid #C1C1C1; border-radius: 0px; }" +
-        "div.dialog-button.calendar-header a:hover.l-btn-plain { border-radius: 0px; }" +
-        "div.dialog-button.calendar-header a.l-btn-plain { padding: 0 5px 0 0; }" +
-        ".dialog-options-body { padding: 10px; width: 100%; }" +
-        ".dialog-options-row { }" +
-        ".dialog-options-cell { text-align: right; width: 100px; }" +
-        ".dialog-options-cell-content { text-align: left; }" +
-        ""
-    ;
-    $.util.addCss(css);
 
 })(jQuery);

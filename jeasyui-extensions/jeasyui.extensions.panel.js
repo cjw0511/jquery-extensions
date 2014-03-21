@@ -57,7 +57,7 @@
         dialog: $.fn.dialog.defaults.onResize
     };
     var onResize = function (width, height) {
-        var p = $.util.parseJquery(this), isWin = p.panel("isWindow"), isDia = p.panel("isDialog"),
+        var p = $(this), isWin = p.panel("isWindow"), isDia = p.panel("isDialog"),
             plugin = isDia ? "dialog" : (isWin ? "window" : "panel"),
             _onResizeFn = _onResize[plugin];
         if ($.isFunction(_onResizeFn)) { _onResizeFn.apply(this, arguments); }
@@ -84,7 +84,7 @@
         dialog: $.fn.dialog.defaults.onMove
     };
     var onMove = function (left, top) {
-        var p = $.util.parseJquery(this), isWin = p.panel("isWindow"), isDia = p.panel("isDialog"),
+        var p = $(this), isWin = p.panel("isWindow"), isDia = p.panel("isDialog"),
             plugin = isDia ? "dialog" : (isWin ? "window" : "panel"),
             _onMoveFn = _onMove[plugin], opts = p.panel("options");
         if ($.isFunction(_onMoveFn)) { _onMoveFn.apply(this, arguments); }
@@ -106,27 +106,27 @@
 
 
     var inLayout = function (target) {
-        var t = $.util.parseJquery(target), body = t.panel("body"), panel = t.panel("panel");
+        var t = $(target), body = t.panel("body"), panel = t.panel("panel");
         return body.hasClass("layout-body") && panel.hasClass("layout-panel");
     };
 
     var inTabs = function (target) {
-        var t = $.util.parseJquery(target), panel = t.panel("panel"), panels = panel.parent(), container = panels.parent();
+        var t = $(target), panel = t.panel("panel"), panels = panel.parent(), container = panels.parent();
         return panels.hasClass("tabs-panels") && container.hasClass("tabs-container");
     };
 
     var inAccordion = function (target) {
-        var t = $.util.parseJquery(target), panel = t.panel("panel"), container = panel.parent();
+        var t = $(target), panel = t.panel("panel"), container = panel.parent();
         return (container.hasClass("accordion") && $.data(container[0], "accordion")) ? true : false;
     };
 
     var isWindow = function (target) {
-        var t = $.util.parseJquery(target), body = t.panel("body");
+        var t = $(target), body = t.panel("body");
         return body.hasClass("window-body") && body.parent().hasClass("window");
     };
 
     var isDialog = function (target) {
-        var t = $.util.parseJquery(target), body = t.panel("body");
+        var t = $(target), body = t.panel("body");
         return isWindow(target) && (body.children("div.panel").children("div.panel-body.dialog-content").length ? true : false);
     };
 
@@ -142,9 +142,9 @@
     };
     function parseExtensionsEnd(target) {
         var panel = $(target), opts = panel.panel("options"),
-                exts = opts._extensionsPanel ? opts._extensionsPanel : opts._extensionsPanel = { href: opts.href, content: opts.content };
+            exts = opts._extensionsPanel ? opts._extensionsPanel : opts._extensionsPanel = { href: opts.href, content: opts.content };
         opts.href = exts.href; opts.content = exts.content;
-        if (opts.iniframe) { refresh(target, opts.href); }
+        if (opts.iniframe) { refresh(target, opts.href, true); }
     };
 
     var _panel = $.fn.panel;
@@ -168,30 +168,32 @@
 
 
     var _refresh = $.fn.panel.methods.refresh;
-    function refresh(target, href) {
-        var p = $.util.parseJquery(target), opts = p.panel("options");
-        href = href ? opts.href = href : opts.href;
+    function refresh(target, href, isInit) {
+        var p = $(target), opts = p.panel("options");
         if (opts.iniframe) {
+            if (href) { opts.href = href; }
             var exts = opts._extensionsPanel ? opts._extensionsPanel : opts._extensionsPanel = { href: opts.href, content: opts.content };
             exts.href = opts.href; exts.content = opts.content;
             opts.href = null;
-            opts.content = "<iframe class='panel-iframe' frameborder='0' width='100%' height='100%' marginwidth='0px' marginheight='0px' scrolling='auto'></iframe>";
+            opts.content = "<iframe class=\"panel-iframe\" frameborder=\"0\" width=\"100%\" height=\"100%\" marginwidth=\"0px\" marginheight=\"0px\" scrolling=\"auto\"></iframe>";
             _refresh.call(p, p);
             opts.href = exts.href; opts.content = exts.content;
-            $.util.exec(function () { getIframe(target).attr("src", href); });
+            getIframe(target).bind("load", function () {
+                if ($.isFunction(opts.onLoad)) { opts.onLoad.call(target); }
+            }).attr("src", opts.href || "");
         } else {
             _refresh.call(p, p, href);
         }
     };
 
     function getIframe(target) {
-        var p = $.util.parseJquery(target), body = p.panel("body");
+        var p = $(target), body = p.panel("body");
         return body.children("iframe.panel-iframe");
     };
 
     var _header = $.fn.panel.methods.header;
     function getHeader(target) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if (!inTabs(target)) { return _header.call(t, t); }
         var panel = t.panel("panel"), index = panel.index(), tabs = panel.closest(".tabs-container");
         return tabs.find(">div.tabs-header>div.tabs-wrap>ul.tabs>li").eq(index);
@@ -199,7 +201,7 @@
 
     var _setTitle = $.fn.panel.methods.setTitle;
     function setTitle(target, title) {
-        var t = $.util.parseJquery(target);
+        var t = $(target);
         if (!inTabs(target)) { return _setTitle.call(t, t, title); }
         if (!title) { return; }
         var opts = t.panel("options"), header = t.panel("header");
@@ -269,10 +271,5 @@
 
     $.extend($.fn.panel.defaults, defaults);
     $.extend($.fn.panel.methods, methods);
-
-
-    var css =
-        "iframe.panel-iframe { margin: 0px; padding: 0px; width: 100%; height: 100%; border: 0px; overflow: auto; }"
-    $.util.addCss(css);
 
 })(jQuery);

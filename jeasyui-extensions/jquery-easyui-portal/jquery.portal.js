@@ -371,4 +371,5 @@
     };
 
     $.parser.plugins.push("portal");
+
 })(jQuery);

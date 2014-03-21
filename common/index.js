@@ -72,7 +72,7 @@
     };
 
     window.mainpage.instTreeStatus = function (target) {
-        var t = $.util.parseJquery(target), array = t.tree("getRoots");
+        var t = $(target), array = t.tree("getRoots");
         $.each(array, function (i, n) {
             var cc = t.tree("getChildren", n.target);
             t.tree("expand", n.target);
@@ -639,7 +639,7 @@
             success: function (data, textStatus, XMLHttpRequest) {
                 $.each(window.link.data = data, function (i, item) {
                     var li = $("<li></li>").appendTo(link);
-                    $("<span></span>").text(item.title).appendTo(li);
+                    $("<span " + (item.bold ? "style=\"font-weight: bold;\"" : "") + "></span>").text(item.title).appendTo(li);
                     $("<br />").appendTo(li);
                     $("<a target='_blank'></a>").attr("href", item.href).text(item.href).appendTo(li);
                 });
