@@ -145,6 +145,7 @@
             exts = opts._extensionsPanel ? opts._extensionsPanel : opts._extensionsPanel = { href: opts.href, content: opts.content };
         opts.href = exts.href; opts.content = exts.content;
         if (opts.iniframe) { refresh(target, opts.href, true); }
+        if (opts.bodyStyle) { panel.panel("body").css(opts.bodyStyle); }
     };
 
     var _panel = $.fn.panel;
@@ -264,6 +265,10 @@
 
         //  扩展 easyui-panel、easyui-window 以及 easyui-dialog 控件的自定义属性，表示该窗口是否无法移除父级对象边界，默认为 true。
         inContainer: true,
+
+        //  扩展 easyui-panel、easyui-window 以及 easyui-dialog 控件的自定义属性，表示该面板 body 对象的自定义 CSS 样式；
+        //  该属性作用于 panel-body 对象；格式请参照 style 属性；
+        bodyStyle: null,
 
         //  重写 easyui-panel、easyui-window 以及 easyui-dialog 控件的原生事件 onMove，以支持相应扩展功能。
         onMove: onMove

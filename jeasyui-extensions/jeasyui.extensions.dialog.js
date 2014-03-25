@@ -211,8 +211,18 @@
     //  返回值：返回弹出的 easyui-dialog 的 jQuery 对象。
     $.easyui.showOption = function (options, dialogOption) {
         options = options || "无数据显示。";
-        dialogOption = dialogOption || {};
-        var opts = $.extend({ topMost: $.easyui.showDialog.defaults.topMost }, dialogOption), jq = opts.topMost ? $.util.$ : $;
+        var opts = $.extend({
+            topMost: $.easyui.showDialog.defaults.topMost,
+            title: "显示 options 值",
+            width: 480,
+            height: 260,
+            minWidth: 360,
+            minHeight: 220,
+            autoVCenter: false,
+            autoHCenter: false,
+            enableSaveButton: false,
+            enableApplyButton: false
+        }, dialogOption || {}), jq = opts.topMost ? $.util.$ : $;
         var content = jq("<table class=\"dialog-options-body\" ></table>"), type = jq.type(options);
         if ($.array.contains(["array", "object", "function"], type)) {
             for (var key in options) {
@@ -221,18 +231,7 @@
         } else {
             content.append("<tr class=\"dialog-options-row\"><td class=\"dialog-options-cell\">options:</td><td class=\"dialog-options-cell-content\">" + String(options) + "</td></tr>");
         }
-        $.extend(opts, {
-            title: "显示 options 值",
-            width: 480,
-            height: 260,
-            minWidth: 360,
-            minHeight: 220,
-            content: content,
-            autoVCenter: false,
-            autoHCenter: false,
-            enableSaveButton: false,
-            enableApplyButton: false
-        });
+        opts.content = content;
         return $.easyui.showDialog(opts);
     };
 
@@ -260,22 +259,27 @@
     };
 
     function parseExtensionsBegin(options) {
-        options._extensionsDialog = { href: options.href, content: options.content, iniframe: options.iniframe, bodyCls: options.bodyCls };
+        options._extensionsDialog = {
+            href: options.href, content: options.content, iniframe: options.iniframe,
+            bodyCls: options.bodyCls, bodyStyle: options.bodyStyle
+        };
         options.bodyCls = null;
+        options.bodyStyle = null;
         if (!options.iniframe) { return; }
         options.href = null;
         options.content = null;
         options.iniframe = false;
     };
     function parseExtensionsEnd(target) {
-        var d = $(target), opts = d.dialog("options"), exts = opts._extensionsDialog ? opts._extensionsDialog
-            : opts._extensionsDialog = { href: opts.href, content: opts.content, iniframe: opts.iniframe };
-        opts.href = exts.href; opts.content = exts.content; opts.iniframe = exts.iniframe; opts.bodyCls = exts.bodyCls;
+        var d = $(target), opts = d.dialog("options"), cp = getContentPanel(target),
+            exts = opts._extensionsDialog ? opts._extensionsDialog : opts._extensionsDialog = { href: opts.href, content: opts.content, iniframe: opts.iniframe };
+        opts.href = exts.href; opts.content = exts.content; opts.iniframe = exts.iniframe;
+        opts.bodyCls = exts.bodyCls; opts.bodyStyle = exts.bodyStyle;
         if (opts.iniframe) { refresh(target, opts.href); }
-        if (opts.bodyCls) {
-            var cp = getContentPanel(target);
-            if (cp && cp.length) { cp.addClass(opts.bodyCls); }
-        }
+        if (cp && cp.length) {
+            if (opts.bodyCls) { cp.addClass(opts.bodyCls); }
+            if (opts.bodyStyle) { cp.css(opts.bodyStyle); }
+        }   
     };
 
     var _dialog = $.fn.dialog;

@@ -11,7 +11,7 @@
 * jQuery EasyUI 通用插件基础库
 * jeasyui.extensions.js
 * 二次开发 流云
-* 最近更新：2013-08-21
+* 最近更新：2014-03-21
 *
 * 依赖项：jquery.jdirk.js v1.0 beta late
 *
@@ -20,37 +20,40 @@
 */
 (function ($, undefined) {
 
-    var coreEasyui = {},
-        coreJquery = function () { return $.apply(this, arguments); };
+    $.util.namespace("$.easyui");
 
-    coreJquery.fn = coreJquery.prototype = {};
-    coreJquery.easyui = coreEasyui;
 
-    coreEasyui.getTopEasyuiMessager = function () {
+    $.easyui.getTopEasyuiMessager = function () {
         if ($.util.isTopMost) { return $.messager; }
         return $.util.$ && $.util.$.messager ? $.util.$.messager : $.messager;
     };
-    coreEasyui.messager = coreEasyui.getTopEasyuiMessager();
+    $.easyui.messager = $.easyui.getTopEasyuiMessager();
 
-    coreEasyui.getTopEasyuiTooltip = function () {
+
+    $.easyui.getTopEasyuiTooltip = function () {
         if ($.util.isTopMost) { return $.fn.tooltip; }
         return $.util.$ && $.util.$.fn && $.util.$.fn.tooltip ? $.util.$.fn.tooltip : $.fn.tooltip;
     };
-    coreEasyui.tooltip = $.fn.tooltip;
+    $.easyui.tooltip = $.fn.tooltip;
+
     //  对某个元素设置 easyui-tooltip 属性；该函数定义如下参数：
     //      target:     表示要设置 easyui-tooltip 的元素，可以是一个 jQuery 选择器字符串，也可以是一个 DOM 对象或者 jQuery 对象。
     //      options:    表示初始化 easyui-tooltip 的参数信息，为一个 JSON-Object；
     //  备注：通过该方法设置的 easyui-tooltip 属性，在触发 mouseover 事件时，加载 easyui-tooltip，在 tooltip-tip 隐藏时，easyui-tooltip 自动调用 destroy 销毁；
-    coreEasyui.tooltip.init = function (target, options) {
+    $.easyui.tooltip.init = function (target, options) {
         var t = $(target);
         t.mouseover(function () {
-            t.tooltip($.extend({ trackMouse: true }, options, { onHide: function () {
-                if ($.isFunction(options.onHide)) { options.onHide.apply(this, arguments); }
-                t.tooltip("destroy");
-            }
+            t.tooltip($.extend({ trackMouse: true }, options, {
+                onHide: function () {
+                    if ($.isFunction(options.onHide)) { options.onHide.apply(this, arguments); }
+                    t.tooltip("destroy");
+                }
             })).tooltip("show");
         });
     };
+
+
+
 
     var icons = { "error": "messager-error", "info": "messager-info", "question": "messager-question", "warning": "messager-warning" },
         _show = $.messager.show, _alert = $.messager.alert, _confirm = $.messager.confirm, _prompt = $.messager.prompt,
@@ -179,6 +182,8 @@
     };
 
 
+
+
     //  显示类似于 easyui-datagrid 在加载远程数据时显示的 mask 状态层；该函数定义如下重载方式：
     //      function ()
     //      function (options)，其中 options 为一个格式为 { msg, locale, topMost } 的 JSON-Object；
@@ -187,7 +192,7 @@
     //      locale 表示加载的区域，可以是一个 jQuery 对象选择器字符串，也可以是一个 jQuery 对象或者 HTML-DOM 对象；默认为字符串 "body"。
     //      topMost 为一个布尔类型参数，默认为 false，表示是否在顶级页面加载此 mask 状态层。
     //  返回值：返回表示弹出的数据加载框和层的 jQuery 对象。
-    coreEasyui.loading = function (options) {
+    $.easyui.loading = function (options) {
         var opts = { msg: defaults.loading, locale: "body", topMost: false };
         options = options || {};
         $.extend(opts, options);
@@ -208,7 +213,7 @@
     //      function (locale, topMost)
     //      function (topMost, locale)
     //      function (options)，其中 options 为一个格式为 { locale, topMost } 的 JSON-Object
-    coreEasyui.loaded = function (locale, topMost) {
+    $.easyui.loaded = function (locale, topMost) {
         var opts = { locale: "body", topMost: false };
         if (arguments.length == 1) {
             if ($.isPlainObject(arguments[0])) {
@@ -245,12 +250,13 @@
     $.extend($.fn.combo.defaults, { missingMessage: $.fn.validatebox.defaults.missingMessage });
 
 
+
     //  基于当前页面 document 触发，当前页面嵌套的所有子级和父级页面均执行一个签名为 function (win, e) 事件触发函数；该方法提供如下参数：
     //      eventName:
     //      eventNamespace:
     //      plugin:
     //      callback: 一个签名为 function (win, e) 的函数，其中 win 表示所在 iframe 执行函数传入的 window 对象，e 表示最初触发该循环函数调用的事件对象。
-    coreEasyui.bindPageNestedFunc = function (eventName, eventNamespace, plugin, callback) {
+    $.easyui.bindPageNestedFunc = function (eventName, eventNamespace, plugin, callback) {
         if (arguments.length == 3) { callback = plugin; plugin = "jquery"; }
         if (arguments.length == 4 && !plugin) { plugin = "jquery"; }
         $(document).unbind("." + eventNamespace).bind(eventName + "." + eventNamespace, function (e) {
@@ -286,9 +292,6 @@
 
 
 
-
-
-
     //  获取或更改 jQuery EasyUI 部分组件的通用错误提示函数；该方法定义如下重载方式：
     //      function():         获取 jQuery EasyUI 部分组件的通用错误提示函数；
     //      function(callback): 更改 jQuery EasyUI 部分组件的通用错误提示函数；
@@ -302,7 +305,7 @@
     //          easyui-tree
     //          easyui-treegrid
     //      同时还会设置 jQuery-ajax 的通用错误事件 error。
-    coreEasyui.ajaxError = function (callback) {
+    $.easyui.ajaxError = function (callback) {
         if (!arguments.length) { return $.fn.form.defaults.onLoadError; }
         $.fn.form.defaults.onLoadError = callback;
         $.fn.combobox.defaults.onLoadError = callback;
@@ -317,19 +320,19 @@
 
     var onLoadError = function (XMLHttpRequest, textStatus, errorThrown) {
         $.messager.progress("close");
-        if (coreEasyui.messager != $.messager) { coreEasyui.messager.progress("close"); }
+        if ($.easyui.messager != $.messager) { $.easyui.messager.progress("close"); }
         var msg = (XMLHttpRequest && !$.string.isNullOrWhiteSpace(XMLHttpRequest.responseText) ?
                 "如果该问题重复出现，请联系您的系统管理员并反馈该故障。<br />" +
                 "错误号：" + XMLHttpRequest.status + "(" + XMLHttpRequest.statusText + ")；<hr />" + XMLHttpRequest.responseText :
                 "系统出现了一个未指明的错误，如果该问题重复出现，请联系您的系统管理员并反馈该故障。");
-        var win = coreEasyui.messager.alert("错误提醒", msg, "error"),
+        var win = $.easyui.messager.alert("错误提醒", msg, "error"),
             opts = win.window("options"), panel = win.window("panel"), width = panel.outerWidth(), height = panel.outerHeight();
         if (width > 800 || height > 800) { win.window("resize", { width: width > 800 ? 800 : width, height: height > 800 ? 800 : height }); }
         win.window("center");
     };
 
     //  更改 jQuery EasyUI 部分组件的通用错误提示。
-    coreEasyui.ajaxError(onLoadError);
+    $.easyui.ajaxError(onLoadError);
 
     //  更改 jQuery.ajax 函数的部分默认属性。
     $.ajaxSetup({
@@ -339,158 +342,163 @@
     });
 
 
-    //  判断当前 jQuery 对象是否是指定名称的已经初始化好的 easyui 插件；该方法定义如下参数：
-    //      pluginName：要判断的插件名称，例如 "panel"、"dialog"、"datagrid" 等；
-    //  返回值：如果当前 jQuery 对象中的第一个 DOM 元素为 pluginName 参数所示的 easyui 插件且已经被初始化，则返回 true，否则返回 false。
-    coreJquery.fn.isEasyUI = function (pluginName) {
-        if (!$.array.contains($.parser.plugins, pluginName)) { $.error($.string.format("传入的参数 pluginName: {0} 不是 easyui 插件名。")); }
-        if (!this.length) { return false; }
-        var state = $.data(this[0], pluginName);
-        return state && state.options ? true : false;
-    };
-
-    //  判断当前 jQuery 对象是否是指定名称的已经初始化好的 easyui 插件；该方法定义如下参数：
-    //      selector:   jQuery 对象选择器，或者 DOM 对象，或者 jQuery 对象均可；
-    //      pluginName：要判断的插件名称，例如 "panel"、"dialog"、"datagrid" 等；
-    //  返回值：如果 selector 所表示的 jQuery 对象中的第一个 DOM 元素为 pluginName 参数所示的 easyui 插件且已经被初始化，则返回 true，否则返回 false。
-    coreEasyui.isEasyUI = function (selector, pluginName) {
-        return $(selector).isEasyUI(pluginName);
-    };
 
 
 
-    coreJquery.fn.currentPagination = function () {
-        var p = this.closest(".pagination");
-        while (p.length && !$.data(p[0], "pagination")) { p = p.parent().closest(".pagination"); }
-        return p;
-    };
+    $.extend({
 
-    coreJquery.fn.currentProgressbar = function () {
-        var p = this.closest(".progressbar");
-        while (p.length && !$.data(p[0], "progressbar")) { p = p.parent().closest(".progressbar"); }
-        return p;
-    };
-
-    coreJquery.fn.currentPanel = function () {
-        var p = this.closest(".panel-body");
-        while (p.length && !$.data(p[0], "panel")) { p = p.parent().closest(".panel-body"); }
-        return p;
-    };
-
-    coreJquery.fn.currentTabPanel = function () {
-        var p = this.closest(".panel-body"), panel = p.parent(), panels = panel.parent(), container = panels.parent();
-        while (p.length && !($.data(p[0], "panel") && panel.hasClass("panel") && panels.hasClass("tabs-panels") && container.hasClass("tabs-container"))) {
-            p = p.parent().closest(".panel-body");
-            panel = p.parent();
-            panels = panel.parent();
-            container = panels.parent();
+        //  判断当前 jQuery 对象是否是指定名称的已经初始化好的 easyui 插件；该方法定义如下参数：
+        //      selector:   jQuery 对象选择器，或者 DOM 对象，或者 jQuery 对象均可；
+        //      pluginName：要判断的插件名称，例如 "panel"、"dialog"、"datagrid" 等；
+        //  返回值：如果 selector 所表示的 jQuery 对象中的第一个 DOM 元素为 pluginName 参数所示的 easyui 插件且已经被初始化，则返回 true，否则返回 false。
+        isEasyUI: function (selector, pluginName) {
+            if (!$.array.contains($.parser.plugins, pluginName)) { $.error($.string.format("传入的参数 pluginName: {0} 不是 easyui 插件名。")); }
+            var t = $(selector);
+            if (!t.length) { return false; }
+            var state = $.data(t[0], pluginName);
+            return state && state.options ? true : false;
         }
-        return p;
-    };
+    });
 
-    coreJquery.fn.currentTabIndex = function () {
-        var panel = this.currentTabPanel();
-        return panel.length ? panel.panel("panel").index() : -1;
-    };
 
-    coreJquery.fn.currentTabs = function () {
-        var p = this.closest(".tabs-container");
-        while (p.length && !$.data(p[0], "tabs")) { p = p.parent().closest(".tabs-container"); }
-        return p;
-    };
+    $.fn.extend({
 
-    coreJquery.fn.currentAccordion = function () {
-        var p = this.closest(".accordion");
-        while (p.length && !$.data(p[0], "accordion")) { p = p.parent().closest(".accordion"); }
-        return p;
-    };
+        //  判断当前 jQuery 对象是否是指定名称的已经初始化好的 easyui 插件；该方法定义如下参数：
+        //      pluginName：要判断的插件名称，例如 "panel"、"dialog"、"datagrid" 等；
+        //  返回值：如果当前 jQuery 对象中的第一个 DOM 元素为 pluginName 参数所示的 easyui 插件且已经被初始化，则返回 true，否则返回 false。
+        isEasyUI: function (pluginName) {
+            return $.isEasyUI(this, pluginName);
+        },
 
-    coreJquery.fn.currentAccPanel = function () {
-        var p = this.closest(".panel-body"), panel = p.parent(), container = panels.parent();
-        while (p.length && !($.data(p[0], "panel") && panel.hasClass("panel") && container.hasClass("accordion") && $.data(container[0], "accordion"))) {
-            p = p.parent().closest(".panel-body");
-            panel = p.parent();
-            container = panels.parent();
+
+        currentPagination: function () {
+            var p = this.closest(".pagination");
+            while (p.length && !$.data(p[0], "pagination")) { p = p.parent().closest(".pagination"); }
+            return p;
+        },
+
+        currentProgressbar: function () {
+            var p = this.closest(".progressbar");
+            while (p.length && !$.data(p[0], "progressbar")) { p = p.parent().closest(".progressbar"); }
+            return p;
+        },
+
+        currentPanel: function () {
+            var p = this.closest(".panel-body");
+            while (p.length && !$.data(p[0], "panel")) { p = p.parent().closest(".panel-body"); }
+            return p;
+        },
+
+        currentTabPanel: function () {
+            var p = this.closest(".panel-body"), panel = p.parent(), panels = panel.parent(), container = panels.parent();
+            while (p.length && !($.data(p[0], "panel") && panel.hasClass("panel") && panels.hasClass("tabs-panels") && container.hasClass("tabs-container"))) {
+                p = p.parent().closest(".panel-body");
+                panel = p.parent();
+                panels = panel.parent();
+                container = panels.parent();
+            }
+            return p;
+        },
+
+        currentTabIndex: function () {
+            var panel = this.currentTabPanel();
+            return panel.length ? panel.panel("panel").index() : -1;
+        },
+
+        currentTabs: function () {
+            var p = this.closest(".tabs-container");
+            while (p.length && !$.data(p[0], "tabs")) { p = p.parent().closest(".tabs-container"); }
+            return p;
+        },
+
+        currentAccordion: function () {
+            var p = this.closest(".accordion");
+            while (p.length && !$.data(p[0], "accordion")) { p = p.parent().closest(".accordion"); }
+            return p;
+        },
+
+        currentAccPanel: function () {
+            var p = this.closest(".panel-body"), panel = p.parent(), container = panels.parent();
+            while (p.length && !($.data(p[0], "panel") && panel.hasClass("panel") && container.hasClass("accordion") && $.data(container[0], "accordion"))) {
+                p = p.parent().closest(".panel-body");
+                panel = p.parent();
+                container = panels.parent();
+            }
+            return p;
+        },
+
+        currentLayout: function () {
+            var layout = this.closest(".layout");
+            while (layout.length && !$.data(layout[0], "layout")) { layout = layout.closest(".layout"); }
+            return layout;
+        },
+
+        currentRegion: function () {
+            var p = this.closest(".panel.layout-panel"), layout = p.parent(), body = p.children(".panel-body");
+            while (p.length && !(layout.hasClass("layout") && $.data(body[0], "panel"))) {
+                p = p.parent().closest(".panel.layout-panel");
+                layout = p.parent();
+                body = p.children(".panel-body");
+            }
+            return body;
+        },
+
+        currentLinkbutton: function () {
+            var btn = this.closest(".l-btn");
+            while (btn.length && !$.data(btn[0], "linkbutton")) { btn = btn.parent().closest(".layout"); }
+            return btn;
+        },
+
+        currentCalendar: function () {
+            var c = this.closest(".calendar");
+            while (c.length && !$.data(c[0], "calendar")) { c = c.parent().closest(".calendar"); }
+            return c;
+        },
+
+        currentWindow: function () {
+            var p = this.closest(".panel-body.window-body");
+            while (p.length && !$.data(p[0], "window")) { p = p.parent().closest(".panel-body.window-body"); }
+            return p;
+        },
+
+        currentDialog: function () {
+            var p = this.closest(".panel-body.window-body");
+            while (p.length && !$.data(p[0], "dialog")) { p = p.parent().closest(".panel-body.window-body"); }
+            return p;
+        },
+
+        currentDatagrid: function () {
+            var p = this.closest(".datagrid-wrap.panel-body"), dg = p.find(">.datagrid-view>:eq(2)");
+            while (p.length && !$.data(dg[0], "datagrid")) {
+                p = p.parent().closest(".datagrid-wrap.panel-body");
+                dg = p.find(">.datagrid-view>:eq(2)");
+            }
+            return dg;
+        },
+
+        currentPropertygrid: function () {
+            var p = this.closest(".datagrid-wrap.panel-body"), pg = p.find(">.datagrid-view>:eq(2)");
+            while (p.length && !$.data(pg[0], "propertygrid")) {
+                p = p.parent().closest(".datagrid-wrap.panel-body");
+                pg = p.find(">.datagrid-view>:eq(2)");
+            }
+            return pg;
+        },
+
+        currentTree: function () {
+            var t = this.closest(".tree");
+            while (t.length && !$.data(t[0], "tree")) { t = t.parent().closest(".tree"); }
+            return t;
+        },
+
+        currentTreegrid: function () {
+            var p = this.closest(".datagrid-wrap.panel-body"), tg = p.find(">.datagrid-view>:eq(2)");
+            while (p.length && !$.data(tg[0], "treegrid")) {
+                p = p.parent().closest(".datagrid-wrap.panel-body");
+                tg = p.find(">.datagrid-view>:eq(2)");
+            }
+            return tg;
         }
-        return p;
-    };
-
-    coreJquery.fn.currentLayout = function () {
-        var layout = this.closest(".layout");
-        while (layout.length && !$.data(layout[0], "layout")) { layout = layout.closest(".layout"); }
-        return layout;
-    };
-
-    coreJquery.fn.currentRegion = function () {
-        var p = this.closest(".panel.layout-panel"), layout = p.parent(), body = p.children(".panel-body");
-        while (p.length && !(layout.hasClass("layout") && $.data(body[0], "panel"))) {
-            p = p.parent().closest(".panel.layout-panel");
-            layout = p.parent();
-            body = p.children(".panel-body");
-        }
-        return body;
-    };
-
-    coreJquery.fn.currentLinkbutton = function () {
-        var btn = this.closest(".l-btn");
-        while (btn.length && !$.data(btn[0], "linkbutton")) { btn = btn.parent().closest(".layout"); }
-        return btn;
-    };
-
-    coreJquery.fn.currentCalendar = function () {
-        var c = this.closest(".calendar");
-        while (c.length && !$.data(c[0], "calendar")) { c = c.parent().closest(".calendar"); }
-        return c;
-    };
-
-    coreJquery.fn.currentWindow = function () {
-        var p = this.closest(".panel-body.window-body");
-        while (p.length && !$.data(p[0], "window")) { p = p.parent().closest(".panel-body.window-body"); }
-        return p;
-    };
-
-    coreJquery.fn.currentDialog = function () {
-        var p = this.closest(".panel-body.window-body");
-        while (p.length && !$.data(p[0], "dialog")) { p = p.parent().closest(".panel-body.window-body"); }
-        return p;
-    };
-
-    coreJquery.fn.currentDatagrid = function () {
-        var p = this.closest(".datagrid-wrap.panel-body"), dg = p.find(">.datagrid-view>:eq(2)");
-        while (p.length && !$.data(dg[0], "datagrid")) {
-            p = p.parent().closest(".datagrid-wrap.panel-body");
-            dg = p.find(">.datagrid-view>:eq(2)");
-        }
-        return dg;
-    };
-
-    coreJquery.fn.currentPropertygrid = function () {
-        var p = this.closest(".datagrid-wrap.panel-body"), pg = p.find(">.datagrid-view>:eq(2)");
-        while (p.length && !$.data(pg[0], "propertygrid")) {
-            p = p.parent().closest(".datagrid-wrap.panel-body");
-            pg = p.find(">.datagrid-view>:eq(2)");
-        }
-        return pg;
-    };
-
-    coreJquery.fn.currentTree = function () {
-        var t = this.closest(".tree");
-        while (t.length && !$.data(t[0], "tree")) { t = t.parent().closest(".tree"); }
-        return t;
-    };
-
-    coreJquery.fn.currentTreegrid = function () {
-        var p = this.closest(".datagrid-wrap.panel-body"), tg = p.find(">.datagrid-view>:eq(2)");
-        while (p.length && !$.data(tg[0], "treegrid")) {
-            p = p.parent().closest(".datagrid-wrap.panel-body");
-            tg = p.find(">.datagrid-view>:eq(2)");
-        }
-        return tg;
-    };
-
-
-
-    $.union(coreJquery);
-    $.fn.union(coreJquery.fn);
+    });
 
 })(jQuery);

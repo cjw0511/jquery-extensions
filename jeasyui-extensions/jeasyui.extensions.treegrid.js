@@ -888,6 +888,7 @@
 
 
     function refreshColumnFilterStatus(t, opts, exts, rows, headerFields) {
+        refreshColumnFilterPagerStatus(t, opts);
         if (!opts.columnFilter) { return; }
         headerFields = headerFields || t.treegrid("getPanel").find("div.datagrid-view div.datagrid-header table.datagrid-htable tr.datagrid-header-row td[field]").filter(function () {
             var td = $(this), colspan = td.attr("colspan");
@@ -898,6 +899,20 @@
             refreshColumnFilterCellStatus(t, exts, rows, td, field);
         });
     };
+
+    function refreshColumnFilterPagerStatus(t, opts) {
+        if (!opts.pagination) { return; }
+        var pager = t.treegrid("getPager");
+        if (pager && pager.length) {
+            var len = t.treegrid("getVisibleRows").length, total = t.datagrid("getRows").length,
+                visible = pager.find("div.pagination-visiblerows");
+            if (visible.length) {
+                visible.html("当前页显示" + len + "/" + total + "行");
+            } else {
+                pager.find("div.pagination-info").before("<div class=\"pagination-visiblerows\">当前页显示" + len + "/" + total + "行</div>");
+            }
+        }
+    }
 
     function refreshColumnFilterCellStatus(t, exts, rows, td, field) {
         var colOpts = t.treegrid("getColumnOption", field), precision = colOpts.precision,
@@ -1147,11 +1162,11 @@
         $.array.merge(mm, items);
         if (hasMore) {
             var colOpt = t.treegrid("getColumnOption", field), title = colOpt.title ? colOpt.title : colOpt.field, handler = function () {
-                var checkAll = $("<input />").attr({ type: "button", value: "全部选择" }).click(function () {
+                var checkAll = $("<input type=\"button\" value=\"全部选择\" />").click(function () {
                     t.treegrid("showRows", true);
                     $(this).parent().find(":checkbox").each(function () { this.checked = true; });
-                })
-                var uncheckAll = $("<input />").attr({ type: "button", value: "全部不选" }).click(function () {
+                });
+                var uncheckAll = $("<input type=\"button\" value=\"全部不选\" />").click(function () {
                     t.treegrid("hideRows", true);
                     $(this).parent().find(":checkbox").each(function () { this.checked = false; });
                 });

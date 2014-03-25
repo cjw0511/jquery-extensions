@@ -26,6 +26,7 @@
 
     $.fn.searchbox.extensions = {};
 
+
     function initialize(target) {
         var box = $(target), state = $.data(target, "searchbox"), opts = state.options,
             textbox = state.searchbox.find("input.searchbox-text"), btn = state.searchbox.find(".searchbox-button");;

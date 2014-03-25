@@ -11,9 +11,6 @@
 .top-toolbar #searchbar { position: absolute; height: 26px; left: 400px; padding-top: 1px; }
 .top-toolbar #buttonbar { position: absolute; height: 26px; right: 5px; padding-top: 1px; text-align: right; }
 
-/*添加下一行css代码，修复在 index.html 页面中工具栏按钮向下位置偏移的问题*/
-a.l-btn span span.l-btn-text { vertical-align: baseline; }
-
 #navMenu_list { padding: 0px; margin: 0px; }
 #navMenu_list>li { line-height: 26px; list-style-type: none; }
 #navMenu_list>li>div.panel-header { height: 26px; line-height: 26px; padding: 0px; margin: 0px; font-weight: normal; border-top-width: 1px; border-bottom-width: 0px; }

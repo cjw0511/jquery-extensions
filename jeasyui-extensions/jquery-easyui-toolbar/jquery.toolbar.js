@@ -121,7 +121,7 @@
                 });
             } else {
                 $.data(cell[0], "toolbar-item-data", {
-                    actions: null, target: cell, options: {}, type: "custom", container: container
+                    actions: null, target: cell, options: null, type: "custom", container: container
                 });
             }
         } else if ($.array.contains(["string", "number", "date"], $.type(item))) {
@@ -190,13 +190,13 @@
 
     function getItem(target, index) {
         if (index == null || index == undefined) { return null; }
-        var item = null, t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
+        var item = null, itemEle, t = $(target), wrapper = t.toolbar("wrapper"), tr = wrapper.find("tr:last");
         if (!tr.length) { return item; }
         var tds = tr.find(">td.toolbar-item-container"), td = null;
         if ($.isNumeric(index)) {
             if (tds.length >= index && index >= 0) { itemEle = tds.eq(index).find(".toolbar-item"); }
         }
-        if (itemEle.length) {
+        if (itemEle && itemEle.length) {
             item = $.data(itemEle[0], "toolbar-item-data");
         }
         return item;
@@ -257,6 +257,10 @@
         return $.data(target, "toolbar").data;
     };
 
+    function getValues(target) {
+        return $(target).serializeObject();
+    };
+
 
 
 
@@ -280,8 +284,11 @@
     };
 
     function getItemValue(target, index) {
-        var item = getItem(target, index);
-        return item && item.actions && $.isFunction(item.actions.getValue) ? item.actions.getValue(item.target[0]) : null;
+        var item = getItem(target, index), ret = null;
+        if (item) {
+            ret = item.actions && $.isFunction(item.actions.getValue) ? item.actions.getValue(item.target[0]) : item.target[0].value;
+        }
+        return ret;
     };
 
     function resizeItem(target, param) {
@@ -414,14 +421,10 @@
                 return $(target)[0].checked;
             },
             enable: function (target) {
-                var box = $(target), label = box.parent();
-                box.removeAttr("disabled");
-                label.find(">span.toolbar-item-checkbox-text").removeClass("toolbar-item-checkbox-disabled");
+                $(target).removeAttr("disabled").parent().find(">span.toolbar-item-checkbox-text").removeClass("toolbar-item-checkbox-disabled");
             },
             disable: function (target) {
-                var box = $(target), label = box.parent();
-                box.attr("disabled", true);
-                label.find(">span.toolbar-item-checkbox-text").addClass("toolbar-item-checkbox-disabled");
+                $(target).attr("disabled", true).parent().find(">span.toolbar-item-checkbox-text").addClass("toolbar-item-checkbox-disabled");
             }
         },
         validatebox: {
@@ -943,6 +946,10 @@
         //  获取当前 easyui-toolbar 控件加载的所有数据；仅在初始化该控件指定的 data 参数、通过 loadData 方法加载的数据和通过 url 远程加载的数据，才会被返回；
         //  返回值：返回一个数组对象，数组中的每一项都表示一个工具栏子项的数据格式(返回数据的格式参考 loadData 方法的参数 data 的数据格式)。
         getData: function (jq) { return getData(jq[0]); },
+
+        //  获取当前 easyui-toolbar 控件中所有输入控件的输入值集合；
+        //  返回值：返回一个 JSON-Object 对象，该对象中每个属性表示工具栏中一个具备输入值功能的子项控件，其值为输入控件当前的值；
+        getValues: function (jq) { return getValues(jq[0]); },
 
         //  在当前 easyui-toolbar 中增加一个工具栏项；该方法的参数 item 可以定义为如下类型：
         //      1、jQuery-DOM 对象：

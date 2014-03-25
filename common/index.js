@@ -210,17 +210,15 @@
 
         var themeName = $.cookie("themeName"),
             themeCombo = $(themeSelector).combobox({
-            width: 140,
-            editable: false,
-            data: window.mainpage.themeData,
-            valueField: "path",
-            textField: "name",
-            value: themeName || window.mainpage.themeData[0].path,
-            onSelect: function (record) {
-                var opts = themeCombo.combobox("options");
-                window.mainpage.setTheme(record[opts.valueField], true);
-            }
-        });
+                width: 140, editable: false,
+                data: window.mainpage.themeData,
+                valueField: "path", textField: "name",
+                value: themeName || window.mainpage.themeData[0].path,
+                onSelect: function (record) {
+                    var opts = themeCombo.combobox("options");
+                    window.mainpage.setTheme(record[opts.valueField], true);
+                }
+            });
 
         $(btnContact).click(function () {
             window.open("http://www.cnblogs.com/cjw0511/p/3324082.html", "_blank");

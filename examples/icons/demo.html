@@ -29,11 +29,18 @@
                     onEnter: function (val) { alert(val); }
                 });
             });
+
+
+            $("#btn1").click(function () {
+                $.easyui.showSourceDialog($(this).currentTabPanel().panel("options").href);
+            });
         });
     </script>
 
     <h2>jEasyUI Icons Plugin Extensions</h2>
     <p>该部分扩展由文件 jeasyui.extensions.icons.js 实现。</p>
+    <hr />
+    <a id="btn1" class="easyui-linkbutton" data-options="iconCls: 'icon-search', plain: true">查看源码</a>
     <hr />
     <input id="Button1" type="button" value="ShowSelector-单选-16" />
     <input id="Button2" type="button" value="ShowSelector-单选-32" />

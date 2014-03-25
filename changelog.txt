@@ -1,8 +1,13 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2014-03-25(1.0.40 preview) ********/
+1、【+】 基础库 jquery.jdirk.js 中，扩展了 $.string、$.date、$.number、$.array、$.boolean，使这些对象分别具有 String、Date、Number、Array、Boolean 对象的成员属性作为其静态属性；
+2、[+] 增强 jeasyui.extensions.datagrid.js 中关于表头过滤器和表头菜单用于过滤行时的显示状态用户体验，使得能即时看到过滤行后当前页显示的行数；
+
+
 /******** 2014-03-21(1.0.39 preview) ********/
-1、【^】 调整所有 Javascript EasyUI 插件中关于 CSS 代码的插入形式，由之前的 Javascript 代码动态插入调整为统一放置在 jeasyui.extensions.js 文件中一次性加载；
+1、【^】 调整所有 Javascript EasyUI 插件中关于 CSS 代码的插入形式，由之前的 Javascript 代码动态插入调整为统一放置在 jeasyui.extensions.css 文件中一次性加载；
 2、[#] 修复 jquery.toolbar.js 和 jeasyui.extensions.icons.js 中存在的部分用户体验 BUG；
 3、[^] 调整 jeasyui.extensions.window.js 扩展插件中关于 easyui-window、easyui-dialog 的拖动特效，增强其用户体验效果；
 

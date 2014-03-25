@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2013-01-09
+* 最近更新：2014-03-22
 *
 * 依赖项：jquery-1.9.1.js late
 *
@@ -19,7 +19,9 @@
 (function (window, $, undefined) {
 
 
-    var //  定义 字符串对象(String) 扩展对象基元
+    var version = "2014-03-22",
+
+        //  定义 字符串对象(String) 扩展对象基元
         coreString = function () { return String.apply(this, arguments); },
 
         //  定义 日期对象(Date) 扩展对象基元
@@ -55,11 +57,12 @@
     coreJquery.fn = coreJquery.prototype = {};
 
     coreNullable.String = new String();
-    coreNullable.Function = new Function();
     coreNullable.Date = new Date();
-    coreNullable.Bool = new Boolean();
-    coreNullable.Object = new Object();
     coreNullable.Number = new Number();
+    coreNullable.Array = [];
+    coreNullable.Boolean = new Boolean();
+    coreNullable.Function = new Function();
+    coreNullable.Object = new Object();
 
     coreJquery.string = coreString;
     coreJquery.date = coreDate;
@@ -79,15 +82,19 @@
         parent = coreUtil.parent = window.parent,
         top = coreUtil.top = window.top,
         $$ = coreJquery.emptyJquery = coreJquery.empty$ = coreJquery.$$ = coreUtil.emptyJquery = coreUtil.empty$ = coreUtil.$$ = $(),
-        version = "2013-01-09",
-        core_array = [],
-        core_trim = version.trim,
+        core_string = version,
+        //core_date = coreNullable.Date,
+        //core_number = coreNullable.Number,
+        core_array = coreNullable.Array,
+        //core_boolean = coreNullable.Boolean,
+        //core_trim = core_string.trim,
         core_push = core_array.push,
         core_slice = core_array.slice,
         core_splice = core_array.splice,
-        core_sort = core_array.sort,
-        core_join = core_array.join,
+        //core_sort = core_array.sort,
+        //core_join = core_array.join,
         core_isArray = Array.isArray;
+
 
     //  定义版本
     coreUtil.version = version;
@@ -328,7 +335,6 @@
 
 
     function _loadJs(url, callback) {
-        url = coreUtil.resolveUrl(url);
         var heads = document.getElementsByTagName("head");
         var scripts = heads[0].getElementsByTagName("script");
         var isFunc = coreUtil.isFunction(callback);
@@ -351,7 +357,6 @@
         heads[0].appendChild(script);
     }
     function _loadCss(url, callback) {
-        url = coreUtil.resolveUrl(url);
         var link = document.createElement('link');
         link.rel = "stylesheet";
         link.type = "text/css";
@@ -504,7 +509,13 @@
 
 
 
-
+    //  过滤 JSON 对象指定名称列表的属性，并返回该 JSON 对象的一个新副本；该函数定义如下参数：
+    //      obj: 待操作的 JSON 对象；
+    //      propertieNames:需要从 obj 中排除或提取的属性名称，为一个数组对象，数组中的每一项都是一个 String 类型值；
+    //      excluding: Boolean 类型值；默认为 false；
+    //          如果为 true 则表示从 obj 中提取列表所示的属性值；
+    //          如果为 false 则表示从 obj 中排除列表所示的属性值；
+    //  返回值：返回一个 JSON 对象，该对象为传入的 obj 提取或排除指定列表所示属性值后的一个新 JSON-Object 副本。
     coreUtil.filterProperties = function (obj, propertieNames, excluding) {
         propertieNames = coreUtil.likeArrayNotString(propertieNames) ? propertieNames : [];
         var ret = {};
@@ -524,7 +535,7 @@
 
     //  提取 JSON 对象指定名称列表的属性，并返回该 JSON 对象的一个新副本；该函数定义如下参数：
     //      obj: 待操作的 JSON 对象；
-    //      propertieNames:需要从 obj 中排除的属性名称，为一个数组对象，数组中的每一项都是一个 String 类型值；
+    //      propertieNames:需要从 obj 中提取的属性名称，为一个数组对象，数组中的每一项都是一个 String 类型值；
     //  返回值：返回一个 JSON 对象，该对象包含 obj 中 propertieNames 列表制定的所有属性。
     coreUtil.extractProperties = function (obj, propertieNames) {
         return coreUtil.filterProperties(obj, propertieNames, true);
@@ -532,6 +543,47 @@
 
 
 
+    //  扩展 $.string、$.date、$.number、$.array、$.boolean，使这些对象分别具有 String、Date、Number、Array、Boolean 对象的成员属性作为其静态属性；
+    $.each([
+        {
+            unit: String.prototype, prototype: coreString, methods: [
+                "anchor", "big", "blink", "bold", "charAt", "charCodeAt", "concat", "fixed", "fontcolor", "fontsize", "indexOf", "italics",
+                "lastIndexOf", "link", "localeCompare", "match", "replace", "search", "slice", "small", "split", "strike", "sub", "substr",
+                "substring", "sup", "toLocaleLowerCase", "toLocaleString", "toLocaleUpperCase", "toLowerCase", "toUpperCase", "toString", "trim"
+            ]
+        },
+        {
+            unit: Date.prototype, prototype: coreDate, methods: [
+                "getDate", "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds", "getTime",
+                "getTimezoneOffset", "getUTCDate", "getUTCDay", "getUTCFullYear", "getUTCHours", "getUTCMilliseconds", "getUTCMinutes",
+                "getUTCMonth", "getUTCSeconds", "getVarDate", "getYear", "setDate", "setFullYear", "setHours", "setMilliseconds", "setMinutes",
+                "setMonth", "setSeconds", "setTime", "setUTCDate", "setUTCFullYear", "setUTCHours", "setUTCMilliseconds", "setUTCMinutes",
+                "setUTCMonth", "setUTCSeconds", "setYear", "toDateString", "toGMTString", "toISOString", "toJSON", "toLocaleDateString",
+                "toLocaleString", "toLocaleTimeString", "toString", "toTimeString", "toUTCString"
+            ]
+        },
+        { unit: Number.prototype, prototype: coreNumber, methods: ["toExponential", "toFixed", "toLocaleString", "toPrecision", "toString"] },
+        {
+            unit: Array.prototype, prototype: coreArray, methods: [
+                "concat", "every", "filter", "forEach", "indexOf", "join", "lastIndexOf", "map", "pop", "push", "reduce", "reduceRight",
+                "reverse", "shift", "slice", "some", "sort", "splice", "toLocaleString", "toString", "unshift"
+            ]
+        },
+        { unit: Boolean.prototype, prototype: coreBoolean, methods: ["toString"] }
+    ], function (i, n) {
+        $.each(n.methods, function (l, name) {
+            var method = n.unit[name], hasMethod = method && coreUtil.isFunction(method) ? true : false
+            if (hasMethod && (n.prototype[name] == null || n.prototype[name] == undefined)) {
+                n.prototype[name] = function () {
+                    var thisArg = arguments[0], args = { length: 0, callee: arguments.callee };
+                    for (var x = 1; x < arguments.length; x++) {
+                        core_push.call(args, arguments[x]);
+                    }
+                    return method.apply(thisArg, args);
+                };
+            }
+        });
+    });
 
 
 
@@ -629,7 +681,7 @@
     coreString.prototype.rtrim = function () { return coreString.rtrim(this); };
 
     //  去除字符串左右两边的空格；该方法将返回源字符串处理后的一个副本，而不会改变源字符串的值。
-    coreString.trim = coreUtil.trim;
+    coreString.trim = coreString.trim ? coreString.trim : coreUtil.trim;
     coreString.prototype.trim = function () { return coreString.trim(this); };
 
     //  返回一个新字符串，该字符串通过在此实例中的字符左侧填充空格或指定字符来来达到指定的总长度，从而使这些字符右对齐。
@@ -1126,15 +1178,6 @@
     coreArray.isNullOrEmpty = function (array) { return !coreArray.likeArray(array) || !array.length; };
     coreArray.prototype.isNullOrEmpty = function () { return coreArray.isNullOrEmpty(this); };
 
-    //  往数组中添加一个新项；该函数定义如下参数:
-    //      array:  要添加新项的数组对象；
-    //      item:   被添加的新项；
-    //  返回值：返回该数组添加新项后的长度；
-    coreArray.push = function (array, item) {
-        if (!coreArray.likeArray(array)) { throw "传入的参数 array 不是一个数组对象。"; }
-        return core_push.call(array, item);
-    };
-    coreArray.prototype.push = function (item) { return coreArray.push(this, item); };
 
     //  复制数组内的所有项到一个新的数组中，该函数定义如下参数：
     //      source: 源数据数组，该数组内的所有项将被赋值到目标数组 target 中；
@@ -1195,7 +1238,7 @@
     //          如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；
     //  返回值：如果在数组中从 startIndex 开始并包含 count 个元素的元素范围内找到 item 的第一个匹配项，则为该项的从零开始的索引；否则为 -1。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679977(v=vs.94).aspx
-    coreArray.indexOf = function (array, item, startIndex, count, compare) {
+    coreArray.indexOf = coreArray.indexOf ? coreArray.indexOf : function (array, item, startIndex, count, compare) {
         array = coreArray.likeArray(array) ? array : [];
         var result = -1;
         if (!array.length) { return result; }
@@ -1235,7 +1278,7 @@
     //          如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；
     //  返回值：如果在数组中包含 count 个元素、在 startIndex 处结尾的元素范围内找到 item 的最后一个匹配项，则为该项的从零开始的索引；否则为 -1。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679972(v=vs.94).aspx
-    coreArray.lastIndexOf = function (array, item, startIndex, count, compare) {
+    coreArray.lastIndexOf = coreArray.lastIndexOf ? coreArray.lastIndexOf : function (array, item, startIndex, count, compare) {
         array = coreArray.likeArray(array) ? array : [];
         var result = -1;
         if (!array.length) { return result; }
@@ -1502,7 +1545,7 @@
     //          如果该回调函数返回 true，则该元素将被包含在返回的集合当中。
     //  返回值：一个包含回调函数为其返回 true 的所有值的新数组。 如果回调函数为 array 的所有元素返回 false，则新数组的长度为 0。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679973(v=vs.94).aspx
-    coreArray.filter = function (array, compare, thisArg) {
+    coreArray.filter = coreArray.filter ? coreArray.filter : function (array, compare, thisArg) {
         array = coreArray.likeArray(array) ? array : [];
         if (!coreUtil.isFunction(compare)) { return array; }
         var temps = [];
@@ -1522,7 +1565,7 @@
     //  备注：对于数组中的每个元素， map 方法都会调用 callbackfn 函数一次（采用升序索引顺序）。 不为数组中缺少的元素调用该回调函数。
     //      除了数组对象之外， map 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679976(v=vs.94).aspx
-    coreArray.map = function (array, callback, thisArg) {
+    coreArray.map = coreArray.map ? coreArray.map : function (array, callback, thisArg) {
         array = coreArray.likeArray(array) ? array : [];
         if (!coreUtil.isFunction(callback)) { throw "传入的参数 callback 不是一个函数。"; }
         var temps = [];
@@ -1648,7 +1691,7 @@
     //      如果需要退出 each 循环可使回调函数返回 false，其它返回值将被忽略。
     //      除了数组对象之外， forEach 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679980(v=vs.94).aspx
-    coreArray.forEach = function (array, callback, thisArg) {
+    coreArray.forEach = coreArray.forEach ? coreArray.forEach : function (array, callback, thisArg) {
         var isArray = coreArray.likeArray(array), temps = isArray ? array : [], i = 0, length = temps.length;
         if (temps.length == 0) { return; }
         if (!coreUtil.isFunction(callback)) { throw "传入的参数 callback 不是一个函数。"; }
@@ -1674,7 +1717,7 @@
     //      如果未提供 initialValue，则 reduce 方法会对从第二个元素开始的每个元素调用 callbackfn 函数。
     //      回调函数的返回值在下一次调用回调函数时作为 previousValue 参数提供。 最后一次调用回调函数获得的返回值为 reduce 方法的返回值。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679975(v=vs.94).aspx
-    coreArray.reduce = function (array, callback, initialValue) {
+    coreArray.reduce = coreArray.reduce ? coreArray.reduce : function (array, callback, initialValue) {
         if (!coreUtil.isFunction(callback)) { throw "传入的参数 callback 不是一个函数。"; }
         array = coreArray.likeArray(array) ? array : [];
         if (array.length == 0 && (initialValue === undefined)) { throw "数组不包含元素，且未提供 initialValue。"; }
@@ -1700,7 +1743,7 @@
     //      如果未提供 initialValue，则 reduceRight 方法会按降序索引顺序对每个元素（从倒数第二个元素开始）调用 callbackfn 函数。
     //      回调函数的返回值在下一次调用回调函数时作为 previousValue 参数提供。 最后一次调用回调函数获得的返回值为 reduceRight 方法的返回值。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679979(v=vs.94).aspx
-    coreArray.reduceRight = function (array, callback, initialValue) {
+    coreArray.reduceRight = coreArray.reduceRight ? coreArray.reduceRight : function (array, callback, initialValue) {
         if (!coreUtil.isFunction(callback)) { throw "传入的参数 callback 不是一个函数。"; }
         array = coreArray.likeArray(array) ? array : [];
         if (array.length == 0 && (initialValue === undefined)) { throw "数组不包含元素，且未提供 initialValue。"; }
@@ -1720,7 +1763,7 @@
     //  返回值：如果 callbackfn 函数为所有数组元素返回 true，则为 true；否则为 false。 如果数组没有元素，则 every 方法将返回 true。
     //  备注：除了数组对象之外， every 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679981(v=vs.94).aspx
-    coreArray.every = function (array, callback, thisArg) {
+    coreArray.every = coreArray.every ? coreArray.every : function (array, callback, thisArg) {
         array = coreArray.likeArray(array) ? array : [];
         if (array.length == 0) { return true; }
         if (!coreUtil.isFunction(callback)) { throw "传入的参数 callback 不是一个函数。"; }
@@ -1741,7 +1784,7 @@
     //  备注：some 方法会按升序索引顺序对每个数组元素调用 callbackfn 函数，直到 callbackfn 函数返回 true。 如果找到导致 callbackfn 返回 true 的元素，则 some 方法会立即返回 true。 如果回调不对任何元素返回 true，则 some 方法会返回 false。
     //      除了数组对象之外， some 方法可由具有 length 属性且具有已按数字编制索引的属性名的任何对象使用。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679978(v=vs.94).aspx
-    coreArray.some = function (array, callback, thisArg) {
+    coreArray.some = coreArray.some ? coreArray.some : function (array, callback, thisArg) {
         array = coreArray.likeArray(array) ? array : [];
         if (!coreUtil.isFunction(callback)) { throw "传入的参数 callback 不是一个函数。"; }
         for (var i = 0; i < array.length; i++) {
@@ -1790,37 +1833,6 @@
         return null;
     };
     coreArray.prototype.last = function (callback, thisArg) { return coreArray.last(this, callback, thisArg); };
-
-    //  对数组的元素进行排序；该函数定义如下参数：
-    //      array:      必需。 一个数组对象。
-    //      callback: 比较函数，该函数被循环调用，用于比较 array 中没两项的大小；这是一个可选参数；
-    //          该函数的签名为 function (a, b) { }，参数 a、b 分别表示源数组中的待比较大小的项；该函数必须返回一个数值表示比较后的结果；
-    //              如果 a > b ，则返回一个 大于 0 的值；
-    //              如果 a < b ，则返回一个 小于 0 的值；
-    //              如果 a == b，则返回 0；
-    //  返回值：返回排序处理后的数组对象本身。
-    //  备注：如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，说得更精确点，是按照字符编码的顺序进行排序。
-    //      要实现这一点，首先应把数组的元素都转换成字符串（如有必要），以便进行比较。
-    //      如果想按照其他标准进行排序，就需要提供比较函数，该函数要比较两个值，然后返回一个用于说明这两个值的相对顺序的数字。
-    //  注意：该方法会改变现有的数组。
-    coreArray.sort = function (array, callback) {
-        var temps = coreArray.likeArray(array) ? array : [];
-        core_sort.call(temps, callback);
-        return array;
-    };
-    coreArray.prototype.sort = function (callback) { return coreArray.sort(this, callback); };
-
-    //  把数组中的所有元素放入一个字符串，元素是通过指定的分隔符进行分隔的。该函数定义如下参数：
-    //      array:      必需。 一个数组对象。
-    //      separator:  可选。指定要使用的分隔符。如果省略该参数，则使用逗号作为分隔符。
-    //  返回值：返回一个字符串。该字符串是通过把 arrayObject 的每个元素转换为字符串，然后把这些字符串连接起来，在两个元素之间插入 separator 字符串而生成的。
-    coreArray.join = function (array, separator) {
-        var temps = coreArray.likeArrayNotString(array) ? array : [];
-        core_join.call(temps, separator);
-        return array;
-    };
-    coreArray.prototype.join = function (separator) { return coreArray.join(this, separator); };
-
 
     //  获取指定数组的前 N 项元素所构成的一个新数组；该函数定义如下参数：
     //      array:  必需。 一个数组对象。
@@ -2914,18 +2926,16 @@
         if (!coreArray.contains(["array", "append"], opts.overtype)) { opts.overtype = defaults.overtype; }
 
         list = this.map(function () {
-            var elements = jQuery.prop(this, "elements"), ret = [];
-            $.merge(ret, elements ? $.makeArray(elements) : $(this).find("*"));
-            return ret;
+            var elements = jQuery.prop(this, "elements");
+            return $.merge([], elements ? $.makeArray(elements) : $(this).find("*"));
         }).filter(function () {
-            var type = this.type;
             return this.name && (!opts.onlyEnabled || !$(this).is(":disabled")) &&
-				rsubmittable.test(this.nodeName) && !rsubmitterTypes.test(type);
+				rsubmittable.test(this.nodeName) && !rsubmitterTypes.test(this.type);
         }).map(function (i, elem) {
-            var name = elem.name, type = this.type, val = $(this).val(),
+            var name = elem.name, id = elem.id, type = this.type, val = $(this).val(),
                 checked = this.checked == undefined || this.checked == null ? null : this.checked;
             return {
-                name: name, type: type, checked: checked,
+                name: name || id, type: type, checked: checked,
                 val: $.isArray(val) ? $.map(val, function (val) { return val ? val.replace(rCRLF, "\r\n") : val; })
                     : (val ? val.replace(rCRLF, "\r\n") : val)
             };

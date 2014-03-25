@@ -1,0 +1,36 @@
+﻿<div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#Button1").click(function () {
+                $.easyui.showDialog({
+                    title: "Dialog-Form 和数据操作",
+                    width: 600, height: 420, topMost: false,
+                    minWidth: 400, minHeight: 300,
+                    href: "dialog/easy/dialogForm/form.html",
+                    onSave: function (d) {
+                        var validate = d.form("validate");
+                        if (validate) {
+                            $.easyui.showOption(d.form("getData"), { title: "您输入的数据为" });
+                        } else {
+                            return false;
+                        }
+                    },
+                    buttons: [
+                        {
+                            text: "源码查看", iconCls: "icon-search", handler: function (d) {
+                                $.easyui.showSourceDialog(d.dialog("options").href, "Dialog 加载页面的源码查看");
+                            }
+                        }
+                    ]
+                });
+            });
+        });
+    </script>
+
+    <h2>jEasyUI Dialog Extensions - 快速创建 Dialog - Form</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.dialog.js 实现。</p>
+    <hr />
+    <input id="Button1" type="button" value="创建Dialog-Form" />
+
+</div>

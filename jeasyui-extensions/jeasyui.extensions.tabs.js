@@ -165,7 +165,7 @@
                 panelOpts.tools = [refreshButton];
             }
         }
-        if (updateProgress != "none" && (!$.string.isNullOrWhiteSpace(panelOpts.href) || !$.string.isNullOrWhiteSpace(panelOpts.content)) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab)) {
+        if (updateProgress != "none" && !$.string.isNullOrWhiteSpace(panelOpts.href) && (panelOpts.selected || tabs.tabs("getSelected") == param.tab)) {
             loading();
             panelOpts.onLoad = function () {
                 if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }

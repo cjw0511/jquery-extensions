@@ -56,27 +56,49 @@
 
     <script src="../jeasyui-extensions/jquery-easyui-portal/jquery.portal.js" type="text/javascript"></script>
 
-    <!--<script src="../syntaxhighlighter_3.0.83/scripts/shCore.min.js" type="text/javascript"></script>-->
     <!--<script src="syntaxhighlighter.js" type="text/javascript"></script>-->
-    <script src="../syntaxhighlighter_3.0.83/scripts/shCore.min.tmp.js" type="text/javascript"></script>
+    <script src="../syntaxhighlighter_3.0.83/scripts/shCore.min.js" type="text/javascript"></script>
     <script src="../syntaxhighlighter_3.0.83/scripts/shBrushJScript.js" type="text/javascript"></script>
     <script src="../syntaxhighlighter_3.0.83/scripts/shBrushXml.js" type="text/javascript"></script>
     <link href="../syntaxhighlighter_3.0.83/styles/shCoreDefault.css" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
-        body { padding: 0px; margin: 0px; font-size: 12px; }
+        body {
+            padding: 0px;
+            margin: 0px;
+            font-size: 12px;
+        }
 
-        .panel-container { padding: 0px 10px 10px 10px; }
+        .panel-container {
+            padding: 0px 10px 10px 10px;
+        }
 
         .syntaxhighlighter a, .syntaxhighlighter div, .syntaxhighlighter code, .syntaxhighlighter table, .syntaxhighlighter table td, .syntaxhighlighter table tr, .syntaxhighlighter table tbody, .syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea {
-            font-size: 13px !important; line-height: 16px !important;
+            font-size: 13px !important;
+            line-height: 16px !important;
         }
     </style>
 
     <script type="text/javascript">
+        $.util.namespace("$.easyui");
+        $.easyui.showSourceDialog = function (url, options) {
+            var defaults = { title: $.string.format("查看页面\"{0}\"的源码", url), width: 800, height: 600 },
+                opts = typeof options == "string" ? $.extend({}, defaults, {
+                    title: options, content: "<pre></pre>", topMost: false
+                }) : $.extend({}, defaults, options || {}, {
+                    content: "<pre></pre>", topMost: false
+                }),
+                dia = $.easyui.showDialog(opts);
+            $.get(url, function (html) {
+                dia.find("pre").text(html).each(function () {
+                    SyntaxHighlighter.highlight({ brush: "jscript" }, this);
+                });
+            });
+        };
+
         $(function () {
-            var search = window.location.search, path = search.length && search.substr(0, 1) == "?" ? search.substr(1) : search;
-            document.title = path;
+            SyntaxHighlighter.defaults["html-script"] = true;
+            var search = window.location.search, path = document.title = search.length && search.substr(0, 1) == "?" ? search.substr(1) : search;
 
             var ajaxError = $.easyui.ajaxError();
             $.easyui.ajaxError(function (XMLHttpRequest, status, error) {
@@ -87,11 +109,9 @@
                 }
             });
 
-            var tabsContainer = $("#tabsContainer"), tabsOpts = tabsContainer.tabs("options"),
+            var containerTabs = $("#containerTabs"), tabsOpts = containerTabs.tabs("options"),
                 onSelect = tabsOpts.onSelect, isLoaded = false,
-                tabs = tabsContainer.tabs("tabs"),
-                cookieTheme = $.cookie("themeName"),
-                theme = cookieTheme ? cookieTheme : $.util.$.easyui.theme(),
+                cookieTheme = $.cookie("themeName"), theme = cookieTheme ? cookieTheme : $.util.$.easyui.theme(),
                 openNewPage = function (node) {
                     var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);
                     if (!opts.href) { return; }
@@ -100,16 +120,22 @@
                 addModuleTab = $.util.parent && $.util.parent.mainpage && $.isFunction($.util.parent.mainpage.addModuleTab) ? $.util.parent.mainpage.addModuleTab : openNewPage,
                 t = $("#tt");
 
-            $.each(tabs, function (i, p) {
-                if (i == 2) { return; }
-                var opts = p.panel("options"), onLoad = opts.onLoad;
+            $("#demo").each(function () {
+                var p = $(this), opts = p.panel("options"), onLoad = opts.onLoad, dp = $("#dp");
                 opts.onLoad = function () {
                     if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
-                    p.find("[name=dp-syntaxhighlighter]").each(function () { SyntaxHighlighter.highlight({}, this); });
-                    if (i == 0) { document.title = p.find("h2:first").text(); }
+                    p.find(":header:first").each(function () { document.title = $(this).text(); });
                 };
-                if (path) { p.panel("refresh", $.string.format("{0}/{1}.html", path, opts.id)); }
+                if (path) {
+                    $.get(path, function (html) {
+                        dp.text(html).each(function () {
+                            SyntaxHighlighter.highlight({ brush: "jscript" }, this);
+                        });
+                    });
+                    p.panel("refresh", path);
+                }
             });
+
             $.easyui.theme(theme);
 
             tabsOpts.onSelect = function (title, index) {
@@ -147,11 +173,12 @@
     </script>
 </head>
 <body>
-    <div id="tabsContainer" class="easyui-tabs" data-options="fit: true, border: false, showOption: true, enableNewTabMenu: true, tabPosition: 'left', headerWidth: 100">
+    <div id="containerTabs" class="easyui-tabs" data-options="fit: true, border: false, showOption: true, enableNewTabMenu: true, tabPosition: 'left', headerWidth: 100">
         <div id="demo" class="panel-container" data-options="title: '功能演示', iconCls: 'icon-hamburg-advertising', selected: true" style="position: relative;">
             <p>IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
         </div>
         <div id="code" class="panel-container" data-options="title: '查看源码', iconCls: 'icon-standard-script-code'">
+            <pre id="dp" class="highlight: []"></pre>
         </div>
         <div id="view" class="panel-container" data-options="title: '关于...', iconCls: 'icon-hamburg-library'">
             <p>

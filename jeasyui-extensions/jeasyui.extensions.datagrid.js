@@ -947,6 +947,7 @@
 
 
     function refreshColumnFilterStatus(t, opts, exts, rows, headerFields) {
+        refreshColumnFilterPagerStatus(t, opts);
         if (!opts.columnFilter) { return; }
         headerFields = headerFields || t.datagrid("getPanel").find("div.datagrid-view div.datagrid-header table.datagrid-htable tr.datagrid-header-row td[field]").filter(function () {
             var td = $(this), colspan = td.attr("colspan");
@@ -956,6 +957,20 @@
             var td = $(this), field = td.attr("field");
             refreshColumnFilterCellStatus(t, exts, rows, td, field);
         });
+    };
+
+    function refreshColumnFilterPagerStatus(t, opts) {
+        if (!opts.pagination) { return; }
+        var pager = t.datagrid("getPager");
+        if (pager && pager.length) {
+            var len = t.datagrid("getVisibleRows").length, total = t.datagrid("getRows").length,
+                visible = pager.find("div.pagination-visiblerows");
+            if (visible.length) {
+                visible.html("当前页显示" + len + "/" + total + "行");
+            } else {
+                pager.find("div.pagination-info").before("<div class=\"pagination-visiblerows\">当前页显示" + len + "/" + total + "行</div>");
+            }
+        }
     };
 
     function refreshColumnFilterCellStatus(t, exts, rows, td, field) {
@@ -1221,11 +1236,11 @@
         $.array.merge(mm, items);
         if (hasMore) {
             var colOpt = t.datagrid("getColumnOption", field), title = colOpt.title ? colOpt.title : colOpt.field, handler = function () {
-                var checkAll = $("<input />").attr({ type: "button", value: "全部选择" }).click(function () {
+                var checkAll = $("<input type=\"button\" value=\"全部选择\" />").click(function () {
                     t.datagrid("showRows", true);
                     $(this).parent().find(":checkbox").each(function () { this.checked = true; });
-                })
-                var uncheckAll = $("<input />").attr({ type: "button", value: "全部不选" }).click(function () {
+                });
+                var uncheckAll = $("<input type=\"button\" value=\"全部不选\" />").click(function () {
                     t.datagrid("hideRows", true);
                     $(this).parent().find(":checkbox").each(function () { this.checked = false; });
                 });
@@ -2310,7 +2325,7 @@
         combotree_init = editors.combotree.init;
     $.extend(editors.checkbox, {
         init: function (container, options) {
-            return checkbox_init.apply(this, arguments).addClass("datagrid-editable-input datagrid-editable-checkbox"); 
+            return checkbox_init.apply(this, arguments).addClass("datagrid-editable-input datagrid-editable-checkbox");
         },
         setFocus: function (target) {
             $(target).datebox("textbox").focus();

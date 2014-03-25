@@ -33,7 +33,8 @@
             enableRowContextMenu: true,         //此属性开启表头列名称右键点击菜单
             pagingMenu: { submenu: false },      //开启行右键菜单的翻页功能，此属性可丰富配置，详情见 API 文档
             moveMenu: true,                     //开始行右键菜单的移动列功能，此属性可丰富配置，详情见 API 文档
-            autoBindDblClickRow: true           //此属性开启设置将第一个自定的右键菜单事件自动绑定为双击行事件，并且使第一个右键自定菜单文字加粗显示；此属性默认值为 true
+            autoBindDblClickRow: true,          //此属性开启设置将第一个自定的右键菜单事件自动绑定为双击行事件，并且使第一个右键自定菜单文字加粗显示；此属性默认值为 true
+            rowTooltip: function () { return "双击显示行数据详情"; }
         });
     });
 </script>

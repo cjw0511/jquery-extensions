@@ -42,7 +42,7 @@
                         height: $.isNumeric(opts.panelHeight) ? opts.panelHeight : grid.height,
                         selected: t.combo(opts.multiple ? "getValues" : "getValue"),
                         singleSelect: opts.multiple ? false : true,
-                        data: opts.url ? undefined : state.data,
+                        idField: idField, data: opts.url ? undefined : state.data,
                         buttons: [
                             {
                                 index: 101.5, text: "清除", iconCls: "icon-standard-cancel", handler: function (d) {

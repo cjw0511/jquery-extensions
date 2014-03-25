@@ -1,57 +1,66 @@
 ﻿<div>
 
-<script type="text/javascript">
-    $(function () {
-        var t = $("#t1").datagrid({
-            title: 'test datagrid',
-            width: 1200,
-            height: 400,
-            method: "get",
-            url: "datagrid/datagrid-data.json",
-            idField: 'ID',
-            remoteSort: false,
-            frozenColumns: [[
-                { field: 'ck', checkbox: true },
-                { field: 'ID', title: 'ID', width: 80, sortable: true }
-            ]],
-            columns: [[
-                { field: 'Code', title: '编号(Code)', width: 120 },
-                { field: 'Name', title: '名称(Name)', width: 140 },
-                { field: 'Age', title: '年龄(Age)', width: 120 },
-                { field: 'Height', title: '身高(Height)', width: 140 },
-                { field: 'Weight', title: '体重(Weight)', width: 140 },
-                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180 },
-                { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
-            ]],
-            enableHeaderClickMenu: false,
-            enableHeaderContextMenu: false,
-            enableRowContextMenu: false
+    <script type="text/javascript">
+        $(function () {
+            var t = $("#t1").datagrid({
+                title: 'test datagrid',
+                width: 1200,
+                height: 400,
+                method: "get",
+                url: "datagrid/datagrid-data.json",
+                idField: 'ID',
+                remoteSort: false,
+                frozenColumns: [[
+                    { field: 'ck', checkbox: true },
+                    { field: 'ID', title: 'ID', width: 80, sortable: true }
+                ]],
+                columns: [[
+                    { field: 'Code', title: '编号(Code)', width: 120 },
+                    { field: 'Name', title: '名称(Name)', width: 140 },
+                    { field: 'Age', title: '年龄(Age)', width: 120 },
+                    { field: 'Height', title: '身高(Height)', width: 140 },
+                    { field: 'Weight', title: '体重(Weight)', width: 140 },
+                    { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180 },
+                    { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
+                ]],
+                enableHeaderClickMenu: false,
+                enableHeaderContextMenu: false,
+                enableRowContextMenu: false
+            });
+
+            var array = $.array.filter(t.datagrid("getColumns", "all"), function (val) { return val.field && val.title ? true : false; }),
+                cc = $("#select1").comboselector({
+                    width: 120, valueField: "field", textField: "title", data: array,
+                    columns: [[
+                        { field: 'field', title: '列英文名', width: 120 },
+                        { field: 'title', title: '列中文名', width: 120 }
+                    ]]
+                });
+
+            $("#clear").click(function () { cc.comboselector("clear"); });
+
+            $("#Button1").click(function () {
+                var field = cc.comboselector("getValue"), val = $("#Text1").val();
+                t.datagrid("livesearch", field ? { field: field, value: val } : val);
+            });
         });
+    </script>
 
-        var array = $.array.filter(t.datagrid("getColumns", "all"), function (val) { return val.field && val.title ? true : false; }),
-            cc = $("#select1").combobox({ width: 120, valueField: "field", textField: "title", data: array });
-
-        $("#clear").click(function () { cc.combobox("clear"); });
-
-        $("#Button1").click(function () {
-            var field = cc.combobox("getValue"), val = $("#Text1").val();
-            t.datagrid("livesearch", field ? { field: field, value: val } : val);
-        });
-    });
-</script>
-
-<h2>jEasyUI DataGrid Extensions - 高亮关键词查找</h2>
-<p>该部分扩展由文件 jeasyui.extensions.datagrid.js 实现。</p>
-<hr />
-<p>
-    该 DEMO 演示 datagrid 的高亮关键词查找功能扩展；<br />
-    如果未设定列，将查找所有列；<br />
-    如果未设定任何关键词，则取消之前的高亮显示效果。
-</p>
-<input id="Button1" type="button" value="高亮关键词查找" />
-请选择要查找的列：<select id="select1"></select><a id="clear" class="easyui-linkbutton easyui-tooltip" data-options="plain: true, iconCls: 'icon-undo', content: '清空'" ></a>
-请选择要查找的关键词：<input id="Text1" type="text" />
-<br /><br />
-<table id="t1"></table>
+    <h2>jEasyUI DataGrid Extensions - 高亮关键词查找</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.datagrid.js 实现。</p>
+    <hr />
+    <p>
+        该 DEMO 演示 datagrid 的高亮关键词查找功能扩展；<br />
+        如果未设定列，将查找所有列；<br />
+        如果未设定任何关键词，则取消之前的高亮显示效果。
+    </p>
+    <input id="Button1" type="button" value="高亮关键词查找" style="vertical-align: middle;" />
+    <span style ="vertical-align: middle;">请选择要查找的列：</span>
+    <select id="select1"></select>
+    <a id="clear" class="easyui-linkbutton easyui-tooltip" data-options="plain: true, iconCls: 'icon-undo', content: '清空'" style="vertical-align: middle;"></a>
+    <span style="vertical-align: middle;">请选择要查找的关键词：</span>
+    <input id="Text1" type="text" style="margin: 0px; padding: 0px; height: 20px; border: 1px solid #95B8E7; vertical-align: middle;" />
+    <br /><br />
+    <table id="t1"></table>
 
 </div>

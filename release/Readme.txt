@@ -16,10 +16,10 @@
     6.  jquery.jdirk.min.js
 
 四、引入 jquery-easyui 扩展图标库 (可选)
-    7.  icon-all.min.css (可选)
+    7.  icons/icon-all.min.css (可选)
     8.  jeasyui.icons.all.min.js (可选)
 
 五、引入 jquery-easyui-extensions 插件扩展库
-    9.  WdatePicker.js (可选，如果需要用到 easyui-my97 插件，则需要引入该文件)
-    10.  jeasyui.extensions.min.css
+    9. jeasyui.extensions.min.css
+    10.  WdatePicker.js (可选，如果需要用到 easyui-my97 插件，则需要引入该文件)
     11. jeasyui.extensions.all.min.js

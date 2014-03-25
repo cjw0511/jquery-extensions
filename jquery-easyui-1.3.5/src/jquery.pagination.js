@@ -256,11 +256,21 @@
             );
     };
     $.fn.pagination.defaults = {
-        total: 1, pageSize: 10, pageNumber: 1, pageList: [10, 20, 30, 50], loading: false, buttons: null, showPageList: true, showRefresh: true, links: 10, layout: ["list", "sep", "first", "prev", "sep", "manual", "sep", "next", "last", "sep", "refresh"], onSelectPage: function (_29, _2a) {
-        }, onBeforeRefresh: function (_2b, _2c) {
-        }, onRefresh: function (_2d, _2e) {
-        }, onChangePageSize: function (_2f) {
-        }, beforePageText: "Page", afterPageText: "of {pages}", displayMsg: "Displaying {from} to {to} of {total} items", nav: {
+        total: 1, pageSize: 10, pageNumber: 1, pageList: [10, 20, 30, 50], loading: false,
+        buttons: null, showPageList: true, showRefresh: true, links: 10,
+        layout: ["list", "sep", "first", "prev", "sep", "manual", "sep", "next", "last", "sep", "refresh"],
+        onSelectPage: function (_29, _2a) {
+        },
+        onBeforeRefresh: function (_2b, _2c) {
+        },
+        onRefresh: function (_2d, _2e) {
+        },
+        onChangePageSize: function (_2f) {
+        },
+        beforePageText: "Page",
+        afterPageText: "of {pages}",
+        displayMsg: "Displaying {from} to {to} of {total} items",
+        nav: {
             first: {
                 iconCls: "pagination-first", handler: function () {
                     var _30 = $(this).pagination("options");
@@ -268,14 +278,16 @@
                         $(this).pagination("select", 1);
                     }
                 }
-            }, prev: {
+            },
+            prev: {
                 iconCls: "pagination-prev", handler: function () {
                     var _31 = $(this).pagination("options");
                     if (_31.pageNumber > 1) {
                         $(this).pagination("select", _31.pageNumber - 1);
                     }
                 }
-            }, next: {
+            },
+            next: {
                 iconCls: "pagination-next", handler: function () {
                     var _32 = $(this).pagination("options");
                     var _33 = Math.ceil(_32.total / _32.pageSize);
@@ -283,7 +295,8 @@
                         $(this).pagination("select", _32.pageNumber + 1);
                     }
                 }
-            }, last: {
+            },
+            last: {
                 iconCls: "pagination-last", handler: function () {
                     var _34 = $(this).pagination("options");
                     var _35 = Math.ceil(_34.total / _34.pageSize);
@@ -291,7 +304,8 @@
                         $(this).pagination("select", _35);
                     }
                 }
-            }, refresh: {
+            },
+            refresh: {
                 iconCls: "pagination-refresh", handler: function () {
                     var _36 = $(this).pagination("options");
                     if (_36.onBeforeRefresh.call(this, _36.pageNumber, _36.pageSize) != false) {
