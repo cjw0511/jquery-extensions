@@ -489,24 +489,54 @@
     };
 
     var sortGrid = function (target, options) {
-        options = options || {};
-        options = $.extend({ sortName: null, sortOrder: "asc" }, options);
-        var t = $(target),
-            state = $.data(target, "datagrid"),
-            opts = t.datagrid("options"),
-            col = t.datagrid("getColumnOption", options.sortName);
-        if (!col || $.isEmptyObject(col) || !col.sortable || state.resizing) { return; }
-        opts.sortName = options.sortName;
-        opts.sortOrder = options.sortOrder;
-        var cls = "datagrid-sort-" + opts.sortOrder;
-        var cells = t.datagrid("getPanel").find(".datagrid-view .datagrid-header td div.datagrid-cell");
-        var cell = t.datagrid("getPanel").find(".datagrid-view .datagrid-header td[field='" + options.sortName + "'] div.datagrid-cell");
-        if (!cells.length || !cell.length) { return; }
-        cells.removeClass("datagrid-sort-asc datagrid-sort-desc");
-        cell.addClass(cls);
-        if (opts.remoteSort) { t.datagrid("reload"); } else { var data = $.data(target, "datagrid").data; t.datagrid("loadData", data); }
+        options = $.extend({ sortName: null, sortOrder: "asc" }, options || {});
+        var t = $(target), state = $.data(target, "datagrid"), opts = t.datagrid("options"),
+            field = options.sortName, col = t.datagrid("getColumnOption", field);
+        if (!col || !col.sortable || state.resizing) { return; }
+        var sortNames = [], sortOrders = [], panel = t.datagrid("getPanel"),
+            hcells = panel.find(".datagrid-view .datagrid-header td div.datagrid-cell"),
+            cell = panel.find(".datagrid-view .datagrid-header td[field=" + field + "] div.datagrid-cell"),
+            pos = -1, cls = options.sortOrder;
+        if (opts.sortName) {
+            sortNames = opts.sortName.split(",");
+            sortOrders = opts.sortOrder.split(",");
+        }
+        for (var i = 0; i < sortNames.length; i++) {
+            if (sortNames[i] == field) {
+                pos = i;
+            }
+        }
+        if (pos >= 0) {
+            cell.removeClass("datagrid-sort-asc datagrid-sort-desc");
+            sortOrders[pos] = cls;
+            cell.addClass("datagrid-sort-" + cls);
+        } else {
+            if (opts.multiSort) {
+                sortNames.push(field);
+                sortOrders.push(cls);
+            } else {
+                sortNames = [field];
+                sortOrders = [cls];
+                hcells.removeClass("datagrid-sort-asc datagrid-sort-desc");
+            }
+            cell.addClass("datagrid-sort-" + cls);
+        }
+        opts.sortName = sortNames.join(",");
+        opts.sortOrder = sortOrders.join(",");
+        if (opts.remoteSort) {
+            t.datagrid("reload");
+        } else {
+            var data = state.data, originalRows = state.originalRows, updatedRows = state.updatedRows,
+                insertedRows = state.insertedRows, deletedRows = state.deletedRows;
+            t.datagrid("loadData", data);
+            state.originalRows = originalRows;
+            state.updatedRows = updatedRows;
+            state.insertedRows = insertedRows;
+            state.deletedRows = deletedRows;
+        }
         opts.onSortColumn.call(target, opts.sortName, opts.sortOrder);
     };
+
 
     $.fn.datagrid.extensions.parseOffset = function (offset) {
         var o = { enable: offset ? true : false };
@@ -665,6 +695,7 @@
             var panel = t.datagrid("getPanel"), icons = panel.find("div.datagrid-header-filter-item-icon");
             panel.find(".datagrid-view .datagrid-body tr.datagrid-row").show();
             setItemIconCls(icons, "tree-checkbox1");
+            refreshColumnFilterPagerStatus(t, opts);
         } else if ($.isFunction(param)) {
             array = $.array.filter(rows, param);
         } else if ($.array.likeArray(param) && !$.util.isString(param)) {
@@ -685,6 +716,7 @@
             var panel = t.datagrid("getPanel"), icons = panel.find("div.datagrid-header-filter-item-icon");
             panel.find(".datagrid-view .datagrid-body tr.datagrid-row").hide();
             setItemIconCls(icons, "tree-checkbox0");
+            refreshColumnFilterPagerStatus(t, opts);
         } else if ($.isFunction(param)) {
             array = $.array.filter(rows, param);
         } else if ($.array.likeArray(param) && !$.util.isString(param)) {
@@ -921,7 +953,7 @@
         input.keypress(function (e) { if (e.which == 13) { var val = input.val(); input.numberbox("setValue", $.isNumeric(val) ? val : 0); } });
         slider.slider({
             height: height, mode: "v", showTip: true, value: type == "<=" ? max : min,
-            min: min, max: max, rule: [min, "|", max], step: step, onSlideEnd: handler,
+            min: min, max: max, rule: [min, "|", max], step: step, onComplete: handler,
             tipFormatter: function (val) { return $.number.round(val || 0, maxPrecision); }
         });
     };
@@ -1116,7 +1148,7 @@
 
     function parseHeaderBaseContextMenuItems(t, opts, exts, e, field, eventData) {
         var mm = [], exp = opts.exportMenu,
-            colOpts = t.datagrid("getColumnOption", field), sortable = t.datagrid("getColumnOption", field).sortable;
+            colOpts = t.datagrid("getColumnOption", field), sortable = colOpts.sortable;
         if (typeof exp == "object") { exp = $.extend({ current: false, all: false, submenu: true }, exp); }
         var m1 = {
             text: "升序", iconCls: "icon-standard-hmenu-asc", disabled: sortable != true,

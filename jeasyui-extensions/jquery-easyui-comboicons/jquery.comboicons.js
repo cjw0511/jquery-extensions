@@ -11,7 +11,7 @@
 * jQuery EasyUI comboicons 插件扩展
 * jquery.comboicons.js
 * 二次开发 流云
-* 最近更新：2014-03-17
+* 最近更新：2014-04-02
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -87,10 +87,11 @@
                     }
                 }
             }));
-
+        opts.originalValue = opts.value;
         if (opts.value) {
-            t.combo("setText", $.util.likeArrayNotString(opts.value) ? $.array.join(opts.value, opts.separator) : opts.value);
+            setValues(target, $.util.likeArrayNotString(opts.value) ? opts.value : [opts.value]);
         }
+        t.combo("validate");
     };
 
     function setValues(target, values) {
@@ -181,7 +182,7 @@
     $.parser.plugins.push("comboicons");
 
     if ($.fn.form && $.isArray($.fn.form.comboList)) {
-        $.fn.form.comboList.push("comboicons");
+        $.array.insert($.fn.form.comboList, 0, "comboicons");
     }
 
 })(jQuery);

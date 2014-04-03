@@ -1,0 +1,113 @@
+﻿<div>
+
+
+    <script type="text/javascript">
+        $(function () {
+            var t = $("#t1");
+
+            $("#btn0").click(function () {
+                var state = $.data(t[0], "ueditor"), editor = state.editor
+                editor.setOpt("initContent", "欢迎使用编辑器");
+            });
+
+            $("#btn1").click(function () {
+                t.ueditor("resize", { width: 600, height: 400 });
+            });
+
+
+            $("#btn11").click(function () {
+                t.ueditor("enable");
+            });
+
+            $("#btn12").click(function () {
+                t.ueditor("disable");
+            });
+
+            $("#btn13").click(function () {
+                t.ueditor("show");
+            });
+
+            $("#btn14").click(function () {
+                t.ueditor("hide");
+            });
+
+            $("#btn15").click(function () {
+                t.ueditor("reset");
+            });
+
+            $("#btn16").click(function () {
+                t.ueditor("clear");
+            });
+
+
+            $("#btn51").click(function () {
+                t.ueditor("destroy");
+            });
+
+            $("#btn52").click(function () {
+                $(this).currentPanel().form("load", {
+                    t1: "this is t1",
+                    t2: "this is t2",
+                    t3: "this is t3",
+                    t4: "this is t4",
+                    t5: "2011-01-01",
+                    t6: "icon-standard-application-form"
+                });
+            });
+
+            $("#btn53").click(function () {
+                $(this).currentPanel().form("validate");
+            });
+
+            $("#btn54").click(function () {
+                $(this).currentPanel().form("clear");
+            });
+
+            $("#btn55").click(function () {
+                $(this).currentPanel().form("reset");
+            });
+
+
+            $("#btn101").click(function () {
+                var val = t.ueditor("getValue");
+                alert(val);
+            });
+
+            $("#btn102").click(function () {
+                var data = $(this).currentPanel().form("getData");
+                $.easyui.showOption(data);
+            });
+        });
+    </script>
+
+    <h2>jEasyUI ueditor Extensions</h2>
+    <p>该部分扩展由文件 jquery.ueditor.js 实现。</p>
+    <hr />
+    <input id="btn0" type="button" value="dosomething" />
+    <input id="btn1" type="button" value="重置编辑器大小为(Width:600,Height: 400)" />
+    <hr />
+    <input id="btn11" type="button" value="enable" />
+    <input id="btn12" type="button" value="disable" />
+    <input id="btn13" type="button" value="show" />
+    <input id="btn14" type="button" value="hide" />
+    <input id="btn15" type="button" value="reset" />
+    <input id="btn16" type="button" value="clear" />
+    <hr />
+    <input id="btn51" type="button" value="destroy" />
+    <input id="btn52" type="button" value="loadData" />
+    <input id="btn53" type="button" value="validateForm" />
+    <input id="btn54" type="button" value="clearForm" />
+    <input id="btn55" type="button" value="resetForm" />
+    <hr />
+    <input id="btn101" type="button" value="getValue" />
+    <input id="btn102" type="button" value="getData" />
+    <hr />
+    <input id="t2" name="t2" type="text" value="tt2" />
+    <input id="t3" name="t3" type="text" class="easyui-searchbox" value="tt3" />
+    <input id="t4" name="t4" type="text" class="easyui-validatebox" data-options="required: true" value="tt4" />
+    <input id="t5" name="t5" type="text" class="easyui-my97" data-options="required: true" value="2012-12-21" />
+    <input id="t6" name="t6" type="text" class="easyui-comboicons" data-options="required: true" value="tt6" />
+    <hr />
+    <div id="t1" name="t1" class="easyui-ueditor" data-options="width: 1000, height: 500, value: '123'">asdf</div>
+
+</div>

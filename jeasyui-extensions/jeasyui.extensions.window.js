@@ -66,8 +66,7 @@
             dragOpts.cursor = "default";
             dragOpts.onBeforeDrag = function (e) {
                 var ret = onBeforeDrag.apply(this, arguments);
-                if (ret == false) { return ret; }
-                if (e.which != 1) { return false; }
+                if (ret == false || e.which != 1 || t.window("options").maximized) { return false; }
                 dragOpts.cursor = cursor;
             };
             dragOpts.onStartDrag = function () {
@@ -100,9 +99,11 @@
         }
         if (opts.resizable) {
             var resizableOpts = state.window.resizable("options"),
-                _onResize = resizableOpts.onResize;
+                _onResize = resizableOpts.onResize, _onStopResize = resizableOpts.onStopResize;
             resizableOpts.onResize = function (e) {
-                if (!opts.minWidth && !opts.maxWidth && !opts.minHeight && !opts.maxHeight) { return _onResize.apply(this, arguments); }
+                if (!opts.minWidth && !opts.maxWidth && !opts.minHeight && !opts.maxHeight) {
+                    return _onResize.apply(this, arguments);
+                }
                 state.proxy.css({ left: e.data.left, top: e.data.top });
                 var width = e.data.width, height = e.data.height,
                     minWidth = $.isNumeric(opts.minWidth) ? opts.minWidth : defaults.minHeight,
@@ -116,6 +117,13 @@
                 state.proxy._outerWidth(width);
                 state.proxy._outerHeight(height);
                 return false;
+            };
+            resizableOpts.onStopResize = function (e) {
+                var ret = _onStopResize.apply(this, arguments);
+                if (t.window("options").maximized) {
+                    t.window("restore").window("maximize");
+                }
+                return ret;
             };
         }
     };

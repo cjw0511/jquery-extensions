@@ -100,7 +100,11 @@
             },
             contextMenu: [
                 {
-                    text: "打开/转到", iconCls: "icon-standard-application-add", handler: function (e, node) { window.mainpage.addModuleTab(node); }
+                    text: "打开/转到", iconCls: "icon-standard-application-add",
+                    disabled: function (e, node) { return node.attributes && node.attributes.href ? false : true; },
+                    handler: function (e, node) {
+                        window.mainpage.addModuleTab(node);
+                    }
                 }, "-",
                 { text: "添加至个人收藏", iconCls: "icon-standard-feed-add", disabled: function (e, node) { return !t.tree("isLeaf", node.target); }, handler: function (e, node) { window.mainpage.nav.addFavo(node.id); } },
                 { text: "重命名", iconCls: "icon-hamburg-pencil", handler: function (e, node) { t.tree("beginEdit", node.target); } }, "-",
@@ -322,7 +326,7 @@
     };
 
     window.mainpage.mainTab.tabDefaultOption = {
-        title: "新建选项卡", href: "", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-tab", repeatable: true, selected: true
+        title: "新建选项卡", href: "", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-application-form", repeatable: true, selected: true
     };
     window.mainpage.mainTab.parseCreateTabArgs = function (args) {
         var ret = {};

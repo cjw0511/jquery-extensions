@@ -255,6 +255,8 @@
         { "id": "110808", "text": "uploadify", "pid": "1108", "attributes": { "href": "examples/example.html?uploadify/demo.html" } },
         { "id": "110809", "text": "BayGUI", "pid": "1108", "attributes": { "href": "examples/example.html?baygui/demo.html" } },
         { "id": "110810", "text": "baybuilder", "pid": "1108", "attributes": { "href": "examples/example.html?baygui/baybuilder/demo.html" } },
+        { "id": "110811", "text": "ueditor", "pid": "1108", "attributes": { "href": "examples/example.html?ueditor/ueditor.html" } },
+        { "id": "110812", "text": "umeditor", "pid": "1108", "attributes": { "href": "examples/example.html?ueditor/umeditor.html" } },
         { "id": "110899", "text": "Testing", "pid": "1108", "attributes": { "href": "examples/example.html?testing/demo.html" } }
     ]
     }

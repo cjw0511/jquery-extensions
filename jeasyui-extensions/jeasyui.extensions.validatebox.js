@@ -271,9 +271,19 @@
         var t = $(target);
         var opts = t.validatebox("options");
         if (!opts._initialized) {
+            t.addClass("validatebox-f").change(function () {
+                opts.value = $(this).val();
+                if ($.isFunction(opts.onChange)) {
+                    opts.onChange.call(target, opts.value);
+                }
+            });
             setPrompt(target, opts.prompt, opts);
             if (opts.autoFocus) {
                 $.util.exec(function () { t.focus(); });
+            }
+            opts.originalValue = opts.value;
+            if (opts.value) {
+                setValue(target, opts.value);
             }
             opts._initialized = true;
         }
@@ -317,6 +327,26 @@
     };
 
 
+    function setValue(target, value) {
+        var t = $(target), opts = t.validatebox("options");
+        t.val(opts.value = (value ? value : ""));
+    };
+
+    function getValue(target) {
+        return $(target).val();
+    };
+
+    function clear(target) {
+        var t = $(target), opts = t.validatebox("options");
+        t.validatebox("setValue", "");
+    };
+
+    function reset(target) {
+        var t = $(target), opts = t.validatebox("options");
+        t.validatebox("setValue", opts.originalValue ? opts.originalValue : "");
+    }
+
+
     var _validatebox = $.fn.validatebox;
     $.fn.validatebox = function (options, param) {
         if (typeof options == "string") {
@@ -326,7 +356,7 @@
         return this.each(function () {
             var jq = $(this), hasInit = $.data(this, "validatebox") ? true : false,
                 opts = hasInit ? options : $.extend({}, $.fn.validatebox.parseOptions(this), $.parser.parseOptions(this, [
-                    "prompt", { autoFocus: "boolean" }
+                    "value", "prompt", { autoFocus: "boolean" }
                 ]), options);
             _validatebox.call(jq, opts);
             initialize(this);
@@ -345,7 +375,15 @@
         validate: function (jq) { return jq.each(function () { validate(this); }) },
 
         //  重写 easyui-validatebox 的原生方法；以支持相应扩展功能或属性。
-        isValid: function (jq) { return validate(jq[0]); }
+        isValid: function (jq) { return validate(jq[0]); },
+
+        setValue: function (jq, value) { return jq.each(function () { setValue(this, value); }); },
+
+        getValue: function (jq) { return getValue(jq[0]); },
+
+        clear: function (jq) { return jq.each(function () { clear(this); }); },
+
+        reset: function (jq) { return jq.each(function () { reset(this); }); }
     };
     var defaults = $.fn.validatebox.extensions.defaults = {
         //  增加 easyui-validatebox 的扩展属性 prompt，该属性功能类似于 easyui-searchbox 的 prompt 属性。
@@ -354,12 +392,21 @@
 
         //  增加 easyui-validatebox 的扩展属性 autoFocus，该属性表示在当前页面加载完成后，该 easyui-validatebox 控件是否自动获得焦点。
         //  Boolean 类型值，默认为 false。
-        autoFocus: false
+        autoFocus: false,
+
+        //  增加 easyui-validatebox 的扩展属性 value，表示其初始化时的值
+        value: null,
+
+        onChange: function (value) { }
     };
 
     $.extend($.fn.validatebox.defaults, defaults);
     $.extend($.fn.validatebox.methods, methods);
 
+
+    if ($.fn.form && $.isArray($.fn.form.otherList)) {
+        $.array.insert($.fn.form.otherList, 0, "validatebox");
+    }
 
 
 

@@ -12,9 +12,11 @@
                 { id: "age", type: "numberspinner", options: { width: 60, value: 20, min: 10, max: 30 } },
                 {
                     type: "button", options: {
-                        text: "查询", iconCls: "icon-search", handler: function (t) {
-                            var tt = $(t), userName = tt.find("#userName").val(), age = tt.find("#age").numberspinner("getValue");
+                        text: "查询", iconCls: "icon-search", handler: function (toolbar) {
+                            var bar = $(toolbar), userName = bar.find("#userName").val(), age = bar.find("#age").numberspinner("getValue"),
+                                dg = bar.closest(".grid-selector-container").find(".grid-selector");
                             $.easyui.messager.show("查询：姓名:{0},年龄:{1}".format(userName, age));
+                            dg.datagrid("load", { userName: userName, age: age });
                         }
                     }
                 }
@@ -29,6 +31,7 @@
             autoShowPanel: false,
             multiple: true,
             remoteSort: false,
+            pagination: true,
             frozenColumns: [[
                 { field: "ck", checkbox: true },
                 { field: "ID", title: "ID", width: 80, sortable: true }
@@ -83,13 +86,13 @@
     <input id="btn3" type="button" value="ShowDblGridSelector" />
     <input id="btn4" type="button" value="ShowDblGridSelector width pagination" />
     <hr />
-    单表选择框1：<input id="selector1" type="text" data-options="width: 300" />
+    单表选择框1：<input id="selector1" name="selector1" type="text" data-options="width: 300" />
     <br /><br />
-    双表选择框1：<input id="selector2" type="text" data-options="width: 300" value="2" text="况文娟" />
+    双表选择框1：<input id="selector2" name="selector2" type="text" data-options="width: 300" value="2" text="况文娟" />
     <br /><br />
-    单表选择框2：<input id="selector3" type="text" data-options="width: 300" />
+    单表选择框2：<input id="selector3" name="selector3" type="text" data-options="width: 300" />
     <br /><br />
-    双表选择框2：<input id="selector4" type="text" data-options="width: 300" />
+    双表选择框2：<input id="selector4" name="selector4" type="text" data-options="width: 300" />
 
 
 </div>

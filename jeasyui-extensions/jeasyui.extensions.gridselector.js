@@ -11,7 +11,7 @@
 * jQuery EasyUI gridselector 组件扩展
 * jeasyui.extensions.gridselector.js
 * 二次开发 流云
-* 最近更新：2014-03-21
+* 最近更新：2014-03-31
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -112,7 +112,7 @@
             } else {
                 dg = container.addClass("grid-selector");
             }
-            dg.datagrid(dgOpts);
+            dia.grid = dg.datagrid(dgOpts);
         });
         return dia;
     };
@@ -246,8 +246,8 @@
                 northPanel = $("<div data-options=\"region: 'north', split: false, border: false\"></div>").appendTo(container);
                 $("<div class=\"grid-selector-toolbar\"></div>").appendTo(northPanel).toolbar({ data: opts.toolbar });;
             }
-            dg1.datagrid(dgOpts1);
-            dg2.datagrid(dgOpts2);
+            dia.grid = dg1.datagrid(dgOpts1);
+            dia.valueGrid = dg2.datagrid(dgOpts2);
 
             container.layout({ fit: true });
         });

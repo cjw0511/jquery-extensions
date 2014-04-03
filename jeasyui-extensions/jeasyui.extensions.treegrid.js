@@ -548,6 +548,7 @@
             var panel = t.treegrid("getPanel"), icons = panel.find("div.datagrid-header-filter-item-icon");
             panel.find(".datagrid-view .datagrid-body tr.datagrid-row").show();
             setItemIconCls(icons, "tree-checkbox1");
+            refreshColumnFilterPagerStatus(t, opts);
         } else if ($.isFunction(param)) {
             array = $.array.filter(rows, param);
             array = $.array.map(array, function (val) { return val[opts.idField]; });
@@ -569,6 +570,7 @@
             var panel = t.treegrid("getPanel"), icons = panel.find("div.datagrid-header-filter-item-icon");
             panel.find(".datagrid-view .datagrid-body tr.datagrid-row").hide();
             setItemIconCls(icons, "tree-checkbox0");
+            refreshColumnFilterPagerStatus(t, opts);
         } else if ($.isFunction(param)) {
             array = $.array.filter(rows, param);
             array = $.array.map(array, function (val) { return val[opts.idField]; });
@@ -862,7 +864,7 @@
         input.keypress(function (e) { if (e.which == 13) { var val = input.val(); input.numberbox("setValue", $.isNumeric(val) ? val : 0); } });
         slider.slider({
             height: height, mode: "v", showTip: true, value: type == "<=" ? max : min,
-            min: min, max: max, rule: [min, "|", max], step: step, onSlideEnd: handler,
+            min: min, max: max, rule: [min, "|", max], step: step, onComplete: handler,
             tipFormatter: function (val) { return $.number.round(val || 0, maxPrecision); }
         });
     };
@@ -1038,7 +1040,7 @@
 
     function parseHeaderBaseContextMenuItems(t, opts, exts, e, field, eventData) {
         var mm = [], exp = opts.exportMenu,
-            colOpts = t.treegrid("getColumnOption", field), sortable = t.treegrid("getColumnOption", field).sortable;
+            colOpts = t.treegrid("getColumnOption", field), sortable = colOpts.sortable;
         if (typeof exp == "object") { exp = $.extend({ current: false, all: false, submenu: true }, exp); }
         var m1 = {
             text: "升序", iconCls: "icon-standard-hmenu-asc", disabled: sortable != true,

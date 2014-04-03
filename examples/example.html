@@ -22,10 +22,10 @@
 
     <script src="../jeasyui-extensions/jeasyui.extensions.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.linkbutton.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.form.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.validatebox.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.combo.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.combobox.js" type="text/javascript"></script>
-    <script src="../jeasyui-extensions/jeasyui.extensions.form.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.menu.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.searchbox.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.panel.js" type="text/javascript"></script>
@@ -50,17 +50,27 @@
 
     <script src="../jeasyui-extensions/jeasyui.extensions.gridselector.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jquery-easyui-comboselector/jquery.comboselector.js" type="text/javascript"></script>
-
-    <script src="../jeasyui-extensions/jquery-easyui-my97/WdatePicker.js" type="text/javascript"></script>
+    
+    <script src="../plugins/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jquery-easyui-my97/jquery.my97.js" type="text/javascript"></script>
 
     <script src="../jeasyui-extensions/jquery-easyui-portal/jquery.portal.js" type="text/javascript"></script>
 
+    <script src="../plugins/ueditor/ue1.3.6-utf8-net/ueditor.config.js"></script>
+    <script src="../plugins/ueditor/ue1.3.6-utf8-net/ueditor.all.js"></script>
+    <script src="../plugins/ueditor/ue1.3.6-utf8-net/lang/zh-cn/zh-cn.js"></script>
+    <script src="../jeasyui-extensions/jquery-easyui-ueditor/jquery.ueditor.js"></script>
+
+    <!--<link href="../plugins/ueditor/ume1.2.2-utf8-net/themes/default/css/umeditor.css" rel="stylesheet" />
+    <script src="../plugins/ueditor/ume1.2.2-utf8-net/umeditor.config.js"></script>
+    <script src="../plugins/ueditor/ume1.2.2-utf8-net/umeditor.js"></script>
+    <script src="../plugins/ueditor/ume1.2.2-utf8-net/lang/zh-cn/zh-cn.js"></script>-->
+
     <!--<script src="syntaxhighlighter.js" type="text/javascript"></script>-->
-    <script src="../syntaxhighlighter_3.0.83/scripts/shCore.min.js" type="text/javascript"></script>
-    <script src="../syntaxhighlighter_3.0.83/scripts/shBrushJScript.js" type="text/javascript"></script>
-    <script src="../syntaxhighlighter_3.0.83/scripts/shBrushXml.js" type="text/javascript"></script>
-    <link href="../syntaxhighlighter_3.0.83/styles/shCoreDefault.css" rel="stylesheet" type="text/css" />
+    <script src="../plugins/syntaxhighlighter_3.0.83/scripts/shCore.min.js" type="text/javascript"></script>
+    <script src="../plugins/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js" type="text/javascript"></script>
+    <script src="../plugins/syntaxhighlighter_3.0.83/scripts/shBrushXml.js" type="text/javascript"></script>
+    <link href="../plugins/syntaxhighlighter_3.0.83/styles/shCoreDefault.css" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
         body {
@@ -154,11 +164,17 @@
                         onLoadSuccess: function (node, data) { t.tree("collapseAll"); },
                         contextMenu: [
                             {
-                                text: "打开/转到", hideDisabledMenu: true, disabled: openNewPage === addModuleTab, iconCls: "icon-standard-application-add",
+                                text: "打开/转到", hideDisabledMenu: true, iconCls: "icon-standard-application-add",
+                                disabled: function (e, node) {
+                                    return (!node.attributes || !node.attributes.href || openNewPage === addModuleTab) ? true : false;
+                                },
                                 handler: function (e, node) { addModuleTab(node); }
                             },
                             {
                                 text: "在新页面中打开", iconCls: "icon-standard-shape-move-forwards", bold: openNewPage === addModuleTab,
+                                disabled: function (e, node) {
+                                    return (!node.attributes || !node.attributes.href) ? true : false;
+                                },
                                 handler: function (e, node) { openNewPage(node); }
                             },
                             "-",

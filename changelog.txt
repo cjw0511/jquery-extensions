@@ -1,8 +1,25 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2014-04-03(1.0.46 preview) ********/
+1、[+] 扩展插件 jquery.ueditor.js 中增加方法 clear、reset，使之兼容 jquery.form.js 插件；
+2、[+] 扩展 jeasyui.extensions.searchbox.js 中增加方法 clear、reset，使之兼容 jquery.form.js 插件；
+
+
+/******** 2014-03-28(1.0.45 preview) ********/
+1、[#] 修复 jquery.ueditor.js 插件部分用户体验效果 BUG，并使之兼容 jquery.form.js 插件；
+3、【+】 (未实现) 插件 jquery.ueditor.js 中，增加属性 required、missingMessage、invalidMessage、delay、tipPosition、novalidate、deltaX
+        和方法 validate、isValid、enableValidation、disableValidation 的支持，以实现继承 jquery.validatebox.js 插件和兼容 jquery.form.js 插件的效果；
+3、[#] 修复 jeasyui.extensions.searchbox.js 中存在的部分 BUG，使之兼容 jquery.form.js 插件；
+4、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 插件中 columnFilter 组件的 slider 控件直接点击改变值后不触发过滤效果刷新的 BUG；
+
+
+/******** 2014-03-27(1.0.44 preview) ********/
+1、【+】 增加 jquery.ueditor.js 插件(整合百度 UEditor 富文本编辑器)
+
+
 /******** 2014-03-25(1.0.40 preview) ********/
-1、【+】 基础库 jquery.jdirk.js 中，扩展了 $.string、$.date、$.number、$.array、$.boolean，使这些对象分别具有 String、Date、Number、Array、Boolean 对象的成员属性作为其静态属性；
+1、【+】 基础库 jquery.jdirk.js 中，扩展了 $.string、$.date、$.number、$.array、$.boolean，使这些对象分别具有 String、Date、Number、Array、Boolean 对象的成员方法作为其静态方法；
 2、[+] 增强 jeasyui.extensions.datagrid.js 中关于表头过滤器和表头菜单用于过滤行时的显示状态用户体验，使得能即时看到过滤行后当前页显示的行数；
 
 

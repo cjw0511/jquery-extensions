@@ -11,7 +11,7 @@
 * jQuery EasyUI searchbox 组件扩展
 * jeasyui.extensions.searchbox.js
 * 二次开发 流云
-* 最近更新：2014-03-12
+* 最近更新：2014-04-02
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -28,8 +28,10 @@
 
 
     function initialize(target) {
-        var box = $(target), state = $.data(target, "searchbox"), opts = state.options,
-            textbox = state.searchbox.find("input.searchbox-text"), btn = state.searchbox.find(".searchbox-button");;
+        var t = $(target), state = $.data(target, "searchbox"), opts = state.options,
+            textbox = state.searchbox.find("input.searchbox-text"),
+            btn = state.searchbox.find(".searchbox-button");
+        opts.originalValue = opts.value;
         btn.unbind("click.searchbox").bind("click.searchbox", function () {
             if (!opts.disabled) {
                 opts.searcher.call(target, opts.value, textbox._propAttr("name"));
@@ -42,20 +44,31 @@
 
 
     function setDisabled(target, disabled) {
-        var box = $(target), state = $.data(target, "searchbox"), opts = state.options,
+        var t = $(target), state = $.data(target, "searchbox"), opts = state.options,
             textbox = state.searchbox.find("input.searchbox-text"), menu = state.searchbox.find("a.searchbox-menu");
         if (disabled) {
             opts.disabled = true;
-            box.attr("disabled", true);
+            t.attr("disabled", true);
             textbox.attr("disabled", true);
             menu.menubutton("disable");
         } else {
             opts.disabled = false;
-            box.removeAttr("disabled");
+            t.removeAttr("disabled");
             textbox.removeAttr("disabled");
             menu.menubutton("enable");
         }
     };
+
+
+    function reset(target) {
+        var t = $(target), opts = t.searchbox("options");
+        opts.originalValue ? t.searchbox("setValue", opts.originalValue) : clear(target);
+    };
+
+    function clear(target) {
+        $(target).searchbox("setValue", "");
+    };
+
 
 
     var _searchbox = $.fn.searchbox;
@@ -80,8 +93,11 @@
 
         disable: function (jq) { return jq.each(function () { setDisabled(this, true); }); },
 
-        enable: function (jq) { return jq.each(function () { setDisabled(this, false); }); }
+        enable: function (jq) { return jq.each(function () { setDisabled(this, false); }); },
 
+        reset: function (jq) { return jq.each(function () { reset(this); }); },
+
+        clear: function (jq) { return jq.each(function () { clear(this); }); }
     };
     var defaults = $.extend({}, $.fn.searchbox.extensions.defaults, {
 
@@ -91,6 +107,10 @@
 
     $.extend($.fn.searchbox.defaults, defaults);
     $.extend($.fn.searchbox.methods, methods);
+
+    if ($.fn.form && $.isArray($.fn.form.otherList)) {
+        $.array.insert($.fn.form.otherList, 0, "searchbox");
+    }
 
 
     $.extend($.fn.datagrid.defaults.editors, {

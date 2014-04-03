@@ -132,6 +132,8 @@
         $.array.sort(opts.buttons, function (a, b) {
             return ($.isNumeric(a.index) ? a.index : 0) - ($.isNumeric(b.index) ? b.index : 0);
         });
+
+
         if (!opts.buttons.length) { opts.buttons = null; }
 
         opts = dialog.dialog(opts).dialog("options");

@@ -24,8 +24,16 @@
                 { field: 'undefined', title: '测试(不存在的字段)', width: 150 }
             ]],
             rowContextMenu: [
-                { text: "测试菜单1", iconCls: "icon-hamburg-address", disabled: false, handler: function () { alert(1); } },
-                { text: "测试菜单2", iconCls: "icon-hamburg-busy", disabled: false, handler: function (e, index, row) { alert($.string.format("您点击了{0}", row.Name)); } }
+                {
+                    text: "测试菜单1", iconCls: "icon-hamburg-address", disabled: false, handler: function () {
+                        alert(1);
+                    }
+                },
+                {
+                    text: "测试菜单2", iconCls: "icon-hamburg-busy", disabled: false, handler: function (e, index, row) {
+                        alert($.string.format("您点击了{0}", row.Name));
+                    }
+                }
             ],
             enableHeaderClickMenu: false,
             enableHeaderContextMenu: false,

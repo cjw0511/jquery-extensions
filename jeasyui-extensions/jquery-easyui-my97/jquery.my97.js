@@ -11,13 +11,13 @@
 * jQuery EasyUI my97 插件扩展
 * jquery.my97.js
 * 二次开发 流云
-* 最近更新：2014-03-19
+* 最近更新：2014-04-02
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 *   3、jeasyui.extensions.combo.js v1.0 beta late
-*   4、WdatePicker.js
+*   4、My97DatePicker/WdatePicker.js
 *
 * Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -70,9 +70,11 @@
         textbox.closest("span.combo").addClass("datebox");
         panel.panel("body").addClass("combo-panel-noborder");
 
+        opts.originalValue = opts.value;
         if (opts.value) {
             setValues(target, opts.value);
         }
+        t.combo("validate");
     };
 
     function setValues(target, values) {
@@ -171,7 +173,7 @@
     $.parser.plugins.push("my97");
 
     if ($.fn.form && $.isArray($.fn.form.comboList)) {
-        $.fn.form.comboList.push("my97");
+        $.array.insert($.fn.form.comboList, 0, "my97");
     }
 
 })(jQuery);

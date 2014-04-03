@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2014-03-22
+* 最近更新：2014-04-02
 *
 * 依赖项：jquery-1.9.1.js late
 *
@@ -19,7 +19,7 @@
 (function (window, $, undefined) {
 
 
-    var version = "2014-03-22",
+    var version = "2014-04-02",
 
         //  定义 字符串对象(String) 扩展对象基元
         coreString = function () { return String.apply(this, arguments); },
@@ -194,11 +194,14 @@
     //  检测一个对象是否为一个数组对象或者类似于数组对（具有数组的访问方式：具有 length 属性、且具有属性名为数字的索引访问器）
     //  注意：此方法传入 字符串 时执行，也会返回 true，因为 字符串 是一个字符数组。
     coreUtil.likeArray = function (obj) {
-        if (obj == null || obj == undefined) { return false; }
-        var length = obj.length, type = coreUtil.type(obj);
-        if (coreUtil.isWindow(obj)) { return false; }
-        if (obj.nodeType === 1 && length) { return true; }
-        return type === "array" || type !== "function" && coreUtil.isNumeric(length) && length >= 0;
+        if (obj == null || obj == undefined || coreUtil.isWindow(obj)) {
+            return false;
+        }
+        if (obj.nodeType === 1 && obj.length) {
+            return true;
+        }
+        var type = coreUtil.type(obj);
+        return type === "array" || type !== "function" && coreUtil.isNumeric(obj.length) && obj.length >= 0;
     };
 
     //  检测一个对象是否为一个数组对象或者类似于数组对（具有数组的访问方式：具有 length 属性、且具有属性名为数字的索引访问器）且不是字符串
@@ -212,7 +215,7 @@
     //      value:  表示 url 参数的值；
     //  也可以通过数组访问器快速访问某个特定名称的参数值，方法如：coreUtil.getRequest()["id"]。
     coreUtil.getRequest = function () {
-        var search = window.location.search;
+        var search = location.search;
         if (search.substr(0, 1) == "?") { search = search.substr(1, search.length - 1); }
         var result = [];
         if (search.length > 0) {
@@ -240,6 +243,9 @@
     //      length: Number 类型值，表示返回字符串的长度；如果不定义该参数，则全部返回。
     coreUtil.guid = function (format, length) {
         format = coreUtil.isString(format) ? format.toLowerCase() : "d";
+        length = (length == null || length == undefined || !coreUtil.isNumeric(length)) ? 32 : length;
+        if (length > 32 || length == 0) { length = 32; }
+        if (length < -32) { length = -32; }
         var ret = "";
         for (var i = 1; i <= 32; i++) {
             ret += Math.floor(Math.random() * 16.0).toString(16);
@@ -251,19 +257,19 @@
             case "p": ret = "(" + ret + ")"; break;
             case "d": default: break;
         }
-        return coreUtil.isNumeric(length) && length > 0 && length <= ret.length ? coreString.left(ret, length) : ret;
+        return length >= 0 ? coreString.left(ret, length) : coreString.right(ret, Math.abs(length));
     };
 
     //  获取当前应用程序的完整主机地址部分，返回的结果格式如( http://127.0.0.1 )
     coreUtil.getHostPath = function () {
-        var href = window.location.href;
-        var pathname = window.location.pathname;
+        var href = location.href;
+        var pathname = location.pathname;
         return href.substr(0, href.lastIndexOf(pathname));
     };
     coreUtil.hostPath = coreUtil.getHostPath();
 
     //  返回当前页面不带参数的完整路径。
-    coreUtil.currentUri = coreUtil.hostPath + window.location.pathname;
+    coreUtil.currentUri = coreUtil.hostPath + location.pathname;
 
     //  返回当前页面所在目录的完整路径。
     coreUtil.currentPath = coreUtil.currentUri.substr(0, coreUtil.currentUri.lastIndexOf("/"));
@@ -278,7 +284,7 @@
     //  coreUtil.rootDegree 默认值为 0，即应用程序没有设置虚拟目录。
     coreUtil.getRootPath = function () {
         var result = coreUtil.hostPath;
-        var pathname = window.location.pathname;
+        var pathname = location.pathname;
         if (pathname.indexOf("/") > -1) {
             var paths = pathname.split("/");
             var temps = new Array();
@@ -286,7 +292,7 @@
             for (var i = 0; i < coreUtil.rootDegree && i < temps.length; i++) { result += "/" + temps[i]; }
         }
         return result;
-    }
+    };
     coreUtil.rootPath = coreUtil.getRootPath();
 
     //  根据传入的 uri 地址返回该 uri 相对于应用程序的完整客户端访问url地址。
@@ -572,13 +578,10 @@
         { unit: Boolean.prototype, prototype: coreBoolean, methods: ["toString"] }
     ], function (i, n) {
         $.each(n.methods, function (l, name) {
-            var method = n.unit[name], hasMethod = method && coreUtil.isFunction(method) ? true : false
+            var method = n.unit[name], hasMethod = method && coreUtil.isFunction(method) ? true : false;
             if (hasMethod && (n.prototype[name] == null || n.prototype[name] == undefined)) {
                 n.prototype[name] = function () {
-                    var thisArg = arguments[0], args = { length: 0, callee: arguments.callee };
-                    for (var x = 1; x < arguments.length; x++) {
-                        core_push.call(args, arguments[x]);
-                    }
+                    var thisArg = arguments[0], args = $.array.removeAt(arguments, 0);
                     return method.apply(thisArg, args);
                 };
             }
@@ -709,7 +712,7 @@
         if (!start) { start = 0; }
         if (!len) { len = 0; }
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
-        return str.substr(start, len)
+        return str.substr(start, len);
     };
     coreString.prototype.mid = function (start, len) { return coreString.mid(this, start, len); };
 
@@ -723,7 +726,7 @@
     //  判断当前 String 对象是否以指定的字符串开头。
     coreString.startsWith = function (str, val) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
-        return str.substr(0, val.length) == val
+        return str.substr(0, val.length) == val;
     };
     coreString.prototype.startsWith = function (val) { return coreString.startsWith(this, val); };
 
@@ -943,20 +946,37 @@
     //  判断当前 String 对象是否是正确的 身份证号码(中国) 格式。
     coreString.isIDCard = function (str) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
-        var iSum = 0;
-        var info = "";
-        var sId = str;
-        var aCity = { 11: "北京", 12: "天津", 13: "河北", 14: "山西", 15: "内蒙古", 21: "辽宁", 22: "吉林", 23: "黑龙江", 31: "上海", 32: "江苏", 33: "浙江", 34: "安徽", 35: "福建", 36: "江西", 37: "山东", 41: "河南", 42: "湖北", 43: "湖南", 44: "广东", 45: "广西", 46: "海南", 50: "重庆", 51: "四川", 52: "贵州", 53: "云南", 54: "西藏", 61: "陕西", 62: "甘肃", 63: "青海", 64: "宁夏", 65: "新疆", 71: "台湾", 81: "香港", 82: "澳门", 91: "国外" };
-        if (!/^\d{17}(\d|x)$/i.test(sId)) { return false; }
+        var iSum = 0,
+            sId = str,
+            aCity = {
+                11: "北京", 12: "天津", 13: "河北", 14: "山西", 15: "内蒙古",
+                21: "辽宁", 22: "吉林", 23: "黑龙江", 31: "上海", 32: "江苏",
+                33: "浙江", 34: "安徽", 35: "福建", 36: "江西", 37: "山东",
+                41: "河南", 42: "湖北", 43: "湖南", 44: "广东", 45: "广西",
+                46: "海南", 50: "重庆", 51: "四川", 52: "贵州", 53: "云南",
+                54: "西藏", 61: "陕西", 62: "甘肃", 63: "青海", 64: "宁夏",
+                65: "新疆", 71: "台湾", 81: "香港", 82: "澳门", 91: "国外"
+            };
+        if (!/^\d{17}(\d|x)$/i.test(sId)) {
+            return false;
+        }
         sId = sId.replace(/x$/i, "a");
         //非法地区
-        if (aCity[parseInt(sId.substr(0, 2), 10)] == null) { return false; }
-        var sBirthday = sId.substr(6, 4) + "-" + Number(sId.substr(10, 2)) + "-" + Number(sId.substr(12, 2));
-        var d = new Date(sBirthday.replace(/-/g, "/"))
+        if (aCity[parseInt(sId.substr(0, 2), 10)] == null) {
+            return false;
+        }
+        var sBirthday = sId.substr(6, 4) + "-" + Number(sId.substr(10, 2)) + "-" + Number(sId.substr(12, 2)),
+            d = new Date(sBirthday.replace(/-/g, "/"));
         //非法生日
-        if (sBirthday != (d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())) { return false; }
-        for (var i = 17; i >= 0; i--) { iSum += (Math.pow(2, i) % 11) * parseInt(sId.charAt(17 - i), 11); }
-        if (iSum % 11 != 1) { return false; }
+        if (sBirthday != (d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())) {
+            return false;
+        }
+        for (var i = 17; i >= 0; i--) {
+            iSum += (Math.pow(2, i) % 11) * parseInt(sId.charAt(17 - i), 11);
+        }
+        if (iSum % 11 != 1) {
+            return false;
+        }
         return true;
     };
     coreString.prototype.isIDCard = function () { return coreString.isIDCard(this); };
@@ -1002,8 +1022,8 @@
     //  判断当前 String 对象是否是正确的 颜色(#FFFFFF形式) 格式。
     coreString.isColor = function (str) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
-        if (str == "") { return true };
-        if (str.length != 7) { return false };
+        if (str == "") { return true; };
+        if (str.length != 7) { return false; };
         return (str.search(/\#[a-fA-F0-9]{6}/) != -1);
     };
     coreString.prototype.isColor = function () { return coreString.isColor(this); };
@@ -1023,7 +1043,7 @@
             if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 255) { tmp += String.fromCharCode(str.charCodeAt(i) + 65248); }
             else { tmp += String.fromCharCode(str.charCodeAt(i)); }
         }
-        return tmp
+        return tmp;
     };
     coreString.prototype.toCase = function () { return coreString.toCase(this); };
 
@@ -1287,24 +1307,29 @@
             compare = coreUtil.isFunction(c) ? c : null;
             var s = arguments[2];
             startIndex = coreUtil.isNumeric(s) ? s : 0;
-            if (startIndex < 0 || array.length < startIndex) { return result; }
+            if (startIndex < 0 || array.length < startIndex) {
+                return result;
+            }
             if (arguments.length > 3) {
                 c = arguments[3];
                 count = coreUtil.isNumeric(c) ? c : array.length - startIndex;
             } else {
                 count = array.length - startIndex;
             }
-            if (count < 0 || startIndex + count > array.length) { return result; }
+            if (count < 0 || startIndex + count > array.length) {
+                return result;
+            }
         } else {
             startIndex = 0;
             count = array.length - startIndex;
             compare = null;
         }
-        var stopIndex = startIndex + count;
-        var begin = array.length - startIndex - 1;
-        var end = begin - count;
+        var begin = array.length - startIndex - 1,
+            end = begin - count;
         for (var i = begin; i > end; i--) {
-            if (coreUtil.equals(array[i], item, compare)) { result = i; break; }
+            if (coreUtil.equals(array[i], item, compare)) {
+                result = i; break;
+            }
         }
         return result;
     };
@@ -1414,7 +1439,7 @@
     //  注意：该方法会改变现有的数组。
     coreArray.insertRange = function (array, index, collect) {
         if (!coreArray.likeArray(array)) { throw "传入的参数 array 必须是一个数组"; }
-        collect = coreArray.likeArray(collect) ? collect : [];
+        collect = coreArray.likeArray(collect) ? collect : [collect];
         if (!coreUtil.isNumeric(index) || index < 0 || index > array.length) { throw "ArgumentOutOfRangeException: 传入的索引号 index 超出数组 array 的范围。"; }
         var part = coreArray.range(array, index);
         coreArray.removeRange(array, index);
@@ -1450,7 +1475,7 @@
         coreArray.removeRange(array, collect.length);
         return coreArray.insertRange(array, index, collect);
     };
-    coreArray.prototype.setRange = function (index, collect) { return coreArray.setRange(this, index, collect); }
+    coreArray.prototype.setRange = function (index, collect) { return coreArray.setRange(this, index, collect); };
 
     //  如果源数组中不存在指定的项，则将该项添加到源数组中；该方法提供如下参数：
     //      array: 源数据数组；
@@ -1960,7 +1985,7 @@
         date = coreDate.toDate(date);
         return date.getDay();
     };
-    coreDate.prototype.getDayOfWeek = function () { return coreDate.getDayOfWeek(this); }
+    coreDate.prototype.getDayOfWeek = function () { return coreDate.getDayOfWeek(this); };
 
     //  获取当前日期对象所在年的第几周计数。
     coreDate.getWeek = function (date, weekStart) {
@@ -2354,11 +2379,11 @@
             quarter = coreDate.getQuarter(date),
             hoursArray = ["午夜", "凌晨", "早上", "上午", "中午", "下午", "傍晚", "晚上"],
             weekArray = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
-            monthArray = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+            //monthArray = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
             quarterArray = ["春", "夏", "秋", "冬"],
             hourSpan = hoursArray[Math.floor(parseFloat(hours) / 3)],
             weekSpan = weekArray[week],
-            monthSpan = monthArray[month],
+            //monthSpan = monthArray[month],
             quarterSpan = quarterArray[quarter];
         return coreString.format(
             "{0}年{1}月{2}日 {3} {4}季, {5} {6}:{7}:{8}",
@@ -2440,7 +2465,9 @@
     //      element:    必须，表示需要初始化 uniqueID 属性的 DOM 对象；
     //  备注：该方法判断 element 元素是否具有 uniqueID 属性值，如果有则不进行任何更改；如果没有则为期设置一个新的 uniqueID 值。
     coreUtil.initElementUniqueID = function (element) {
-        if (!coreUtil.hasUniqueID(element)) { coreUtil.setElementUniqueID(element) }
+        if (!coreUtil.hasUniqueID(element)) {
+            coreUtil.setElementUniqueID(element);
+        }
     };
 
     coreUtil._createElement = document.createElement;
@@ -2527,8 +2554,19 @@
     //  如果当前页面为顶级页面或当前页面的父级页面和当前页面不在同一个域下，则返回当前页面的 window 对象。
     top = coreUtil.top = coreUtil.getTop();
 
-    //  判断当前浏览器窗口是否为顶级窗口。
-    coreUtil.isTopMost = coreUtil.isTop = (window == window.top);
+    //  判断当前页面是否为顶级窗口页面(含跨域 IFRAME 判定)。
+    coreUtil.checkTopMost = function () {
+        var ret = false;
+        try {
+            ret = window == window.top ? true : false;
+        } catch (ex) { }
+        return ret;
+    };
+    coreUtil.isTopMost = coreUtil.isTop = coreUtil.checkTopMost();
+
+    //  判断当前页面是否为同域下的顶级窗口页面
+    coreUtil.isUtilTop = coreUtil.isUtilTopMost = window == coreUtil.top;
+
 
     coreUtil.hasParentJquery = function (win) {
         var ret = false;

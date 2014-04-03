@@ -11,7 +11,7 @@
 * jQuery EasyUI form 组件扩展
 * jeasyui.extensions.form.js
 * 二次开发 流云
-* 最近更新：2013-08-05
+* 最近更新：2014-04-02
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -26,81 +26,101 @@
     $.fn.form.extensions = {};
 
 
-
-    var getData = function (target, param) {
-        var form = $(target);
-        return form.serializeObject(param);
+    function getData(target, param) {
+        return $(target).serializeObject(param);
     };
+
 
     var _submit = $.fn.form.methods.submit;
-    var submit = function (target, options) {
-        var form = $(target);
-        if (/^(?:form)$/i.test(this.nodeName)) { return _submit.call(form, form, options); }
-        var opts = $.extend({}, $.fn.form.defaults, options || {});
-        if (opts.onSubmit && opts.onSubmit.call(target, param) == false) { return; }
-        if (!opts.url) { return; }
-        var param = form.form("getData");
-        $.post(opts.url, param, function (data) { if (opts.success) { opts.success(data); } });
+    function submit(target, options) {
+        var t = $(target), state = $.data(target, "form"), isForm = /^(?:form)$/i.test(target.nodeName) && state ? true : false;
+        if (isForm) {
+            return _submit.call(t, t, options);
+        }
+        var opts = $.extend({}, state.options, options || {}), param = t.form("getData"), method = $[state.options.method];
+        if (($.isFunction(opts.onSubmit) && opts.onSubmit.call(target, param) == false) || !opts.url) {
+            return;
+        }
+        method(opts.url, param, function (data) {
+            if ($.isFunction(opts.success)) {
+                opts.success(data);
+            }
+        });
     };
 
-
-
-    var load = function (target, data) {
-        var form = $(target);
+    function load(target, data) {
         if (!$.data(target, 'form')) {
-            $.data(target, 'form', { options: $.extend({}, $.fn.form.defaults) });
+            $.data(target, 'form', {
+                options: $.extend({}, $.fn.form.defaults)
+            });
         }
-        var opts = $.data(target, 'form').options;
+        var t = $(target), opts = $.data(target, 'form').options;
+
         if (typeof data == 'string') {
             var param = {};
-            if (opts.onBeforeLoad.call(target, param) == false) return;
+            if (opts.onBeforeLoad.call(target, param) == false) { return; }
             $.ajax({
-                url: data,
-                data: param,
-                dataType: 'json',
+                url: data, data: param, dataType: 'json', type: opts.method,
                 success: function (data) { _load(data); },
                 error: function () { opts.onLoadError.apply(target, arguments); }
             });
         } else {
             _load(data);
         }
+
         function _load(data) {
             for (var name in data) {
                 var val = data[name];
                 var rr = _checkField(name, val);
                 if (!rr.length) {
-                    var f = form.find('input[numberboxName="' + name + '"]');
-                    if (f.length) {
-                        f.numberbox('setValue', val); // set numberbox value
-                    } else {
-                        $('input[name="' + name + '"]', form).val(val);
-                        $('textarea[name="' + name + '"]', form).val(val);
-                        $('select[name="' + name + '"]', form).val(val);
-                        $('span[name="' + name + '"]', form).text(val);
-                        $('label[name="' + name + '"]', form).text(val);
-                        $('div[name="' + name + '"]', form).text(val);
+                    var count = _loadOther(name, val);
+                    if (!count) {
+                        $.each($.fn.form.valueMarkList, function (i, mark) {
+                            $(mark + '[name="' + name + '"]', t).val(val);
+                        });
+                        $.each($.fn.form.textMarkList, function (i, mark) {
+                            $(mark + '[name="' + name + '"]', t).text(val);
+                        });
                     }
                 }
                 _loadCombo(name, val);
             }
             opts.onLoadSuccess.call(target, data);
-            form.form("validate");
+            t.form("validate");
         }
-        //  check the checkbox and radio fields
+
+        /**
+		 * check the checkbox and radio fields
+		 */
         function _checkField(name, val) {
-            var rr = form.find('input[name="' + name + '"][type=radio], input[name="' + name + '"][type=checkbox]');
+            var rr = t.find('input[name="' + name + '"][type=radio], input[name="' + name + '"][type=checkbox]');
             rr._propAttr('checked', false);
             rr.each(function () {
                 var f = $(this);
-                if (f.val() == String(val) || $.inArray(f.val(), val) >= 0) {
+                if (f.val() == String(val) || $.inArray(f.val(), $.isArray(val) ? val : [val]) >= 0) {
                     f._propAttr('checked', true);
                 }
             });
             return rr;
         }
+
+        function _loadOther(name, val) {
+            var count = 0;
+            var pp = $.fn.form.otherList;
+            for (var i = 0; i < pp.length; i++) {
+                var p = pp[i];
+                var f = t.find('[' + p + 'Name="' + name + '"]');
+                if (f.length) {
+                    f[p]('setValue', val);
+                    count += f.length;
+                }
+            }
+            return count;
+        }
+
         function _loadCombo(name, val) {
             var cc = $.fn.form.comboList;
-            var c = form.find('[comboName="' + name + '"]');
+            var c = t.find('[comboName="' + name + '"]');
             if (c.length) {
                 for (var i = 0; i < cc.length; i++) {
                     var type = cc[i];
@@ -115,7 +135,53 @@
                 }
             }
         }
+    };
+
+
+    function clear(target) {
+        $($.fn.form.valueMarkList.join(","), target).each(function () {
+            var t = this.type, tag = this.tagName.toLowerCase();
+            if (t == 'text' || t == 'hidden' || t == 'password' || tag == 'textarea') {
+                this.value = '';
+            } else if (t == 'file') {
+                var file = $(this);
+                file.after(file.clone().val(''));
+                file.remove();
+            } else if (t == 'checkbox' || t == 'radio') {
+                this.checked = false;
+            } else if (tag == 'select') {
+                this.selectedIndex = -1;
+            }
+        });
+
+        var t = $(target),
+            plugins = $.array.distinct($.array.merge([], $.fn.form.spinnerList, $.fn.form.comboList, $.fn.form.otherList));
+        for (var i = 0; i < plugins.length; i++) {
+            var plugin = plugins[i],
+                r = t.find('.' + plugin + '-f');
+            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"] && $.fn[plugin]["methods"]["clear"]) {
+                r[plugin]("clear");
+            }
+        }
+        t.form("validate");
     }
+
+    function reset(target) {
+        var t = $(target), isForm = /^(?:form)$/i.test(target.nodeName) && state ? true : false;
+        if (isForm) {
+            target.reset();
+        }
+        var plugins = $.array.distinct($.array.merge([], $.fn.form.spinnerList, $.fn.form.comboList, $.fn.form.otherList));
+        for (var i = 0; i < plugins.length; i++) {
+            var plugin = plugins[i];
+            var r = t.find('.' + plugin + '-f');
+            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"] && $.fn[plugin]["methods"]["reset"]) {
+                r[plugin]("reset");
+            }
+        }
+        t.form("validate");
+    }
+
 
 
     var methods = $.fn.form.extensions.methods = {
@@ -141,14 +207,27 @@
         //  重写 easyui-form 控件的 submit 方法，使之除了支持 form 标签提交外，还支持 div 等其他容器标签的提交。
         submit: function (jq, options) { return jq.each(function () { submit(this, options); }); },
 
+        //  重写 easyui-form 控件的 clear 方法，使其支持扩展的 easyui 插件操作；
+        clear: function (jq) { return jq.each(function () { clear(this); }); },
+
+        //  重写 easyui-form 控件的 reset 方法，使其支持扩展的 easyui 插件操作；
+        reset: function (jq) { return jq.each(function () { reset(this); }); },
+
         //  重写 easyui-form 控件的 load 方法。
         load: function (jq, data) { return jq.each(function () { load(this, data); }); }
     };
-    var defaults = $.fn.form.extensions.defaults = {};
+    var defaults = $.fn.form.extensions.defaults = {
+
+        method: "post"
+    };
 
     $.extend($.fn.form.defaults, defaults);
     $.extend($.fn.form.methods, methods);
 
     $.fn.form.comboList = ['combobox', 'combotree', 'combogrid', 'datetimebox', 'datebox', 'combo'];
+    $.fn.form.spinnerList = ['timespinner', 'numberspinner', 'spinner'];
+    $.fn.form.valueMarkList = ["input", "textarea", "select"];
+    $.fn.form.textMarkList = ["span", "label", "div", "p"];
+    $.fn.form.otherList = ["numberbox", "slider"];
 
 })(jQuery);
