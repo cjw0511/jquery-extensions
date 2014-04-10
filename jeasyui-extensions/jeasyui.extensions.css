@@ -55,7 +55,7 @@ div.dialog-button.calendar-header a.l-btn-plain { padding: 0 5px 0 0; }*/
 .datagrid-body td.datagrid-header-cell-top { border-top-color: red; border-top-width: 2px; border-top-style: dotted; }
 .datagrid-body td.datagrid-header-cell-bottom { border-bottom-color: red; border-bottom-width: 2px; border-bottom-style: dotted; }
 .datagrid-cell-hightlight { font-weight: bold; background-color: Yellow; }
-.datagrid-header-cell-arrow { float: right; cursor: pointer; border-left-style: dotted; display: none; border-left-width: 0; }
+.datagrid-header-cell-arrow { float: right; cursor: pointer; position: static; margin: 0px; border-left-style: dotted; display: none; border-left-width: 0; }
 .datagrid-header-cell-arrow-show { display: inline; border-left-width: 1px; }
 .datagrid-header-filter { text-align: center; overflow: auto; }
 .datagrid-header-filter-top { vertical-align: top; }

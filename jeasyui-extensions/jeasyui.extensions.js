@@ -308,6 +308,7 @@
     $.easyui.ajaxError = function (callback) {
         if (!arguments.length) { return $.fn.form.defaults.onLoadError; }
         $.fn.form.defaults.onLoadError = callback;
+        $.fn.panel.defaults.onLoadError = callback;
         $.fn.combobox.defaults.onLoadError = callback;
         $.fn.combotree.defaults.onLoadError = callback;
         $.fn.combogrid.defaults.onLoadError = callback;
