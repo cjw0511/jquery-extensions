@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,7 +11,7 @@
 * jQuery EasyUI my97 插件扩展
 * jquery.my97.js
 * 二次开发 流云
-* 最近更新：2014-04-02
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -156,7 +156,22 @@
                     return t.my97(opts.multiple ? "getValues" : "getValue");
                 },
                 setValue: function (target, value) {
-                    $(target).my97($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
+                    var t = $(target), opts = t.my97("options");
+                    if (value) {
+                        if (opts.multiple) {
+                            if ($.util.likeArrayNotString(value)) {
+                                t.my97("setValues", value);
+                            } else if (typeof value == "string") {
+                                t.my97("setValues", value.split(opts.separator));
+                            } else {
+                                t.my97("setValue", value);
+                            }
+                        } else {
+                            t.my97("setValue", value);
+                        }
+                    } else {
+                        t.my97("clear");
+                    }
                 },
                 resize: function (target, width) {
                     $(target).my97("resize", width);

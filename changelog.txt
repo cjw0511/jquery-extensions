@@ -1,20 +1,28 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
-/******** 2014-04-03(1.0.46 preview) ********/
+/******** 2014-04-10(1.0.44 preview) ********/
+1、【^】 将 jquery-easyui 核心插件升级至 jquery-easyui-1.3.6 版；
+2、【^】 基于 jquery-easyui 核心基础库升级，所有的界面主题皮肤文件均已升级至最新版，所有主题皮肤均完美兼容；
+3、【-】 因 jquery-easyui 核心基础库升级，从即日起如下扩展插件(以及依赖这些插件的其他插件)的最新版本均不再支持 1.3.5 及之前版本的 jquery-easyui：
+    a、jeasyui.extensions.linkbutton.js
+    b、jeasyui.extensions.panel.js
+    c、jeasyui.extensions.form.js
+
+
+/******** 2014-04-03(1.0.43 preview) ********/
 1、[+] 扩展插件 jquery.ueditor.js 中增加方法 clear、reset，使之兼容 jquery.form.js 插件；
 2、[+] 扩展 jeasyui.extensions.searchbox.js 中增加方法 clear、reset，使之兼容 jquery.form.js 插件；
+3、【+】 重写 jeasyui.extensions.form.js 扩展中的 load、clear、reset、submit 方法，使之兼容扩展的插件；
 
 
-/******** 2014-03-28(1.0.45 preview) ********/
+/******** 2014-03-28(1.0.42 preview) ********/
 1、[#] 修复 jquery.ueditor.js 插件部分用户体验效果 BUG，并使之兼容 jquery.form.js 插件；
-3、【+】 (未实现) 插件 jquery.ueditor.js 中，增加属性 required、missingMessage、invalidMessage、delay、tipPosition、novalidate、deltaX
-        和方法 validate、isValid、enableValidation、disableValidation 的支持，以实现继承 jquery.validatebox.js 插件和兼容 jquery.form.js 插件的效果；
-3、[#] 修复 jeasyui.extensions.searchbox.js 中存在的部分 BUG，使之兼容 jquery.form.js 插件；
-4、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 插件中 columnFilter 组件的 slider 控件直接点击改变值后不触发过滤效果刷新的 BUG；
+2、[#] 修复 jeasyui.extensions.searchbox.js 中存在的部分 BUG，使之兼容 jquery.form.js 插件；
+3、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 插件中 columnFilter 组件的 slider 控件直接点击改变值后不触发过滤效果刷新的 BUG；
 
 
-/******** 2014-03-27(1.0.44 preview) ********/
+/******** 2014-03-27(1.0.41 preview) ********/
 1、【+】 增加 jquery.ueditor.js 插件(整合百度 UEditor 富文本编辑器)
 
 
@@ -24,7 +32,7 @@
 
 
 /******** 2014-03-21(1.0.39 preview) ********/
-1、【^】 调整所有 Javascript EasyUI 插件中关于 CSS 代码的插入形式，由之前的 Javascript 代码动态插入调整为统一放置在 jeasyui.extensions.css 文件中一次性加载；
+1、【^】 调整所有 javascript EasyUI 插件中关于 CSS 代码的插入形式，由之前的 javascript 代码动态插入调整为统一放置在 jeasyui.extensions.css 文件中一次性加载；
 2、[#] 修复 jquery.toolbar.js 和 jeasyui.extensions.icons.js 中存在的部分用户体验 BUG；
 3、[^] 调整 jeasyui.extensions.window.js 扩展插件中关于 easyui-window、easyui-dialog 的拖动特效，增强其用户体验效果；
 
@@ -247,7 +255,7 @@
 
 
 /******** 2013-08-19(1.0.6 preview) ********/
-1、[^] 将 jquery-easyui 基础库版本升级至 1.3.4；
+1、【^】 将 jquery-easyui 基础库版本升级至 1.3.4；
 2、[+] 增加了部分扩展功能的 API 文档；
 3、[^] 调整了该扩展集合中皮肤文件的存放目录，并对 jeasyui.extensions.theme.js 中的皮肤数据源进行了细小调整。
 

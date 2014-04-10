@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,14 +11,16 @@
 * jQuery EasyUI ueditor 插件扩展
 * jquery.ueditor.js
 * 二次开发 流云
-* 最近更新：2014-04-02
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
-*   3、
-*   4、
-*   5、
+
+*   3、ueditor/themes/default/css/ueditor.css
+*   4、ueditor/ueditor.config.js
+*   5、ueditor/ueditor.all.js
+*   6、ueditor/lang/zh-cn/zh-cn.js
 *
 * Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -39,6 +41,7 @@
         }
         if (text) { wrapper.text(text); }
         cc.each(function () { wrapper.append(this); });
+        t.empty();
 
         if (opts.value) {
             wrapper.empty();
@@ -322,7 +325,6 @@
             "beforeGetContent", "afterGetContent", "getAllHtml", "beforeSetContent", "afterSetContent",
             "selectionchange", "beforeSelectionChange", "afterSelectionChange", "contentChange"
     ];
-    $.fn.ueditor.config = window.UEDITOR_CONFIG;
     $.fn.ueditor.toolbars = [[
         'fullscreen', 'source', '|', 'undo', 'redo', '|',
         'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
@@ -336,9 +338,6 @@
         'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
         'print', 'preview', 'searchreplace', 'help', 'drafts'
     ]];
-    $.fn.ueditor.properties = [
-        "toolbars", "enableAutoSave", "saveInterval"
-    ];
     $.fn.ueditor.parseOptions = function (target) {
         var t = $(target);
         return $.extend({}, $.parser.parseOptions(target, [
@@ -549,7 +548,7 @@
             full: $.fn.ueditor.toolbars
         },
 
-        templet: null,
+        templet: "full",
         //  getValue 方法所使用的内部取值方法
         valueMethod: "getContent",
         //  编辑器初始化完成后是否立即将其执行 setDisabled 操作使其禁用；

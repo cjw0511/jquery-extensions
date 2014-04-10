@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,7 +11,7 @@
 * jQuery EasyUI tabs 组件扩展
 * jeasyui.extensions.tabs.js
 * 二次开发 流云
-* 最近更新：2014-03-18
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -21,7 +21,7 @@
 *   5、jeasyui.extensions.window.js v1.0 beta late
 *   6、jeasyui.extensions.dialog.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
@@ -136,7 +136,7 @@
             index = tabs.tabs("getTabIndex", param.tab),
             panelOpts = $.union({}, param.options, $.fn.tabs.extensions.panelOptions),
             tools = panelOpts.tools,
-            onLoad = panelOpts.onLoad,
+            onLoad = panelOpts.onLoad, onError = panelOpts.onError,
             updateProgress = $.array.contains(["mask", "progress", "none"], opts.updateProgress) ? opts.updateProgress : "mask",
             loading = function () {
                 if (updateProgress == "mask") {
@@ -171,6 +171,11 @@
                 if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
                 $.util.exec(loaded);
                 $(this).panel("options").onLoad = onLoad;
+            };
+            panelOpts.onError = function () {
+                if ($.isFunction(onError)) { onError.apply(this, arguments); }
+                $.util.exec(loaded);
+                $(this).panel("options").onError = onError;
             };
         }
         var ret = _updateTab.call(tabs, tabs, { tab: param.tab, options: panelOpts });

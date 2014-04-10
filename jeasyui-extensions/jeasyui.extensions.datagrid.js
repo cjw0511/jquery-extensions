@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,7 +11,7 @@
 * jQuery EasyUI datagrid 组件扩展
 * jeasyui.extensions.datagrid.js
 * 二次开发 流云
-* 最近更新：2014-03-14
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -19,7 +19,7 @@
 *   3、jeasyui.extensions.menu.js v1.0 beta late
 *   4、jeasyui.extensions.panel.js v1.0 beta late 和 jeasyui.extensions.window.js v1.0 beta late(可选)
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
@@ -486,55 +486,6 @@
                 opts.onResizeColumn.call(target, field, width);
             }
         }
-    };
-
-    var sortGrid = function (target, options) {
-        options = $.extend({ sortName: null, sortOrder: "asc" }, options || {});
-        var t = $(target), state = $.data(target, "datagrid"), opts = t.datagrid("options"),
-            field = options.sortName, col = t.datagrid("getColumnOption", field);
-        if (!col || !col.sortable || state.resizing) { return; }
-        var sortNames = [], sortOrders = [], panel = t.datagrid("getPanel"),
-            hcells = panel.find(".datagrid-view .datagrid-header td div.datagrid-cell"),
-            cell = panel.find(".datagrid-view .datagrid-header td[field=" + field + "] div.datagrid-cell"),
-            pos = -1, cls = options.sortOrder;
-        if (opts.sortName) {
-            sortNames = opts.sortName.split(",");
-            sortOrders = opts.sortOrder.split(",");
-        }
-        for (var i = 0; i < sortNames.length; i++) {
-            if (sortNames[i] == field) {
-                pos = i;
-            }
-        }
-        if (pos >= 0) {
-            cell.removeClass("datagrid-sort-asc datagrid-sort-desc");
-            sortOrders[pos] = cls;
-            cell.addClass("datagrid-sort-" + cls);
-        } else {
-            if (opts.multiSort) {
-                sortNames.push(field);
-                sortOrders.push(cls);
-            } else {
-                sortNames = [field];
-                sortOrders = [cls];
-                hcells.removeClass("datagrid-sort-asc datagrid-sort-desc");
-            }
-            cell.addClass("datagrid-sort-" + cls);
-        }
-        opts.sortName = sortNames.join(",");
-        opts.sortOrder = sortOrders.join(",");
-        if (opts.remoteSort) {
-            t.datagrid("reload");
-        } else {
-            var data = state.data, originalRows = state.originalRows, updatedRows = state.updatedRows,
-                insertedRows = state.insertedRows, deletedRows = state.deletedRows;
-            t.datagrid("loadData", data);
-            state.originalRows = originalRows;
-            state.updatedRows = updatedRows;
-            state.insertedRows = insertedRows;
-            state.deletedRows = deletedRows;
-        }
-        opts.onSortColumn.call(target, opts.sortName, opts.sortOrder);
     };
 
 
@@ -1934,12 +1885,6 @@
         //  返回值：返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
         deleteRows: function (jq, param) { return jq.each(function () { deleteRows(this, param); }); },
 
-        //  对数据列进行排序，参数 options 是一个 JSON 格式对象，该对象定义了如下属性：
-        //      sortName: String 类型，执行排序的字段名，必须是存在于 columns 或者 frozenColumns 中某项的 field 值。
-        //      sortOrder: String 类型，排序方式，可设定的值限定为 "asc" 或 "desc"，默认为 "asc"
-        //  返回值：返回表示当前 easyui-datagrid 组件的 jQuery 链式对象。
-        sort: function (jq, options) { return jq.each(function () { sortGrid(this, options); }); },
-
         //  设置 easyui-datagrid 中列的标题；参数 param 是一个 json 对象，包含如下属性：
         //      field: 列字段名称
         //      title: 列的新标题
@@ -2354,7 +2299,8 @@
         checkbox_init = editors.checkbox.init,
         datebox_init = editors.datebox.init,
         combobox_init = editors.combobox.init,
-        combotree_init = editors.combotree.init;
+        combotree_init = editors.combotree.init,
+        combogrid_init = editors.combogrid.init;
     $.extend(editors.checkbox, {
         init: function (container, options) {
             return checkbox_init.apply(this, arguments).addClass("datagrid-editable-input datagrid-editable-checkbox");
@@ -2391,6 +2337,34 @@
         },
         setFocus: function (target) {
             $(target).combotree("textbox").focus();
+        }
+    });
+    $.extend(editors.combogrid, {
+        init: function (container, options) {
+            var box = combogrid_init.apply(this, arguments);
+            box.combogrid("textbox").addClass("datagrid-editable-input");
+            return box;
+        },
+        setValue: function (target, value) {
+            var t = $(target), opts = t.combogrid("options");
+            if (value) {
+                if (opts.multiple) {
+                    if ($.util.likeArrayNotString(value)) {
+                        t.combogrid("setValues", value);
+                    } else if (typeof value == "string") {
+                        t.combogrid("setValues", value.split(opts.separator));
+                    } else {
+                        t.combogrid("setValue", value);
+                    }
+                } else {
+                    t.combogrid("setValue", value);
+                }
+            } else {
+                t.combogrid("clear");
+            }
+        },
+        setFocus: function (target) {
+            $(target).combogrid("textbox").focus();
         }
     });
 

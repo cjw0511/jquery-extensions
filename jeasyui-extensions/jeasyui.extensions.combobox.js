@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,14 +11,14 @@
 * jQuery EasyUI combobox 组件扩展
 * jeasyui.extensions.combobox.js
 * 二次开发 流云
-* 最近更新：2013-08-13
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 *   3、jeasyui.extensions.combo.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
@@ -53,9 +53,16 @@
             param = $.extend({}, param, p);
         }
         $.ajax({
-            type: opts.method, url: opts.url, data: param, dataType: 'json',
-            success: function (data) { success(data); },
-            error: function () { error.apply(this, arguments); }
+            type: opts.method,
+            url: opts.url,
+            data: param,
+            dataType: 'json',
+            success: function (data) {
+                success(data);
+            },
+            error: function () {
+                error.apply(this, arguments);
+            }
         });
     };
 

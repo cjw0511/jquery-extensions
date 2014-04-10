@@ -12,16 +12,21 @@
             treeField: 'name',
             remoteSort: false,
             frozenColumns: [[
-                { field: 'ck', checkbox: true },
-                { field: 'id', title: 'ID(id)', width: 80, sortable: true }
+                { field: 'ck', checkbox: true, rowspan: 2 },
+                { field: 'id', title: 'ID(id)', width: 80, sortable: true, rowspan: 2 }
             ]],
             columns: [[
-                { field: 'name', title: '名称(name)', width: 180, sortable: true },
-                { field: 'age', title: '年龄(age)', width: 120, sortable: true },
-                { field: 'weight', title: '体重(weight)', width: 120, sortable: true },
-                { field: 'size', title: 'Size(size)', width: 140 },
-                { field: 'date', title: '日期(date)', width: 140, sortable: true },
-                { field: 'undefined', title: '测试(不存在的字段)', width: 140 }
+                { field: 'name', title: '名称(name)', width: 180, sortable: true, rowspan: 2 },
+                { field: 'age', title: '年龄(age)', width: 120, sortable: true, rowspan: 2 },
+                { title: '附加信息', colspan: 3 },
+                //{ field: 'weight', title: '体重(weight)', width: 120, sortable: true },
+                //{ field: 'size', title: 'Size(size)', width: 140 },
+                //{ field: 'date', title: '日期(date)', width: 140, sortable: true },
+                { field: 'undefined', title: '测试(不存在的字段)', width: 140, rowspan: 2 }
+            ], [
+                { field: 'weight', title: '体重(weight)', width: 100, sortable: true },
+                { field: 'size', title: 'Size(size)', width: 80 },
+                { field: 'date', title: '日期(date)', width: 100, sortable: true }
             ]],
             headerContextMenu: [
                 { text: "测试菜单1", iconCls: "icon-hamburg-address", disabled: false, handler: function () { alert(1); } },

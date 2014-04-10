@@ -1,0 +1,49 @@
+﻿<div>
+
+    <script type="text/javascript">
+        $(function () {
+            var editor = CodeMirror.fromTextArea($("#t1")[0], {
+                lineNumbers: true,
+                mode: "text/html",
+                indentUnit: 4
+            });
+
+
+            $("#btn1").click(function () {
+                editor.execCommand("selectAll");
+            });
+        });
+    </script>
+    <style>
+        .CodeMirror {
+            width: 1000px;
+            height: auto;
+            border: 1px solid #808080;
+        }
+        .CodeMirror pre {
+            font-size: 16px;
+        }
+    </style>
+
+    <h2>jEasyUI CodeMirror Extensions</h2>
+    <p>该部分扩展由文件 jquery.xxxx.js 实现。</p>
+    <hr />
+    <input id="btn1" type="button" value="selectAll" />
+    <hr />
+    <textarea id="t1">
+<script type="text/javascript">
+    $(function () {
+        var editor = CodeMirror.fromTextArea($("#t1")[0], {
+            lineNumbers: true,
+            mode: "text/html",
+            readOnly: "nocursor"
+        });
+
+
+        $("#btn1").click(function () {
+            editor.execCommand("selectAll");
+        });
+    });
+</script></textarea>
+
+</div>

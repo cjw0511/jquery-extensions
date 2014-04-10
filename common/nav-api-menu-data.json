@@ -1,117 +1,117 @@
 ﻿[
-    { "id": "1101", "text": "jQuery jDirk", "pid": "11", "attributes": { "href": "examples/example.html?jdirk/demo.html" } },
+    { "id": "1101", "text": "jQuery jDirk", "pid": "11", "attributes": { "href": "examples/example.html?path=jdirk/demo.html" } },
     { "id": "1102", "text": "Base", "pid": "11", "children": [
-        { "id": "110201", "text": "Messager", "pid": "1102", "attributes": { "href": "examples/example.html?messager/demo.html" } },
-        { "id": "110202", "text": "Tooltip", "pid": "1102", "attributes": { "href": "examples/example.html?tooltip/demo.html" } },
-        { "id": "110203", "text": "Mask-Loading", "pid": "1102", "attributes": { "href": "examples/example.html?mask/demo.html" } },
-        { "id": "110204", "text": "通用Ajax错误处理", "pid": "1102", "attributes": { "href": "examples/example.html?ajaxError/demo.html" } }
+        { "id": "110201", "text": "Messager", "pid": "1102", "attributes": { "href": "examples/example.html?path=messager/demo.html" } },
+        { "id": "110202", "text": "Tooltip", "pid": "1102", "attributes": { "href": "examples/example.html?path=tooltip/demo.html" } },
+        { "id": "110203", "text": "Mask-Loading", "pid": "1102", "attributes": { "href": "examples/example.html?path=mask/demo.html" } },
+        { "id": "110204", "text": "通用Ajax错误处理", "pid": "1102", "attributes": { "href": "examples/example.html?path=ajaxError/demo.html" } }
     ]
     },
 
     { "id": "1103", "text": "Layout", "pid": "11", "children": [
         { "id": "110301", "text": "Panel", "pid": "1103", "children": [
-            { "id": "11030101", "text": "Href加载在Iframe中", "pid": "110301", "attributes": { "href": "examples/example.html?panel/useiframe/demo.html" } },
-            { "id": "11030102", "text": "其他功能扩展", "pid": "110301", "attributes": { "href": "examples/example.html?panel/others/demo.html" } }
+            { "id": "11030101", "text": "Href加载在Iframe中", "pid": "110301", "attributes": { "href": "examples/example.html?path=panel/useiframe/demo.html" } },
+            { "id": "11030102", "text": "其他功能扩展", "pid": "110301", "attributes": { "href": "examples/example.html?path=panel/others/demo.html" } }
         ]
         },
 
         { "id": "110302", "text": "Tabs", "pid": "1103", "children": [
             { "id": "11030201", "text": "Tab选项卡头右键菜单", "pid": "110302", "children": [
-                { "id": "1103020101", "text": "默认菜单", "pid": "11030201", "attributes": { "href": "examples/example.html?tabs/menus/default/demo.html" } },
-                { "id": "1103020102", "text": "自定义菜单", "pid": "11030201", "attributes": { "href": "examples/example.html?tabs/menus/custome/demo.html" } },
-                { "id": "1103020103", "text": "自定义动态菜单", "pid": "11030201", "attributes": { "href": "examples/example.html?tabs/menus/customeDynamic/demo.html" } }
+                { "id": "1103020101", "text": "默认菜单", "pid": "11030201", "attributes": { "href": "examples/example.html?path=tabs/menus/default/demo.html" } },
+                { "id": "1103020102", "text": "自定义菜单", "pid": "11030201", "attributes": { "href": "examples/example.html?path=tabs/menus/custome/demo.html" } },
+                { "id": "1103020103", "text": "自定义动态菜单", "pid": "11030201", "attributes": { "href": "examples/example.html?path=tabs/menus/customeDynamic/demo.html" } }
             ]
             },
-            { "id": "11030202", "text": "可刷新的Tab", "pid": "110302", "attributes": { "href": "examples/example.html?tabs/refreshable/demo.html" } },
-            { "id": "11030203", "text": "Tab自动加载至iframe中", "pid": "110302", "attributes": { "href": "examples/example.html?tabs/useiframe/demo.html" } },
-            { "id": "11030204", "text": "移动和插入Tab", "pid": "110302", "attributes": { "href": "examples/example.html?tabs/move/demo.html" } },
-            { "id": "11030205", "text": "选项卡标题分割线", "pid": "110302", "attributes": { "href": "examples/example.html?tabs/lineHeight/demo.html" } },
-            { "id": "11030206", "text": "其他扩展功能", "pid": "110302", "attributes": { "href": "examples/example.html?tabs/others/demo.html" } }
+            { "id": "11030202", "text": "可刷新的Tab", "pid": "110302", "attributes": { "href": "examples/example.html?path=tabs/refreshable/demo.html" } },
+            { "id": "11030203", "text": "Tab自动加载至iframe中", "pid": "110302", "attributes": { "href": "examples/example.html?path=tabs/useiframe/demo.html" } },
+            { "id": "11030204", "text": "移动和插入Tab", "pid": "110302", "attributes": { "href": "examples/example.html?path=tabs/move/demo.html" } },
+            { "id": "11030205", "text": "选项卡标题分割线", "pid": "110302", "attributes": { "href": "examples/example.html?path=tabs/lineHeight/demo.html" } },
+            { "id": "11030206", "text": "其他扩展功能", "pid": "110302", "attributes": { "href": "examples/example.html?path=tabs/others/demo.html" } }
         ]
         },
 
         { "id": "110303", "text": "Layout", "pid": "1103", "children": [
-            { "id": "11030301", "text": "快速折叠和展开面板", "pid": "110303", "attributes": { "href": "examples/example.html?layout/toggle/demo.html" } },
-            { "id": "11030302", "text": "全屏显示切换", "pid": "110303", "attributes": { "href": "examples/example.html?layout/fullscreen/demo.html" } }
+            { "id": "11030301", "text": "快速折叠和展开面板", "pid": "110303", "attributes": { "href": "examples/example.html?path=layout/toggle/demo.html" } },
+            { "id": "11030302", "text": "全屏显示切换", "pid": "110303", "attributes": { "href": "examples/example.html?path=layout/fullscreen/demo.html" } }
         ] }
     ]
     },
 
     { "id": "1104", "text": "Menu and Button", "pid": "11", "children": [
         { "id": "110401", "text": "Menu", "pid": "1104", "children": [
-            { "id": "11040101", "text": "动态批量创建Menu", "pid": "110401", "attributes": { "href": "examples/example.html?menu/default/demo.html" } },
-            { "id": "11040102", "text": "自定义Menu-Item的样式", "pid": "110401", "attributes": { "href": "examples/example.html?menu/custom/demo.html" } },
-            { "id": "11040103", "text": "其他功能", "pid": "110401", "attributes": { "href": "examples/example.html?menu/others/demo.html" } }
+            { "id": "11040101", "text": "动态批量创建Menu", "pid": "110401", "attributes": { "href": "examples/example.html?path=menu/default/demo.html" } },
+            { "id": "11040102", "text": "自定义Menu-Item的样式", "pid": "110401", "attributes": { "href": "examples/example.html?path=menu/custom/demo.html" } },
+            { "id": "11040103", "text": "其他功能", "pid": "110401", "attributes": { "href": "examples/example.html?path=menu/others/demo.html" } }
         ]
         },
-        { "id": "110402", "text": "LinkButton", "pid": "1104", "attributes": { "href": "examples/example.html?linkbutton/demo.html" } }
+        { "id": "110402", "text": "LinkButton", "pid": "1104", "attributes": { "href": "examples/example.html?path=linkbutton/demo.html" } }
     ]
     },
 
     { "id": "1105", "text": "Form", "pid": "11", "children": [
         { "id": "110501", "text": "Form", "pid": "1105", "children": [
-            { "id": "11050101", "text": "支持div-form", "pid": "110501", "attributes": { "href": "examples/example.html?form/div/demo.html" } },
-            { "id": "11050102", "text": "获取表单数据", "pid": "110501", "attributes": { "href": "examples/example.html?form/getData/demo.html" } },
-            { "id": "11050103", "text": "其他扩展功能", "pid": "110501", "attributes": { "href": "examples/example.html?form/others/demo.html" } }
+            { "id": "11050101", "text": "支持div-form", "pid": "110501", "attributes": { "href": "examples/example.html?path=form/div/demo.html" } },
+            { "id": "11050102", "text": "获取表单数据", "pid": "110501", "attributes": { "href": "examples/example.html?path=form/getData/demo.html" } },
+            { "id": "11050103", "text": "其他扩展功能", "pid": "110501", "attributes": { "href": "examples/example.html?path=form/others/demo.html" } }
         ]
         },
 
         { "id": "110502", "text": "Validatebox", "pid": "1105", "children": [
-            { "id": "11050201", "text": "增强的Rules", "pid": "11050201", "attributes": { "href": "examples/example.html?validatebox/rules/demo.html" } },
-            { "id": "11050202", "text": "输入提示文字", "pid": "11050201", "attributes": { "href": "examples/example.html?validatebox/prompt/demo.html" } },
-            { "id": "11050203", "text": "自定义验证样式", "pid": "11050201", "attributes": { "href": "examples/example.html?validatebox/customeCss/demo.html" } },
-            { "id": "11050204", "text": "其他扩展功能", "pid": "11050201", "attributes": { "href": "examples/example.html?validatebox/others/demo.html" } }
+            { "id": "11050201", "text": "增强的Rules", "pid": "11050201", "attributes": { "href": "examples/example.html?path=validatebox/rules/demo.html" } },
+            { "id": "11050202", "text": "输入提示文字", "pid": "11050201", "attributes": { "href": "examples/example.html?path=validatebox/prompt/demo.html" } },
+            { "id": "11050203", "text": "自定义验证样式", "pid": "11050201", "attributes": { "href": "examples/example.html?path=validatebox/customeCss/demo.html" } },
+            { "id": "11050204", "text": "其他扩展功能", "pid": "11050201", "attributes": { "href": "examples/example.html?path=validatebox/others/demo.html" } }
         ]
         },
 
         { "id": "110503", "text": "Combo", "pid": "1105", "children": [
-            { "id": "11050301", "text": "输入框获取焦点时自动展开Panel", "pid": "110503", "attributes": { "href": "examples/example.html?combo/autoShowPanel/demo.html" } },
-            { "id": "11050302", "text": "其他扩展功能", "pid": "110503", "attributes": { "href": "examples/example.html?combo/others/demo.html" } }
+            { "id": "11050301", "text": "输入框获取焦点时自动展开Panel", "pid": "110503", "attributes": { "href": "examples/example.html?path=combo/autoShowPanel/demo.html" } },
+            { "id": "11050302", "text": "其他扩展功能", "pid": "110503", "attributes": { "href": "examples/example.html?path=combo/others/demo.html" } }
         ]
         },
 
-        { "id": "110504", "text": "ComboBox", "pid": "1105", "attributes": { "href": "examples/example.html?combobox/demo.html" } },
-        { "id": "110505", "text": "ComboGrid", "pid": "1105", "attributes": { "href": "examples/example.html?combogrid/demo.html" } },
-        { "id": "110506", "text": "ComboTree", "pid": "1105", "attributes": { "href": "examples/example.html?combotree/demo.html" } }
+        { "id": "110504", "text": "ComboBox", "pid": "1105", "attributes": { "href": "examples/example.html?path=combobox/demo.html" } },
+        { "id": "110505", "text": "ComboGrid", "pid": "1105", "attributes": { "href": "examples/example.html?path=combogrid/demo.html" } },
+        { "id": "110506", "text": "ComboTree", "pid": "1105", "attributes": { "href": "examples/example.html?path=combotree/demo.html" } }
     ]
     },
 
     { "id": "1106", "text": "Window", "pid": "11", "children": [
         { "id": "110601", "text": "Window", "pid": "1106", "children": [
-            { "id": "11060101", "text": "自动屏幕居中", "pid": "110601", "attributes": { "href": "examples/example.html?window/autoCenter/demo.html" } },
-            { "id": "11060102", "text": "ESC键关闭", "pid": "110601", "attributes": { "href": "examples/example.html?window/escClose/demo.html" } },
-            { "id": "11060103", "text": "双击窗体头部时自动最大化/还原", "pid": "110601", "attributes": { "href": "examples/example.html?window/autoRestore/demo.html" } },
-            { "id": "11060104", "text": "Href加载在Iframe中", "pid": "110601", "attributes": { "href": "examples/example.html?window/useiframe/demo.html" } },
+            { "id": "11060101", "text": "自动屏幕居中", "pid": "110601", "attributes": { "href": "examples/example.html?path=window/autoCenter/demo.html" } },
+            { "id": "11060102", "text": "ESC键关闭", "pid": "110601", "attributes": { "href": "examples/example.html?path=window/escClose/demo.html" } },
+            { "id": "11060103", "text": "双击窗体头部时自动最大化/还原", "pid": "110601", "attributes": { "href": "examples/example.html?path=window/autoRestore/demo.html" } },
+            { "id": "11060104", "text": "Href加载在Iframe中", "pid": "110601", "attributes": { "href": "examples/example.html?path=window/useiframe/demo.html" } },
             { "id": "11060105", "text": "窗体头部右键菜单", "pid": "110601", "children": [
-                { "id": "1106010501", "text": "默认菜单", "pid": "11060105", "attributes": { "href": "examples/example.html?window/menu/default/demo.html" } },
-                { "id": "1106010502", "text": "自定义菜单", "pid": "11060105", "attributes": { "href": "examples/example.html?window/menu/custome/demo.html" } },
-                { "id": "1106010503", "text": "自定义动态菜单", "pid": "11060105", "attributes": { "href": "examples/example.html?window/menu/customeDynamic/demo.html" } }
+                { "id": "1106010501", "text": "默认菜单", "pid": "11060105", "attributes": { "href": "examples/example.html?path=window/menu/default/demo.html" } },
+                { "id": "1106010502", "text": "自定义菜单", "pid": "11060105", "attributes": { "href": "examples/example.html?path=window/menu/custome/demo.html" } },
+                { "id": "1106010503", "text": "自定义动态菜单", "pid": "11060105", "attributes": { "href": "examples/example.html?path=window/menu/customeDynamic/demo.html" } }
             ]
             },
-            { "id": "11060106", "text": "不能移出容器边界", "pid": "110601", "attributes": { "href": "examples/example.html?window/inContainer/demo.html" } }
+            { "id": "11060106", "text": "不能移出容器边界", "pid": "110601", "attributes": { "href": "examples/example.html?path=window/inContainer/demo.html" } }
         ]
         },
 
         { "id": "110602", "text": "Dialog", "pid": "1106", "children": [
-            { "id": "11060201", "text": "自动屏幕居中", "pid": "110602", "attributes": { "href": "examples/example.html?dialog/autoCenter/demo.html" } },
-            { "id": "11060202", "text": "ESC键关闭", "pid": "110602", "attributes": { "href": "examples/example.html?dialog/escClose/demo.html" } },
-            { "id": "11060203", "text": "双击窗体头部时自动最大化/还原", "pid": "110602", "attributes": { "href": "examples/example.html?dialog/autoRestore/demo.html" } },
-            { "id": "11060204", "text": "Href加载在Iframe中", "pid": "110602", "attributes": { "href": "examples/example.html?dialog/useiframe/demo.html" } },
+            { "id": "11060201", "text": "自动屏幕居中", "pid": "110602", "attributes": { "href": "examples/example.html?path=dialog/autoCenter/demo.html" } },
+            { "id": "11060202", "text": "ESC键关闭", "pid": "110602", "attributes": { "href": "examples/example.html?path=dialog/escClose/demo.html" } },
+            { "id": "11060203", "text": "双击窗体头部时自动最大化/还原", "pid": "110602", "attributes": { "href": "examples/example.html?path=dialog/autoRestore/demo.html" } },
+            { "id": "11060204", "text": "Href加载在Iframe中", "pid": "110602", "attributes": { "href": "examples/example.html?path=dialog/useiframe/demo.html" } },
             { "id": "11060205", "text": "窗体头部右键菜单", "pid": "110602", "children": [
-                { "id": "1106020501", "text": "默认菜单", "pid": "11060205", "attributes": { "href": "examples/example.html?dialog/menu/default/demo.html" } },
-                { "id": "1106020502", "text": "自定义菜单", "pid": "11060205", "attributes": { "href": "examples/example.html?dialog/menu/custome/demo.html" } },
-                { "id": "1106020503", "text": "自定义动态菜单", "pid": "11060205", "attributes": { "href": "examples/example.html?dialog/menu/customeDynamic/demo.html" } }
+                { "id": "1106020501", "text": "默认菜单", "pid": "11060205", "attributes": { "href": "examples/example.html?path=dialog/menu/default/demo.html" } },
+                { "id": "1106020502", "text": "自定义菜单", "pid": "11060205", "attributes": { "href": "examples/example.html?path=dialog/menu/custome/demo.html" } },
+                { "id": "1106020503", "text": "自定义动态菜单", "pid": "11060205", "attributes": { "href": "examples/example.html?path=dialog/menu/customeDynamic/demo.html" } }
             ]
             },
-            { "id": "11060106", "text": "不能移出容器边界", "pid": "110601", "attributes": { "href": "examples/example.html?dialog/inContainer/demo.html" } },
+            { "id": "11060106", "text": "不能移出容器边界", "pid": "110601", "attributes": { "href": "examples/example.html?path=dialog/inContainer/demo.html" } },
             { "id": "11060207", "text": "快速创建Dialog", "pid": "110602", "children": [
-                { "id": "1106020701", "text": "创建Dialog", "pid": "11060207", "attributes": { "href": "examples/example.html?dialog/easy/createDialog/demo.html" } },
-                { "id": "1106020702", "text": "创建自定义工具栏和按纽栏的Dialog", "pid": "11060207", "attributes": { "href": "examples/example.html?dialog/easy/toolbuttons/demo.html" } },
-                { "id": "1106020703", "text": "创建Iframe-Dialog", "pid": "11060207", "attributes": { "href": "examples/example.html?dialog/easy/useiframe/demo.html" } },
-                { "id": "1106020704", "text": "Iframe-Dialog与父级页面互调用", "pid": "11060207", "attributes": { "href": "examples/example.html?dialog/easy/useParent/demo.html" } },
-                { "id": "1106020705", "text": "指定在当前页面还是顶级页面打开Dialog", "pid": "11060207", "attributes": { "href": "examples/example.html?dialog/easy/topMost/demo.html" } },
-                { "id": "1106020706", "text": "指定Dialog的父级容器", "pid": "11060207", "attributes": { "href": "examples/example.html?dialog/easy/loacle/demo.html" } },
-                { "id": "1106020707", "text": "表单数据弹窗", "pid": "11060207", "attributes": { "href": "examples/example.html?dialog/easy/dialogForm/demo.html" } }
+                { "id": "1106020701", "text": "创建Dialog", "pid": "11060207", "attributes": { "href": "examples/example.html?path=dialog/easy/createDialog/demo.html" } },
+                { "id": "1106020702", "text": "创建自定义工具栏和按纽栏的Dialog", "pid": "11060207", "attributes": { "href": "examples/example.html?path=dialog/easy/toolbuttons/demo.html" } },
+                { "id": "1106020703", "text": "创建Iframe-Dialog", "pid": "11060207", "attributes": { "href": "examples/example.html?path=dialog/easy/useiframe/demo.html" } },
+                { "id": "1106020704", "text": "Iframe-Dialog与父级页面互调用", "pid": "11060207", "attributes": { "href": "examples/example.html?path=dialog/easy/useParent/demo.html" } },
+                { "id": "1106020705", "text": "指定在当前页面还是顶级页面打开Dialog", "pid": "11060207", "attributes": { "href": "examples/example.html?path=dialog/easy/topMost/demo.html" } },
+                { "id": "1106020706", "text": "指定Dialog的父级容器", "pid": "11060207", "attributes": { "href": "examples/example.html?path=dialog/easy/loacle/demo.html" } },
+                { "id": "1106020707", "text": "表单数据弹窗", "pid": "11060207", "attributes": { "href": "examples/example.html?path=dialog/easy/dialogForm/demo.html" } }
             ]
             }
         ]
@@ -122,142 +122,143 @@
     { "id": "1107", "text": "DataGrid and Tree", "pid": "11", "children": [
         { "id": "110701", "text": "DataGrid", "pid": "1107", "children": [
             { "id": "11070101", "text": "表头过滤器", "pid": "110701", "children": [
-                { "id": "1107010101", "text": "简单过滤器效果", "pid": "11070101", "attributes": { "href": "examples/example.html?datagrid/columnFilter/simple/demo.html" } },
-                { "id": "1107010102", "text": "复杂过滤器效果", "pid": "11070101", "attributes": { "href": "examples/example.html?datagrid/columnFilter/complex/demo.html" } },
-                { "id": "1107010103", "text": "过滤器操作", "pid": "11070101", "attributes": { "href": "examples/example.html?datagrid/columnFilter/operate/demo.html" } }
+                { "id": "1107010101", "text": "简单过滤器效果", "pid": "11070101", "attributes": { "href": "examples/example.html?path=datagrid/columnFilter/simple/demo.html" } },
+                { "id": "1107010102", "text": "复杂过滤器效果", "pid": "11070101", "attributes": { "href": "examples/example.html?path=datagrid/columnFilter/complex/demo.html" } },
+                { "id": "1107010103", "text": "过滤器操作", "pid": "11070101", "attributes": { "href": "examples/example.html?path=datagrid/columnFilter/operate/demo.html" } }
             ]
             },
 
             { "id": "11070102", "text": "表头右键菜单", "pid": "110701", "children": [
-                { "id": "1107010201", "text": "默认菜单", "pid": "11070102", "attributes": { "href": "examples/example.html?datagrid/headerMenu/default/demo.html" } },
-                { "id": "1107010202", "text": "自定义菜单", "pid": "11070102", "attributes": { "href": "examples/example.html?datagrid/headerMenu/custome/demo.html" } },
-                { "id": "1107010203", "text": "自定义动态菜单", "pid": "11070102", "attributes": { "href": "examples/example.html?datagrid/headerMenu/customeDynamic/demo.html" } }
+                { "id": "1107010201", "text": "默认菜单", "pid": "11070102", "attributes": { "href": "examples/example.html?path=datagrid/headerMenu/default/demo.html" } },
+                { "id": "1107010202", "text": "自定义菜单", "pid": "11070102", "attributes": { "href": "examples/example.html?path=datagrid/headerMenu/custome/demo.html" } },
+                { "id": "1107010203", "text": "自定义动态菜单", "pid": "11070102", "attributes": { "href": "examples/example.html?path=datagrid/headerMenu/customeDynamic/demo.html" } }
             ]
             },
 
             { "id": "11070103", "text": "行右键菜单", "pid": "110701", "children": [
-                { "id": "1107010301", "text": "默认菜单", "pid": "11070103", "attributes": { "href": "examples/example.html?datagrid/rowMenu/default/demo.html" } },
-                { "id": "1107010302", "text": "自定义菜单", "pid": "11070103", "attributes": { "href": "examples/example.html?datagrid/rowMenu/custome/demo.html" } },
-                { "id": "1107010303", "text": "自定义动态菜单", "pid": "11070103", "attributes": { "href": "examples/example.html?datagrid/rowMenu/customeDynamic/demo.html" } },
-                { "id": "1107010304", "text": "自定义菜单自动绑定双击行事件", "pid": "11070103", "attributes": { "href": "examples/example.html?datagrid/rowMenu/autoBindDblClick/demo.html" } }
+                { "id": "1107010301", "text": "默认菜单", "pid": "11070103", "attributes": { "href": "examples/example.html?path=datagrid/rowMenu/default/demo.html" } },
+                { "id": "1107010302", "text": "自定义菜单", "pid": "11070103", "attributes": { "href": "examples/example.html?path=datagrid/rowMenu/custome/demo.html" } },
+                { "id": "1107010303", "text": "自定义动态菜单", "pid": "11070103", "attributes": { "href": "examples/example.html?path=datagrid/rowMenu/customeDynamic/demo.html" } },
+                { "id": "1107010304", "text": "自定义菜单自动绑定双击行事件", "pid": "11070103", "attributes": { "href": "examples/example.html?path=datagrid/rowMenu/autoBindDblClick/demo.html" } }
             ]
             },
 
             { "id": "11070104", "text": "行拖动排序功能", "pid": "110701", "children": [
-                { "id": "1107010401", "text": "基本功能", "pid": "11070104", "attributes": { "href": "examples/example.html?datagrid/rowDraggable/base/demo.html" } },
-                { "id": "1107010402", "text": "行拖动事件回调", "pid": "11070104", "attributes": { "href": "examples/example.html?datagrid/rowDraggable/event/demo.html" } }
+                { "id": "1107010401", "text": "基本功能", "pid": "11070104", "attributes": { "href": "examples/example.html?path=datagrid/rowDraggable/base/demo.html" } },
+                { "id": "1107010402", "text": "行拖动事件回调", "pid": "11070104", "attributes": { "href": "examples/example.html?path=datagrid/rowDraggable/event/demo.html" } }
             ]
             },
 
             { "id": "11070105", "text": "Tooltip", "pid": "110701", "children": [
-                { "id": "1107010501", "text": "行 Tooltip", "pid": "11070105", "attributes": { "href": "examples/example.html?datagrid/tooltip/row/demo.html" } },
-                { "id": "1107010502", "text": "自定义样式的行 Tooltip", "pid": "11070105", "attributes": { "href": "examples/example.html?datagrid/tooltip/rowCustome/demo.html" } },
-                { "id": "1107010503", "text": "列 Tooltip", "pid": "11070105", "attributes": { "href": "examples/example.html?datagrid/tooltip/column/demo.html" } },
-                { "id": "1107010504", "text": "自定义样式的列 Tooltip", "pid": "11070105", "attributes": { "href": "examples/example.html?datagrid/tooltip/columnCustome/demo.html" } }
+                { "id": "1107010501", "text": "行 Tooltip", "pid": "11070105", "attributes": { "href": "examples/example.html?path=datagrid/tooltip/row/demo.html" } },
+                { "id": "1107010502", "text": "自定义样式的行 Tooltip", "pid": "11070105", "attributes": { "href": "examples/example.html?path=datagrid/tooltip/rowCustome/demo.html" } },
+                { "id": "1107010503", "text": "列 Tooltip", "pid": "11070105", "attributes": { "href": "examples/example.html?path=datagrid/tooltip/column/demo.html" } },
+                { "id": "1107010504", "text": "自定义样式的列 Tooltip", "pid": "11070105", "attributes": { "href": "examples/example.html?path=datagrid/tooltip/columnCustome/demo.html" } }
             ]
             },
 
             { "id": "11070106", "text": "仿ExtRowEditing编辑风格", "pid": "110701", "children": [
-                { "id": "1107010601", "text": "单行编辑状态RowEditing", "pid": "11070106", "attributes": { "href": "examples/example.html?datagrid/extEditing/singleEdit/demo.html" } },
-                { "id": "1107010602", "text": "多行编辑状态RowEditing", "pid": "11070106", "attributes": { "href": "examples/example.html?datagrid/extEditing/multiEdit/demo.html" } }
+                { "id": "1107010601", "text": "单行编辑状态RowEditing", "pid": "11070106", "attributes": { "href": "examples/example.html?path=datagrid/extEditing/singleEdit/demo.html" } },
+                { "id": "1107010602", "text": "多行编辑状态RowEditing", "pid": "11070106", "attributes": { "href": "examples/example.html?path=datagrid/extEditing/multiEdit/demo.html" } }
             ]
             },
 
-            { "id": "11070107", "text": "列冻结/取消冻结", "pid": "110701", "attributes": { "href": "examples/example.html?datagrid/freeze/demo.html" } },
-            { "id": "11070108", "text": "自适应屏幕大小", "pid": "110701", "attributes": { "href": "examples/example.html?datagrid/offset/demo.html" } },
-            { "id": "11070109", "text": "高亮关键词查找", "pid": "110701", "attributes": { "href": "examples/example.html?datagrid/livesearch/demo.html" } },
-            { "id": "11070110", "text": "其他扩展功能", "pid": "110701", "attributes": { "href": "examples/example.html?datagrid/others/demo.html" } }
+            { "id": "11070107", "text": "列冻结/取消冻结", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/freeze/demo.html" } },
+            { "id": "11070108", "text": "自适应屏幕大小", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/offset/demo.html" } },
+            { "id": "11070109", "text": "高亮关键词查找", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/livesearch/demo.html" } },
+            { "id": "11070110", "text": "其他扩展功能", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/others/demo.html" } }
         ]
         },
 
         { "id": "110702", "text": "Tree", "pid": "1107", "children": [
             { "id": "11070201", "text": "右键菜单", "pid": "110702", "children": [
-                { "id": "1107020101", "text": "默认菜单", "pid": "11070201", "attributes": { "href": "examples/example.html?tree/menu/default/demo.html" } },
-                { "id": "1107020102", "text": "自定义菜单", "pid": "11070201", "attributes": { "href": "examples/example.html?tree/menu/custome/demo.html" } },
-                { "id": "1107020103", "text": "自定义动态菜单", "pid": "11070201", "attributes": { "href": "examples/example.html?tree/menu/customeDynamic/demo.html" } },
-                { "id": "1107020104", "text": "自定义菜单自动绑定双击事件", "pid": "11070201", "attributes": { "href": "examples/example.html?tree/menu/autoBindDblClick/demo.html" } }
+                { "id": "1107020101", "text": "默认菜单", "pid": "11070201", "attributes": { "href": "examples/example.html?path=tree/menu/default/demo.html" } },
+                { "id": "1107020102", "text": "自定义菜单", "pid": "11070201", "attributes": { "href": "examples/example.html?path=tree/menu/custome/demo.html" } },
+                { "id": "1107020103", "text": "自定义动态菜单", "pid": "11070201", "attributes": { "href": "examples/example.html?path=tree/menu/customeDynamic/demo.html" } },
+                { "id": "1107020104", "text": "自定义菜单自动绑定双击事件", "pid": "11070201", "attributes": { "href": "examples/example.html?path=tree/menu/autoBindDblClick/demo.html" } }
             ]
             },
-            { "id": "11070202", "text": "平滑数据支持", "pid": "110702", "attributes": { "href": "examples/example.html?tree/simpleData/demo.html" } },
-            { "id": "11070203", "text": "单击节点自动展开/折叠", "pid": "110702", "attributes": { "href": "examples/example.html?tree/autoToggle/demo.html" } },
-            { "id": "11070204", "text": "节点展开控制", "pid": "110702", "attributes": { "href": "examples/example.html?tree/onlyNodeExpand/demo.html" } },
-            { "id": "11070205", "text": "其他扩展功能", "pid": "110702", "attributes": { "href": "examples/example.html?tree/others/demo.html" } }
+            { "id": "11070202", "text": "平滑数据支持", "pid": "110702", "attributes": { "href": "examples/example.html?path=tree/simpleData/demo.html" } },
+            { "id": "11070203", "text": "单击节点自动展开/折叠", "pid": "110702", "attributes": { "href": "examples/example.html?path=tree/autoToggle/demo.html" } },
+            { "id": "11070204", "text": "节点展开控制", "pid": "110702", "attributes": { "href": "examples/example.html?path=tree/onlyNodeExpand/demo.html" } },
+            { "id": "11070205", "text": "其他扩展功能", "pid": "110702", "attributes": { "href": "examples/example.html?path=tree/others/demo.html" } }
         ]
         },
 
         { "id": "110703", "text": "TreeGrid", "pid": "1107", "children": [
             { "id": "11070301", "text": "表头过滤器", "pid": "110703", "children": [
-                { "id": "1107030101", "text": "简单过滤器效果", "pid": "11070301", "attributes": { "href": "examples/example.html?treegrid/columnFilter/simple/demo.html" } },
-                { "id": "1107030102", "text": "复杂过滤器效果", "pid": "11070301", "attributes": { "href": "examples/example.html?treegrid/columnFilter/complex/demo.html" } },
-                { "id": "1107030103", "text": "过滤器操作", "pid": "11070301", "attributes": { "href": "examples/example.html?treegrid/columnFilter/operate/demo.html" } }
+                { "id": "1107030101", "text": "简单过滤器效果", "pid": "11070301", "attributes": { "href": "examples/example.html?path=treegrid/columnFilter/simple/demo.html" } },
+                { "id": "1107030102", "text": "复杂过滤器效果", "pid": "11070301", "attributes": { "href": "examples/example.html?path=treegrid/columnFilter/complex/demo.html" } },
+                { "id": "1107030103", "text": "过滤器操作", "pid": "11070301", "attributes": { "href": "examples/example.html?path=treegrid/columnFilter/operate/demo.html" } }
             ]
             },
 
             { "id": "11070302", "text": "表头右键菜单", "pid": "110703", "children": [
-                { "id": "1107030201", "text": "默认菜单", "pid": "11070302", "attributes": { "href": "examples/example.html?treegrid/headerMenu/default/demo.html" } },
-                { "id": "1107030202", "text": "自定义菜单", "pid": "11070302", "attributes": { "href": "examples/example.html?treegrid/headerMenu/custome/demo.html" } },
-                { "id": "1107030203", "text": "自定义动态菜单", "pid": "11070302", "attributes": { "href": "examples/example.html?treegrid/headerMenu/customeDynamic/demo.html" } }
+                { "id": "1107030201", "text": "默认菜单", "pid": "11070302", "attributes": { "href": "examples/example.html?path=treegrid/headerMenu/default/demo.html" } },
+                { "id": "1107030202", "text": "自定义菜单", "pid": "11070302", "attributes": { "href": "examples/example.html?path=treegrid/headerMenu/custome/demo.html" } },
+                { "id": "1107030203", "text": "自定义动态菜单", "pid": "11070302", "attributes": { "href": "examples/example.html?path=treegrid/headerMenu/customeDynamic/demo.html" } }
             ]
             },
 
             { "id": "11070303", "text": "行右键菜单", "pid": "110703", "children": [
-                { "id": "1107030301", "text": "默认菜单", "pid": "11070303", "attributes": { "href": "examples/example.html?treegrid/rowMenu/default/demo.html" } },
-                { "id": "1107030302", "text": "自定义菜单", "pid": "11070303", "attributes": { "href": "examples/example.html?treegrid/rowMenu/custome/demo.html" } },
-                { "id": "1107030303", "text": "自定义动态菜单", "pid": "11070303", "attributes": { "href": "examples/example.html?treegrid/rowMenu/customeDynamic/demo.html" } },
-                { "id": "1107030304", "text": "自定义菜单自动绑定双击行事件", "pid": "11070303", "attributes": { "href": "examples/example.html?treegrid/rowMenu/autoBindDblClick/demo.html" } }
+                { "id": "1107030301", "text": "默认菜单", "pid": "11070303", "attributes": { "href": "examples/example.html?path=treegrid/rowMenu/default/demo.html" } },
+                { "id": "1107030302", "text": "自定义菜单", "pid": "11070303", "attributes": { "href": "examples/example.html?path=treegrid/rowMenu/custome/demo.html" } },
+                { "id": "1107030303", "text": "自定义动态菜单", "pid": "11070303", "attributes": { "href": "examples/example.html?path=treegrid/rowMenu/customeDynamic/demo.html" } },
+                { "id": "1107030304", "text": "自定义菜单自动绑定双击行事件", "pid": "11070303", "attributes": { "href": "examples/example.html?path=treegrid/rowMenu/autoBindDblClick/demo.html" } }
             ]
             },
 
             { "id": "11070304", "text": "行拖动功能", "pid": "110703", "children": [
-                { "id": "1107030401", "text": "基本功能", "pid": "11070304", "attributes": { "href": "examples/example.html?treegrid/rowDraggable/base/demo.html" } },
-                { "id": "1107030402", "text": "行拖动事件回调", "pid": "11070304", "attributes": { "href": "examples/example.html?treegrid/rowDraggable/event/demo.html" } }
+                { "id": "1107030401", "text": "基本功能", "pid": "11070304", "attributes": { "href": "examples/example.html?path=treegrid/rowDraggable/base/demo.html" } },
+                { "id": "1107030402", "text": "行拖动事件回调", "pid": "11070304", "attributes": { "href": "examples/example.html?path=treegrid/rowDraggable/event/demo.html" } }
             ]
             },
 
             { "id": "11070305", "text": "Tooltip", "pid": "110703", "children": [
-                { "id": "1107030501", "text": "行 Tooltip", "pid": "11070305", "attributes": { "href": "examples/example.html?treegrid/tooltip/row/demo.html" } },
-                { "id": "1107030502", "text": "自定义样式的行 Tooltip", "pid": "11070305", "attributes": { "href": "examples/example.html?treegrid/tooltip/rowCustome/demo.html" } },
-                { "id": "1107030503", "text": "列 Tooltip", "pid": "11070305", "attributes": { "href": "examples/example.html?treegrid/tooltip/column/demo.html" } },
-                { "id": "1107030504", "text": "自定义样式的列 Tooltip", "pid": "11070305", "attributes": { "href": "examples/example.html?treegrid/tooltip/columnCustome/demo.html" } }
+                { "id": "1107030501", "text": "行 Tooltip", "pid": "11070305", "attributes": { "href": "examples/example.html?path=treegrid/tooltip/row/demo.html" } },
+                { "id": "1107030502", "text": "自定义样式的行 Tooltip", "pid": "11070305", "attributes": { "href": "examples/example.html?path=treegrid/tooltip/rowCustome/demo.html" } },
+                { "id": "1107030503", "text": "列 Tooltip", "pid": "11070305", "attributes": { "href": "examples/example.html?path=treegrid/tooltip/column/demo.html" } },
+                { "id": "1107030504", "text": "自定义样式的列 Tooltip", "pid": "11070305", "attributes": { "href": "examples/example.html?path=treegrid/tooltip/columnCustome/demo.html" } }
             ]
             },
 
             { "id": "11070306", "text": "仿ExtRowEditing编辑风格", "pid": "110703", "children": [
-                { "id": "1107030601", "text": "单行编辑状态RowEditing", "pid": "11070306", "attributes": { "href": "examples/example.html?treegrid/extEditing/singleEdit/demo.html" } },
-                { "id": "1107030602", "text": "多行编辑状态RowEditing", "pid": "11070306", "attributes": { "href": "examples/example.html?treegrid/extEditing/multiEdit/demo.html" } }
+                { "id": "1107030601", "text": "单行编辑状态RowEditing", "pid": "11070306", "attributes": { "href": "examples/example.html?path=treegrid/extEditing/singleEdit/demo.html" } },
+                { "id": "1107030602", "text": "多行编辑状态RowEditing", "pid": "11070306", "attributes": { "href": "examples/example.html?path=treegrid/extEditing/multiEdit/demo.html" } }
             ]
             },
 
-            { "id": "11070307", "text": "平滑数据支持", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/simpleData/demo.html" } },
-            { "id": "11070308", "text": "单击节点自动展开/折叠", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/autoToggle/demo.html" } },
-            { "id": "11070309", "text": "节点展开控制", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/onlyNodeExpand/demo.html" } },
-            { "id": "11070310", "text": "列冻结/取消冻结", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/freeze/demo.html" } },
-            { "id": "11070311", "text": "自适应屏幕大小", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/offset/demo.html" } },
-            { "id": "11070112", "text": "高亮关键词查找", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/livesearch/demo.html" } },
-            { "id": "11070313", "text": "其他扩展功能", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/others/demo.html" } },
-            { "id": "11070314", "text": "其他扩展功能2", "pid": "110703", "attributes": { "href": "examples/example.html?treegrid/others2/demo.html" } }
+            { "id": "11070307", "text": "平滑数据支持", "pid": "110703", "attributes": { "href": "examples/example.html?path=treegrid/simpleData/demo.html" } },
+            { "id": "11070308", "text": "单击节点自动展开/折叠", "pid": "110703", "attributes": { "href": "examples/example.html?path=treegrid/autoToggle/demo.html" } },
+            { "id": "11070309", "text": "节点展开控制", "pid": "110703", "attributes": { "href": "examples/example.html?path=treegrid/onlyNodeExpand/demo.html" } },
+            { "id": "11070310", "text": "列冻结/取消冻结", "pid": "110703", "attributes": { "href": "examples/example.html?path=treegrid/freeze/demo.html" } },
+            { "id": "11070311", "text": "自适应屏幕大小", "pid": "110703", "attributes": { "href": "examples/example.html?path=treegrid/offset/demo.html" } },
+            { "id": "11070112", "text": "高亮关键词查找", "pid": "110703", "attributes": { "href": "examples/example.html?path=treegrid/livesearch/demo.html" } },
+            { "id": "11070313", "text": "其他扩展功能", "pid": "110703", "attributes": { "href": "examples/example.html?path=treegrid/others/demo.html" } },
+            { "id": "11070314", "text": "其他扩展功能2", "pid": "110703", "attributes": { "href": "examples/example.html?path=treegrid/others2/demo.html" } }
         ]
         }
     ]
     },
 
     { "id": "1108", "text": "Others", "pid": "11", "children": [
-        { "id": "110801", "text": "Icons", "pid": "1108", "attributes": { "href": "examples/example.html?icons/demo.html" } },
-        { "id": "110802", "text": "Theme", "pid": "1108", "attributes": { "href": "examples/example.html?theme/demo.html" } },
-        { "id": "110803", "text": "GridSelector", "pid": "1108", "attributes": { "href": "examples/example.html?gridSelector/demo.html" } },
+        { "id": "110801", "text": "Icons", "pid": "1108", "attributes": { "href": "examples/example.html?path=icons/demo.html" } },
+        { "id": "110802", "text": "Theme", "pid": "1108", "attributes": { "href": "examples/example.html?path=theme/demo.html" } },
+        { "id": "110803", "text": "GridSelector", "pid": "1108", "attributes": { "href": "examples/example.html?path=gridSelector/demo.html" } },
         { "id": "110804", "text": "Toolbar", "pid": "1108", "children": [
-            { "id": "11080401", "text": "Toolbar常规用法", "pid": "110804", "attributes": { "href": "examples/example.html?toolbar/generic/demo.html" } },
-            { "id": "11080402", "text": "Toolbar动态数据加载", "pid": "110804", "attributes": { "href": "examples/example.html?toolbar/dynamicData/demo.html" } }
+            { "id": "11080401", "text": "Toolbar常规用法", "pid": "110804", "attributes": { "href": "examples/example.html?path=toolbar/generic/demo.html" } },
+            { "id": "11080402", "text": "Toolbar动态数据加载", "pid": "110804", "attributes": { "href": "examples/example.html?path=toolbar/dynamicData/demo.html" } }
         ] },
-        { "id": "110805", "text": "Portal", "pid": "1108", "attributes": { "href": "examples/example.html?portal/demo.html" } },
-        { "id": "110806", "text": "my97", "pid": "1108", "attributes": { "href": "examples/example.html?my97/demo.html" } },
-        { "id": "110807", "text": "ckeditor", "pid": "1108", "attributes": { "href": "examples/example.html?ckeditor/demo.html" } },
-        { "id": "110808", "text": "uploadify", "pid": "1108", "attributes": { "href": "examples/example.html?uploadify/demo.html" } },
-        { "id": "110809", "text": "BayGUI", "pid": "1108", "attributes": { "href": "examples/example.html?baygui/demo.html" } },
-        { "id": "110810", "text": "baybuilder", "pid": "1108", "attributes": { "href": "examples/example.html?baygui/baybuilder/demo.html" } },
-        { "id": "110811", "text": "ueditor", "pid": "1108", "attributes": { "href": "examples/example.html?ueditor/ueditor.html" } },
-        { "id": "110812", "text": "umeditor", "pid": "1108", "attributes": { "href": "examples/example.html?ueditor/umeditor.html" } },
-        { "id": "110899", "text": "Testing", "pid": "1108", "attributes": { "href": "examples/example.html?testing/demo.html" } }
+        { "id": "110805", "text": "Portal", "pid": "1108", "attributes": { "href": "examples/example.html?path=portal/demo.html" } },
+        { "id": "110806", "text": "my97", "pid": "1108", "attributes": { "href": "examples/example.html?path=my97/demo.html&plugin=my97" } },
+        { "id": "110807", "text": "ckeditor", "pid": "1108", "attributes": { "href": "examples/example.html?path=ckeditor/demo.html" } },
+        { "id": "110808", "text": "uploadify", "pid": "1108", "attributes": { "href": "examples/example.html?path=uploadify/demo.html" } },
+        { "id": "110809", "text": "BayGUI", "pid": "1108", "attributes": { "href": "examples/example.html?path=baygui/demo.html" } },
+        { "id": "110810", "text": "baybuilder", "pid": "1108", "attributes": { "href": "examples/example.html?path=baygui/baybuilder/demo.html" } },
+        { "id": "110811", "text": "ueditor", "pid": "1108", "attributes": { "href": "examples/example.html?path=ueditor/ueditor.html&plugin=ueditor,my97" } },
+        { "id": "110812", "text": "umeditor", "pid": "1108", "attributes": { "href": "examples/example.html?path=ueditor/umeditor.html" } },
+        { "id": "110813", "text": "codemirror", "pid": "1108", "attributes": { "href": "examples/example.html?path=codemirror/demo.html&plugin=codemirror" } },
+        { "id": "110899", "text": "Testing", "pid": "1108", "attributes": { "href": "examples/example.html?path=testing/demo.html" } }
     ]
     }
 ]

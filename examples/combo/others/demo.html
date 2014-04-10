@@ -1,39 +1,39 @@
 ﻿<div>
 
-<script type="text/javascript">
-    $(function () {
-        var required = false,
-            cc = $("#cc").combobox({
-            width: 120,
-            prompt: '请输入内容...',
-            iconCls: 'icon-ok',
-            editable: false,
-            required: required,
-            value: null
-        });
+    <script type="text/javascript">
+        $(function () {
+            var required = false,
+                cc = $("#cc").combobox({
+                    width: 120,
+                    prompt: '请输入内容...',
+                    iconCls: 'icon-ok',
+                    editable: false,
+                    required: required,
+                    value: null
+                });
 
-        $("#Button1").click(function () {
-            cc.combobox("setIcon", "icon-search");
-        });
+            $("#Button1").click(function () {
+                cc.combobox("setIcon", "icon-search");
+            });
 
-        $("#Button2").click(function () {
-            cc.combobox("setRequired", required = !required).combobox("validate");
-        });
+            $("#Button2").click(function () {
+                cc.combobox("setRequired", required = !required).combobox("validate");
+            });
 
-        $("#Button3").click(function () {
-            cc.combobox("setPrompt", "icon-search");
+            $("#Button3").click(function () {
+                cc.combobox("setPrompt", "icon-search");
+            });
         });
-    });
-</script>
+    </script>
 
-<h2>jEasyUI Combo Extensions</h2>
-<p>该部分扩展由文件 jeasyui.extensions.combo.js 实现。</p>
-<hr />
-<input id="Button1" type="button" value="设置图标" />
-<input id="Button2" type="button" value="设置 Required 值" />
-<input id="Button3" type="button" value="设置输入提示文字" />
-<hr />
-<select id="cc"></select>
+    <h2>jEasyUI Combo Extensions</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.combo.js 实现。</p>
+    <hr />
+    <input id="Button1" type="button" value="设置图标" />
+    <input id="Button2" type="button" value="设置 Required 值" />
+    <input id="Button3" type="button" value="设置输入提示文字" />
+    <hr />
+    <select id="cc"></select>
 
 
 

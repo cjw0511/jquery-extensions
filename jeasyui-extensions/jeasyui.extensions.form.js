@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,13 +11,13 @@
 * jQuery EasyUI form 组件扩展
 * jeasyui.extensions.form.js
 * 二次开发 流云
-* 最近更新：2014-04-02
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
@@ -144,9 +144,13 @@
             if (t == 'text' || t == 'hidden' || t == 'password' || tag == 'textarea') {
                 this.value = '';
             } else if (t == 'file') {
-                var file = $(this);
-                file.after(file.clone().val(''));
-                file.remove();
+                var file = $(this), newfile = file.clone().insertAfter(file).val('');
+                if (file.data('validatebox')) {
+                    file.validatebox('destroy');
+                    newfile.validatebox();
+                } else {
+                    file.remove();
+                }
             } else if (t == 'checkbox' || t == 'radio') {
                 this.checked = false;
             } else if (tag == 'select') {
@@ -155,7 +159,7 @@
         });
 
         var t = $(target),
-            plugins = $.array.distinct($.array.merge([], $.fn.form.spinnerList, $.fn.form.comboList, $.fn.form.otherList));
+            plugins = $.array.distinct($.array.merge([], $.fn.form.otherList, $.fn.form.spinnerList, $.fn.form.comboList));
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i],
                 r = t.find('.' + plugin + '-f');
@@ -171,7 +175,7 @@
         if (isForm) {
             target.reset();
         }
-        var plugins = $.array.distinct($.array.merge([], $.fn.form.spinnerList, $.fn.form.comboList, $.fn.form.otherList));
+        var plugins = $.array.distinct($.array.merge([], $.fn.form.otherList, $.fn.form.spinnerList, $.fn.form.comboList));
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             var r = t.find('.' + plugin + '-f');

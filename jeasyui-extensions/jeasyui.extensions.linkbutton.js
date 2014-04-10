@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,13 +11,13 @@
 * jQuery EasyUI linkbutton 组件扩展
 * jeasyui.extensions.linkbutton.js
 * 二次开发 流云
-* 最近更新：2013-09-02
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
@@ -34,32 +34,32 @@
     };
 
     function setIcon(target, iconCls) {
-        var t = $(target), opts = t.linkbutton("options"),
-            span = t.find("span.l-btn-empty"), isEmpty = span.length ? true : false;
-        if (!isEmpty) { span = t.find("span.l-btn-text"); }
-        span.removeClass(opts.iconCls).addClass(iconCls);
+        var t = $(target), opts = t.linkbutton("options"), icon = t.find("span.l-btn-icon");
+        if (iconCls) {
+            if (icon.length) {
+                icon.removeClass(opts.iconCls).addClass(iconCls);
+            } else {
+                t.find("span.l-btn-text").after("<span class=\"l-btn-icon " + iconCls + "\">&nbsp;</span>");
+            }
+        } else {
+            icon.remove();
+        }
         opts.iconCls = iconCls;
     };
 
     function setText(target, text) {
-        var t = $(target), opts = t.linkbutton("options"),
-            textspan = t.find("span.l-btn-text");
+        var t = $(target), opts = t.linkbutton("options"), textSpan = t.find("span.l-btn-text");
         if (text) {
-            textspan.empty().removeClass("l-btn-icon-left l-btn-icon-right").addClass("l-btn-text l-btn-icon-" + opts.iconAlign).addClass(opts.iconCls).text(text);
+            textSpan.removeClass("l-btn-empty").text(text);
         } else {
-            textspan.empty().removeClass("l-btn-icon-left l-btn-icon-right").removeClass(opts.iconCls);
-            $("<span class='l-btn-empty'>&nbsp;</span>").addClass(opts.iconCls).appendTo(textspan);
+            textSpan.addClass("l-btn-empty").html("&nbsp;");
         }
         opts.text = text;
     };
 
     function setIconAlign(target, iconAlign) {
-        var t = $(target), opts = t.linkbutton("options");
-        if (!t.find("span.l-btn-empty").length) {
-            $.util.exec(function () {
-                t.find("span.l-btn-text").removeClass("l-btn-icon-left l-btn-icon-right").addClass("l-btn-icon-" + opts.iconAlign);
-            });
-        }
+        var t = $(target), opts = t.linkbutton("options"), span = t.find(">span");
+        span.removeClass("l-btn-icon-left l-btn-icon-right l-btn-icon-top l-btn-icon-bottom").addClass("l-btn-icon-" + iconAlign);
         opts.iconAlign = iconAlign;
     }
 
@@ -74,6 +74,12 @@
         plain = plain ? true : false;
         t[plain ? "addClass" : "removeClass"]("l-btn-plain");
         opts.plain = plain;
+    };
+
+    function setSize(target, size) {
+        var t = $(target), opts = t.linkbutton("options");
+        t.removeClass("l-btn-small l-btn-large").addClass("l-btn-" + size);
+        opts.size = size;
     };
 
 
@@ -111,7 +117,7 @@
         setText: function (jq, text) { return jq.each(function () { setText(this, text); }); },
 
         //  增加 easyui-linkbutton 控件的自定义扩展方法；设置 linkbutton 按钮的图标位置；该方法定义如下参数：
-        //      iconAlign:   String 类型值，表示要设置的按钮的图标位置；该参数限定取值 "left"、"right"
+        //      iconAlign:   String 类型值，表示要设置的按钮的图标位置；该参数限定取值 "left"、"right"、"top"、"bottom"
         //  返回值：返回表示当前 easyui-linkbutton 控件的 jQuery 链式对象；
         setIconAlign: function (jq, iconAlign) { return jq.each(function () { setIconAlign(this, iconAlign); }); },
 
@@ -123,7 +129,12 @@
         //  增加 easyui-linkbutton 控件的自定义扩展方法；设置 linkbutton 按钮的 plain 属性；该方法定义如下参数：
         //      plain:   Boolean 类型，表示要设置的按钮的 plain 属性值
         //  返回值：返回表示当前 easyui-linkbutton 控件的 jQuery 链式对象；
-        setPlain: function (jq, plain) { return jq.each(function () { setPlain(this, plain); }); }
+        setPlain: function (jq, plain) { return jq.each(function () { setPlain(this, plain); }); },
+
+        //  增加 easyui-linkbutton 控件的自定义扩展方法；设置 linkbutton 按钮的 size 属性；该方法定义如下参数：
+        //      size:   String 类型，表示要设置的按钮的 size 属性值；该参数限定取值 'small','large'
+        //  返回值：返回表示当前 easyui-linkbutton 控件的 jQuery 链式对象；
+        setSize: function (jq, size) { return jq.each(function () { setSize(this, size); }); }
     };
 
     $.extend($.fn.linkbutton.defaults, defaults);

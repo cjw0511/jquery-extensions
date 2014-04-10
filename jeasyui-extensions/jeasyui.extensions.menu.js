@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,18 +11,14 @@
 * jQuery EasyUI menu 组件扩展
 * jeasyui.extensions.menu.js
 * 二次开发 流云
-* 最近更新：2013-12-25
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
-*/
-
-/*
-功能说明：
 */
 (function ($, undefined) {
 
@@ -33,8 +29,9 @@
         var t = $(target).appendTo('body').addClass('menu-top');
 
         //$(document).unbind('.menu').bind('mousedown.menu', function (e) {
-        //    var allMenu = $('body>div.menu:visible');
-        //    var m = $(e.target).closest('div.menu', allMenu);
+        //    //			var allMenu = $('body>div.menu:visible');
+        //    //			var m = $(e.target).closest('div.menu', allMenu);
+        //    var m = $(e.target).closest('div.menu,div.combo-p');
         //    if (m.length) { return }
         //    $('body>div.menu-top:visible').menu('hide');
         //});
@@ -63,15 +60,18 @@
         }
 
         function createMenu(menu) {
-            var width = $.parser.parseOptions(menu[0], ['width']).width;
+            var wh = $.parser.parseOptions(menu[0], ['width', 'height']);
+            menu[0].originalHeight = wh.height || 0;
             if (menu.hasClass('menu-content')) {
-                menu[0].originalWidth = width || menu._outerWidth();
+                menu[0].originalWidth = wh.width || menu._outerWidth();
             } else {
-                menu[0].originalWidth = width || 0;
+                menu[0].originalWidth = wh.width || 0;
                 menu.children('div').each(function () {
                     var item = $(this);
                     //var itemOpts = $.extend({}, $.parser.parseOptions(this, ['name', 'iconCls', 'href', { separator: 'boolean' }]), {
-                    //  注释掉上一行代码，并添加了下一行代码，以实现获取 menu-item 的属性 hideOnClick，该参数表示是否在点击菜单项后菜单自动隐藏
+                    //    disabled: (item.attr('disabled') ? true : undefined)
+                    //});
+                    //  注释掉上三行代码，并添加了下三行代码，以实现获取 menu-item 的属性 hideOnClick，该参数表示是否在点击菜单项后菜单自动隐藏
                     var itemOpts = $.extend({ hideOnClick: true }, $.parser.parseOptions(this, ['name', 'iconCls', 'href', { hideOnClick: 'boolean', separator: 'boolean' }]), {
                         disabled: (item.attr('disabled') ? true : undefined)
                     });
@@ -111,8 +111,7 @@
 
     function setMenuWidth(target, menu) {
         var opts = $.data(target, 'menu').options;
-        //		var d = menu.css('display');
-        var style = menu.attr('style');
+        var style = menu.attr('style') || '';
         menu.css({
             display: 'block',
             left: -10000,
@@ -120,22 +119,31 @@
             overflow: 'hidden'
         });
 
-        //		menu.find('div.menu-item')._outerHeight(22);
-        var width = 0;
-        menu.find('div.menu-text').each(function () {
-            if (width < $(this)._outerWidth()) {
-                width = $(this)._outerWidth();
-            }
-            $(this).closest('div.menu-item')._outerHeight($(this)._outerHeight() + 2);
-        });
-        //width += 65;
-        //注释掉上一行代码，并添加下一行代码；使得 easyui-menu 项的宽度略小以更美观
-        width += 45;
-        menu._outerWidth(Math.max((menu[0].originalWidth || 0), width, opts.minWidth));
+        var el = menu[0];
+        var width = el.originalWidth || 0;
+        if (!width) {
+            width = 0;
+            menu.find('div.menu-text').each(function () {
+                if (width < $(this)._outerWidth()) {
+                    width = $(this)._outerWidth();
+                }
+                $(this).closest('div.menu-item')._outerHeight($(this)._outerHeight() + 2);
+            });
+            width += 40;
+        }
 
-        menu.children('div.menu-line')._outerHeight(menu.outerHeight());
+        width = Math.max(width, opts.minWidth);
+        var height = el.originalHeight || menu.outerHeight();
+        var lineHeight = Math.max(el.originalHeight, menu.outerHeight()) - 2;
+        menu._outerWidth(width)._outerHeight(height);
+        menu.children('div.menu-line')._outerHeight(lineHeight);
 
-        //		menu.css('display', d);
+        //		menu._outerWidth(Math.max((menu[0].originalWidth || 0), width, opts.minWidth));
+        //		
+        //		menu.children('div.menu-line')._outerHeight(menu.outerHeight());
+
+        style += ';width:' + el.style.width + ';height:' + el.style.height;
+
         menu.attr('style', style);
     }
 
@@ -256,18 +264,19 @@
                 var at = $(opts.alignTo);
                 left = at.offset().left;
                 top = at.offset().top + at._outerHeight();
+                if (opts.align == 'right') {
+                    left += at.outerWidth() - menu.outerWidth();
+                }
             }
-            //			if (param.left != undefined){left = param.left}
-            //			if (param.top != undefined){top = param.top}
             if (left + menu.outerWidth() > $(window)._outerWidth() + $(document)._scrollLeft()) {
                 left = $(window)._outerWidth() + $(document).scrollLeft() - menu.outerWidth() - 5;
             }
+            if (left < 0) { left = 0; }
             if (top + menu.outerHeight() > $(window)._outerHeight() + $(document).scrollTop()) {
-                //				top -= menu.outerHeight();
                 top = $(window)._outerHeight() + $(document).scrollTop() - menu.outerHeight() - 5;
             }
         } else {
-            var parent = param.parent; // the parent menu item
+            var parent = param.parent;	// the parent menu item
             left = parent.offset().left + parent.outerWidth() - 2;
             if (left + menu.outerWidth() + 5 > $(window)._outerWidth() + $(document).scrollLeft()) {
                 left = parent.offset().left - menu.outerWidth() + 2;
@@ -477,10 +486,8 @@
 		 */
         setIcon: function (jq, param) {
             return jq.each(function () {
-                var item = $(this).menu('getItem', param.target);
-                if (item.iconCls) {
-                    $(item.target).children('div.menu-icon').removeClass(item.iconCls).addClass(param.iconCls);
-                } else {
+                $(param.target).children('div.menu-icon').remove();
+                if (param.iconCls) {
                     $('<div class="menu-icon"></div>').addClass(param.iconCls).appendTo(param.target);
                 }
             });
@@ -562,6 +569,8 @@
         zIndex: 110000,
         left: 0,
         top: 0,
+        alignTo: null,
+        align: 'left',
         minWidth: 120,
         hideOnUnhover: true,	// Automatically hides the menu when mouse exits it
         onShow: function () { },

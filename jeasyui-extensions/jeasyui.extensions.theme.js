@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,13 +11,13 @@
 * jQuery EasyUI theme 组件扩展
 * jeasyui.extensions.theme.js
 * 二次开发 流云
-* 最近更新：2013-12-25
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($) {
@@ -92,10 +92,10 @@
         { id: 3, name: "银色(推荐)", path: "bootstrap" },
         { id: 4, name: "灰霾(推荐)", path: "gray" },
 
-        { id: 5, name: "清泉", path: "jqueryui-cupertino", disabled: false },
-        { id: 6, name: "黑巢", path: "jqueryui-dark-hive", disabled: false },
-        { id: 7, name: "杏黄", path: "jqueryui-pepper-grinder", disabled: false },
-        { id: 8, name: "阳光", path: "jqueryui-sunny", disabled: false },
+        { id: 5, name: "清泉", path: "ui-cupertino", disabled: false },
+        { id: 6, name: "黑巢", path: "ui-dark-hive", disabled: false },
+        { id: 7, name: "杏黄", path: "ui-pepper-grinder", disabled: false },
+        { id: 8, name: "阳光", path: "ui-sunny", disabled: false },
 
         { id: 9, name: "磁贴（标准）", path: "metro-standard" },
         { id: 10, name: "磁贴（蓝）", path: "metro-blue" },

@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,18 +11,14 @@
 * jQuery EasyUI validatebox 组件扩展
 * jeasyui.extensions.validatebox.js
 * 二次开发 流云
-* 最近更新：2013-09-07
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
-*/
-
-/*
-功能说明：
 */
 (function ($, undefined) {
 
@@ -66,15 +62,6 @@
         maxLength: {
             validator: function (value, param) { return rules.length.validator(value, [0, param[0]]); },
             message: "最多输入 {0} 个字符."
-        },
-        //  指定字符的长度范围
-        length: {
-            validator: function (value, param) {
-                var len = $.trim(value).length;
-                var min = param[0], max = param[1];
-                return (!min || len >= min) && (!max || len <= max);
-            },
-            message: "输入内容长度必须介于 {0} 和 {1} 个字符数之间."
         },
         //  必须包含指定的内容
         contains: {
@@ -125,11 +112,6 @@
         fax: {
             validator: function (value) { return $.string.isFax(value); },
             message: "输入的内容必须是传真号码(中国)格式."
-        },
-        //  电子邮箱(Email)地址格式
-        email: {
-            validator: function (value) { return $.string.isEmail(value); },
-            message: "输入的内容必须是电子邮箱(Email)地址格式."
         },
         //  邮政编码(中国)格式
         zipCode: {
@@ -328,8 +310,10 @@
 
 
     function setValue(target, value) {
-        var t = $(target), opts = t.validatebox("options");
-        t.val(opts.value = (value ? value : ""));
+        var t = $(target), opts = t.validatebox("options"), val = t.val();
+        if (val != value) {
+            t.val(opts.value = (value ? value : ""));
+        }
     };
 
     function getValue(target) {

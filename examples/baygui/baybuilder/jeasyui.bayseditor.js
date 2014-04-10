@@ -6,7 +6,7 @@
 * 最近更新：2013-10-17
 *
 * 依赖项：
-*   1、jQuery EasyUI 基础库 v1.3.4
+*   1、jQuery EasyUI 基础库 v1.3.6
 *   2、jquery.jdirk.js v1.0 beta late
 *   3、jeasyui.extensions.js v1.0 beta late
 *   4、jeasyui.extensions.menu.js v1.0 beta late
@@ -19,7 +19,7 @@
 * 依赖样式：
 *   1、icon-all.css
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {

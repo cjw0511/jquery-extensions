@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,7 +11,7 @@
 * jQuery EasyUI comboicons 插件扩展
 * jquery.comboicons.js
 * 二次开发 流云
-* 最近更新：2014-04-02
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -24,7 +24,7 @@
 *   8、icons/jeasyui.icons.all.js 和 icons/icon-all.css v1.0 beta late
 *   9、jeasyui.extensions.icons.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
@@ -166,7 +166,22 @@
                     return t.comboicons(opts.multiple ? "getValues" : "getValue");
                 },
                 setValue: function (target, value) {
-                    $(target).comboicons($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
+                    var t = $(target), opts = t.comboicons("options");
+                    if (value) {
+                        if (opts.multiple) {
+                            if ($.util.likeArrayNotString(value)) {
+                                t.comboicons("setValues", value);
+                            } else if (typeof value == "string") {
+                                t.comboicons("setValues", value.split(opts.separator));
+                            } else {
+                                t.comboicons("setValue", value);
+                            }
+                        } else {
+                            t.comboicons("setValue", value);
+                        }
+                    } else {
+                        t.comboicons("clear");
+                    }
                 },
                 resize: function (target, width) {
                     $(target).comboicons("resize", width);

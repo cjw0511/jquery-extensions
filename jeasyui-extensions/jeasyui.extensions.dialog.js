@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,7 +11,7 @@
 * jQuery EasyUI dialog 组件扩展
 * jeasyui.extensions.dialog.js
 * 二次开发 流云
-* 最近更新：2014-03-14
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -21,14 +21,9 @@
 *   5、jeasyui.extensions.panel.js v1.0 beta late
 *   6、jeasyui.extensions.window.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
-
-/*
-功能说明：
-*/
-
 (function ($, undefined) {
 
 
@@ -242,12 +237,13 @@
 
 
 
-    var _refresh = $.fn.dialog.methods.refresh;
     function refresh(target, href) {
         var dia = $(target), opts = dia.dialog("options"), cp = dia.dialog("contentPanel"), coOpts = cp.panel("options");
-        href = href ? opts.href = href : opts.href;
+        if (href) {
+            opts.href = href;
+        }
         coOpts.iniframe = opts.iniframe;
-        cp.panel("refresh", href);
+        cp.panel("refresh", opts.href);
     };
 
     function getContentPanel(target) {
@@ -267,21 +263,24 @@
         };
         options.bodyCls = null;
         options.bodyStyle = null;
-        if (!options.iniframe) { return; }
-        options.href = null;
-        options.content = null;
-        options.iniframe = false;
+        if (options.iniframe) {
+            options.href = null;
+            options.content = null;
+            options.iniframe = false;
+        }
     };
     function parseExtensionsEnd(target) {
         var d = $(target), opts = d.dialog("options"), cp = getContentPanel(target),
             exts = opts._extensionsDialog ? opts._extensionsDialog : opts._extensionsDialog = { href: opts.href, content: opts.content, iniframe: opts.iniframe };
         opts.href = exts.href; opts.content = exts.content; opts.iniframe = exts.iniframe;
         opts.bodyCls = exts.bodyCls; opts.bodyStyle = exts.bodyStyle;
-        if (opts.iniframe) { refresh(target, opts.href); }
         if (cp && cp.length) {
             if (opts.bodyCls) { cp.addClass(opts.bodyCls); }
             if (opts.bodyStyle) { cp.css(opts.bodyStyle); }
-        }   
+        }
+        if (opts.iniframe) {
+            refresh(target);
+        }
     };
 
     var _dialog = $.fn.dialog;
@@ -408,7 +407,7 @@
         closeButtonIconCls: "icon-cancel",
 
         //  底部工具栏的所有按钮是否全部设置 plain: true
-        buttonsPlain: true
+        buttonsPlain: false
     };
 
 })(jQuery);

@@ -11,9 +11,9 @@
 * 二次开发 流云
 * 最近更新：2014-04-02
 *
-* 依赖项：jquery-1.9.1.js late
+* 依赖项：jquery 1.9.x/2.x  late
 *
-* Copyright 2013 ChenJianwei personal All rights reserved.
+* Copyright 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function (window, $, undefined) {

@@ -12,8 +12,8 @@
     <script src="../jquery/jquery-1.11.0.js" type="text/javascript"></script>
     <!--<script src="../jquery/jquery-1.11.0.min.js"></script>-->
 
-    <script src="../jquery-easyui-1.3.5/jquery.easyui.min.js" type="text/javascript"></script>
-    <script src="../jquery-easyui-1.3.5/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+    <script src="../jquery-easyui-1.3.6/jquery.easyui.min.js" type="text/javascript"></script>
+    <script src="../jquery-easyui-1.3.6/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
 
     <script src="../jquery.jdirk.js" type="text/javascript"></script>
     <!--<script src="../release/jquery.jdirk.min.js"></script>-->
@@ -50,27 +50,12 @@
 
     <script src="../jeasyui-extensions/jeasyui.extensions.gridselector.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jquery-easyui-comboselector/jquery.comboselector.js" type="text/javascript"></script>
-    
-    <script src="../plugins/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+
+    <script src="../common/plugin-import.js"></script>
+
     <script src="../jeasyui-extensions/jquery-easyui-my97/jquery.my97.js" type="text/javascript"></script>
-
     <script src="../jeasyui-extensions/jquery-easyui-portal/jquery.portal.js" type="text/javascript"></script>
-
-    <script src="../plugins/ueditor/ue1.3.6-utf8-net/ueditor.config.js"></script>
-    <script src="../plugins/ueditor/ue1.3.6-utf8-net/ueditor.all.js"></script>
-    <script src="../plugins/ueditor/ue1.3.6-utf8-net/lang/zh-cn/zh-cn.js"></script>
     <script src="../jeasyui-extensions/jquery-easyui-ueditor/jquery.ueditor.js"></script>
-
-    <!--<link href="../plugins/ueditor/ume1.2.2-utf8-net/themes/default/css/umeditor.css" rel="stylesheet" />
-    <script src="../plugins/ueditor/ume1.2.2-utf8-net/umeditor.config.js"></script>
-    <script src="../plugins/ueditor/ume1.2.2-utf8-net/umeditor.js"></script>
-    <script src="../plugins/ueditor/ume1.2.2-utf8-net/lang/zh-cn/zh-cn.js"></script>-->
-
-    <!--<script src="syntaxhighlighter.js" type="text/javascript"></script>-->
-    <script src="../plugins/syntaxhighlighter_3.0.83/scripts/shCore.min.js" type="text/javascript"></script>
-    <script src="../plugins/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js" type="text/javascript"></script>
-    <script src="../plugins/syntaxhighlighter_3.0.83/scripts/shBrushXml.js" type="text/javascript"></script>
-    <link href="../plugins/syntaxhighlighter_3.0.83/styles/shCoreDefault.css" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
         body {
@@ -103,12 +88,13 @@
                 dia.find("pre").text(html).each(function () {
                     SyntaxHighlighter.highlight({ brush: "jscript" }, this);
                 });
-            });
+            }, "html");
         };
 
         $(function () {
             SyntaxHighlighter.defaults["html-script"] = true;
-            var search = window.location.search, path = document.title = search.length && search.substr(0, 1) == "?" ? search.substr(1) : search;
+            //var search = window.location.search, path = document.title = search.length && search.substr(0, 1) == "?" ? search.substr(1) : search;
+            var path = $.util.request["path"];
 
             var ajaxError = $.easyui.ajaxError();
             $.easyui.ajaxError(function (XMLHttpRequest, status, error) {
@@ -199,12 +185,12 @@
         <div id="view" class="panel-container" data-options="title: '关于...', iconCls: 'icon-hamburg-library'">
             <p>
                 jQuery && jEasyUI 扩展功能集合<br />
-                该扩展功能基于 jQuery 1.9.x 和 jQuery EasyUI 1.3.5 实现<br />
+                该扩展功能基于 jQuery 1.9.x/2.x 和 jQuery EasyUI 1.3.6 实现<br />
                 <br />
                 jqueyr-extensions<br />
                 二次开发：流云<br />
                 <br />
-                Copyright (c) 2013 ChenJianwei personal All rights reserved.<br />
+                Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.<br />
                 <a href="http://cjw0511.cnblogs.com" target="_blank">http://cjw0511.cnblogs.com</a>
             </p>
             <hr />

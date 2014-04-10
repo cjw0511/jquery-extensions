@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,7 +11,7 @@
 * jQuery EasyUI comboselector 插件扩展
 * jquery.comboselector.js
 * 二次开发 流云
-* 最近更新：2014-04-02
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -24,7 +24,7 @@
 *   8、jeasyui.extensions.datagrid.js v1.0 beta late
 *   9、jeasyui.extensions.gridselector.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
 (function ($, undefined) {
@@ -259,7 +259,22 @@
                     return t.comboselector(opts.multiple ? "getValues" : "getValue");
                 },
                 setValue: function (target, value) {
-                    $(target).comboselector($.util.likeArrayNotString(value) ? "setValues" : "setValue", value);
+                    var t = $(target), opts = t.comboselector("options");
+                    if (value) {
+                        if (opts.multiple) {
+                            if ($.util.likeArrayNotString(value)) {
+                                t.comboselector("setValues", value);
+                            } else if (typeof value == "string") {
+                                t.comboselector("setValues", value.split(opts.separator));
+                            } else {
+                                t.comboselector("setValue", value);
+                            }
+                        } else {
+                            t.comboselector("setValue", value);
+                        }
+                    } else {
+                        t.comboselector("clear");
+                    }
                 },
                 resize: function (target, width) {
                     $(target).comboselector("resize", width);

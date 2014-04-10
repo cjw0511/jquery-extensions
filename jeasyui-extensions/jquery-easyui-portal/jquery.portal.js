@@ -14,9 +14,9 @@
  * jQuery EasyUI portal 插件
  * jquery.portal.js
  * 二次开发 流云
- * 最近更新：2013-12-11
+ * 最近更新：2014-04-09
  *
- * Copyright (c) 2013 ChenJianwei personal All rights reserved.
+ * Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
  * http://www.chenjianwei.org
  */
 (function ($) {

@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,7 +11,7 @@
 * jQuery EasyUI window 组件扩展
 * jeasyui.extensions.window.js
 * 二次开发 流云
-* 最近更新：2014-03-21
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -19,12 +19,8 @@
 *   3、jeasyui.extensions.menu.js v1.0 beta late
 *   4、jeasyui.extensions.panel.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
-*/
-
-/*
-功能说明：
 */
 (function ($, undefined) {
 
@@ -58,73 +54,75 @@
                 }
             });
             if (opts.bodyCls) { body.addClass(opts.bodyCls); }
-            opts._initialized = true;
-        }
-        if (opts.draggable) {
-            var dragOpts = state.window.draggable("options"), cursor = dragOpts.cursor,
-                onBeforeDrag = dragOpts.onBeforeDrag, onStartDrag = dragOpts.onStartDrag, onStopDrag = dragOpts.onStopDrag, onDrag = dragOpts.onDrag;
-            dragOpts.cursor = "default";
-            dragOpts.onBeforeDrag = function (e) {
-                var ret = onBeforeDrag.apply(this, arguments);
-                if (ret == false || e.which != 1 || t.window("options").maximized) { return false; }
-                dragOpts.cursor = cursor;
-            };
-            dragOpts.onStartDrag = function () {
-                onStartDrag.apply(this, arguments);
-                t.window("body").addClass("window-body-hidden").children().addClass("window-body-hidden-proxy");
-            };
-            dragOpts.onStopDrag = function () {
-                onStopDrag.apply(this, arguments);
-                t.window("body").removeClass("window-body-hidden").children().removeClass("window-body-hidden-proxy");
+
+            if (opts.draggable) {
+                var dragOpts = state.window.draggable("options"), cursor = dragOpts.cursor,
+                    onBeforeDrag = dragOpts.onBeforeDrag, onStartDrag = dragOpts.onStartDrag, onStopDrag = dragOpts.onStopDrag, onDrag = dragOpts.onDrag;
                 dragOpts.cursor = "default";
-            };
-            dragOpts.onDrag = function (e) {
-                if (!opts.inContainer) { return onDrag.apply(this, arguments); }
-                var left = e.data.left, top = e.data.top,
-                    p = win.parent(), root = p.is("body"),
-                    scope = $.extend({}, root ? $.util.windowSize() : { width: p.innerWidth(), height: p.innerHeight() }),
-                    width = $.isNumeric(opts.width) ? opts.width : win.outerWidth(),
-                    height = $.isNumeric(opts.height) ? opts.height : win.outerHeight();
-                if (left < 0) { left = 0; }
-                if (top < 0) { top = 0; }
-                if (left + width > scope.width && left > 0) { left = scope.width - width; b = true; }
-                if (top + height > scope.height && top > 0) { top = scope.height - height; b = true; }
-                state.proxy.css({
-                    display: 'block',
-                    left: left,
-                    top: top
-                });
-                return false;
-            };
-        }
-        if (opts.resizable) {
-            var resizableOpts = state.window.resizable("options"),
-                _onResize = resizableOpts.onResize, _onStopResize = resizableOpts.onStopResize;
-            resizableOpts.onResize = function (e) {
-                if (!opts.minWidth && !opts.maxWidth && !opts.minHeight && !opts.maxHeight) {
-                    return _onResize.apply(this, arguments);
-                }
-                state.proxy.css({ left: e.data.left, top: e.data.top });
-                var width = e.data.width, height = e.data.height,
-                    minWidth = $.isNumeric(opts.minWidth) ? opts.minWidth : defaults.minHeight,
-                    maxWidth = $.isNumeric(opts.maxWidth) ? opts.maxWidth : defaults.maxWidth,
-                    minHeight = $.isNumeric(opts.minHeight) ? opts.minHeight : defaults.minHeight,
-                    maxHeight = $.isNumeric(opts.maxHeight) ? opts.maxHeight : defaults.maxHeight;
-                if (width > opts.maxWidth) { width = maxWidth; resizable = true; }
-                if (width < opts.minWidth) { width = minWidth; resizable = true; }
-                if (height > opts.maxHeight) { height = maxHeight; resizable = true; }
-                if (height < opts.minHeight) { height = minHeight; resizable = true; }
-                state.proxy._outerWidth(width);
-                state.proxy._outerHeight(height);
-                return false;
-            };
-            resizableOpts.onStopResize = function (e) {
-                var ret = _onStopResize.apply(this, arguments);
-                if (t.window("options").maximized) {
-                    t.window("restore").window("maximize");
-                }
-                return ret;
-            };
+                dragOpts.onBeforeDrag = function (e) {
+                    var ret = onBeforeDrag.apply(this, arguments);
+                    if (ret == false || e.which != 1 || t.window("options").maximized) { return false; }
+                    dragOpts.cursor = cursor;
+                };
+                dragOpts.onStartDrag = function () {
+                    onStartDrag.apply(this, arguments);
+                    t.window("body").addClass("window-body-hidden").children().addClass("window-body-hidden-proxy");
+                };
+                dragOpts.onStopDrag = function () {
+                    onStopDrag.apply(this, arguments);
+                    t.window("body").removeClass("window-body-hidden").children().removeClass("window-body-hidden-proxy");
+                    dragOpts.cursor = "default";
+                };
+                dragOpts.onDrag = function (e) {
+                    if (!opts.inContainer) { return onDrag.apply(this, arguments); }
+                    var left = e.data.left, top = e.data.top,
+                        p = win.parent(), root = p.is("body"),
+                        scope = $.extend({}, root ? $.util.windowSize() : { width: p.innerWidth(), height: p.innerHeight() }),
+                        width = $.isNumeric(opts.width) ? opts.width : win.outerWidth(),
+                        height = $.isNumeric(opts.height) ? opts.height : win.outerHeight();
+                    if (left < 0) { left = 0; }
+                    if (top < 0) { top = 0; }
+                    if (left + width > scope.width && left > 0) { left = scope.width - width; b = true; }
+                    if (top + height > scope.height && top > 0) { top = scope.height - height; b = true; }
+                    state.proxy.css({
+                        display: 'block',
+                        left: left,
+                        top: top
+                    });
+                    return false;
+                };
+            }
+            if (opts.resizable) {
+                var resizableOpts = state.window.resizable("options"),
+                    _onResize = resizableOpts.onResize, _onStopResize = resizableOpts.onStopResize;
+                resizableOpts.onResize = function (e) {
+                    if (!opts.minWidth && !opts.maxWidth && !opts.minHeight && !opts.maxHeight) {
+                        return _onResize.apply(this, arguments);
+                    }
+                    state.proxy.css({ left: e.data.left, top: e.data.top });
+                    var width = e.data.width, height = e.data.height,
+                        minWidth = $.isNumeric(opts.minWidth) ? opts.minWidth : defaults.minHeight,
+                        maxWidth = $.isNumeric(opts.maxWidth) ? opts.maxWidth : defaults.maxWidth,
+                        minHeight = $.isNumeric(opts.minHeight) ? opts.minHeight : defaults.minHeight,
+                        maxHeight = $.isNumeric(opts.maxHeight) ? opts.maxHeight : defaults.maxHeight;
+                    if (width > opts.maxWidth) { width = maxWidth; resizable = true; }
+                    if (width < opts.minWidth) { width = minWidth; resizable = true; }
+                    if (height > opts.maxHeight) { height = maxHeight; resizable = true; }
+                    if (height < opts.minHeight) { height = minHeight; resizable = true; }
+                    state.proxy._outerWidth(width);
+                    state.proxy._outerHeight(height);
+                    return false;
+                };
+                resizableOpts.onStopResize = function (e) {
+                    var ret = _onStopResize.apply(this, arguments);
+                    if (t.window("options").maximized) {
+                        t.window("restore").window("maximize");
+                    }
+                    return ret;
+                };
+            }
+
+            opts._initialized = true;
         }
     };
 

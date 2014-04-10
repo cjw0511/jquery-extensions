@@ -17,15 +17,10 @@
         var portal = $("#portal"), layout = $("#mainLayout"), navTab = $("#navTab"), themeCombo = $("#themeSelector");
 
         $.util.exec(function () {
-            if ($.util.browser.webkit) { navTab.tabs("select", 1).tabs("select", 0); }
-            layout.removeClass("hidden").layout("resize");
-
             var theme = $.easyui.theme(), themeName = $.cookie("themeName");
             if (themeName && themeName != theme) { window.mainpage.setTheme(themeName, false); }
 
-            if ($.util.browser.msie && ($.util.browser.version < 10)) {
-                portal.portal("addColumn").portal("removeColumn", portal.portal("columns") - 1).portal("resize");
-            }
+            layout.removeClass("hidden").layout("resize");
 
             $("#maskContainer").remove();
 

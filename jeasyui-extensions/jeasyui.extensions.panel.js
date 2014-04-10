@@ -1,6 +1,6 @@
 ﻿/**
-* jQuery EasyUI 1.3.5
-* Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
+* jQuery EasyUI 1.3.6
+* Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
 *
 * Licensed under the GPL or commercial licenses
 * To use it on other terms please contact author: info@jeasyui.com
@@ -11,20 +11,15 @@
 * jQuery EasyUI panel 组件扩展
 * jeasyui.extensions.panel.js
 * 二次开发 流云
-* 最近更新：2013-09-22
+* 最近更新：2014-04-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 *
-* Copyright (c) 2013 ChenJianwei personal All rights reserved.
+* Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
 */
-
-/*
-功能说明：
-*/
-
 (function ($, undefined) {
 
 
@@ -116,8 +111,8 @@
     };
 
     var inAccordion = function (target) {
-        var t = $(target), panel = t.panel("panel"), container = panel.parent();
-        return (container.hasClass("accordion") && $.data(container[0], "accordion")) ? true : false;
+        var t = $(target), body = t.panel("body"), panel = t.panel("panel"), container = panel.parent();
+        return (body.hasClass("accordion-body") && container.hasClass("accordion") && $.data(container[0], "accordion")) ? true : false;
     };
 
     var isWindow = function (target) {
@@ -136,16 +131,21 @@
 
     function parseExtensionsBegin(options) {
         options._extensionsPanel = { href: options.href, content: options.content };
-        if (!options.iniframe) { return; }
-        options.href = null;
-        options.content = null;
+        if (options.iniframe) {
+            options.href = null;
+            options.content = null;
+        }
     };
     function parseExtensionsEnd(target) {
         var panel = $(target), opts = panel.panel("options"),
             exts = opts._extensionsPanel ? opts._extensionsPanel : opts._extensionsPanel = { href: opts.href, content: opts.content };
         opts.href = exts.href; opts.content = exts.content;
-        if (opts.iniframe) { refresh(target, opts.href, true); }
-        if (opts.bodyStyle) { panel.panel("body").css(opts.bodyStyle); }
+        if (opts.bodyStyle) {
+            panel.panel("body").css(opts.bodyStyle);
+        }
+        if (opts.iniframe) {
+            refresh(target);
+        }
     };
 
     var _panel = $.fn.panel;
@@ -168,24 +168,111 @@
     $.union($.fn.panel, _panel);
 
 
-    var _refresh = $.fn.panel.methods.refresh;
-    function refresh(target, href, isInit) {
-        var p = $(target), opts = p.panel("options");
+
+
+
+
+    function loadPanel(target) {
+        var t = $(target), state = $.data(target, "panel"), opts = state.options;
+        if (opts.href) {
+            if (!state.isLoaded || !opts.cache) {
+                var params = $.extend({}, opts.queryParams);
+                if (opts.onBeforeLoad.call(target, params) == false) {
+                    return;
+                }
+                state.isLoaded = false;
+                destroyContent(target);
+                if (opts.loadingMessage) {
+                    t.html($("<div class=\"panel-loading\"></div>").html(opts.loadingMessage));
+                }
+                //$.ajax({
+                //    url: opts.href, cache: false, dataType: "html",
+                //    success: function (data) {
+                //        loadContent(opts.extractor.call(target, data));
+                //        opts.onLoad.apply(target, arguments);
+                //        state.isLoaded = true;
+                //    },
+                //    error: function () {
+                //        opts.onLoadError.apply(target, arguments);
+                //        state.isLoaded = true;
+                //    }
+                //});
+                opts.loader.call(target, params, function (data) {
+                    loadContent(opts.extractor.call(target, data));
+                    opts.onLoad.apply(target, arguments);
+                    state.isLoaded = true;
+                }, function () {
+                    opts.onLoadError.apply(target, arguments);
+                });
+            }
+        } else {
+            if (opts.content) {
+                if (!state.isLoaded) {
+                    destroyContent(target);
+                    loadContent(opts.content);
+                    state.isLoaded = true;
+                }
+            }
+        }
+        function loadContent(content) {
+            t.html(content);
+            $.parser.parse(t);
+        };
+    };
+    function destroyContent(target) {
+        var t = $(target);
+        t.find(".combo-f").each(function () {
+            $(this).combo("destroy");
+        });
+        t.find(".m-btn").each(function () {
+            $(this).menubutton("destroy");
+        });
+        t.find(".s-btn").each(function () {
+            $(this).splitbutton("destroy");
+        });
+        t.find(".tooltip-f").each(function () {
+            $(this).tooltip("destroy");
+        });
+        t.children("div").each(function () {
+            $(this)._fit(false);
+        });
+    };
+
+
+
+
+
+    function refresh(target, href) {
+        var state = $.data(target, "panel"), opts = state.options;
+        state.isLoaded = false;
+        if (href) {
+            if (typeof href == "string") {
+                opts.href = href;
+            } else {
+                opts.queryParams = href;
+            }
+        }
         if (opts.iniframe) {
-            if (href) { opts.href = href; }
             var exts = opts._extensionsPanel ? opts._extensionsPanel : opts._extensionsPanel = { href: opts.href, content: opts.content };
             exts.href = opts.href; exts.content = opts.content;
             opts.href = null;
             opts.content = "<iframe class=\"panel-iframe\" frameborder=\"0\" width=\"100%\" height=\"100%\" marginwidth=\"0px\" marginheight=\"0px\" scrolling=\"auto\"></iframe>";
-            _refresh.call(p, p);
+            loadPanel(target);
             opts.href = exts.href; opts.content = exts.content;
-            getIframe(target).bind("load", function () {
-                if ($.isFunction(opts.onLoad)) { opts.onLoad.call(target); }
+            getIframe(target).bind({
+                load: function () {
+                    if ($.isFunction(opts.onLoad)) { opts.onLoad.apply(target, arguments); }
+                },
+                error: function () {
+                    if ($.isFunction(opts.onLoadError)) { opts.onLoadError.apply(target, arguments); }
+                }
             }).attr("src", opts.href || "");
         } else {
-            _refresh.call(p, p, href);
+            loadPanel(target);
         }
     };
+
+
 
     function getIframe(target) {
         var p = $(target), body = p.panel("body");

@@ -505,7 +505,11 @@
     };
 
     $.fn.panel.defaults = {
-        id: null, title: null, iconCls: null, width: "auto", height: "auto", left: null, top: null, cls: null, headerCls: null, bodyCls: null, style: {}, href: null, cache: true, fit: false, border: true, doSize: true, noheader: false, content: null, collapsible: false, minimizable: false, maximizable: false, closable: false, collapsed: false, minimized: false, maximized: false, closed: false, tools: null, href: null, loadingMessage: "Loading...", extractor: function (_69) {
+        id: null, title: null, iconCls: null, width: "auto", height: "auto", left: null, top: null, cls: null,
+        headerCls: null, bodyCls: null, style: {}, href: null, cache: true, fit: false, border: true, doSize: true, noheader: false,
+        content: null, collapsible: false, minimizable: false, maximizable: false, closable: false, collapsed: false,
+        minimized: false, maximized: false, closed: false, tools: null, href: null, loadingMessage: "Loading...",
+        extractor: function (_69) {
             var _6a = /<body[^>]*>((.|[\n\r])*)<\/body>/im;
             var _6b = _6a.exec(_69);
             if (_6b) {
