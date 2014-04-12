@@ -43,9 +43,6 @@
         } else {
             _9.height("auto");
         }
-        //if (_6.width == 0 || _6.height == 0) {
-        //    alert("warning");
-        //}
         _7.css("height", "");
         _6.onResize.apply(_4, [_6.width, _6.height]);
         $(_4).find(">div:visible,>form>div:visible").triggerHandler("_resize");

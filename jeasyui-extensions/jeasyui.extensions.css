@@ -16,7 +16,7 @@ easyui-lang-zh_CN.js
 .mask-container { position: relative; }
 
 /*添加下一行css代码，修复页面中 input 与 easyui-combo 组件同行时位置偏移的问题*/
-.searchbox,.combo,input { vertical-align: middle; }
+input { vertical-align: middle; }
 
 /*jeasyui.extensions.linkbutton.js*/
 
@@ -38,9 +38,6 @@ iframe.panel-iframe { margin: 0; padding: 0; width: 100%; height: 100%; border: 
 .window-proxy { background-color: #0e2d5f; filter: alpha(opacity=60); opacity: 0.6; }
 
 /*jeasyui.extensions.dialog.js*/
-/*div.dialog-button.calendar-header a.l-btn-plain { border: 1px solid #C1C1C1; border-radius: 0; }
-div.dialog-button.calendar-header a:hover.l-btn-plain { border-radius: 0; }
-div.dialog-button.calendar-header a.l-btn-plain { padding: 0 5px 0 0; }*/
 .dialog-options-body { padding: 10px; width: 100%; }
 .dialog-options-row { }
 .dialog-options-cell { text-align: right; width: 100px; }

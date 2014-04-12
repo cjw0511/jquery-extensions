@@ -21,6 +21,8 @@
 .nav-menu-icon { padding-left: 25px; background-position: left center; }
         
 #mainTab>div.tabs-header { border-right-width: 0px; }
+#mainTab > div.tabs-header > div.tabs-scroller-left, #mainTab > div.tabs-header > div.tabs-scroller-right { border-left-width: 0px; }
+
 #navTab > div.tabs-header { border-right-width: 0px; }
 .tabs-tool table { border-width: 0px; border-collapse: collapse; border-spacing: 0px; }
 .tabs-tool table td { padding: 0px; }

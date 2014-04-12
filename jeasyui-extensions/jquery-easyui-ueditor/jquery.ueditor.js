@@ -28,12 +28,12 @@
 (function ($, undefined) {
 
     function create(target) {
-        var t = $(target).addClass("ueditor-f").hide(),
+        var t = $(target).addClass("ueditor-f"),
             text = target.innerText, cc = t.children(),
             state = $.data(target, "ueditor"), opts = state.options,
             name = t.attr("name"), id = state.editorId = "ueditor_" + $.util.guid("N"),
             isDiv = /^(?:div)$/i.test(target.nodeName),
-            ueditor = state.ueditor = isDiv ? t : $("<div class=\"ueditor\"></div>").insertAfter(t).hide(),
+            ueditor = state.ueditor = isDiv ? t.addClass("ueditor") : $("<div class=\"ueditor\"></div>").insertAfter(t),
             wrapper = state.wrapper = $("<textarea></textarea>").insertAfter(ueditor).attr("id", id);
         if (name) {
             t.attr("ueditorName", name).removeAttr("name");
@@ -51,6 +51,9 @@
         if (opts.templet) {
             opts.toolbars = opts.toolbarsTemplet[opts.templet]
         }
+        state.ueditor.addClass("panel").show().css({
+            width: 1, height: 1, position: "fixed", top: -10000, left: -10000
+        });
         state.editor = UE.getEditor(id, opts);
 
         initialEvents(target);
@@ -126,7 +129,7 @@
 
     function resize(target, param) {
         var t = $(target), opts = t.ueditor("options"),
-            size = $.extend({ width: opts.width, height: opts.height }, param || {});
+            size = $.extend({ width: opts.width, height: opts.height }, param ? param : (opts.fit ? t._fit() : {}));
         setWidth(target, size.width);
         setHeight(target, size.height);
         if ($.isFunction(opts.onResize)) { opts.onResize.call(target, size.width, size.height); }

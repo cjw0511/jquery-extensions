@@ -11,7 +11,7 @@
 * jQuery EasyUI form 组件扩展
 * jeasyui.extensions.form.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-04-12
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -37,7 +37,10 @@
         if (isForm) {
             return _submit.call(t, t, options);
         }
-        var opts = $.extend({}, state.options, options || {}), param = t.form("getData"), method = $[state.options.method];
+        var options = state ? state.options : $.fn.form.defaults,
+            opts = $.extend({}, options, options || {}),
+            param = t.form("getData"),
+            method = $[options.method];
         if (($.isFunction(opts.onSubmit) && opts.onSubmit.call(target, param) == false) || !opts.url) {
             return;
         }

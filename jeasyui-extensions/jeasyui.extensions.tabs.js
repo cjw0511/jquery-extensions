@@ -244,6 +244,7 @@
             autoHCenter: false,
             enableSaveButton: false,
             topMost: false,
+            applyButtonIndex: 1,
             applyButtonText: "打开",
             onApply: function (dia) {
                 var title = txtTitle.val(), href = txtHref.val();
