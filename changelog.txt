@@ -1,6 +1,27 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2014-04-29(1.0.46 preview) ********/
+1、【+】 增加 jquery.euploadify.js 插件(整合 uploadify 文件上传插件)；
+2、[+] jeasyui.extensions.datagrid.js 扩展插件中，增加 onDeleteRow、onBeforeDeleteRow 事件；
+3、[+] jeasyui.extensions.treegrid.js 扩展插件中，增加 onRemove、onBeforeRemove 事件；
+4、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 扩展插件中，当 append、insert、delete/remove 行时不会刷新 columnFilter 的 BUG；
+5、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 扩展插件的行编辑状态中，easyui-combo 及其继承控件的单元格编辑时，
+    修复 combo 与 combo-textbox 边框重复的问题
+
+
+/******** 2014-04-23(1.0.45 preview) ********/
+1、[#] 修复 jquery.jdirk.js 中 $.fn.serializeObject 方法中的部分算法 BUG；
+2、[#] 修复扩展 jeasyui.extensions.form.js 中 submit 方法的部分算法 BUG；
+
+
+/******** 2014-04-21(1.0.45 preview) ********/
+1、【+】 增加 jquery.codemirror.js 插件(整合 CodeMirror 高亮编辑器)；
+2、[#] 修复插件 jquery.ueditor.js 中存在的部分 BUG；
+3、[+] 插件 jeasyui.extensions.linkbutton.js 中，增加 easyui-linkbutton 控件的自定义属性 tooltip 和 自定义方法 setTooltip，以实现其 tooltip 效果；
+4、【+】 增加 flowchart 的演示 DEMO；
+
+
 /******** 2014-04-10(1.0.44 preview) ********/
 1、【^】 将 jquery-easyui 核心插件升级至 jquery-easyui-1.3.6 版；
 2、【^】 基于 jquery-easyui 核心基础库升级，所有的界面主题皮肤文件均已升级至最新版，所有主题皮肤均完美兼容；
@@ -8,6 +29,13 @@
     a、jeasyui.extensions.linkbutton.js
     b、jeasyui.extensions.panel.js
     c、jeasyui.extensions.form.js
+4、【-】 因 jquery 核心基础库和 jquery-easyui 核心基础库的升级，从即日起本插件集合虽依然会尽可能的做好浏览器兼容性开发和测试工作，但原则上
+    不再保证本插件集合在如下版本浏览器中的兼容性：
+    a、IE8 及以下版本；
+    b、Chrome9 及以下版本；
+    c、Firefox3 及以下版本
+    d、Opera9 及以下版本；
+    e、Safari4 及以下版本；
 
 
 /******** 2014-04-03(1.0.43 preview) ********/

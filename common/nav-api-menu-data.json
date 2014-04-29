@@ -166,7 +166,8 @@
             { "id": "11070107", "text": "列冻结/取消冻结", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/freeze/demo.html" } },
             { "id": "11070108", "text": "自适应屏幕大小", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/offset/demo.html" } },
             { "id": "11070109", "text": "高亮关键词查找", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/livesearch/demo.html" } },
-            { "id": "11070110", "text": "其他扩展功能", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/others/demo.html" } }
+            { "id": "11070110", "text": "其他扩展功能", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/others/demo.html" } },
+            { "id": "11070111", "text": "其他扩展功能-2", "pid": "110701", "attributes": { "href": "examples/example.html?path=datagrid/others/demo-2.html" } }
         ]
         },
 
@@ -252,13 +253,26 @@
         { "id": "110805", "text": "Portal", "pid": "1108", "attributes": { "href": "examples/example.html?path=portal/demo.html" } },
         { "id": "110806", "text": "my97", "pid": "1108", "attributes": { "href": "examples/example.html?path=my97/demo.html&plugin=my97" } },
         { "id": "110807", "text": "ckeditor", "pid": "1108", "attributes": { "href": "examples/example.html?path=ckeditor/demo.html" } },
-        { "id": "110808", "text": "uploadify", "pid": "1108", "attributes": { "href": "examples/example.html?path=uploadify/demo.html" } },
+        { "id": "110808", "text": "euploadify", "pid": "1108", "attributes": { "href": "examples/example.html?path=euploadify/demo.html&plugin=euploadify" } },
         { "id": "110809", "text": "BayGUI", "pid": "1108", "attributes": { "href": "examples/example.html?path=baygui/demo.html" } },
         { "id": "110810", "text": "baybuilder", "pid": "1108", "attributes": { "href": "examples/example.html?path=baygui/baybuilder/demo.html" } },
         { "id": "110811", "text": "ueditor", "pid": "1108", "attributes": { "href": "examples/example.html?path=ueditor/ueditor.html&plugin=ueditor,my97" } },
         { "id": "110812", "text": "umeditor", "pid": "1108", "attributes": { "href": "examples/example.html?path=ueditor/umeditor.html" } },
         { "id": "110813", "text": "codemirror", "pid": "1108", "attributes": { "href": "examples/example.html?path=codemirror/demo.html&plugin=codemirror" } },
-        { "id": "110899", "text": "Testing", "pid": "1108", "attributes": { "href": "examples/example.html?path=testing/demo.html" } }
+        { "id": "110814", "text": "flowchart", "pid": "1108", "children": [
+            { "id": "11081401", "text": "demo-view", "pid": "110814", "attributes": { "href": "tests/myflow-min/demo-view.html" } },
+            { "id": "11081401", "text": "demo3", "pid": "110814", "attributes": { "href": "tests/myflow-min/demo3.html" } },
+            { "id": "11081401", "text": "demo4", "pid": "110814", "attributes": { "href": "tests/myflow-min/demo4.html" } }
+        ] },
+        { "id": "110898", "text": "Testing", "pid": "1108", "attributes": { "href": "examples/example.html?path=testing/demo.html" } },
+        { "id": "110899", "text": "TestPages", "pid": "1108", "children": [
+            { "id": "11089901", "text": "01-codemirror", "pid": "110899", "attributes": { "href": "tests/01-codemirror.html" } },
+            { "id": "11089902", "text": "02-ueditor", "pid": "110899", "attributes": { "href": "tests/02-ueditor.html" } },
+            { "id": "11089903", "text": "03-ueditor", "pid": "110899", "attributes": { "href": "tests/03-ueditor.html" } },
+            { "id": "11089904", "text": "04-layout", "pid": "110899", "attributes": { "href": "tests/04-layout.html" } },
+            { "id": "11089905", "text": "05-uploadify", "pid": "110899", "attributes": { "href": "tests/05-uploadify.html" } },
+            { "id": "11089906", "text": "06-navmenu", "pid": "110899", "attributes": { "href": "tests/06-navmenu.html" } }
+        ] }
     ]
     }
 ]

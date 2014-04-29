@@ -50,12 +50,13 @@
         $(function () {
             var search = window.location.search, path = document.title = search.length && search.substr(0, 1) == "?" ? search.substr(1) : search;
 
-            var ajaxError = $.easyui.ajaxError();
-            $.easyui.ajaxError(function (XMLHttpRequest, status, error) {
-                if (XMLHttpRequest.status == 404 && $.util.browser.chrome && !XMLHttpRequest.responseText) {
-                    alert("IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
-                } else {
-                    if ($.isFunction(ajaxError)) { ajaxError.apply(this, arguments); }
+            $.ajaxSetup({
+                statusCode: {
+                    404: function (XMLHttpRequest, status, error) {
+                        if ($.util.browser.chrome && !XMLHttpRequest.responseText) {
+                            alert("IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
+                        }
+                    }
                 }
             });
 

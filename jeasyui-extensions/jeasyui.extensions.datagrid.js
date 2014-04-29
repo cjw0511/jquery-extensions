@@ -11,7 +11,7 @@
 * jQuery EasyUI datagrid 组件扩展
 * jeasyui.extensions.datagrid.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-04-29
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -431,29 +431,40 @@
     };
 
     var _deleteRow = $.fn.datagrid.methods.deleteRow;
-    var deleteRow = function (target, param) {
-        var t = $(target), isFunc = $.isFunction(param), index;
+    var deleteRow = function (target, param, doFilter) {
+        var t = $(target), opts = t.datagrid("options"), isFunc = $.isFunction(param), index, row;
+        if (doFilter == undefined || doFilter == null) { doFilter = true; }
         if (isFunc) {
-            var rows = t.datagrid("getRows"), row = $.array.first(rows, param);
-            if (row) { _deleteRow.call(t, t, row); }
+            var rows = t.datagrid("getRows");
+            row = $.array.first(rows, param);
+            index = t.datagrid("getRowIndex", row);
         } else {
             index = $.isNumeric(param) ? param : t.datagrid("getRowIndex", param);
-            if ($.isNumeric(index) && index > -1) { _deleteRow.call(t, t, index); }
+            row = t.datagrid("getRowData", index);
+        }
+        if ($.isNumeric(index) && index > -1 && $.isFunction(opts.onBeforeDeleteRow) && opts.onBeforeDeleteRow.call(target, index, row) != false) {
+            _deleteRow.call(t, t, index);
+            if ($.isFunction(opts.onDeleteRow)) { opts.onDeleteRow.call(target, index, row); }
+            if (doFilter) {
+                initHeaderColumnFilterContainer(t, opts);
+            }
         }
     };
 
     var deleteRows = function (target, param) {
-        var isArray = $.array.likeArray(param) && !$.util.isString(param);
-        if (isArray) { $.each(param, function (index, val) { deleteRow(target, val); }); return; }
-        if ($.isFunction(param)) {
+        var t = $(target), opts = t.datagrid("options"), isArray = $.array.likeArrayNoString(param);
+        if (isArray = $.array.likeArrayNoString(param)) {
+            $.each(param, function (index, val) { deleteRow(target, val, false); });
+        } else {
             var t = $(target), rows = t.datagrid("getRows");
             $.each(rows, function (index, row) {
-                if (param.call(this, this, index, rows) == true) {
-                    var i = t.datagrid("getRowIndex", this);
+                if (param.call(row, row, index, rows) == true) {
+                    var i = t.datagrid("getRowIndex", row);
                     _deleteRow.call(t, t, i);
                 }
             });
         }
+        initHeaderColumnFilterContainer(t, opts);
     };
 
     var setColumnTitle = function (target, param) {
@@ -791,6 +802,7 @@
         var data = t.datagrid("getData"), oldData = exts.oldData;
         if (data != oldData) { exts.filterData = []; }
         clearHeaderColumnFilter(t, opts);
+        refreshColumnFilterPagerStatus(t, opts);
         if (!opts.columnFilter) { return; }
         exts.oldData = data;
         var header = t.datagrid("getPanel").find("div.datagrid-view div.datagrid-header"),
@@ -900,7 +912,7 @@
             handler = function (newValue, oldValue) {
                 changeSliderValue(t, field, rows, newValue, type, input, slider, headerFileds);
             };
-        input.numberbox({ value: type == "<=" ? max : min, min: min, max: max, precision: precision, onChange: handler });
+        input.numberbox({ value: type == "<=" ? max : min, min: min, max: max, precision: precision, onChange: handler, height: 18 });
         input.keypress(function (e) { if (e.which == 13) { var val = input.val(); input.numberbox("setValue", $.isNumeric(val) ? val : 0); } });
         slider.slider({
             height: height, mode: "v", showTip: true, value: type == "<=" ? max : min,
@@ -1416,8 +1428,14 @@
             width = view1.outerWidth(), height = tr.outerHeight(), pos = tr.position(),
             top = pos.top + height + body.scrollTop() - view2.find("div.datagrid-header").outerHeight();
         var p = $("<div class=\"dialog-button datagrid-rowediting-panel\"></div>").appendTo(body).css("top", top).attr("datagrid-row-index", index);
-        $("<a></a>").appendTo(p).linkbutton({ plain: false, iconCls: "icon-ok", text: "保存" }).click(function () { t.datagrid("endEdit", index); });
-        $("<a></a>").appendTo(p).linkbutton({ plain: false, iconCls: "icon-cancel", text: "取消" }).click(function () { t.datagrid("cancelEdit", index); });
+        $("<a></a>").appendTo(p).linkbutton({ plain: false, iconCls: "icon-ok", text: "保存" }).click(function () {
+            t.datagrid("endEdit", index);
+            disposeRowExtEditor(t, opts, index);
+        });
+        $("<a></a>").appendTo(p).linkbutton({ plain: false, iconCls: "icon-cancel", text: "取消" }).click(function () {
+            t.datagrid("cancelEdit", index);
+            disposeRowExtEditor(t, opts, index);
+        });
         var diff = (opts.width - p.outerWidth()) / 2 - width, left = diff > 0 ? diff : 0;
         p.css("left", left);
     };
@@ -2258,7 +2276,11 @@
         //      index:  表示要进行 insertRow 的行的索引号，从 0 开始计数；
         //      row:    表示要进行插入行操作的新的行数据对象；
         //  该事件函数中的 this 指向当前 easyui-datarid 的 DOM 对象(非 jQuery 对象)；
-        onBeforeRow: function (index, row) { }
+        onBeforeRow: function (index, row) { },
+
+        onBeforeDeleteRow: function (index, row) { },
+
+        onDeleteRow: function (index, row) { }
     };
 
     //  另，增加了 easyui-datagrid 中列 columnOption 的部分自定义扩展属性：

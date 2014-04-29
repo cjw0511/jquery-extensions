@@ -11,7 +11,7 @@
 * jQuery EasyUI linkbutton 组件扩展
 * jeasyui.extensions.linkbutton.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-04-17
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -29,6 +29,7 @@
             exts = opts.extensions ? opts.extensions : opts.extensions = {};
         if (!exts._initialized) {
             setStyle(target, opts.style);
+            setTooltip(target, opts.tooltip);
             exts._initialized = true;
         }
     };
@@ -69,11 +70,28 @@
         }
     };
 
+    function setTooltip(target, tooltip) {
+        var t = $(target), opts = t.linkbutton("options"), isFunc = $.isFunction(tooltip);
+        opts.tooltip = tooltip;
+        if (opts.tooltip) {
+            var topts = { content: !isFunc ? tooltip : null };
+            if (isFunc) {
+                $.extend(topts, {
+                    onShow: function (e) {
+                        $(this).tooltip("update", tooltip.call(target, e));
+                    }
+                });
+            }
+            t.tooltip(topts);
+        }
+        if (opts.tooltip == false) {
+            t.tooltip("destroy");
+        }
+    };
+
     function setPlain(target, plain) {
         var t = $(target), opts = t.linkbutton("options");
-        plain = plain ? true : false;
-        t[plain ? "addClass" : "removeClass"]("l-btn-plain");
-        opts.plain = plain;
+        t[(opts.plain = plain ? true : false) ? "addClass" : "removeClass"]("l-btn-plain");
     };
 
     function setSize(target, size) {
@@ -92,7 +110,9 @@
         options = options || {};
         return this.each(function () {
             var jq = $(this), hasInit = $.data(this, "linkbutton") ? true : false,
-                opts = hasInit ? options : $.extend({}, $.fn.linkbutton.parseOptions(this), options);
+                opts = hasInit ? options : $.extend({}, $.fn.linkbutton.parseOptions(this), $.parser.parseOptions(this, [
+                    "tooltip"
+                ]), options);
             _linkbutton.call(jq, opts);
             initialize(this);
         });
@@ -102,7 +122,11 @@
 
     var defaults = $.fn.linkbutton.extensions.defaults = {
         //  增加 easyui-linkbutton 控件的自定义属性；表示 linkbutton 按钮的自定义样式。
-        style: null
+        style: null,
+
+        //  增加 easyui-linkbutton 控件的自定义属性；表示 linkbutton 按钮鼠标放置提示。
+        //      String 类型或 Function 类型，
+        tooltip: null
     };
 
     var methods = $.fn.linkbutton.extensions.methods = {
@@ -134,7 +158,11 @@
         //  增加 easyui-linkbutton 控件的自定义扩展方法；设置 linkbutton 按钮的 size 属性；该方法定义如下参数：
         //      size:   String 类型，表示要设置的按钮的 size 属性值；该参数限定取值 'small','large'
         //  返回值：返回表示当前 easyui-linkbutton 控件的 jQuery 链式对象；
-        setSize: function (jq, size) { return jq.each(function () { setSize(this, size); }); }
+        setSize: function (jq, size) { return jq.each(function () { setSize(this, size); }); },
+
+        //  增加 easyui-linkbutton 控件的自定义扩展方法；设置 linkbutton 按钮的 tooltip 属性；该方法定义如下参数：
+        //      tooltip: String 类型或 Function 类型，表示要设置的按钮的 prompt 属性值；如果该参数值为 false，则表示销毁该按钮的 easyui-tooltip 效果；
+        setTooltip: function (jq, tooltip) { return jq.each(function () { setTooltip(this, tooltip); }) }
     };
 
     $.extend($.fn.linkbutton.defaults, defaults);

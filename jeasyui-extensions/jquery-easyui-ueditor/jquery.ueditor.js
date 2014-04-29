@@ -11,7 +11,7 @@
 * jQuery EasyUI ueditor 插件扩展
 * jquery.ueditor.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-04-16
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -29,25 +29,22 @@
 
     function create(target) {
         var t = $(target).addClass("ueditor-f"),
-            text = target.innerText, cc = t.children(),
+            isDiv = /^(?:div)$/i.test(target.nodeName), isText = /^(?:textarea)$/i.test(target.nodeName),
+            html = isText ? t.text() : t.html(),
             state = $.data(target, "ueditor"), opts = state.options,
             name = t.attr("name"), id = state.editorId = "ueditor_" + $.util.guid("N"),
-            isDiv = /^(?:div)$/i.test(target.nodeName),
-            ueditor = state.ueditor = isDiv ? t.addClass("ueditor") : $("<div class=\"ueditor\"></div>").insertAfter(t),
-            wrapper = state.wrapper = $("<textarea></textarea>").insertAfter(ueditor).attr("id", id);
+            ueditor = state.ueditor = isDiv ? t.addClass("ueditor").empty() : $("<div class=\"ueditor\"></div>").insertAfter(t.hide().empty()),
+            wrapper = state.wrapper = $("<textarea id=\"" + id + "\"" + (name ? " name=\"" + name + "\"" : "") + "></textarea>").insertAfter(ueditor).attr("id", id);
         if (name) {
             t.attr("ueditorName", name).removeAttr("name");
-            wrapper.attr("name", name);
         }
-        if (text) { wrapper.text(text); }
-        cc.each(function () { wrapper.append(this); });
-        t.empty();
+        if (html) { wrapper.text(html); }
 
         if (opts.value) {
             wrapper.empty();
             opts.initialContent = opts.value;
         }
-        opts.originalValue = opts.initialContent;
+        opts.originalValue = opts.initialContent || html;
         if (opts.templet) {
             opts.toolbars = opts.toolbarsTemplet[opts.templet]
         }
@@ -65,11 +62,11 @@
         $.each($.fn.ueditor.events, function (i, n) {
             var eventName = "on" + n, e = opts[eventName];
             state.editor.addListener(n, function () {
-                if ($.isFunction(e)) { e.apply(target, arguments); }
                 if (n == "contentChange") {
                     var val = opts.value = $(target).ueditor("getValue");
-                    state.wrapper.val(val);
+                    state.wrapper.text(val);
                 }
+                if ($.isFunction(e)) { return e.apply(target, arguments); }
             });
         });
     };
@@ -342,7 +339,6 @@
         'print', 'preview', 'searchreplace', 'help', 'drafts'
     ]];
     $.fn.ueditor.parseOptions = function (target) {
-        var t = $(target);
         return $.extend({}, $.parser.parseOptions(target, [
             "lang", "theme", "charset", "initialContent", "textarea", "wordCountMsg", "tabNode", "sourceEditor", "value", "templet", "valueMethod",
             {
@@ -366,7 +362,7 @@
         resize: function (jq, size) { return jq.each(function () { resize(this, size); }); },
 
 
-        //  销毁编辑器实例，使用textarea代替
+        //  销毁编辑器实例
         destroy: function (jq) { return jq.each(function () { destroy(this); }); },
 
         //  同步数据到编辑器所在的form 从编辑器的容器节点向上查找form元素

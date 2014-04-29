@@ -21,6 +21,7 @@
     <link href="../jeasyui-extensions/jeasyui.extensions.css" rel="stylesheet" type="text/css" />
 
     <script src="../jeasyui-extensions/jeasyui.extensions.js" type="text/javascript"></script>
+    <script src="../jeasyui-extensions/jeasyui.extensions.progressbar.js"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.linkbutton.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.form.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jeasyui.extensions.validatebox.js" type="text/javascript"></script>
@@ -53,9 +54,7 @@
 
     <script src="../common/plugin-import.js"></script>
 
-    <script src="../jeasyui-extensions/jquery-easyui-my97/jquery.my97.js" type="text/javascript"></script>
     <script src="../jeasyui-extensions/jquery-easyui-portal/jquery.portal.js" type="text/javascript"></script>
-    <script src="../jeasyui-extensions/jquery-easyui-ueditor/jquery.ueditor.js"></script>
 
     <style type="text/css">
         body {
@@ -68,40 +67,35 @@
             padding: 0px 10px 10px 10px;
         }
 
-        .syntaxhighlighter a, .syntaxhighlighter div, .syntaxhighlighter code, .syntaxhighlighter table, .syntaxhighlighter table td, .syntaxhighlighter table tr, .syntaxhighlighter table tbody, .syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea {
-            font-size: 13px !important;
-            line-height: 16px !important;
+        .panel-noborder {
+            border-left-width: 0px; border-top-width: 0px; border-right-width: 0px;
         }
     </style>
 
     <script type="text/javascript">
         $.util.namespace("$.easyui");
         $.easyui.showSourceDialog = function (url, options) {
-            var defaults = { title: $.string.format("查看页面\"{0}\"的源码", url), width: 800, height: 600 },
+            var defaults = { title: $.string.format("查看页面\"{0}\"的源码", url), width: 800, height: 600, enableCloseButton: false, enableApplyButton: false },
                 opts = typeof options == "string" ? $.extend({}, defaults, {
-                    title: options, content: "<pre></pre>", topMost: false
+                    title: options, content: "<pre></pre>", topMost: false, maximizable: true
                 }) : $.extend({}, defaults, options || {}, {
-                    content: "<pre></pre>", topMost: false
-                }),
-                dia = $.easyui.showDialog(opts);
-            $.get(url, function (html) {
-                dia.find("pre").text(html).each(function () {
-                    SyntaxHighlighter.highlight({ brush: "jscript" }, this);
+                    content: "<textarea></textarea>", topMost: false
                 });
-            }, "html");
+            $.easyui.showDialog(opts).find("textarea").codemirror({
+                fit: true, url: url, border: false, readOnly: true, bodyCls: "panel-noborder", fontSize: "13px", lineHeight: "15px"
+            });
         };
 
         $(function () {
-            SyntaxHighlighter.defaults["html-script"] = true;
-            //var search = window.location.search, path = document.title = search.length && search.substr(0, 1) == "?" ? search.substr(1) : search;
             var path = $.util.request["path"];
 
-            var ajaxError = $.easyui.ajaxError();
-            $.easyui.ajaxError(function (XMLHttpRequest, status, error) {
-                if (XMLHttpRequest.status == 404 && $.util.browser.chrome && !XMLHttpRequest.responseText) {
-                    alert("IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
-                } else {
-                    if ($.isFunction(ajaxError)) { ajaxError.apply(this, arguments); }
+            $.ajaxSetup({
+                statusCode: {
+                    404: function (XMLHttpRequest, status, error) {
+                        if ($.util.browser.chrome && !XMLHttpRequest.responseText) {
+                            alert("IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！");
+                        }
+                    }
                 }
             });
 
@@ -117,19 +111,16 @@
                 t = $("#tt");
 
             $("#demo").each(function () {
-                var p = $(this), opts = p.panel("options"), onLoad = opts.onLoad, dp = $("#dp");
+                var p = $(this), opts = p.panel("options"), onLoad = opts.onLoad;
                 opts.onLoad = function () {
                     if ($.isFunction(onLoad)) { onLoad.apply(this, arguments); }
                     p.find(":header:first").each(function () { document.title = $(this).text(); });
                 };
-                if (path) {
-                    $.get(path, function (html) {
-                        dp.text(html).each(function () {
-                            SyntaxHighlighter.highlight({ brush: "jscript" }, this);
-                        });
-                    });
-                    p.panel("refresh", path);
-                }
+                p.panel("refresh", path);
+
+                $("#codemirror").codemirror({
+                    fit: true, url: path, readOnly: true, border: true, bodyCls: "panel-noborder", fontSize: "13px", lineHeight: "15px"
+                });
             });
 
             $.easyui.theme(theme);
@@ -179,8 +170,8 @@
         <div id="demo" class="panel-container" data-options="title: '功能演示', iconCls: 'icon-hamburg-advertising', selected: true" style="position: relative;">
             <p>IE11及WebKit核心的浏览器(包括 Chrome、搜狗/傲游/360等等的极速模式)浏览器下不支持 AJAX 本地访问，请选择其他浏览器或者将该项目部署至 WEB服务器(例如 IIS 或 Tomcat 等) 中进行浏览操作！</p>
         </div>
-        <div id="code" class="panel-container" data-options="title: '查看源码', iconCls: 'icon-standard-script-code'">
-            <pre id="dp" class="highlight: []"></pre>
+        <div id="code" data-options="title: '查看源码', iconCls: 'icon-standard-script-code'">
+            <textarea id="codemirror"></textarea>
         </div>
         <div id="view" class="panel-container" data-options="title: '关于...', iconCls: 'icon-hamburg-library'">
             <p>

@@ -20,18 +20,9 @@
         $(navMenuList).find("a").attr("disabled", true);
         $.easyui.loading({ locale: westCenterLayout });
         var t = $(navMenuTree), root = $.extend({}, $.array.first(window.mainpage.navMenusData, function (val) { return val.id == id; }));
-        //if ($.array.contains(["10", "11"], id)) {
-        //    $.get(id == 11 ? "common/nav-api-menu-data-simple.json" : "common/nav-doc-menu-data.json", function (menus) {
-        //        menus.push(root);
-        //        t.tree("loadData", menus);
-        //    }, "json");
-        //} else {
-        //    root.children = [];
-        //    t.tree("loadData", [root]);
-        //}
         if ($.array.contains(["10", "11"], id)) {
             $.get(id == 11 ? "common/nav-api-menu-data.json" : "common/nav-doc-menu-data.json", function (menus) {
-                root.children = menus;
+                root.children = $.array.likeArrayNotString(menus) ? menus : [];
                 t.tree("loadData", [root]);
             }, "json");
         } else {
@@ -56,13 +47,16 @@
                     if (!a.hasClass("selected")) { $(this).removeClass("tree-node-selected"); }
                 }).click(function () {
                     if (a.is(".tree-node-selected.selected") || a.attr("disabled")) { return; }
-                    a.closest("ul").find("a").removeClass("tree-node-selected selected");
+                    ul.find("a").removeClass("tree-node-selected selected");
                     a.addClass("tree-node-selected selected");
                     window.mainpage.loadMenu(item.id);
                 }).appendTo(pp);
                 $.data(a[0], "menu-item", item);
-                var span = $("<span></span>").addClass("nav-menu").appendTo(a);
-                $("<span></span>").addClass("nav-menu-icon" + (item.iconCls ? " " + item.iconCls : "")).text(item.text).appendTo(span);
+                //var span = $("<span></span>").addClass("nav-menu").appendTo(a);
+                //$("<span></span>").addClass("nav-menu-icon" + (item.iconCls ? " " + item.iconCls : "")).text(item.text).appendTo(span);
+                $("<span class=\"l-btn-left l-btn-icon-left nav-menu\">" +
+                    "<span class=\"l-btn-text\">" + (item.text ? item.text : "无标题菜单导航") + "</span>" +
+                    "<span class=\"l-btn-icon" + (item.iconCls ? " " + item.iconCls : "") + "\"></span></span>").appendTo(a);
             });
             var layout = $(westLayout), south = layout.layout("panel", "south"), southOpts = south.panel("options");
             southOpts.minHeight = 5 + Math.min(menus.length, 3) * 27; southOpts.maxHeight = 5 + menus.length * 27;

@@ -1,11 +1,11 @@
-﻿body { font-size: 12px; padding: 0px; margin: 0px; overflow: hidden; }
-.top-bar { position: absolute; width: 100%; height: 52px; top: 0px; left: 0px; }
+﻿body { font-size: 12px; padding: 0; margin: 0; overflow: hidden; }
+.top-bar { position: absolute; width: 100%; height: 52px; top: 0; left: 0; }
 .top-bar-left { position: absolute; width: 500px; height: 52px; }
-.top-bar-right { position: absolute; width: 400px; height: 52px; right: 0px; }
+.top-bar-right { position: absolute; width: 400px; height: 52px; right: 0; }
 .top-bar-right #timerSpan { position: absolute; padding-top: 5px; right: 10px; }
 .top-bar-right #themeSpan { position: absolute; width: 350px; top: 24px; right: 5px; text-align: right; }
-        
-.top-toolbar { position: absolute; font-weight: normal; padding: 0px; width: 100%; height: 28px; top: 51px; left: 0px; border-top-width: 1px; border-bottom-width: 0px; z-index: 100; }
+
+.top-toolbar { position: absolute; font-weight: normal; padding: 0; width: 100%; height: 28px; top: 51px; left: 0; border-top-width: 1px; border-bottom-width: 0; z-index: 100; }
 .top-toolbar-topmost { top: 0px; height: 27px; border-top-width: 0px; border-bottom-width: 1px; }
 .top-toolbar #infobar { position: absolute; height: 26px; line-height: 26px; left: 10px; }
 .top-toolbar #searchbar { position: absolute; height: 26px; left: 400px; padding-top: 1px; }
@@ -13,32 +13,34 @@
 
 #navMenu_list { padding: 0px; margin: 0px; }
 #navMenu_list>li { line-height: 26px; list-style-type: none; }
-#navMenu_list>li>div.panel-header { height: 26px; line-height: 26px; padding: 0px; margin: 0px; font-weight: normal; border-top-width: 1px; border-bottom-width: 0px; }
-#navMenu_list>li:first-child>div.panel-header { border-top-width: 0px; }
-#navMenu_list>li>div.panel-header a { width: 100%; height: 100%; color: inherit; padding: 0px; margin: 0px; text-decoration: none; display: inline-block; }
-        
-.nav-menu { padding-left: 10px; }
-.nav-menu-icon { padding-left: 25px; background-position: left center; }
-        
-#mainTab>div.tabs-header { border-right-width: 0px; }
-#mainTab > div.tabs-header > div.tabs-scroller-left, #mainTab > div.tabs-header > div.tabs-scroller-right { border-left-width: 0px; }
+#navMenu_list>li>div.panel-header { height: 26px; line-height: 26px; padding: 0; margin: 0; font-weight: normal; border-top-width: 1px; border-bottom-width: 0; }
+#navMenu_list>li:first-child>div.panel-header { border-top-width: 0; }
+#navMenu_list>li>div.panel-header a { width: 100%; height: 100%; color: inherit; text-decoration: none; display: inline-block; padding: 0; margin: 0; }
 
-#navTab > div.tabs-header { border-right-width: 0px; }
-.tabs-tool table { border-width: 0px; border-collapse: collapse; border-spacing: 0px; }
-.tabs-tool table td { padding: 0px; }
-        
-#mainLayout>div.layout-panel-east>div.panel-header { border-left-width: 0px; }
-#eastLayout>div.layout-panel-center>div.panel-header { border-top-width: 0px; }
-        
+.nav-menu { vertical-align: middle; }
+.nav-menu>* { padding-left: 10px; }
+/*.nav-menu { padding-left: 10px; }
+.nav-menu-icon { padding-left: 25px; background-position: left center; }*/
+
+#mainTab>div.tabs-header { border-right-width: 0; }
+#mainTab>div.tabs-header>div.tabs-scroller-left,#mainTab>div.tabs-header>div.tabs-scroller-right { border-left-width: 0; }
+
+#navTab>div.tabs-header { border-right-width: 0; }
+.tabs-tool table { border-width: 0; border-collapse: collapse; border-spacing: 0; }
+.tabs-tool table td { padding: 0; }
+
+#mainLayout>div.layout-panel-east>div.panel-header { border-left-width: 0; }
+#eastLayout>div.layout-panel-center>div.panel-header { border-top-width: 0; }
+
 .portlet-list { padding-left: 20px; margin: 5px; line-height: 20px; }
 
 .donate-name {
-font-weight: bold; line-height: 14px; background-color: rgb(70, 136, 71); color: #fff;
-padding-top: 2px; padding-bottom: 2px; padding-left: 4px; padding-right: 4px; border-radius: 3px;
+    font-weight: bold; line-height: 14px; background-color: rgb(70, 136, 71); color: #fff;
+    padding-top: 2px; padding-bottom: 2px; padding-left: 4px; padding-right: 4px; border-radius: 3px;
 }
 .donate-date { padding: 5px; }
 .donate-total { font-weight: bold; color: Red; }
-        
+
 ul.link-list>li>a { padding-left: 10px; white-space: nowrap; }
 
 div.hidden { visibility: hidden; }

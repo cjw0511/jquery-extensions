@@ -11,7 +11,7 @@
 * jQuery EasyUI comboicons 插件扩展
 * jquery.comboicons.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-04-21
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late

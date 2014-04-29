@@ -338,7 +338,7 @@
     //  更改 jQuery.ajax 函数的部分默认属性。
     $.ajaxSetup({
         dataFilter: function (data, type) {
-            return $.util.isString(type) && type.toLowerCase(type) == "json" ? $.string.toJSONString(data) : data;
+            return String(type).toLowerCase(type) == "json" ? $.string.toJSONString(data) : data;
         }
     });
 

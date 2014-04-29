@@ -367,7 +367,11 @@
                 if (handler) {
                     handler = $.string.toFunction(handler);
                 }
-                return btn.click(function () { handler.call(this, $(container).closest("table.toolbar-wrapper")[0]); });
+                return btn.click(function () {
+                    if ($.isFunction(handler)) {
+                        handler.call(this, $(container).closest("table.toolbar-wrapper")[0]);
+                    }
+                });
             },
             enable: function (target) {
                 $(target).linkbutton("enable");

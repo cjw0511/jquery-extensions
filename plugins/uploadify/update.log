@@ -1,0 +1,12 @@
+﻿
+修改 jquery.uploadify.js/jquery.uploadify.min.js v3.2.1 如下位置：
+
+1、204(jquery.uploadify.js)行，为修正其判断浏览器与 Flash 兼容性算法在 IE11 下存在的问题，由
+        var flashInstalled = (playerVersion.major >= 9);
+    修改为
+        var flashInstalled = (playerVersion.major >= 9 || (($.util.browser.msie || $.util.browser.mozilla) && $.util.browser.version >= 11));
+
+
+
+
+

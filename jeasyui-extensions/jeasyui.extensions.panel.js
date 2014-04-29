@@ -185,18 +185,6 @@
                 if (opts.loadingMessage) {
                     t.html($("<div class=\"panel-loading\"></div>").html(opts.loadingMessage));
                 }
-                //$.ajax({
-                //    url: opts.href, cache: false, dataType: "html",
-                //    success: function (data) {
-                //        loadContent(opts.extractor.call(target, data));
-                //        opts.onLoad.apply(target, arguments);
-                //        state.isLoaded = true;
-                //    },
-                //    error: function () {
-                //        opts.onLoadError.apply(target, arguments);
-                //        state.isLoaded = true;
-                //    }
-                //});
                 opts.loader.call(target, params, function (data) {
                     loadContent(opts.extractor.call(target, data));
                     opts.onLoad.apply(target, arguments);

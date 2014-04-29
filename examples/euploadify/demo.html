@@ -1,0 +1,48 @@
+﻿<div>
+
+    <script type="text/javascript">
+        $(function () {
+        });
+    </script>
+
+    <h2>jEasyUI euploadify Plugin Extensions</h2>
+    <p>
+        该部分扩展由文件 jquery.euploadify.js 实现。<br />
+        此版本为预览版，目前所有 UI 功能和事件响应都已经实现，还有部分表单方法和属性尚未实现，敬请期待！
+    </p>
+    <hr />
+    <input id="euploadify1" class="easyui-euploadify" type="file" data-options="
+           width: 900, multi: false,
+           auto: false,
+           showStop: true,
+           showCancel: true,
+           swf: '../plugins/uploadify/uploadify.swf',
+           uploader: '../plugins/uploadify/net/uploadify.ashx'
+           " />
+    <hr />
+    <hr />
+    <input id="euploadify2" class="easyui-euploadify" type="file" data-options="
+           width: 900,
+           //height: 400,
+           multi: true,
+           multiTemplate: 'simple',
+           auto: false,
+           showStop: true,
+           showCancel: true,
+           swf: '../plugins/uploadify/uploadify.swf',
+           uploader: '../plugins/uploadify/net/uploadify.ashx'
+           " />
+    <hr />
+    <input id="euploadify3" class="easyui-euploadify" type="file" data-options="
+           width: 800,
+           height: 400,
+           multi: true,
+           multiTemplate: 'grid',
+           auto: false,
+           showStop: true,
+           showCancel: true,
+           swf: '../plugins/uploadify/uploadify.swf',
+           uploader: '../plugins/uploadify/net/uploadify.ashx'
+           " />
+
+</div>

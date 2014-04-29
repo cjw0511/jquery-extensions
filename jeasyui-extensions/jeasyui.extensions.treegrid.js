@@ -11,7 +11,7 @@
 * jQuery EasyUI treegrid 组件扩展
 * jeasyui.extensions.treegrid.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-04-29
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -597,6 +597,18 @@
         return $.array.filter(rows, function (val) { return $.array.contains(exts.filterData, val) ? false : true; });
     };
 
+
+    var _remove = $.fn.datagrid.methods.remove;
+    var removeRow = function (target, id) {
+        var t = $(target), opts = t.treegrid("options"), row = t.treegrid("find", id);
+        if (row && $.isFunction(opts.onBeforeRemove) && opts.onBeforeRemove.call(target, row) != false) {
+            _remove.call(t, t, id);
+            initHeaderColumnFilterContainer(t, opts);
+            if ($.isFunction(opts.onRemove)) { opts.onRemove.call(target, row); }
+        }
+    };
+
+
     var deleteRow = function (target, param) {
         var t = $(target);
         if (!$.isFunction(param)) { t.treegrid("remove", param); }
@@ -750,6 +762,7 @@
         var data = t.treegrid("getData"), oldData = exts.oldData;
         if (data != oldData) { exts.filterData = []; }
         clearHeaderColumnFilter(t, opts);
+        refreshColumnFilterPagerStatus(t, opts);
         if (!opts.columnFilter) { return; }
         exts.oldData = data;
         var header = t.treegrid("getPanel").find("div.datagrid-view div.datagrid-header"),
@@ -860,7 +873,7 @@
             handler = function (newValue, oldValue) {
                 changeSliderValue(t, opts, field, rows, newValue, type, input, slider, headerFileds);
             };
-        input.numberbox({ value: type == "<=" ? max : min, min: min, max: max, precision: precision, onChange: handler });
+        input.numberbox({ value: type == "<=" ? max : min, min: min, max: max, precision: precision, onChange: handler, height: 18 });
         input.keypress(function (e) { if (e.which == 13) { var val = input.val(); input.numberbox("setValue", $.isNumeric(val) ? val : 0); } });
         slider.slider({
             height: height, mode: "v", showTip: true, value: type == "<=" ? max : min,
@@ -1407,8 +1420,14 @@
             "top": top,
             "padding": '5px 5px'
         }).attr("node-id", id);
-        $("<a></a>").linkbutton({ plain: false, iconCls: "icon-ok", text: "保存" }).appendTo(p).click(function () { t.treegrid("endEdit", id); });
-        $("<a></a>").linkbutton({ plain: false, iconCls: "icon-cancel", text: "取消" }).appendTo(p).click(function () { t.treegrid("cancelEdit", id); });
+        $("<a></a>").linkbutton({ plain: false, iconCls: "icon-ok", text: "保存" }).appendTo(p).click(function () {
+            t.treegrid("endEdit", id);
+            disposeRowExtEditor(t, opts, id);
+        });
+        $("<a></a>").linkbutton({ plain: false, iconCls: "icon-cancel", text: "取消" }).appendTo(p).click(function () {
+            t.treegrid("cancelEdit", id);
+            disposeRowExtEditor(t, opts, id);
+        });
         var diff = (opts.width - p.outerWidth()) / 2 - width, left = diff > 0 ? diff : 0;
         p.css("left", left);
     };
@@ -1879,6 +1898,8 @@
         //  返回值：返回一个 Array 数组对象；数组中的每一项都是 JSON-Object 类型，表示一个行数据对象；如果未找到相应数据，则返回一个长度为 0 的数组对象。
         findRows: function (jq, param) { return findRows(jq[0], param); },
 
+        remove: function (jq, id) { return jq.each(function () { removeRow(this, id); }); },
+
         //  删除 easyui-treegrid 中当前页指定的节点以及它所有的子节点；参数 param 表示要删除的内容；该参数可以是以下三种类型：
         //      表示要删除的行数据的 idField(主键) 字段值；
         //      Function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-treegrid 所有节点对象集合；
@@ -2326,7 +2347,7 @@
         //      data:   表示被添加的节点数据，是一个 Array 数组对象；数组中的每一项都是一个表示节点数据的 JSON-Object。
         onAppend: function (parent, data) { },
 
-        //  扩展 easyui-treegrid 的自定义事件；该事件表示执行 insert 方法前所触发的动作；该事件回调函数提供如下两个参数：
+        //  扩展 easyui-treegrid 的自定义事件；该事件表示执行 insert 方法前所触发的动作；该事件回调函数提供如下三个参数：
         //      before: 如果该参数有值，则其值为某个节点的 idField 值，表示被插入的节点将会放置在该节点之前；
         //      after:  如果该参数有值，则其值为某个节点的 idField 值，表示被插入的节点将会放置在该节点之后；
         //      data:   表示被插入的节点数据，是一个 Array 数组对象；数组中的每一项都是一个表示节点数据的 JSON-Object。
@@ -2335,14 +2356,18 @@
         //      该回调函数的参数 before 和 after，两者只有一个会有值，另一个的值将会为 null 或者 undefined。
         onBeforeInsert: function (before, after, row) { },
 
-        //  扩展 easyui-treegrid 的自定义事件；该事件表示执行 insert 方法后所触发的动作；该事件回调函数提供如下两个参数：
+        //  扩展 easyui-treegrid 的自定义事件；该事件表示执行 insert 方法后所触发的动作；该事件回调函数提供如下三个参数：
         //      before: 如果该参数有值，则其值为某个节点的 idField 值，表示被插入的节点将会放置在该节点之前；
         //      after:  如果该参数有值，则其值为某个节点的 idField 值，表示被插入的节点将会放置在该节点之后；
         //      data:   表示被插入的节点数据，是一个 Array 数组对象；数组中的每一项都是一个表示节点数据的 JSON-Object。
         //  该事件函数中的 this 指向当前 easyui-treerid 的 DOM 对象(非 jQuery 对象)；
         //  备注：如果该事件回调函数返回 false，则立即取消即将要执行的 insert 操作。
         //      该回调函数的参数 before 和 after，两者只有一个会有值，另一个的值将会为 null 或者 undefined。
-        onInsert: function (index, row) { }
+        onInsert: function (before, after, data) { },
+
+        onBeforeRemove: function (row) { },
+
+        onRemove: function (row) { }
     };
 
     $.extend($.fn.treegrid.defaults, defaults);

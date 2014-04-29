@@ -1,7 +1,7 @@
 ﻿
 (function ($) {
 
-    var hash = window.location.hash;
+    var hash = window.location.hash, start = new Date();
 
     $(function () {
         window.mainpage.instMainMenus();
@@ -29,6 +29,9 @@
             if (size.width < 1280) { layout.layout("collapse", "east"); }
 
             window.mainpage.mainTab.loadHash(hash);
+
+            var stop = new Date();
+            $.easyui.messager.show({ msg: "当前页面加载耗时(毫秒)：" + start.diff("ms", stop), position: "bottomRight" });
         });
 
         $("#A1").click(function () {

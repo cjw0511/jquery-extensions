@@ -40,7 +40,7 @@
     $.easyui.icons.showSelector = function (options) {
         if (options && options.topMost && $ != $.util.$) { return $.util.$.easyui.icons.showSelector.apply(this, arguments); }
         var opts = $.extend({
-            width: 520, minWidth: 520, height: 360, minHeight: 360,
+            width: 580, minWidth: 520, height: 480, minHeight: 360,
             title: "选择图标",
             iconCls: "icon-hamburg-zoom",
             maximizable: true,

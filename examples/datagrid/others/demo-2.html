@@ -1,0 +1,86 @@
+﻿<style type="text/css">
+    #demo.panel-container {
+        padding: 0;
+    }
+</style>
+
+<div id="ll" class="easyui-layout" data-options="fit: true">
+    <div data-options="region: 'north', border: false" style="height: 33px;">
+        <div class="easyui-toolbar">
+            <input class="easyui-validatebox" data-options="prompt: '拟定企业名称'" style="width: 100px;" />
+            <span>-</span>
+            <input class="easyui-validatebox" data-options="prompt: '企业类型'" style="width: 100px;" />
+            <span>-</span>
+            <input class="easyui-validatebox" data-options="prompt: '法人'" style="width: 100px;" />
+            <span>-</span>
+            <input class="easyui-datebox" data-options="prompt: '核查有效期', width: 100" />
+            <span>-</span>
+            <label>
+                <input type="checkbox" />
+                <span>测试复选框1</span>
+            </label>
+            <span>-</span>
+            <a id="btn1" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-search'">查询</a>
+        </div>
+    </div>
+    <div data-options="region: 'center', border: false">
+        <table id="t1"></table>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            var t = $("#t1").datagrid({
+                fit: true,
+                border: false,
+                width: 1120,
+                height: 400,
+                method: "get",
+                url: "datagrid/datagrid-data.json",
+                idField: 'ID',
+                remoteSort: false,
+                rownumbers: true,
+                pagination: true,
+                frozenColumns: [[
+                    { field: 'ck', checkbox: true },
+                    { field: 'ID', title: 'ID', width: 80, sortable: true }
+                ]],
+                columns: [[
+                    { field: 'Code', title: '编号(Code)', width: 120, sortable: true },
+                    { field: 'Name', title: '名称(Name)', width: 140, sortable: true },
+                    { field: 'Age', title: '年龄(Age)', width: 120, sortable: true },
+                    { field: 'Height', title: '身高(Height)', width: 140, sortable: true },
+                    { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true },
+                    { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true },
+                    {
+                        field: 'operator', title: '测试(不存在的字段)', width: 140, formatter: function (val, row, index) {
+                            return "<a class='l-btn l-btn-plain'><span class='l-btn-left'><span class='l-btn-text icon-ok l-btn-icon-left'>操作</span></span></a>";
+                        }
+                    }
+                ]],
+                rowContextMenu: [
+                    {
+                        text: "平均身高", iconCls: "", handler: function (e, index, row) {
+                            var val = t.datagrid("getRows").avg(function (r) { return r.Height; }).round(2);
+                            $.easyui.messager.show("平均身高为：" + val);
+                        }
+                    },
+                    {
+                        text: "体重总和", iconCls: "icon-standard-sum", handler: function (e, index, row) {
+                            var val = t.datagrid("getRows").sum(function (r) { return r.Weight; }).round(2);
+                            $.easyui.messager.show("体重总和为：" + val);
+                        }
+                    },
+                ]
+            });
+
+            $("#btn1").click(function () {
+                $.easyui.messager.show("...");
+            });
+
+            $.util.exec(function () {
+                $("#ll").currentTabs().tabs("select", 0);
+            });
+        });
+    </script>
+
+</div>

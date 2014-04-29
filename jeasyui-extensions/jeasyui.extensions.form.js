@@ -27,26 +27,32 @@
 
 
     function getData(target, param) {
+        if (!param) {
+            var t = $(target), state = $.data(target, "form"), opts = state ? state.options : $.fn.form.defaults;
+            param = opts.serializer;
+        }
         return $(target).serializeObject(param);
     };
 
 
     var _submit = $.fn.form.methods.submit;
     function submit(target, options) {
-        var t = $(target), state = $.data(target, "form"), isForm = /^(?:form)$/i.test(target.nodeName) && state ? true : false;
+        var t = $(target), state = $.data(target, "form"), isForm = /^(?:form)$/i.test(target.nodeName) ? true : false;
         if (isForm) {
             return _submit.call(t, t, options);
         }
-        var options = state ? state.options : $.fn.form.defaults,
-            opts = $.extend({}, options, options || {}),
-            param = t.form("getData"),
-            method = $[options.method];
-        if (($.isFunction(opts.onSubmit) && opts.onSubmit.call(target, param) == false) || !opts.url) {
+        var opts = state ? state.options : $.fn.form.defaults, param = t.form("getData"), method = $[opts.method];
+        opts = $.extend({}, opts, (typeof options == "string") ? { url: options } : ($.isFunction(options) ? { success: options } : options || {}));
+
+        if (($.isFunction(opts.onSubmit) && opts.onSubmit.call(target, param) == false)) {
             return;
+        }
+        if (!opts.url) {
+            opts.url = window.location.href;
         }
         method(opts.url, param, function (data) {
             if ($.isFunction(opts.success)) {
-                opts.success(data);
+                opts.success.call(target, data);
             }
         });
     };
@@ -212,6 +218,9 @@
         getData: function (jq, param) { return getData(jq[0], param); },
 
         //  重写 easyui-form 控件的 submit 方法，使之除了支持 form 标签提交外，还支持 div 等其他容器标签的提交。
+        //      该方法中的参数 options 可以同 easyui-form 的原生方法 submit 参数格式一样；
+        //      也可以是一个 String 类型值表示提交的服务器端 url 地址；
+        //      也可以是一个 function 回调函数表示 ajax 提交成功后的回调函数；
         submit: function (jq, options) { return jq.each(function () { submit(this, options); }); },
 
         //  重写 easyui-form 控件的 clear 方法，使其支持扩展的 easyui 插件操作；
@@ -225,7 +234,9 @@
     };
     var defaults = $.fn.form.extensions.defaults = {
 
-        method: "post"
+        method: "post",
+
+        serializer: { onlyEnabled: true, transcript: "overlay", overtype: "append", separator: "," }
     };
 
     $.extend($.fn.form.defaults, defaults);

@@ -3121,14 +3121,14 @@
     });
 
     $.easyui.iconStyles = [
-        { name: "berlin", style: "berlin", size: "16,32", sort: 3 },
-        { name: "cologne", style: "cologne", size: "16,32", sort: 4 },
+        { name: "berlin", style: "berlin", size: "16,32", sort: 4 },
+        { name: "cologne", style: "cologne", size: "16,32", sort: 3 },
         { name: "dortmund", style: "dortmund", size: "16,32", sort: 5 },
-        { name: "hamburg", style: "hamburg", size: "16,32", sort: 6 },
+        { name: "hamburg", style: "hamburg", size: "16,32", sort: 0 },
         { name: "metro", style: "metro", size: "16,32", sort: 2 },
-        { name: "munich", style: "munich", size: "16,32", sort: 7 },
-        { name: "standard", style: "standard", size: "16", sort: 0 },
-        { name: "woocons", style: "woocons", size: "32", sort: 8 }
+        { name: "munich", style: "munich", size: "16,32", sort: 6 },
+        { name: "standard", style: "standard", size: "16", sort: 1 },
+        { name: "woocons", style: "woocons", size: "32", sort: 7 }
     ];
 
 })(jQuery);

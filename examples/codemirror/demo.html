@@ -2,48 +2,104 @@
 
     <script type="text/javascript">
         $(function () {
-            var editor = CodeMirror.fromTextArea($("#t1")[0], {
-                lineNumbers: true,
-                mode: "text/html",
-                indentUnit: 4
+            $("#btn1").click(function () {
+                $("#t2").codemirror("enable");
             });
 
+            $("#btn2").click(function () {
+                $("#t2").codemirror("disable");
+            });
 
-            $("#btn1").click(function () {
-                editor.execCommand("selectAll");
+            $("#btn3").click(function () {
+                alert($("#t2").codemirror("getValue"));
+            });
+
+            $("#btn4").click(function () {
+                $("#t2").codemirror("setValue", "abcd");
+            });
+
+            $("#btn5").click(function () {
+                $("#t2").codemirror("reset");
+            });
+
+            $("#btn6").click(function () {
+                $("#t2").codemirror("focus");
+            });
+
+            $("#btn7").click(function () {
+                $("#t2").codemirror("clear");
+            });
+
+            $("#btn8").click(function () {
+                $("#t2").codemirror("refresh", "ajaxError/demo.html");
+            });
+
+            $("#btn9").click(function () {
+                $("#t2").codemirror("resize", { width: 900, height: 500 });
+            });
+
+            $("#btn21").click(function () {
+                $("#t2").codemirror("destroy");
+            });
+
+            $("#btn22").click(function () {
+                $("#t2").codemirror("show");
+            });
+
+            $("#btn23").click(function () {
+                $("#t2").codemirror("hide");
+            });
+
+            $("#btn24").click(function () {
+                $("#t2").codemirror("undo");
+            });
+
+            $("#btn25").click(function () {
+                $("#t2").codemirror("redo");
+            });
+
+            $("#btn26").click(function () {
+                alert($("#t2").codemirror("getSelection"));
             });
         });
     </script>
     <style>
-        .CodeMirror {
-            width: 1000px;
-            height: auto;
-            border: 1px solid #808080;
-        }
-        .CodeMirror pre {
-            font-size: 16px;
-        }
     </style>
 
     <h2>jEasyUI CodeMirror Extensions</h2>
-    <p>该部分扩展由文件 jquery.xxxx.js 实现。</p>
+    <p>该部分扩展由文件 jquery.codemirror.js 实现。</p>
     <hr />
-    <input id="btn1" type="button" value="selectAll" />
+    <input id="btn1" type="button" value="enable" />
+    <input id="btn2" type="button" value="disable" />
+    <input id="btn3" type="button" value="getValue" />
+    <input id="btn4" type="button" value="setValue" />
+    <input id="btn5" type="button" value="reset" />
+    <input id="btn6" type="button" value="focus" />
+    <input id="btn7" type="button" value="clear" />
+    <input id="btn8" type="button" value="refresh" />
+    <input id="btn9" type="button" value="resize(900, 500)" />
     <hr />
-    <textarea id="t1">
-<script type="text/javascript">
-    $(function () {
-        var editor = CodeMirror.fromTextArea($("#t1")[0], {
-            lineNumbers: true,
-            mode: "text/html",
-            readOnly: "nocursor"
-        });
+    <input id="btn21" type="button" value="destroy" />
+    <input id="btn22" type="button" value="show" />
+    <input id="btn23" type="button" value="hide" />
+    <input id="btn24" type="button" value="undo" />
+    <input id="btn25" type="button" value="redo" />
+    <input id="btn26" type="button" value="getSelection" />
+    <hr />
+    <textarea id="t2" class="easyui-codemirror" data-options="mode: 'text/html', lineNumbers: true, width: 800, height: 400, fontSize: '14px'">
+        <script type="text/javascript">
+            $(function () {
+                var editor = CodeMirror.fromTextArea($("#t1")[0], {
+                    lineNumbers: true,
+                    mode: "text/html",
+                    readOnly: "nocursor"
+                });
 
-
-        $("#btn1").click(function () {
-            editor.execCommand("selectAll");
-        });
-    });
-</script></textarea>
+                $("#btn1").click(function () {
+                    editor.execCommand("selectAll");
+                });
+            });
+        </script>
+    </textarea>
 
 </div>

@@ -100,7 +100,7 @@
         },
         //  移动电话号码(中国)格式
         mobile: {
-            validator: function (value) { return $.string.isTel(value); },
+            validator: function (value) { return $.string.isMobile(value); },
             message: "输入的内容必须是移动电话号码(中国)格式."
         },
         //  电话号码(中国)或移动电话号码(中国)格式

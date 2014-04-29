@@ -1,5 +1,5 @@
 ﻿/**
-* jQuery JavaScript Library v1.9.1 && v2.0.0
+* jQuery JavaScript Library v1.9.x && v2.x
 * http://jquery.com/
 *
 * Copyright 2005, 2012 jQuery Foundation, Inc. and other contributors
@@ -9,9 +9,9 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2014-04-02
+* 最近更新：2014-04-24
 *
-* 依赖项：jquery 1.9.x/2.x  late
+* 依赖项：jquery 1.9.x/2.x late
 *
 * Copyright 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -19,7 +19,7 @@
 (function (window, $, undefined) {
 
 
-    var version = "2014-04-02",
+    var version = "2014-04-24",
 
         //  定义 字符串对象(String) 扩展对象基元
         coreString = function () { return String.apply(this, arguments); },
@@ -133,9 +133,12 @@
     //  注意：在IE浏览器里，浏览器提供的函数比如'alert'还有 DOM 元素的方法比如 'getAttribute' 将不认为是函数。
     coreUtil.isFunction = $.isFunction;
 
-    //  测试对象是否是数字。
+    //  测试对象是否是数值或数值格式的字符串。
     //  方法检查它的参数是否代表一个数值。如果是这样，它返回 true。否则，它返回false。该参数可以是任何类型的。
-    coreUtil.isNumeric = $.isNumeric;
+    coreUtil.isNumeric = coreUtil.likeNumber = coreUtil.likeNumeric = $.isNumeric;
+
+    //  判断对象是否是数值类型；
+    coreUtil.isNumber = function (obj) { return coreUtil.type(obj) == "number"; };
 
     //  测试对象是否是空对象（不包含任何属性）。
     //  这个方法既检测对象本身的属性，也检测从原型继承的属性（因此没有使用hasOwnProperty）。
@@ -653,6 +656,20 @@
         return coreString.format.apply(this, arguments);
     };
 
+    //  获取字符串包含非 ASCII 码字符(例如中文、日文、俄文等)的 byte 字节长度。
+    coreString.getByteLen = function (str) {
+        str = coreString.isNullOrEmpty(str) ? "" : String(str);
+        var bytelen = 0, i = 0, length = str.length, cc = document.charset;
+        if (!cc) { cc = "utf-8"; }
+        cc = cc.toLowerCase();
+        var s = cc == "iso-8859-1" ? 5 : 2;
+        for (; i < length; i++) {
+            bytelen += str.charCodeAt(i) > 255 ? s : 1;
+        }
+        return bytelen;
+    };
+    coreString.prototype.getByteLen = function () { return coreString.getByteLen(this); };
+
     //  判断当前字符串对象是否包含指定的字符串内容。
     coreString.contains = function (str, val) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
@@ -755,6 +772,42 @@
     };
     coreString.prototype.right = function (len) { return coreString.right(this, len); };
 
+    //  截取当前字符串左边的指定字节长度内容。
+    coreString.leftBytes = function (str, len) {
+        str = coreString.isNullOrEmpty(str) ? "" : String(str);
+        if (!coreUtil.isNumeric(len)) { len = parseInt(len, 10); }
+        var length = coreString.getByteLen(str), i = 0, bytelen = 0, cc = document.charset;
+        if (!cc) { cc = "utf-8"; }
+        cc = cc.toLowerCase();
+        var s = cc == "iso-8859-1" ? 5 : 2;
+        if (len < 0 || len > length) { len = length; }
+        for (; i < str.length; i++) {
+            bytelen += str.charCodeAt(i) > 255 ? s : 1;
+            if (bytelen == len) { break; }
+            if (bytelen > len) { i--; break; }
+        }
+        return coreString.left(str, i + 1);
+    };
+    coreString.prototype.leftBytes = function (len) { return coreString.leftBytes(this, len); };
+
+    //  截取当前字符串右边的指定字节长度内容。
+    coreString.rightBytes = function (str, len) {
+        str = coreString.isNullOrEmpty(str) ? "" : String(str);
+        if (!coreUtil.isNumeric(len)) { len = parseInt(len, 10); }
+        var length = coreString.getByteLen(str), i = 0, bytelen = 0, cc = document.charset;
+        if (!cc) { cc = "utf-8"; }
+        cc = cc.toLowerCase();
+        var s = cc == "iso-8859-1" ? 5 : 2;
+        if (len < 0 || len > length) { len = length; }
+        for (; i < str.length; i++) {
+            bytelen += str.charCodeAt(str.length - 1 - i) > 255 ? s : 1;
+            if (bytelen == len) { break; }
+            if (bytelen > len) { i--; break; }
+        }
+        return coreString.right(str, i + 1);
+    };
+    coreString.prototype.rightBytes = function (len) { return coreString.rightBytes(this, len); };
+
     //  判断当前 String 对象是否是正确的长日期格式。
     coreString.isLongDate = function (str) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
@@ -791,7 +844,7 @@
     //  判断当前 String 对象是否是正确的手机号码格式(中国)。
     coreString.isMobile = function (str) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
-        return /^(13|15|18)\d{9}$/i.test(str);
+        return /^(13|14|15|18)\d{9}$/i.test(str);
     };
     coreString.prototype.isMobile = function () { return coreString.isMobile(this); };
 
@@ -1130,8 +1183,11 @@
     //  javascript 的数值(Number)函数功能扩充。
     /////////////////////////////////////////////////////////////////////////////////////////////// 
 
+    //  判断对象是否是一个数值或数值格式字符串
+    coreNumber.isNumeric = coreNumber.likeNumber = coreNumber.likeNumeric = coreUtil.isNumeric;
+
     //  判断对象是否是一个数值
-    coreNumber.isNumber = coreUtil.isNumeric;
+    coreNumber.isNumber = coreUtil.isNumber;
 
     //  把一个数字/浮点数舍入为指定精度的数值；该函数定义如下参数：
     //      num:    需要进行舍入计算的数值;
@@ -1176,6 +1232,33 @@
         return (num % 2) == 0;
     };
     coreNumber.prototype.isEven = function () { return coreNumber.isEven(this); };
+
+
+    //  将传入的数值转换成一个描述文件大小的字符串；该函数定义如下参数：
+    //      num:    待转换格式的数值，表示文件大小字节数(B)；
+    //      str:  待转换的格式，String 类型值，可选的值包括 "auto"、"b"、"kb"、"mb"、"gb"
+    coreNumber.toFileSize = function (num, str) {
+        num = coreUtil.isNumeric(num) ? window.parseFloat(num) : 0;
+        str = coreString.trim(String(str)).toLowerCase();
+        if (str == "b") { return String(num); }
+        if (!coreArray.contains(["b", "kb", "mb", "gb", "auto"], str)) { str = "auto"; }
+        var ret = null, kb = 1024, mb = 1048576, gb = 1073741824;
+        if (str == "auto") {
+            str = (num >= gb) ? "gb" : (num >= mb ? "mb" : (num >= kb ? "kb" : "b"));
+        }
+        switch (str) {
+            case "b": ret = toB(num); break;
+            case "kb": ret = toKB(num); break;
+            case "mb": ret = toMB(num); break;
+            case "gb": ret = toGB(num); break;
+            default: ret = toMB(num); break;
+        }
+        function toB(size) { return String(coreNumber.round(size, 2)) + "B"; };
+        function toKB(size) { return String(coreNumber.round(size / kb, 2)) + "KB"; };
+        function toMB(size) { return String(coreNumber.round(size / mb, 2)) + "MB"; };
+        function toGB(size) { return String(coreNumber.round(size / gb, 2)) + "GB"; };
+        return ret;
+    };
 
 
 
@@ -1258,34 +1341,36 @@
     //          如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；
     //  返回值：如果在数组中从 startIndex 开始并包含 count 个元素的元素范围内找到 item 的第一个匹配项，则为该项的从零开始的索引；否则为 -1。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679977(v=vs.94).aspx
-    coreArray.indexOf = coreArray.indexOf ? coreArray.indexOf : function (array, item, startIndex, count, compare) {
-        array = coreArray.likeArray(array) ? array : [];
-        var result = -1;
-        if (!array.length) { return result; }
-        if (arguments.length > 2) {
-            var c = arguments[arguments.length - 1];
-            compare = coreUtil.isFunction(c) ? c : null;
-            var s = arguments[2];
-            startIndex = coreUtil.isNumeric(s) ? s : 0;
-            if (startIndex < 0 || array.length < startIndex) { return result; }
-            if (arguments.length > 3) {
-                c = arguments[3];
-                count = coreUtil.isNumeric(c) ? c : array.length - startIndex;
+    coreArray.indexOf =
+        //coreArray.indexOf ? coreArray.indexOf :
+        function (array, item, startIndex, count, compare) {
+            array = coreArray.likeArray(array) ? array : [];
+            var result = -1;
+            if (!array.length) { return result; }
+            if (arguments.length > 2) {
+                var c = arguments[arguments.length - 1];
+                compare = coreUtil.isFunction(c) ? c : null;
+                var s = arguments[2];
+                startIndex = coreUtil.isNumeric(s) ? s : 0;
+                if (startIndex < 0 || array.length < startIndex) { return result; }
+                if (arguments.length > 3) {
+                    c = arguments[3];
+                    count = coreUtil.isNumeric(c) ? c : array.length - startIndex;
+                } else {
+                    count = array.length - startIndex;
+                }
+                if (count < 0 || startIndex + count > array.length) { return result; }
             } else {
+                startIndex = 0;
                 count = array.length - startIndex;
+                compare = null;
             }
-            if (count < 0 || startIndex + count > array.length) { return result; }
-        } else {
-            startIndex = 0;
-            count = array.length - startIndex;
-            compare = null;
-        }
-        var stopIndex = startIndex + count;
-        for (var i = startIndex; i < stopIndex; i++) {
-            if (coreUtil.equals(array[i], item, compare)) { result = i; break; }
-        }
-        return result;
-    };
+            var stopIndex = startIndex + count;
+            for (var i = startIndex; i < stopIndex; i++) {
+                if (coreUtil.equals(array[i], item, compare)) { result = i; break; }
+            }
+            return result;
+        };
     coreArray.prototype.indexOf = function (item, startIndex, count, compare) { return coreArray.indexOf(this, item, startIndex, count, compare); };
 
     //  在数组中搜索指定的项，并返回整个数组中最后一个匹配项的从零开始的索引。
@@ -1298,41 +1383,43 @@
     //          如果不定义参数 compare，则使用默认的比较运算符 "==" 进行值的匹配；
     //  返回值：如果在数组中包含 count 个元素、在 startIndex 处结尾的元素范围内找到 item 的最后一个匹配项，则为该项的从零开始的索引；否则为 -1。
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679972(v=vs.94).aspx
-    coreArray.lastIndexOf = coreArray.lastIndexOf ? coreArray.lastIndexOf : function (array, item, startIndex, count, compare) {
-        array = coreArray.likeArray(array) ? array : [];
-        var result = -1;
-        if (!array.length) { return result; }
-        if (arguments.length > 2) {
-            var c = arguments[arguments.length - 1];
-            compare = coreUtil.isFunction(c) ? c : null;
-            var s = arguments[2];
-            startIndex = coreUtil.isNumeric(s) ? s : 0;
-            if (startIndex < 0 || array.length < startIndex) {
-                return result;
-            }
-            if (arguments.length > 3) {
-                c = arguments[3];
-                count = coreUtil.isNumeric(c) ? c : array.length - startIndex;
+    coreArray.lastIndexOf =
+        //coreArray.lastIndexOf ? coreArray.lastIndexOf :
+        function (array, item, startIndex, count, compare) {
+            array = coreArray.likeArray(array) ? array : [];
+            var result = -1;
+            if (!array.length) { return result; }
+            if (arguments.length > 2) {
+                var c = arguments[arguments.length - 1];
+                compare = coreUtil.isFunction(c) ? c : null;
+                var s = arguments[2];
+                startIndex = coreUtil.isNumeric(s) ? s : 0;
+                if (startIndex < 0 || array.length < startIndex) {
+                    return result;
+                }
+                if (arguments.length > 3) {
+                    c = arguments[3];
+                    count = coreUtil.isNumeric(c) ? c : array.length - startIndex;
+                } else {
+                    count = array.length - startIndex;
+                }
+                if (count < 0 || startIndex + count > array.length) {
+                    return result;
+                }
             } else {
+                startIndex = 0;
                 count = array.length - startIndex;
+                compare = null;
             }
-            if (count < 0 || startIndex + count > array.length) {
-                return result;
+            var begin = array.length - startIndex - 1,
+                end = begin - count;
+            for (var i = begin; i > end; i--) {
+                if (coreUtil.equals(array[i], item, compare)) {
+                    result = i; break;
+                }
             }
-        } else {
-            startIndex = 0;
-            count = array.length - startIndex;
-            compare = null;
-        }
-        var begin = array.length - startIndex - 1,
-            end = begin - count;
-        for (var i = begin; i > end; i--) {
-            if (coreUtil.equals(array[i], item, compare)) {
-                result = i; break;
-            }
-        }
-        return result;
-    };
+            return result;
+        };
     coreArray.prototype.lastIndexOf = function (item, startIndex, count, compare) { return coreArray.lastIndexOf(this, item, startIndex, count, compare); };
 
     //  提取指定数组中介于两个指定索引号之间的元素构成的一个新的数组；该函数定义如下参数：
@@ -2958,29 +3045,34 @@
             rsubmittable_radiocheckbox = /^(?:checkbox|radio)$/i,
             list, names, ret = {};
         options = options || {};
+
         var defaults = { onlyEnabled: false, transcript: "cover", overtype: "append", separator: "," },
-            opts = $.extend({}, defaults, (typeof options == "string") ? { transcript: options } : options);
-        if (!coreArray.contains(["cover", "discard", "overlay"], opts.transcript)) { opts.transcript = defaults.transcript; }
-        if (!coreArray.contains(["array", "append"], opts.overtype)) { opts.overtype = defaults.overtype; }
+            opts = $.extend({}, defaults, (typeof options == "string") ? { transcript: options } : options || {});
+        if (!coreArray.contains(["cover", "discard", "overlay"], opts.transcript)) {
+            opts.transcript = defaults.transcript;
+        }
+        if (!coreArray.contains(["array", "append"], opts.overtype)) {
+            opts.overtype = defaults.overtype;
+        }
 
         list = this.map(function () {
             var elements = jQuery.prop(this, "elements");
             return $.merge([], elements ? $.makeArray(elements) : $(this).find("*"));
         }).filter(function () {
-            return this.name && (!opts.onlyEnabled || !$(this).is(":disabled")) &&
+            return (this.name || this.id) && (!opts.onlyEnabled || !$(this).is(":disabled")) &&
 				rsubmittable.test(this.nodeName) && !rsubmitterTypes.test(this.type);
         }).map(function (i, elem) {
             var name = elem.name, id = elem.id, type = this.type, val = $(this).val(),
-                checked = this.checked == undefined || this.checked == null ? null : this.checked;
+                checked = (this.checked == undefined || this.checked == null) ? null : this.checked;
             return {
                 name: name || id, type: type, checked: checked,
                 val: $.isArray(val) ? $.map(val, function (val) { return val ? val.replace(rCRLF, "\r\n") : val; })
                     : (val ? val.replace(rCRLF, "\r\n") : val)
             };
         });
-        names = coreArray.distinct(list.map(function (i, elem) { return elem.name; }));
+        names = coreArray.distinct(list.map(function (i, elem) { return elem.name ? elem.name : elem.id; }));
         $.each(names, function (i, name) {
-            var elems = list.filter(function (i, elem) { return elem.name == name; }),
+            var elems = list.filter(function (i, elem) { return (elem.name ? elem.name : elem.id) == name; }),
                 val = elems.length == 1 ? getElemVal(elems[0]) : getElemsVal(elems);
             ret[name] = (val == undefined || val == null) ? null : val;
         });
