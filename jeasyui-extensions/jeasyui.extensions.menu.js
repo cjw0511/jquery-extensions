@@ -11,7 +11,7 @@
 * jQuery EasyUI menu 组件扩展
 * jeasyui.extensions.menu.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-04-30
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -589,8 +589,8 @@
     //  下面这段代码实现即使在跨 IFRAME 的情况下，一个 WEB-PAGE 中也只能同时显示一个 easyui-menu 控件。
     $.easyui.bindPageNestedFunc("mousedown", "jdirkMenu", "menu", function (win, e) {
         var jq = win.jQuery,
-                allMenu = jq("body>div.menu:visible"),
-                m = jq(e.target).closest('div.menu', allMenu);
+            allMenu = jq("body>div.menu:visible"),
+            m = jq(e.target).closest('div.menu', allMenu);
         if (m.length) { return }
         jq('body>div.menu-top:visible').menu('hide');
     });
@@ -601,7 +601,9 @@
     var buildMenu = function (options) {
         var menu = $("<div></div>").appendTo("body"),
             opts = $.extend({}, $.fn.menu.defaults, {
-                left: window.event ? window.event.clientX : 0, top: window.event ? window.event.clientY : 0,
+                left: window.event ? window.event.clientX : 0,
+                top: window.event ? window.event.clientY : 0,
+                hideOnUnhover: false,
                 slideOut: false, items: null, hideDisabledMenu: false, minWidth: 140
             }, options || {});
         opts.items = $.util.likeArrayNotString(opts.items) ? opts.items : [];
@@ -665,6 +667,7 @@
         //      options: JSON 对象类型，参数属性继承 easyui-menu 控件的所有属性和事件（参考官方 API 文档），并在此基础上增加了如下参数：
         //          id: 一个 String 对象，表示创建的菜单对象的 ID 属性。
         //          name: 一个 String 对象，表示创建的菜单对象的 name 属性。
+        //          hideOnUnhover: 这是官方 API 中原有属性，此处调整其默认值为 false；
         //          hideDisabledMenu: 一个 Boolean 值，默认为 false；该属性表示当菜单项的 disabled: true，是否自动隐藏该菜单项；
         //          items: 一个 Array 对象，该数组对象中的每一个元素都是一个 JSON 格式对象用于表示一个 menu item （关于 menu item 对象属性，参考官方 API）；
         //                  该数组中每个元素的属性，除 easyui-menu 中 menu item 官方 API 定义的属性外，还增加了如下属性：
@@ -709,12 +712,5 @@
     //      bold:           Boolean 类型值，默认为 false；表示该菜单项是否字体加粗；
     //      style:          JSON-Object 类型值，默认为 null；表示要附加到该菜单项的样式；
     //  备注：上述增加的 menu-item 的自定义扩展属性，只有通过 $.easyui.createMenu 或者 $.easyui.showMenu 生成菜单时，才有效。
-
-
-    $.extend($.fn.menu.defaults, {
-
-        hideOnUnhover: false
-    });
-
 
 })(jQuery);

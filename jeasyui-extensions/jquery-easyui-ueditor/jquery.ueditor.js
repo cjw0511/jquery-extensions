@@ -11,7 +11,7 @@
 * jQuery EasyUI ueditor 插件扩展
 * jquery.ueditor.js
 * 二次开发 流云
-* 最近更新：2014-04-16
+* 最近更新：2014-05-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -64,7 +64,8 @@
             state.editor.addListener(n, function () {
                 if (n == "contentChange") {
                     var val = opts.value = $(target).ueditor("getValue");
-                    state.wrapper.text(val);
+                    state.wrapper.val(val);
+                    //state.wrapper.text(val);
                 }
                 if ($.isFunction(e)) { return e.apply(target, arguments); }
             });
@@ -446,7 +447,7 @@
         //  同 setDisabled 方法
         disable: function (jq, except) { return jq.each(function () { disableEditor(this, except); }); },
 
-        //  
+        //  参数 param 同 getContent 的参数 filter。
         getValue: function (jq, param) { return getValue(jq[0], param); },
 
         //
@@ -614,7 +615,8 @@
     $.parser.plugins.push("ueditor");
 
     if ($.fn.form && $.isArray($.fn.form.otherList)) {
-        $.array.insert($.fn.form.otherList, 0, "ueditor");
+        $.fn.form.otherList.push("ueditor");
+        //$.array.insert($.fn.form.otherList, 0, "ueditor");
     }
 
 })(jQuery);

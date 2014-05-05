@@ -11,7 +11,7 @@
 * jQuery EasyUI uploadify 插件扩展
 * jquery.euploadify.js
 * 二次开发 流云
-* 最近更新：2014-04-29
+* 最近更新：2014-05-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -30,26 +30,10 @@
 */
 (function ($, undefined) {
 
-
-    function getFileName(target, file) {
-        if (!file || !file.name) { return $(target).euploadify("options").emptyText; }
-        return $.string.getByteLen(file.name) > 28 ? $.string.leftBytes(file.name, 25) + "..." : file.name;
-    };
-
-    function getQueues(target) {
-        var state = $.data(target, "euploadify"), data = $("#" + state.uploadifyID).data("uploadify"), ret = [],
-            files = (data && data.queueData && data.queueData.files) ? data.queueData.files : [];
-        for (var i in files) {
-            ret.push(files[i]);
-        }
-        return ret;
-    };
-
-
     function create(target) {
         var t = $(target).addClass("euploadify-f").hide(),
             state = $.data(target, "euploadify"), opts = state.options,
-            name = t.attr("name");
+            name = state.name = t.attr("name");
 
         state.uploadifyID = "euploadify_" + $.util.guid("N");
         state.queueID = "euploadify_queue_" + $.util.guid("N");
@@ -59,35 +43,38 @@
         state.wrapper = state.panel.panel("body").addClass("euploadify-wrapper");
         state.queue = $("<div id=\"" + state.queueID + "\" class=\"euploadify-queue\"></div>").appendTo(state.wrapper);
 
-        state.valueField = $("<input class=\"euploadify-value\" type=\"hidden\" />").appendTo(state.panel);
-        t.removeAttr(name);
-        state.valueField.attr("name", name);
+        t.removeAttr(name).attr("euploadifyName", name);
 
-        if (opts.originalValue = opts.value) {
-            state.valueField.val(opts.value);
-        }
+        opts.originalValue = opts.value;
+        opts.originalFormData = $.extend({}, opts.formData);
 
         initializeUploadify(target);
+        setValues(target, opts.value);
         setSize(target);
-        if (opts.disabled) { t.euploadify("disable"); }
+        if (opts.disabled) { disable(target, opts.disabled); }
+        setValidation(target)
     };
 
 
     function initializeUploadify(target) {
-        var state = $.data(target, "euploadify"), opts = state.options, template = String(opts.multiTemplate).toLowerCase();
+        var t = $(target), state = $.data(target, "euploadify"), opts = state.options,
+            template = String(opts.multiTemplate).toLowerCase();
         if (!$.array.contains(["uploadify", "simple", "bootstrap", "grid"], template)) {
             template = $.fn.euploadify.defaults.multiTemplate;
         }
         var uopts = {
-            auto: opts.auto, buttonClass: opts.buttonClass, buttonCursor: opts.buttonCursor, buttonImage: opts.buttonImage,
-            buttonText: opts.buttonText, checkExisting: opts.checkExisting, debug: opts.debug,
+            auto: opts.auto, method: opts.method, multi: opts.multi,
+            buttonClass: opts.buttonClass, buttonCursor: opts.buttonCursor, buttonImage: opts.buttonImage, buttonText: opts.buttonText,
+            checkExisting: opts.checkExisting, debug: opts.debug,
             fileObjName: opts.fileObjName, fileSizeLimit: opts.fileSizeLimit, fileTypeDesc: opts.fileTypeDesc, fileTypeExts: opts.fileTypeExts,
-            formData: opts.formData, width: opts.buttonWidth, height: opts.buttonHeight,
-            itemTemplate: opts.multi && template != "custome" ? opts.multiTemplateData[template] : opts.itemTemplate, method: opts.method,
-            multi: opts.multi, overrideEvents: opts.overrideEvents, preventCaching: opts.preventCaching, progressData: opts.progressData,
-            queueID: state.queueID, queueSizeLimit: opts.queueSizeLimit, removeCompleted: opts.removeCompleted, removeTimeout: opts.removeTimeout,
-            requeueErrors: opts.requeueErrors, successTimeout: opts.successTimeout,
-            swf: opts.swf, uploader: opts.uploader, uploadLimit: opts.uploadLimit,
+            formData: opts.formData, progressData: opts.progressData,
+            width: opts.buttonWidth, height: opts.buttonHeight, queueID: state.queueID,
+            itemTemplate: opts.multi && template != "custome" ? opts.multiTemplateData[template] : opts.itemTemplate,
+            overrideEvents: opts.overrideEvents, preventCaching: opts.preventCaching,
+            queueSizeLimit: opts.queueSizeLimit, uploadLimit: opts.uploadLimit,
+            removeCompleted: opts.removeCompleted, removeTimeout: opts.removeTimeout, requeueErrors: opts.requeueErrors,
+            swf: opts.swf, uploader: opts.uploader, successTimeout: opts.successTimeout,
+
             onCancel: function (file) { return opts.onCancel.apply(target, arguments); },
             onClearQueue: function () { return opts.onClearQueue.apply(target, arguments); },
             onDestroy: function () { return opts.onDestroy.apply(target, arguments); },
@@ -110,7 +97,11 @@
         if (opts.multi) {
             state.wrapper.addClass("euploadify-wrapper-multi euploadify-wrapper-multi-" + template);
             state.buttonbar = $("<div class=\"euploadify-buttonbar\"></div>").insertBefore(state.queue);
-            if (template == "grid") { buildGridPanel(target, uopts); }
+            if (template == "grid") {
+                buildGridPanel(target, uopts);
+            } else {
+
+            }
         } else {
             state.wrapper.addClass("euploadify-wrapper-single");
             state.queue.addClass("euploadify-hidden");
@@ -118,9 +109,13 @@
                 width: 400, height: 18, value: 0, text: opts.emptyText
             });
             state.buttonbar = $("<div class=\"euploadify-buttonbar\"></div>").insertAfter(state.progressbar);
+
+            var onCancel = uopts.onCancel, onSelect = uopts.onSelect,
+                onUploadStart = uopts.onUploadStart, onUploadProgress = uopts.onUploadProgress,
+                onUploadError = uopts.onUploadError, onUploadSuccess = uopts.onUploadSuccess;
             $.extend(uopts, {
                 onCancel: function (file) {
-                    var ret = opts.onCancel.apply(target, arguments), queues = getQueues(target);
+                    var queues = getQueues(target);
                     if (!queues.length) {
                         state.progressbar.progressbar("setText", opts.emptyText).progressbar("setValue", 0);
                         return ret;
@@ -132,7 +127,7 @@
                     } else {
                         state.progressbar.progressbar("setText", opts.emptyText).progressbar("setValue", 0);
                     }
-                    return ret;
+                    return onCancel.apply(this, arguments);
                 },
                 onSelect: function (file) {
                     if (state.lastFileID && !opts.multi) {
@@ -146,25 +141,35 @@
                         state.progressbar.progressbar("setText", opts.emptyText).progressbar("setValue", 0).
                             find(".progressbar-value .progressbar-text").removeClass("progressbar-text-success progressbar-text-error");
                     }
-                    return opts.onSelect.apply(target, arguments);
+                    return onSelect.apply(this, arguments);
+                },
+                onUploadStart: function (file) {
+                    t.euploadify("resetFormData");
+                    var data = $.extend({}, file, { customeName: file.name }),
+                        formData = opts.requestFilter.call(target, data, file);
+                    state.uploadify.uploadify("settings", "formData", formData);
+                    return onUploadStart.apply(this, arguments);
+                },
+                onUploadProgress: function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                    var val = !bytesTotal ? 0 : (bytesUploaded / bytesTotal * 100).round(2);
+                    state.progressbar.progressbar("setText", getFileName(target, file) + "(" + $.number.toFileSize(file.size) + ") - {value}%").progressbar("setValue", val).
+                        find(".progressbar-value .progressbar-text").removeClass("progressbar-text-success progressbar-text-error");
+                    return onUploadProgress.apply(this, arguments);
                 },
                 onUploadError: function (file, errorCode, errorMsg, errorString) {
                     if (errorString != "Cancelled" && errorString != "Stopped") {
                         state.progressbar.progressbar("setText", getFileName(target, file) + "(" + opts.errorText + ":" + errorString + ")").
                             find(".progressbar-value .progressbar-text").removeClass("progressbar-text-success progressbar-text-error").addClass("progressbar-text-error");
                     }
-                    return opts.onUploadError.apply(target, arguments);
-                },
-                onUploadProgress: function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
-                    var val = !bytesTotal ? 0 : (bytesUploaded / bytesTotal * 100).round(2);
-                    state.progressbar.progressbar("setText", getFileName(target, file) + "(" + $.number.toFileSize(file.size) + ") - {value}%").progressbar("setValue", val).
-                        find(".progressbar-value .progressbar-text").removeClass("progressbar-text-success progressbar-text-error");
-                    return opts.onUploadProgress.apply(target, arguments);
+                    return onUploadError.apply(this, arguments);
                 },
                 onUploadSuccess: function (file, data, response) {
                     state.progressbar.progressbar("setText", getFileName(target, file) + "(" + opts.finishText + ")").progressbar("setValue", 100).
                         find(".progressbar-value .progressbar-text").removeClass("progressbar-text-success progressbar-text-error").addClass("progressbar-text-success");
-                    return opts.onUploadSuccess.apply(target, arguments);
+                    var obj = opts.responseFilter.call(target, data, file),
+                        val = obj && obj.value != null && obj.value != undefined ? obj.value : null;
+                    setValue(target, val);
+                    return onUploadSuccess.apply(this, arguments);
                 }
             });
         }
@@ -174,44 +179,70 @@
         state.uploadify = $("<input id=\"" + state.uploadifyID + "\" type=\"file\" />").insertBefore(state.button.find("span.l-btn-icon")).uploadify(uopts);
         state.uploadify = $("#" + state.uploadifyID);
 
-        state.uploadButton = $("<a class=\"euploadify-button euploadify-upload" + (opts.auto ? " euploadify-hidden" : "") + "\"></a>").appendTo(state.buttonbar).linkbutton({
+        state.uploadButton = $("<a class=\"euploadify-button euploadify-upload" + (opts.auto && !opts.multi ? " euploadify-hidden" : "") + "\"></a>").appendTo(state.buttonbar).linkbutton({
             plain: opts.buttonPlain, text: opts.uploadText, iconCls: opts.uploadIcon,
-            onClick: function () { state.uploadify.uploadify("upload", "*"); }
+            onClick: function () {
+                var queues = getQueues(target),
+                    ff = $.array.first(queues, function (val) { return val.filestatus != -4; });
+                if (!queues || !queues.length || !ff) {
+                    return $.easyui.messager.show(opts.message.queueEmpty);
+                }
+                state.uploadify.uploadify("upload", "*");
+            }
         });
+
         state.stopButton = $("<a class=\"euploadify-button euploadify-stop" + (!opts.showStop ? " euploadify-hidden" : "") + "\"></a>").appendTo(state.buttonbar).linkbutton({
             plain: opts.buttonPlain, text: opts.stopText, iconCls: opts.stopIcon,
             onClick: function () {
-                var ret = opts.onButtonStop.call(target, this);
                 state.uploadify.uploadify("stop");
-                return ret;
+                return opts.onButtonStop.call(target, getQueues(target), this);
             }
         });
+
         state.cancelButton = $("<a class=\"euploadify-button euploadify-cancel" + (!opts.showCancel ? " euploadify-hidden" : "") + "\"></a>").appendTo(state.buttonbar).linkbutton({
             plain: opts.buttonPlain, text: opts.cancelText, iconCls: opts.cancelIcon,
             onClick: function () { state.uploadify.uploadify("cancel", "*"); }
         });
+
         if (opts.multi && template == "grid") {
-            $("<span>-</span>").appendTo(state.buttonbar);
-            $("<a class=\"euploadify-button\"></a>").appendTo(state.buttonbar).linkbutton({
-                plain: opts.buttonPlain, text: "移除选择", iconCls: "icon-hamburg-busy",
+            $("<span>-</span>").insertAfter(state.button);
+            if (!opts.auto || opts.multi) {
+                $("<span>-</span>").insertAfter(state.uploadButton);
+            }
+            if (opts.showStop || opts.showCancel) {
+                $("<span>-</span>").appendTo(state.buttonbar);
+            }
+
+            state.removeButton = $("<a class=\"euploadify-button\"></a>").appendTo(state.buttonbar).linkbutton({
+                plain: opts.buttonPlain, text: opts.removeText, iconCls: "icon-hamburg-busy",
                 onClick: function () {
                     var rows = state.grid.datagrid("getChecked"), array = $.array.clone(rows);
-                    if (!rows || !rows.length) { return $.easyui.messager.show("请至少选择一行数据"); }
+                    if (!rows || !rows.length) { return $.easyui.messager.show(opts.message.mustNotEmpty); }
                     $.each(array, function (i, row) {
                         var index = state.grid.datagrid("getRowIndex", row);
-                        if (index > -1) { state.grid.datagrid("deleteRow", index);  }
+                        if (index > -1) { state.grid.datagrid("deleteRow", index); }
                         state.uploadify.uploadify("cancel", row.id);
                     });
                 }
-            }).tooltip({ content: "取消选定行的上传任务并删除该行" });
+            });
+
             state.buttonbar.toolbar();
+        }
+
+        if (opts.tooltip) {
+            var tooltip = opts.tooltip === true ? $.fn.euploadify.defaults.tooltip : opts.tooltip;
+            if (state.button) { state.button.tooltip({ content: tooltip.button }); }
+            if (state.uploadButton) { state.uploadButton.tooltip({ content: tooltip.upload }); }
+            if (state.stopButton) { state.stopButton.tooltip({ content: tooltip.stop }); }
+            if (state.cancelButton) { state.cancelButton.tooltip({ content: tooltip.cancel }); }
+            if (state.removeButton) { state.removeButton.tooltip({ content: tooltip.remove }); }
         }
     };
 
 
     function buildGridPanel(target, uopts) {
-        var state = $.data(target, "euploadify"), opts = state.options,
-            layout = state.layout = $("<div class=\"euploadify-gridpanel-layout\"></div>").appendTo(state.wrapper),
+        var t = $(target), state = $.data(target, "euploadify"), opts = state.options,
+            layout = state.layout = $("<div class=\"euploadify-gridpanel-layout\"></div>").insertBefore(state.queue),
             north = state.north = $("<div class=\"euploadify-gridpanel-north\" data-options=\"region: 'north', split: false, border: false\" style=\"height: 33px;\"></div>").appendTo(layout).append(state.buttonbar),
             center = state.center = $("<div class=\"euploadify-gridpanel-center\" data-options=\"region: 'center', border: false\"></div>").appendTo(layout),
             grid = state.grid = $("<table class=\"euploadify-gridpanel-grid\"></table>").appendTo(center);
@@ -224,99 +255,155 @@
                     { field: "name", title: "全文件名", width: 100, filterable: false }
             ]],
             columns: [[
-                { field: "customeName", title: "自定义文件名", width: 120, editor: "text", filterable: false },
-                { field: "type", title: "类型", width: 60, filterable: false },
-                { field: "size", title: "大小", width: 80, filterable: false, formatter: function (val) { return $.number.toFileSize(val); } },
+                { field: "customeName", title: opts.gridColumnNames.customeName, width: 120, editor: "text", filterable: false },
+                { field: "type", title: opts.gridColumnNames.type, width: 60, filterable: false },
                 {
-                    field: "progress", title: "上传进度", width: 80, align: "center", filterable: false, formatter: function (val, row) {
+                    field: "size", title: opts.gridColumnNames.size, width: 80, filterable: false,
+                    formatter: function (val) { return $.number.toFileSize(val); }
+                },
+                {
+                    field: "progress", title: opts.gridColumnNames.progress, width: 80, align: "center", filterable: false,
+                    formatter: function (val, row) {
                         return "<div class=\"euploadify-gridpanel-progress\">" +
                             "<div class=\"euploadify-gridpanel-progress-value" +
-                            (row.status == -3 ? " euploadify-gridpanel-progress-error" : (row.status == -4 ? " euploadify-gridpanel-progress-success" : "")) +
+                            (row.filestatus == -3 ? " euploadify-gridpanel-progress-error" : (row.filestatus == -4 ? " euploadify-gridpanel-progress-success" : "")) +
                             "\" style=\"width: " + String(val || 0) + "%;\"></div>" +
                             "</div>";
                     }
                 },
-                { field: "progressValue", title: "进度值", width: 50, filterable: false, formatter: function (val) { return String(val || 0) + "%"; } },
                 {
-                    field: "status", title: "状态", width: 80, filterable: false, formatter: function (val, row, index) {
-                        var str = opts.FILE_STATUS[val], ret = val == -3 ? ("<span class=\"euploadify-gridpanel-status euploadify-gridpanel-status-error\">" + str + "</span>") :
+                    field: "progressValue", title: opts.gridColumnNames.progressValue, width: 50, filterable: false,
+                    formatter: function (val) { return String(val || 0) + "%"; }
+                },
+                {
+                    field: "filestatus", title: opts.gridColumnNames.filestatus, width: 80, filterable: false,
+                    formatter: function (val, row, index) {
+                        var str = opts.FILE_STATUS[val], ret = val == -3 ?
+                            ("<span title=\"" + row.errorString + "\" class=\"euploadify-gridpanel-status euploadify-gridpanel-status-error\">" + str + "</span>") :
                             (val == -4 ? ("<span class=\"euploadify-gridpanel-status euploadify-gridpanel-status-success\">" + str + "</span>") : str);
                         return ret;
                     }
                 },
                 {
-                    field: "operate", title: "操作", width: 80, filterable: false, formatter: function (val, row) {
-                        return "<div title=\"取消\" class=\"euploadify-button-mini\" onclick=\"javascript: return $.fn.euploadify.cancelQueue(this);\">\
+                    field: "operate", title: opts.gridColumnNames.operate, width: 80, filterable: false,
+                    formatter: function (val, row) {
+                        return "<div title=\"" + opts.gridRowButtonNames.cancel + "\" class=\"euploadify-button-mini\" onclick=\"javascript: return $.fn.euploadify.cancelQueue(this);\">\
                                     <span class=\"euploadify-button-mini-icon icon-standard-delete\">&nbsp;</span>\
                                 </div>\
-                                <div title=\"上传\" class=\"euploadify-button-mini\" onclick=\"javascript: return $.fn.euploadify.uploadQueue(this);\">\
+                                <div title=\"" + opts.gridRowButtonNames.upload + "\" class=\"euploadify-button-mini\" onclick=\"javascript: return $.fn.euploadify.uploadQueue(this);\">\
                                     <span class=\"euploadify-button-mini-icon icon-standard-arrow-up\">&nbsp;</span>\
                                 </div>";
                     }
                 }
             ]],
             rowContextMenu: [
-                { text: "编辑文件名", iconCls: "icon-edit", handler: function (e, index, row) { grid.datagrid("beginEdit", index); } },
                 {
-                    text: "取消该文件", iconCls: "icon-standard-delete", handler: function (e, index, row) {
-                        if (row.status == -4) {
-                            $.easyui.messager.show("该文件已经上传完成，无法取消！");
+                    text: opts.gridRowContextNames.edit, iconCls: "icon-edit",
+                    disabled: function () { return opts.disabled || state.wrapper.is(".euploadify-wrapper-disabled"); },
+                    handler: function (e, index, row) { grid.datagrid("beginEdit", index); }
+                },
+                {
+                    text: opts.gridRowContextNames.cancel, iconCls: "icon-standard-delete",
+                    disabled: function () { return opts.disabled || state.wrapper.is(".euploadify-wrapper-disabled"); },
+                    handler: function (e, index, row) {
+                        if (row.filestatus == -4) {
+                            $.easyui.messager.show(opts.message.fileUploadSuccessCanntCancel);
                         } else {
                             state.uploadify.uploadify("cancel", row.id);
                         }
                     }
                 },
                 {
-                    text: "上传该文件", iconCls: "icon-standard-arrow-up", handler: function (e, index, row) {
-                        if (row.status == -4) {
-                            $.easyui.messager.show("该文件已经上传完成！");
+                    text: opts.gridRowContextNames.upload, iconCls: "icon-standard-arrow-up",
+                    disabled: function () { return opts.disabled || state.wrapper.is(".euploadify-wrapper-disabled"); },
+                    handler: function (e, index, row) {
+                        if (row.filestatus == -4) {
+                            $.easyui.messager.show(opts.message.fileUploadSuccess);
                         } else {
                             state.uploadify.uploadify("upload", row.id);
                         }
                     }
                 }
             ],
+            onBeginEdit: function (index, row) {
+                if ($.array.contains([-2, -4, -5], row.filestatus)) {
+                    var msg = $.string.format(opts.message.fileCannotRename, opts.FILE_STATUS[row.filestatus]);
+                    $.easyui.messager.show(msg);
+                    grid.datagrid("cancelEdit", index);
+                }
+                return $.fn.datagrid.defaults.onBeginEdit.apply(this, arguments);
+            },
             onAfterEdit: function (index, row, changes) {
                 if (!row.customeName) {
-                    $.easyui.messager.show("自定义文件名不能为空（已经恢复）");
+                    $.easyui.messager.show(opts.message.fileNameCannotEmpty);
                     var array = String(row.name).split("."), temp = $.array.removeAt(array, array.length - 1), name = temp.join("");
                     grid.datagrid("updateRow", { index: index, row: { customeName: name } });
                 }
                 return $.fn.datagrid.defaults.onAfterEdit.apply(this, arguments);
             }
         });
+
+        var onCancel = uopts.onCancel, onSelect = uopts.onSelect,
+            onUploadStart = uopts.onUploadStart, onUploadProgress = uopts.onUploadProgress,
+            onUploadError = uopts.onUploadError, onUploadComplete = uopts.onUploadComplete,
+            onUploadSuccess = uopts.onUploadSuccess;
         $.extend(uopts, {
+            removeCompleted: true, removeTimeout: 0,
             onCancel: function (file) {
                 var id = file.id, index = grid.datagrid("getRowIndex", id);
                 if (index > -1) { grid.datagrid("deleteRow", index); }
-                return opts.onCancel.apply(target, arguments);
+                return onCancel.apply(this, arguments);
             },
             onSelect: function (file) {
-                var array = String(file.name).split("."), temp = $.array.removeAt(array, array.length - 1), name = temp.join("");
-                grid.datagrid("appendRow", { id: file.id, name: file.name, customeName: name, type: file.type, progress: 0, size: file.size, status: file.filestatus });
-                return opts.onSelect.apply(target, arguments);
+                var nameArray = String(file.name).split("."), tempName = $.array.removeAt(nameArray, nameArray.length - 1), name = tempName.join(""),
+                    row = $.extend({}, file, { customeName: name, progress: 0, progressValue: 0 });
+                grid.datagrid("appendRow", row);
+                return onSelect.apply(this, arguments);
+            },
+            onUploadStart: function (file) {
+                var id = file.id, index = grid.datagrid("getRowIndex", id), row = index > -1 ? grid.datagrid("getRowData", index) : null;
+                if (row) {
+                    t.euploadify("resetFormData");
+                    var data = $.extend({}, row, { customeName: row.customeName + file.type }),
+                        formData = opts.requestFilter.call(target, data, file);
+                    state.uploadify.uploadify("settings", "formData", formData);
+                    grid.datagrid("updateRow", { index: index, row: { filestatus: file.filestatus } });
+                }
+                return onUploadStart.apply(this, arguments);
             },
             onUploadProgress: function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
                 var val = !bytesTotal ? 0 : (bytesUploaded / bytesTotal * 100).round(2), id = file.id, index = grid.datagrid("getRowIndex", id);
                 if (index > -1) {
-                    grid.datagrid("updateRow", { index: index, row: { progress: val, progressValue: val, status: file.filestatus } });
+                    grid.datagrid("updateRow", { index: index, row: { progress: val, progressValue: val, filestatus: file.filestatus } });
                 }
-                return opts.onUploadProgress.apply(target, arguments);
+                return onUploadProgress.apply(this, arguments);
             },
-            onUploadStart: function (file) {
-                var id = file.id, index = grid.datagrid("getRowIndex", id), row = grid.datagrid("getRowData", index);
-                state.uploadify.uploadify("settings", "customeName", row.customeName);
-                if (index > -1) {
-                    grid.datagrid("updateRow", { index: index, row: { status: file.filestatus } });
+            onUploadError: function (file, errorCode, errorMsg, errorString) {
+                var id = file.id, index = grid.datagrid("getRowIndex", id), row = index > -1 ? grid.datagrid("getRowData", index) : null;
+                if (row) {
+                    state.uploadify.uploadify("settings", "formData", row);
+                    grid.datagrid("updateRow", { index: index, row: { errorString: errorCode + "," + errorMsg + "," + errorString } });
                 }
-                return opts.onUploadStart.apply(target, arguments);
+                return onUploadError.apply(this, arguments);
+            },
+            onUploadSuccess: function (file, data, response) {
+                var obj = opts.responseFilter.call(target, data, file),
+                    val = obj && obj.value != null && obj.value != undefined ? obj.value : null,
+                    array = getValues(target),
+                    values = $.array.merge(array, val),
+                    id = file.id, index = grid.datagrid("getRowIndex", id);
+                if (index > -1) {
+                    grid.datagrid("updateRow", { index: index, row: { value: val } });
+                }
+                setValues(target, values);
+                return onUploadSuccess.apply(this, arguments);
             },
             onUploadComplete: function (file) {
                 var id = file.id, index = grid.datagrid("getRowIndex", id);
                 if (index > -1) {
-                    grid.datagrid("updateRow", { index: index, row: { status: file.filestatus } });
+                    grid.datagrid("updateRow", { index: index, row: { filestatus: file.filestatus } });
                 }
-                return opts.onUploadComplete.apply(target, arguments);
+                return onUploadComplete.apply(this, arguments);
             }
         });
     };
@@ -326,16 +413,285 @@
 
 
 
+    function getUploadify(target) {
+        return $.data(target, "euploadify").uploadify;
+    };
 
+    function getButtons(target) {
+        return $.data(target, "euploadify").buttonbar.find("a.euploadify-button");
+    };
+
+    function getFileName(target, file) {
+        if (!file || !file.name) { return $(target).euploadify("options").emptyText; }
+        return $.string.getByteLen(file.name) > 28 ? $.string.leftBytes(file.name, 25) + "..." : file.name;
+    };
+
+    function getQueue(target) {
+        return $.data(target, "euploadify").queue;
+    };
+
+    function getGrid(target) {
+        return $.data(target, "euploadify").grid;
+    };
+
+    function getQueues(target) {
+        var state = $.data(target, "euploadify"), data = $("#" + state.uploadifyID).data("uploadify"), ret = [],
+            files = (data && data.queueData && data.queueData.files) ? data.queueData.files : [], f;
+        for (var i in files) {
+            f = files[i];
+            if (f && f.id && f.name && f.size) { ret.push(f); }
+        }
+        return ret;
+    };
 
     function setSize(target) {
-        var t = $(target), state = $.data(target, "euploadify"), opts = state.options, fit = t._fit(false);
-        if (opts.multi) {
-        } else {
-            var width = fit.width - state.buttonbar.outerWidth() - 15;
+        var t = $(target), state = $.data(target, "euploadify"), opts = state.options;
+        if (!opts.multi) {
+            var fit = t._fit(false), width = fit.width - state.buttonbar.outerWidth() - 15;
             state.progressbar.progressbar("resize", width);
         }
     };
+
+    function cancel(target, param) {
+        var state = $.data(target, "euploadify");
+        state.uploadify.uploadify("cancel", param);
+    };
+
+    function destroy(target) {
+        var t = $(target), state = $.data(target, "euploadify");
+        state.uploadify.uploadify("destroy");
+        state.panel.panel("destroy");
+        t.remove();
+    }
+
+    function disable(target, setDisabled) {
+        if (setDisabled == null || setDisabled == undefined) {
+            setDisabled = true;
+        }
+        var t = $(target), state = $.data(target, "euploadify"), opts = state.options;
+        opts.disabled = setDisabled;
+        var buttons = state.buttonbar.find(".euploadify-button:not(.euploadify-select)");
+        if (setDisabled) {
+            t.attr("disabled", true);
+            state.wrapper.addClass("euploadify-wrapper-disabled");
+            state.button.addClass("l-btn-disabled");
+            if (opts.buttonPlain) { state.button.addClass("l-btn-plain-disabled"); }
+            $.util.tryExec(function () {
+                state.uploadify.uploadify("stop");
+            });
+            buttons.linkbutton("disable");
+        } else {
+            t.removeAttr("disabled");
+            state.wrapper.removeClass("euploadify-wrapper-disabled");
+            state.button.removeClass("l-btn-disabled");
+            if (opts.buttonPlain) { state.button.removeClass("l-btn-plain-disabled"); }
+            buttons.linkbutton("enable");
+        }
+        $.util.tryExec(function () {
+            state.uploadify.uploadify("disable", setDisabled);
+        });
+    };
+
+    function enable(target) {
+        disable(target, false);
+    };
+
+    function stop(target) {
+        $.data(target, "euploadify").uploadify.uploadify("stop");
+    };
+
+    function upload(target, param) {
+        $.data(target, "euploadify").uploadify.uploadify("upload", param);
+    };
+
+    function resize(target, param) {
+        if (!param) { return; }
+        var state = $.data(target, "euploadify"), opts = state.options, size = {};
+        if (param.width) { size.width = param.width }
+        if (param.height) { size.height = param.height }
+        $.extend(opts, size);
+        state.panel.panel("resize", size);
+        setSize(target);
+    };
+
+
+    function settings(target, param) {
+        var t = $(target);
+        if (!param) { return t; }
+        var state = $.data(target, "euploadify"), opts = state.options;
+        if (typeof param == "string") {
+            return opts[param];
+        } else {
+            if (param.name) {
+                opts[param.name] = param.value;
+                state.uploadify.uploadify("settings", param.name, param.value);
+            }
+            return t;
+        }
+    };
+
+
+    function setFormData(target, param) {
+        param = param || {};
+        var state = $.data(target, "euploadify"), opts = state.options,
+            swfuploadify = state.uploadify.data("uploadify"),
+			settings = swfuploadify.settings;
+        settings.formData = {};
+        swfuploadify.setPostParams(opts.formData = $.extend(settings.formData, param));
+    };
+
+    function resetFormData(target) {
+        var state = $.data(target, "euploadify"), opts = state.options;
+        setFormData(target, opts.originalFormData);
+    };
+
+    function clearFormData(target) {
+        setFormData(target, {});
+    };
+
+
+
+
+    function hideTip(target) {
+        var state = $.data(target, "euploadify");
+        state.tip = false;
+        state.wrapper.tooltip("hide");
+    };
+
+    function showTip(target) {
+        var state = $.data(target, "euploadify"), opts = state.options;
+        state.wrapper.tooltip($.extend({}, opts.tipOptions, { content: opts.missingMessage, position: opts.tipPosition, deltaX: opts.deltaX })).tooltip("show");
+        state.tip = true;
+    };
+
+    function repositionTip(target) {
+        var state = $.data(target, "euploadify");
+        if (state && state.tip) {
+            state.wrapper.tooltip("reposition");
+        }
+    };
+
+    function initializeValidate(target) {
+        var t = $(target), state = $.data(target, "euploadify"), opts = state.options;
+        state.wrapper.unbind(".euploadify");
+        if (opts.novalidate) {
+            return;
+        }
+        state.wrapper.bind("focus.euploadify", function () {
+            state.validating = true;
+            state.values = undefined;
+            (function () {
+                if (state.validating) {
+                    var values = t.euploadify("getValues").join(opts.separator);
+                    if (state.values != values) {
+                        state.values = values;
+                        if (state.timer) {
+                            clearTimeout(state.timer);
+                        }
+                        state.timer = setTimeout(function () { t.euploadify("validate"); }, opts.delay);
+                    } else {
+                        repositionTip(target);
+                    }
+                    setTimeout(arguments.callee, 200);
+                }
+            })();
+        }).bind("blur.euploadify", function () {
+            if (state.timer) {
+                clearTimeout(state.timer);
+                state.timer = undefined;
+            }
+            state.validating = false;
+            hideTip(target);
+        }).bind("mouseenter.euploadify", function () {
+            if (state.wrapper.hasClass("euploadify-invalid")) {
+                showTip(target);
+            }
+        }).bind("mouseleave.euploadify", function () {
+            if (!state.validating) {
+                hideTip(target);
+            }
+        });
+    };
+
+    function validate(target) {
+        var t = $(target), state = $.data(target, "euploadify"), opts = state.options,
+            values = t.euploadify("getValues"), str = values.join(opts.separator);
+        state.wrapper.removeClass("euploadify-invalid");
+        hideTip(target);
+        if (!opts.novalidate && opts.required && (!values.length || !str) && !t.is(":disabled") && !state.wrapper.hasClass("euploadify-wrapper-disabled")) {
+            state.wrapper.addClass("euploadify-invalid");
+            if (state.validating) {
+                showTip(target);
+            }
+            return false;
+        }
+        return true;
+    };
+
+    function setValidation(target, novalidate) {
+        var state = $.data(target, "euploadify"), opts = state.options;
+        if (novalidate != undefined && novalidate != null) {
+            opts.novalidate = novalidate;
+        }
+        if (opts.novalidate) {
+            state.wrapper.removeClass("euploadify-invalid");
+            hideTip(target);
+        }
+        initializeValidate(target);
+    };
+
+
+
+    function getValues(target) {
+        var state = $.data(target, "euploadify"), opts = state.options,
+            fields = state.wrapper.find(".euploadify-value"),
+            values = $.array.map(fields, function (val) { return $(val).val(); });
+        state.values = values.join(opts.separator);
+        return opts.values = values;
+    };
+
+    function getValue(target) {
+        var values = getValues(target);
+        return values[0];
+    };
+
+
+    function setValues(target, values) {
+        var t = $(target), state = $.data(target, "euploadify"), opts = state.options,
+            original = t.euploadify("getValues"),
+            array = $.util.likeArrayNotString(values) ? values : [values];
+        state.wrapper.find(".euploadify-value").remove();
+        $.each(array, function (i, val) {
+            var field = $("<input class=\"euploadify-value\" type=\"hidden\" />").appendTo(state.wrapper).val(val);
+            if (state.name) {
+                field.attr("name", state.name);
+            }
+        });
+        var temps = $.array.filter(array, function (val) {
+            return $.array.contains(original, val) ? false : true;
+        });
+        if (temps.length != array.length || array.length != original.length) {
+            if (opts.multi) {
+                opts.onChange.call(target, array, original);
+            } else {
+                opts.onChange.call(target, array[0], original[0]);
+            }
+        }
+        state.values = array.join(opts.separator);
+        opts.values = array;
+    };
+
+    function setValue(target, value) {
+        setValues(target, [value]);
+    };
+
+    function clear(target) { setValues(target, []); };
+
+    function reset(target) {
+        var state = $.data(target, "euploadify"), opts = state.options;
+        setValues(target, opts.originalValue);
+    };
+
 
 
 
@@ -360,29 +716,37 @@
 
     $.fn.euploadify.cancelQueue = function (mini) {
         var btn = $(mini), t = btn.closest("div.euploadify-wrapper").find(".euploadify-f"),
-            state = $.data(t[0], "euploadify"),
-            index = window.parseInt(btn.closest("tr.datagrid-row").attr("datagrid-row-index")),
-            row = state.grid.datagrid("getRowData", index);
-        if (row.status == -4) {
-            $.easyui.messager.show("该文件已经上传完成，无法取消！");
-        } else {
-            state.uploadify.uploadify("cancel", row.id);
+            state = $.data(t[0], "euploadify"), opts = state.options;
+        if (!opts.disabled && state.wrapper.is(".euploadify-wrapper-disabled")) {
+            var index = window.parseInt(btn.closest("tr.datagrid-row").attr("datagrid-row-index")),
+                row = state.grid.datagrid("getRowData", index);
+            if (row.filestatus == -4) {
+                $.easyui.messager.show(opts.message.fileUploadSuccessCanntRemove);
+            } else {
+                state.uploadify.uploadify("cancel", row.id);
+            }
         }
-        window.event.stopPropagation();
+        if (window.event && window.event.stopPropagation) {
+            window.event.stopPropagation();
+        }
         return false;
     };
 
     $.fn.euploadify.uploadQueue = function (mini) {
         var btn = $(mini), t = btn.closest("div.euploadify-wrapper").find(".euploadify-f"),
-            state = $.data(t[0], "euploadify"),
-            index = window.parseInt(btn.closest("tr.datagrid-row").attr("datagrid-row-index")),
-            row = state.grid.datagrid("getRowData", index);
-        if (row.status == -4) {
-            $.easyui.messager.show("该文件已经上传完成！");
-        } else {
-            state.uploadify.uploadify("upload", row.id);
+            state = $.data(t[0], "euploadify"), opts = state.options;
+        if (!opts.disabled && state.wrapper.is(".euploadify-wrapper-disabled")) {
+            var index = window.parseInt(btn.closest("tr.datagrid-row").attr("datagrid-row-index")),
+                row = state.grid.datagrid("getRowData", index);
+            if (row.filestatus == -4) {
+                $.easyui.messager.show(opts.message.fileUploadSuccess);
+            } else {
+                state.uploadify.uploadify("upload", row.id);
+            }
         }
-        window.event.stopPropagation();
+        if (window.event && window.event.stopPropagation) {
+            window.event.stopPropagation();
+        }
         return false;
     };
 
@@ -406,61 +770,82 @@
 
         options: function (jq) { return $.data(jq[0], "euploadify").options; },
 
+        uploadify: function (jq) { return getUploadify(jq[0]); },
+
+        buttons: function (jq) { return getButtons(jq[0]); },
+
+        queue: function (jq) { return getQueue(jq[0]); },
+
+        grid: function (jq) { return getGrid(jq[0]); },
+
         //  从当前上传队列中取消一个或多个文件的上传；该方法的参数 param 可以定义为如下数据类型：
         //      String  : 表示要取消上传的文件的 id 值；如果不定义该参数，则取消队列中第一个文件的上传；如果该值定义为 "*"，则取消队列中所有文件上传；
         //      Boolean : 默认为 false；如果定义为 true，则执行该方法时将不触发 onUploadCancel 事件；
         //  返回值：返回表示当前 easyui-euploadify 控件的 jQuery 链式对象。
-        cancel: function (jq, param) { },
+        cancel: function (jq, param) { return jq.each(function () { cancel(this, param); }); },
 
         //  从当前文档上下文中销毁该 easyui-euploadify 控件；该方法将触发 onDestroy 事件；
         //  返回值：返回表示当前 easyui-euploadify 控件的 jQuery 链式对象。
-        destroy: function (jq) { },
+        destroy: function (jq) { return jq.each(function () { destroy(this); }); },
 
         //  禁用该 easyui-euploadify 控件；该方法将触发 onDisable 事件；
         //      该方法的参数 setDisabled 为 Boolean 类型值，为 true 时表示禁用上传按钮；为 false 表示启用上传按钮；
+        //  注意：该方法会导致当前的上传任务停止；
         //  返回值：返回表示当前 easyui-euploadify 控件的 jQuery 链式对象。
-        disable: function (jq, setDisabled) { },
+        disable: function (jq, setDisabled) { return jq.each(function () { disable(this, setDisabled); }); },
 
         //  获取或设置 easyui-euploadify 控件中指定名称的属性值；该方法的参数 param 可以定义为如下数据类型：
         //      String  : 该参数指定一个属性名称，该属性名所示的属性值将会被返回；
         //      Object  : 格式如 { name: string, value: object }；设定指定名称的属性为指定的值。
         //  返回值：返回表示当前 easyui-euploadify 控件中指定名称的属性值；或者返回表示当前 easyui-euploadify 控件的 jQuery 链式对象。
-        settings: function (jq, param) { },
+        settings: function (jq, param) { return settings(jq[0], param); },
 
         //  停止当前上传队列中所有文件的上传。
         //  返回值：返回表示当前 easyui-euploadify 控件的 jQuery 链式对象。
-        stop: function (jq) { },
+        stop: function (jq) { return jq.each(function () { stop(this); }); },
 
         //  获取当前上传队列中有多少文件数量；
         //  返回值：返回一个 array 类型数组，数组中的每一项都是一个 file 对象；
-        queue: function (jq) { },
+        getQueues: function (jq) { return getQueues(jq[0]); },
 
         //  立即上传当前队列中的特定文件或所有文件。该方法的参数 param 可以定义为如下数据类型：
         //      String  : 表示要立即上传的文件 id 值；如果不定义该参数，则上传队列中的第一个文件；如果该值定义为 "*"，则上传队列中所有文件；
         //  返回值：返回表示当前 easyui-euploadify 控件的 jQuery 链式对象。
-        upload: function (jq, param) { },
+        upload: function (jq, param) { return jq.each(function () { upload(this, param); }); },
 
 
 
-        resize: function (jq, resize) { },
+        setFormData: function (jq, param) { return jq.each(function () { setFormData(this, param); }); },
 
-        enable: function (jq) { },
+        resetFormData: function (jq) { return jq.each(function () { resetFormData(this); }); },
 
-        validate: function (jq) { },
+        clearFormData: function (jq) { return jq.each(function () { clearFormData(this); }); },
 
-        isValid: function (jq) { },
+        resize: function (jq, param) { return jq.each(function () { resize(this, param); }); },
 
-        clear: function (jq) { },
+        enable: function (jq) { return jq.each(function () { enable(this); }); },
 
-        reset: function (jq) { },
 
-        getValues: function (jq) { },
 
-        setValues: function (jq, values) { },
+        validate: function (jq) { return jq.each(function () { validate(this); }); },
 
-        getValue: function () { },
+        isValid: function (jq) { return validate(jq[0]); },
 
-        setValue: function (jq, value) { }
+        enableValidation: function (jq) { return jq.each(function () { setValidation(this, false) }); },
+
+        disableValidation: function (jq) { return jq.each(function () { setValidation(this, true) }); },
+
+        clear: function (jq) { return jq.each(function () { clear(this); }); },
+
+        reset: function (jq) { return jq.each(function () { reset(this); }); },
+
+        getValues: function (jq) { return getValues(jq[0]); },
+
+        setValues: function (jq, values) { return jq.each(function () { setValues(this, values); }); },
+
+        getValue: function (jq) { return getValue(jq[0]); },
+
+        setValue: function (jq, value) { return jq.each(function () { setValue(this, value); }); }
     };
 
     $.fn.euploadify.defaults = {
@@ -653,7 +1038,8 @@
         //  当文件上传成功完成时，该事件将会被触发；针对每个上传成功的文件，该事件都会触发一次；
         //      file:   表示上传完成的文件对象；
         //      data:   文件上传完成后，由服务器端返回的数据；
-        //      response:表示文件上传完成后，由服务器端返回的全部数据内容；如果该值为 false，则表示当提交上传后并超过 successTimeout 属性设置的超时时间后，服务器任未有数据返回；
+        //      response: 表示文件是否上传成功；boolean 类型值；如果为 true 则表示文件上传成功；
+        //          如果该值为 false，则表示当提交上传后并超过 successTimeout 属性设置的超时时间后，服务器任未有数据返回(文件上传失败)；
         onUploadSuccess: function (file, data, response) { }
     };
 
@@ -670,9 +1056,42 @@
         uploadText: "上传",
         stopText: "停止上传",
         cancelText: "取消上传",
+        removeText: "移除选择",
+
         emptyText: "未选择文件",
         finishText: "上传完成!",
         errorText: "上传失败",
+
+        //  设置按钮提示文字；
+        //  该属性可以为一个格式如 { button: string, upload: string, stop: string, cancel: string, remove: string } 的对象，表示每个按钮的提示文字内容；
+        //  也可以是一个 boolean 类型值，表示是否启用按钮文字提示；
+        tooltip: {
+            button: "打开文件浏览器窗口并选择需要上传的文件",
+            upload: "上传当前文件队列中所有未上传的文件",
+            stop: "停止当前文件上传队列中所有文件的上传动作",
+            cancel: "取消当前文件队列中所有未上传文件的上传任务",
+            remove: "取消选定行的上传任务并删除该行"
+        },
+        message: {
+            queueEmpty: "当前上传队列中没有待上传文件.",
+            mustNotEmpty: "请至少选择一行数据.",
+            fileUploadSuccessCanntCancel: "该文件已经上传完成，无法取消！",
+            fileUploadSuccess: "该文件已经上传完成！",
+            fileCannotRename: "该文件处于\"{0}\"状态，不能编辑\"自定义文件名\"，编辑状态已撤销.",
+            fileNameCannotEmpty: "自定义文件名不能为空（已经恢复）",
+            fileUploadSuccessCanntRemove: "该文件已经上传完成，无法取消(如想移除该行请选中该行后点击上方按钮\"移除选择\")！"
+        },
+        gridColumnNames: {
+            name: "全文件名", customeName: "自定义文件名", type: "类型", size: "大小",
+            progress: "上传进度", progressValue: "进度值", filestatus: "状态", operate: "操作"
+        },
+        gridRowButtonNames: {
+            cancel: "取消", upload: "上传"
+        },
+        gridRowContextNames: {
+            edit: "编辑文件名", cancel: "取消该文件", upload: "上传该文件"
+        },
+
         FILE_STATUS: { "-1": "等待上传", "-2": "正在上传...", "-3": "上传出错", "-4": "上传完成", "-5": "已取消" },
 
         buttonIcon: "icon-search",
@@ -680,12 +1099,16 @@
         cancelIcon: "icon-standard-cancel",
         uploadIcon: "icon-hamburg-publish",
 
+        response: { status: false, message: null, value: null, url: null },
+        requestFilter: function (data, file) { return data; },
+        responseFilter: function (data, file) { return data; },
+
         //  在设置控件允许可以同时上传多个文件时(multi: true)，多文件列表的显示方式；String 类型值，可选的值限定如下范围：
         //      uploadify:
         //      simple:
         //      list:
         //      grid:
-        multiTemplate: "uploadify",
+        multiTemplate: "grid",
 
         multiTemplateData: {
             uploadify: $.fn.euploadify.defaults.itemTemplate,
@@ -718,15 +1141,26 @@
 
         showCancel: false,
 
+        required: false,
+        missingMessage: "请上传附件.",
+        //  "left", "right", "top", "bottom"
+        tipPosition: "right",
+        deltaX: 0,
+        tipOptions: $.fn.validatebox.defaults.tipOptions,
+        separator: ",",
 
-        onButtonStop: function () { }
+
+        onChange: function (newValue, oldValue) { },
+
+        onButtonStop: function (queues, btnDOM) { }
     });
 
 
     $.parser.plugins.push("euploadify");
 
     if ($.fn.form && $.isArray($.fn.form.otherList)) {
-        $.array.insert($.fn.form.otherList, 0, "euploadify");
+        $.fn.form.otherList.push("euploadify");
+        //$.array.insert($.fn.form.otherList, 0, "euploadify");
     }
 
 })(jQuery);

@@ -11,7 +11,7 @@
 * jQuery EasyUI comboselector 插件扩展
 * jquery.comboselector.js
 * 二次开发 流云
-* 最近更新：2014-04-21
+* 最近更新：2014-05-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -290,7 +290,8 @@
     $.parser.plugins.push("comboselector");
 
     if ($.fn.form && $.isArray($.fn.form.comboList)) {
-        $.array.insert($.fn.form.comboList, 0, "comboselector");
+        $.fn.form.comboList.push("comboselector");
+        //$.array.insert($.fn.form.comboList, 0, "comboselector");
     }
 
 })(jQuery);

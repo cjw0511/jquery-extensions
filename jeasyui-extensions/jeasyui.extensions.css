@@ -130,6 +130,17 @@ ul.icon-selector-ul li.selected { border-color: Red; background-color: rgb(221, 
 
 /*jquery.euploadify.js*/
 .euploadify-panel {}
+.euploadify-panel {}
+
+.euploadify-wrapper {}
+.euploadify-wrapper div.uploadify { display: inline-block; font-size: 12px; margin: 0; }
+.euploadify-wrapper div.uploadify .uploadify-button { border-radius: 0; margin: 0 4px 0 10px; }
+.euploadify-wrapper div.uploadify > object { left: 0px; }
+.euploadify-wrapper.euploadify-wrapper-disabled {}
+.euploadify-wrapper a.l-btn-disabled div.uploadify > object { visibility: hidden; }
+
+.euploadify-wrapper.euploadify-invalid { border: 1px solid red; }
+
 .euploadify-wrapper-single {}
 .euploadify-wrapper-multi {}
 .euploadify-wrapper-multi-uploadify {}
@@ -140,20 +151,16 @@ ul.icon-selector-ul li.selected { border-color: Red; background-color: rgb(221, 
     margin-right: 5px; 
 }
 .euploadify-wrapper-multi-grid .euploadify-button { margin-right: 2px; } 
-.euploadify-wrapper-multi-grid .euploadify-button-mini { width: 18px; height: 18px; cursor: pointer; border-width: 1px; border-color: #fff; border-style: solid; display: inline-block; }
+.euploadify-wrapper-multi-grid .euploadify-button-mini { width: 18px; height: 18px; cursor: pointer; border-width: 1px; border-color: #FFFFFF; border-style: solid; display: inline-block; }
 .euploadify-wrapper-multi-grid .euploadify-button-mini { *display: inline; }
 .euploadify-wrapper-multi-grid .euploadify-button-mini:hover { border-color: red; }
-.euploadify-wrapper-multi-grid .euploadify-button-mini-icon { line-height: 16px; padding-left: 16px; }
+.euploadify-wrapper-multi-grid .euploadify-button-mini-icon { line-height: 16px; padding-left: 16px; display: inline-block; }
 
 .euploadify-select {}
 .euploadify-upload {}
 .euploadify-stop {}
 .euploadify-cancel {}
 .euploadify-hidden { display: none; }
-
-.euploadify-wrapper div.uploadify { display: inline-block; font-size: 12px; margin: 0; }
-.euploadify-wrapper div.uploadify .uploadify-button { border-radius: 0; margin: 0 4px 0 10px; }
-.euploadify-wrapper div.uploadify > object { left: 0px; }
 
 .euploadify-queue {}
 .euploadify-wrapper-single .euploadify-queue, .euploadify-wrapper-multi-uploadify .euploadify-queue, .euploadify-wrapper-multi-simple .euploadify-queue, .euploadify-wrapper-multi-bootstrap .euploadify-queue {
@@ -176,11 +183,12 @@ ul.icon-selector-ul li.selected { border-color: Red; background-color: rgb(221, 
     vertical-align: middle; margin: 5px;
 }
 .euploadify-wrapper-multi .uploadify-queue-item { max-width: inherit; }
-.euploadify-gridpanel-progress { border: 1px solid; height: 8px; }
-.euploadify-gridpanel-progress-value { height: 8px; background-color: #FFAA00; }
+.euploadify-gridpanel-progress { border: 1px solid; height: 8px; text-align: left; }
+.euploadify-gridpanel-progress-value { height: 8px; background-color: #FFAA00; margin: 0; padding: 0; }
 .euploadify-gridpanel-status { font-weight: bold; }
 .euploadify-gridpanel-status.euploadify-gridpanel-status-success { color: #15C23C; }
 .euploadify-gridpanel-status.euploadify-gridpanel-status-error { color: #F10257; }
+
 
 
 /*WdatePicker.js*/

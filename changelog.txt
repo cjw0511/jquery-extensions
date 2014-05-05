@@ -1,13 +1,27 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
-/******** 2014-04-29(1.0.46 preview) ********/
+/******** 2014-05-05(1.0.48 preview) ********/
+1、【^】 完善扩展插件 jquery.euploadify.js 的 API 方法，同时使该插件支持 jquery.form.js 插件的表单方法(submit、load、clear、validate，需插件 jeasyui.extensions.form.js 支持)；
+2、【^】 重写 jquery.form.js 插件的 validate、enableValidation 和 disableValidation 方法（ 在  jeasyui.extensions.form.js 中） 以支持自定义扩展的表单插件；
+3、[#] 修复 jquery.jdirk.js 的 serializeObject 方法中，因 id 和 name 双重定义导致重复取值的 bug；
+
+
+/******** 2014-05-04(1.0.47 preview) ********/
+1、【+】 将 jquery.codemirror.js 插件的官方依赖库 CodeMirror 版本从 4.0 升级至 4.1；
+2、[^] 升级 jquery.jdirk.js 基础库中部分 API 的实现算法($.util.namespace、$.util.define 和 $.util.getDefined)；
+3、[#] 修复 jquery.toolbar.js 插件中关于工具栏项 button/linkbutton 在按钮禁用的情况下点击也会触发 click 事件的 BUG；
+4、[#] 扩展插件 jquery.toolbar.js 中，增加工具栏项 button 的别名 linkbutton、增加工具栏项 textbox 的别名 text；
+
+
+/******** 2014-04-30(1.0.46 preview) ********/
 1、【+】 增加 jquery.euploadify.js 插件(整合 uploadify 文件上传插件)；
 2、[+] jeasyui.extensions.datagrid.js 扩展插件中，增加 onDeleteRow、onBeforeDeleteRow 事件；
 3、[+] jeasyui.extensions.treegrid.js 扩展插件中，增加 onRemove、onBeforeRemove 事件；
 4、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 扩展插件中，当 append、insert、delete/remove 行时不会刷新 columnFilter 的 BUG；
 5、[#] 修复 jeasyui.extensions.datagrid.js 和 jeasyui.extensions.treegrid.js 扩展插件的行编辑状态中，easyui-combo 及其继承控件的单元格编辑时，
     修复 combo 与 combo-textbox 边框重复的问题
+6、【^】 调整基础库 jquery.jdirk.js 中的公共函数 $.array.copy（同时影响到 Array.prototype.copy 方法）的参数规则，如第三方开发者用到了此函数请在升级时进行代码修改；
 
 
 /******** 2014-04-23(1.0.45 preview) ********/

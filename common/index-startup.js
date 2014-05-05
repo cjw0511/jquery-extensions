@@ -7,14 +7,14 @@
         window.mainpage.instMainMenus();
         window.mainpage.instFavoMenus();
         window.mainpage.instTimerSpan();
-        window.mainpage.bindNavTabButtonEvent();
+        window.mainpage.bindNavTabsButtonEvent();
         window.mainpage.bindToolbarButtonEvent();
-        window.mainpage.bindMainTabButtonEvent();
+        window.mainpage.bindMainTabsButtonEvent();
 
         window.donate.reload();
         window.link.reload();
 
-        var portal = $("#portal"), layout = $("#mainLayout"), navTab = $("#navTab"), themeCombo = $("#themeSelector");
+        var portal = $("#portal"), layout = $("#mainLayout"), navTabs = $("#navTabs"), themeCombo = $("#themeSelector");
 
         $.util.exec(function () {
             var theme = $.easyui.theme(), themeName = $.cookie("themeName");
@@ -28,7 +28,7 @@
             //  判断当浏览器窗口宽度小于像素 1280 时，右侧 region-panel 自动收缩
             if (size.width < 1280) { layout.layout("collapse", "east"); }
 
-            window.mainpage.mainTab.loadHash(hash);
+            window.mainpage.mainTabs.loadHash(hash);
 
             var stop = new Date();
             $.easyui.messager.show({ msg: "当前页面加载耗时(毫秒)：" + start.diff("ms", stop), position: "bottomRight" });

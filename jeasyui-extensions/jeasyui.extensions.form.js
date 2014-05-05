@@ -11,7 +11,7 @@
 * jQuery EasyUI form 组件扩展
 * jeasyui.extensions.form.js
 * 二次开发 流云
-* 最近更新：2014-04-12
+* 最近更新：2014-05-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -131,7 +131,8 @@
             var cc = $.fn.form.comboList;
             var c = t.find('[comboName="' + name + '"]');
             if (c.length) {
-                for (var i = 0; i < cc.length; i++) {
+                for (var i = cc.length - 1; i >= 0; i--) {
+                //for (var i = 0; i < cc.length; i++) {
                     var type = cc[i];
                     if (c.hasClass(type + '-f')) {
                         if (c[type]('options').multiple) {
@@ -172,12 +173,14 @@
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i],
                 r = t.find('.' + plugin + '-f');
-            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"] && $.fn[plugin]["methods"]["clear"]) {
-                r[plugin]("clear");
+            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"]) {
+                $.util.tryExec(function () {
+                    r[plugin]("clear");
+                });
             }
         }
         t.form("validate");
-    }
+    };
 
     function reset(target) {
         var t = $(target), isForm = /^(?:form)$/i.test(target.nodeName) && state ? true : false;
@@ -188,12 +191,62 @@
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             var r = t.find('.' + plugin + '-f');
-            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"] && $.fn[plugin]["methods"]["reset"]) {
-                r[plugin]("reset");
+            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"]) {
+                $.util.tryExec(function () {
+                    r[plugin]("reset");
+                });
             }
         }
         t.form("validate");
+    };
+
+
+    function validate(target) {
+        var t = $(target);
+
+        if ($.fn.validatebox) {
+            t.find('.validatebox-text:not(:disabled)').validatebox('validate');
+            var invalidbox = t.find('.validatebox-invalid');
+            invalidbox.filter(':not(:disabled):first').focus();
+            if (invalidbox.length) {
+                return false;
+            }
+        }
+
+        var plugins = $.array.distinct($.array.merge([], $.fn.form.otherList, $.fn.form.spinnerList, $.fn.form.comboList));
+        for (var i = 0; i < plugins.length; i++) {
+            var plugin = plugins[i];
+            var r = t.find('.' + plugin + '-f');
+            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"]) {
+                if ($.util.tryExec(function () { return r[plugin]("validate"); }) === false) {
+                    $.util.tryExec({
+                        code: function () { r[plugin]("focus"); },
+                        error: function () { r[plugin]("textbox").focus(); },
+                        tryError: true
+                    });
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
+
+    function setValidation(target, novalidate) {
+        var t = $(target);
+        t.find('.validatebox-text:not(:disabled)').validatebox(novalidate ? 'disableValidation' : 'enableValidation');
+
+        var plugins = $.array.distinct($.array.merge([], $.fn.form.otherList, $.fn.form.spinnerList, $.fn.form.comboList));
+        for (var i = 0; i < plugins.length; i++) {
+            var plugin = plugins[i];
+            var r = t.find('.' + plugin + '-f');
+            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"]) {
+                $.util.tryExec(function () {
+                    r[plugin](novalidate ? 'disableValidation' : 'enableValidation');
+                });
+            }
+        }
+    };
 
 
 
@@ -229,6 +282,15 @@
         //  重写 easyui-form 控件的 reset 方法，使其支持扩展的 easyui 插件操作；
         reset: function (jq) { return jq.each(function () { reset(this); }); },
 
+        //  重写 easyui-form 控件的 validate 方法，使其支持扩展的 easyui 插件操作；
+        validate: function (jq) { return validate(jq[0]); },
+
+        //  重写 easyui-form 控件的 enableValidation 方法，使其支持扩展的 easyui 插件操作；
+        enableValidation: function (jq) { return jq.each(function () { setValidation(this, false); }); },
+
+        //  重写 easyui-form 控件的 disableValidation 方法，使其支持扩展的 easyui 插件操作；
+        disableValidation: function (jq) { return jq.each(function () { setValidation(this, true); }); },
+
         //  重写 easyui-form 控件的 load 方法。
         load: function (jq, data) { return jq.each(function () { load(this, data); }); }
     };
@@ -242,7 +304,8 @@
     $.extend($.fn.form.defaults, defaults);
     $.extend($.fn.form.methods, methods);
 
-    $.fn.form.comboList = ['combobox', 'combotree', 'combogrid', 'datetimebox', 'datebox', 'combo'];
+    $.fn.form.comboList = ['combo', 'datebox', 'datetimebox', 'combogrid', 'combotree', 'combobox'];
+    //$.fn.form.comboList = ['combobox', 'combotree', 'combogrid', 'datetimebox', 'datebox', 'combo'];
     $.fn.form.spinnerList = ['timespinner', 'numberspinner', 'spinner'];
     $.fn.form.valueMarkList = ["input", "textarea", "select"];
     $.fn.form.textMarkList = ["span", "label", "div", "p"];

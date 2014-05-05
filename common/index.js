@@ -4,10 +4,10 @@
 
     $.util.namespace("mainpage.nav");
     $.util.namespace("mainpage.favo");
-    $.util.namespace("mainpage.mainTab");
+    $.util.namespace("mainpage.mainTabs");
 
     var homePageTitle = "主页", homePageHref = null, navMenuList = "#navMenu_list",
-        navMenuTree = "#navMenu_Tree", mainTab = "#mainTab", navTab = "#navTab", favoMenuTree = "#favoMenu_Tree",
+        navMenuTree = "#navMenu_Tree", mainTabs = "#mainTabs", navTabs = "#navTabs", favoMenuTree = "#favoMenu_Tree",
         mainLayout = "#mainLayout", northPanel = "#northPanel", themeSelector = "#themeSelector",
         westLayout = "#westLayout", westCenterLayout = "#westCenterLayout", westFavoLayout = "#westFavoLayout",
         westSouthPanel = "#westSouthPanel", homePanel = "#homePanel",
@@ -262,18 +262,18 @@
         });
     };
 
-    window.mainpage.bindMainTabButtonEvent = function () {
-        $("#mainTab_jumpHome").click(function () { window.mainpage.mainTab.jumpHome(); });
-        $("#mainTab_toggleAll").click(function () { window.mainpage.togglePanels(); });
-        $("#mainTab_jumpTab").click(function () { window.mainpage.mainTab.jumpTab(); });
-        $("#mainTab_closeTab").click(function () { window.mainpage.mainTab.closeCurrentTab(); });
-        $("#mainTab_closeOther").click(function () { window.mainpage.mainTab.closeOtherTabs(); });
-        $("#mainTab_closeLeft").click(function () { window.mainpage.mainTab.closeLeftTabs(); });
-        $("#mainTab_closeRight").click(function () { window.mainpage.mainTab.closeRightTabs(); });
-        $("#mainTab_closeAll").click(function () { window.mainpage.mainTab.closeAllTabs(); });
+    window.mainpage.bindMainTabsButtonEvent = function () {
+        $("#mainTabs_jumpHome").click(function () { window.mainpage.mainTabs.jumpHome(); });
+        $("#mainTabs_toggleAll").click(function () { window.mainpage.togglePanels(); });
+        $("#mainTabs_jumpTab").click(function () { window.mainpage.mainTabs.jumpTab(); });
+        $("#mainTabs_closeTab").click(function () { window.mainpage.mainTabs.closeCurrentTab(); });
+        $("#mainTabs_closeOther").click(function () { window.mainpage.mainTabs.closeOtherTabs(); });
+        $("#mainTabs_closeLeft").click(function () { window.mainpage.mainTabs.closeLeftTabs(); });
+        $("#mainTabs_closeRight").click(function () { window.mainpage.mainTabs.closeRightTabs(); });
+        $("#mainTabs_closeAll").click(function () { window.mainpage.mainTabs.closeAllTabs(); });
     };
 
-    window.mainpage.bindNavTabButtonEvent = function () {
+    window.mainpage.bindNavTabsButtonEvent = function () {
         $("#navMenu_refresh").click(function () { window.mainpage.refreshNavTab(); });
 
         $("#navMenu_Favo").click(function () { window.mainpage.nav.addFavo(); });
@@ -304,7 +304,7 @@
     window.mainpage.addModuleTab = function (node) {
         var n = node || {}, attrs = node.attributes || {}, opts = $.extend({}, n, { title: n.text }, attrs);
         if (!opts.href) { return; }
-        window.mainpage.mainTab.addModule(opts);
+        window.mainpage.mainTabs.addModule(opts);
     };
 
     //  判断指定的选项卡是否存在于当前主页面的选项卡组中；
@@ -312,40 +312,40 @@
     //      0:  表示不存在于当前选项卡组中；
     //      1:  表示仅 title 值存在于当前选项卡组中；
     //      2:  表示 title 和 href 都存在于当前选项卡组中；
-    window.mainpage.mainTab.isExists = function (title, href) {
-        var t = $(mainTab), tabs = t.tabs("tabs"), array = $.array.map(tabs, function (val) { return val.panel("options"); }),
+    window.mainpage.mainTabs.isExists = function (title, href) {
+        var t = $(mainTabs), tabs = t.tabs("tabs"), array = $.array.map(tabs, function (val) { return val.panel("options"); }),
             list = $.array.filter(array, function (val) { return val.title == title; }), ret = list.length ? 1 : 0;
         if (ret && $.array.some(list, function (val) { return val.href == href; })) { ret = 2; }
         return ret;
     };
 
-    window.mainpage.mainTab.tabDefaultOption = {
+    window.mainpage.mainTabs.tabDefaultOption = {
         title: "新建选项卡", href: "", iniframe: true, closable: true, refreshable: true, iconCls: "icon-standard-application-form", repeatable: true, selected: true
     };
-    window.mainpage.mainTab.parseCreateTabArgs = function (args) {
+    window.mainpage.mainTabs.parseCreateTabArgs = function (args) {
         var ret = {};
         if (!args || !args.length) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption);
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption);
         } else if (args.length == 1) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, typeof args[0] == "object" ? args[0] : { href: args[0] });
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, typeof args[0] == "object" ? args[0] : { href: args[0] });
         } else if (args.length == 2) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1] });
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { title: args[0], href: args[1] });
         } else if (args.length == 3) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2] });
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2] });
         } else if (args.length == 4) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3] });
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3] });
         } else if (args.length == 5) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4] });
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4] });
         } else if (args.length == 6) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5] });
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5] });
         } else if (args.length >= 7) {
-            $.extend(ret, window.mainpage.mainTab.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5], selected: args[6] });
+            $.extend(ret, window.mainpage.mainTabs.tabDefaultOption, { title: args[0], href: args[1], iconCls: args[2], iniframe: args[3], closable: args[4], refreshable: args[5], selected: args[6] });
         }
         return ret;
     };
 
-    window.mainpage.mainTab.createTab = function (title, href, iconCls, iniframe, closable, refreshable, selected) {
-        var t = $(mainTab), i = 0, opts = window.mainpage.mainTab.parseCreateTabArgs(arguments);
+    window.mainpage.mainTabs.createTab = function (title, href, iconCls, iniframe, closable, refreshable, selected) {
+        var t = $(mainTabs), i = 0, opts = window.mainpage.mainTabs.parseCreateTabArgs(arguments);
         while (t.tabs("getTab", opts.title + (i ? String(i) : ""))) { i++; }
         t.tabs("add", opts);
     };
@@ -359,20 +359,20 @@
     //      function (title, href, iconCls, iniframe, closable)
     //      function (title, href, iconCls, iniframe, closable, refreshable)
     //      function (title, href, iconCls, iniframe, closable, refreshable, selected)
-    window.mainpage.mainTab.addModule = function (title, href, iconCls, iniframe, closable, refreshable, selected) {
-        var opts = window.mainpage.mainTab.parseCreateTabArgs(arguments), isExists = window.mainpage.mainTab.isExists(opts.title, opts.href);
+    window.mainpage.mainTabs.addModule = function (title, href, iconCls, iniframe, closable, refreshable, selected) {
+        var opts = window.mainpage.mainTabs.parseCreateTabArgs(arguments), isExists = window.mainpage.mainTabs.isExists(opts.title, opts.href);
         switch (isExists) {
-            case 0: window.mainpage.mainTab.createTab(opts); break;
-            case 1: window.mainpage.mainTab.createTab(opts); break;
-            case 2: window.mainpage.mainTab.jumeTab(opts.title); break;
+            case 0: window.mainpage.mainTabs.createTab(opts); break;
+            case 1: window.mainpage.mainTabs.createTab(opts); break;
+            case 2: window.mainpage.mainTabs.jumeTab(opts.title); break;
             default: break;
         }
     };
 
-    window.mainpage.mainTab.jumeTab = function (which) { $(mainTab).tabs("select", which); };
+    window.mainpage.mainTabs.jumeTab = function (which) { $(mainTabs).tabs("select", which); };
 
-    window.mainpage.mainTab.jumpHome = function () {
-        var t = $(mainTab), tabs = t.tabs("tabs"), panel = $.array.first(tabs, function (val) {
+    window.mainpage.mainTabs.jumpHome = function () {
+        var t = $(mainTabs), tabs = t.tabs("tabs"), panel = $.array.first(tabs, function (val) {
             var opts = val.panel("options");
             return opts.title == homePageTitle && opts.href == homePageHref;
         });
@@ -382,43 +382,43 @@
         }
     }
 
-    window.mainpage.mainTab.jumpTab = function (which) { $(mainTab).tabs("jumpTab", which); };
+    window.mainpage.mainTabs.jumpTab = function (which) { $(mainTabs).tabs("jumpTab", which); };
 
-    window.mainpage.mainTab.closeTab = function (which) { $(mainTab).tabs("close", which); };
+    window.mainpage.mainTabs.closeTab = function (which) { $(mainTabs).tabs("close", which); };
 
-    window.mainpage.mainTab.closeCurrentTab = function () {
-        var t = $(mainTab), index = t.tabs("getSelectedIndex");
+    window.mainpage.mainTabs.closeCurrentTab = function () {
+        var t = $(mainTabs), index = t.tabs("getSelectedIndex");
         return t.tabs("closeClosable", index);
     };
 
-    window.mainpage.mainTab.closeOtherTabs = function (index) {
-        var t = $(mainTab);
+    window.mainpage.mainTabs.closeOtherTabs = function (index) {
+        var t = $(mainTabs);
         if (index == null || index == undefined) { index = t.tabs("getSelectedIndex"); }
         return t.tabs("closeOtherClosable", index);
     };
 
-    window.mainpage.mainTab.closeLeftTabs = function (index) {
-        var t = $(mainTab);
+    window.mainpage.mainTabs.closeLeftTabs = function (index) {
+        var t = $(mainTabs);
         if (index == null || index == undefined) { index = t.tabs("getSelectedIndex"); }
         return t.tabs("closeLeftClosable", index);
     };
 
-    window.mainpage.mainTab.closeRightTabs = function (index) {
-        var t = $(mainTab);
+    window.mainpage.mainTabs.closeRightTabs = function (index) {
+        var t = $(mainTabs);
         if (index == null || index == undefined) { index = t.tabs("getSelectedIndex"); }
         return t.tabs("closeRightClosable", index);
     };
 
-    window.mainpage.mainTab.closeAllTabs = function () {
-        return $(mainTab).tabs("closeAllClosable");
+    window.mainpage.mainTabs.closeAllTabs = function () {
+        return $(mainTabs).tabs("closeAllClosable");
     };
 
-    window.mainpage.mainTab.updateHash = function (index) {
-        var opts = $(mainTab).tabs("getTab", index).panel("options");
+    window.mainpage.mainTabs.updateHash = function (index) {
+        var opts = $(mainTabs).tabs("getTab", index).panel("options");
         window.location.hash = opts.href ? opts.href : "";
     };
 
-    window.mainpage.mainTab.loadHash = function (hash) {
+    window.mainpage.mainTabs.loadHash = function (hash) {
         while (hash.left(1) == "#") { hash = hash.substr(1); }
         if (String.isNullOrWhiteSpace(hash)) { return; }
         $.get("common/nav-api-menu-data.json", function (menus) {
@@ -434,9 +434,13 @@
 
 
     window.mainpage.refreshNavTab = function (index) {
-        var t = $(navTab);
+        var t = $(navTabs);
         if (index == null || index == undefined) { index = t.tabs("getSelectedIndex"); }
-        if (index == 0) { window.mainpage.nav.refreshNav(); } else { window.mainpage.favo.refreshTree(); }
+        if (index == 0) {
+            window.mainpage.nav.refreshNav();
+        } else {
+            window.mainpage.favo.refreshTree();
+        }
     };
 
 

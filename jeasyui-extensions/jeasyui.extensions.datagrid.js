@@ -959,7 +959,10 @@
         var pager = t.datagrid("getPager");
         if (pager && pager.length) {
             var len = t.datagrid("getVisibleRows").length, total = t.datagrid("getRows").length,
-                visible = pager.find("div.pagination-visiblerows");
+                isShow = len < total ? true : false, visible = pager.find("div.pagination-visiblerows");
+            if (opts.showFilterText == false || ((opts.showFilterText == null || opts.showFilterText == undefined) && !isShow)) {
+                return visible.remove();
+            }
             if (visible.length) {
                 visible.html("当前页显示" + len + "/" + total + "行");
             } else {
@@ -1080,7 +1083,9 @@
             if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && $.util.likeArray(opts.rowContextMenu)
                 && !$.util.isString(opts.rowContextMenu) && opts.rowContextMenu.length > opts.dblClickRowMenuIndex) {
                 var item = items[opts.dblClickRowMenuIndex], handler = item.handler || item.onclick;
-                return handler(null, rowIndex, rowData, eventData, t, item, null);
+                if (!item.disabled) {
+                    return handler(null, rowIndex, rowData, eventData, t, item, null);
+                }
             }
             if (opts.autoEditing) { t.datagrid("beginEdit", rowIndex); }
         };
@@ -2110,6 +2115,11 @@
         //      3、该功能仅实现本地数据过滤，也就是说该插件不会在处理远程数据请求时将过滤参数信息发送到远程服务器；
         //      4、当启用该功能时，easyui-datagrid 的属性 fitColumns 请保持默认值为 false，否则列头过滤器组件可能导致表头列不能对齐而布局混乱。
         columnFilter: null,
+
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否在分页栏显示当前页面的行过滤数据条目数；
+        //      boolean 类型值；
+        //  如果该值为 null 或 undefined，则表示分页栏的行过滤数据条目数文本自动判断是否显示；
+        showFilterText: undefined,
 
         //  覆盖 easyui-datagrid 的原生属性 loader，以支持相应扩展功能。调用者请勿在自己的代码中使用该属性，否则扩展功能无效。
         loader: loader,

@@ -11,7 +11,7 @@
 * jQuery EasyUI toolbar 插件扩展
 * jquery.toolbar.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-05-04
 *
 * 依赖项：
 *   1、jquery.jdirk.js
@@ -336,6 +336,22 @@
         });
     };
 
+    function destroy(target) {
+        var t = $(target), state = $.data(target, "toolbar");
+        if (state.toolbar) {
+            state.toolbar.each(function () { destroyContent(this); }).remove();
+        }
+        t.remove();
+    };
+
+    function destroyContent(target) {
+        var t = $(target);
+        t.find(".combo-f").each(function () { $(this).combo("destroy"); });
+        t.find(".m-btn").each(function () { $(this).menubutton("destroy"); });
+        t.find(".s-btn").each(function () { $(this).splitbutton("destroy"); });
+        t.find(".tooltip-f").each(function () { $(this).tooltip("destroy"); });
+        t.children("div").each(function () { $(this)._fit(false); });
+    };
 
 
 
@@ -363,15 +379,17 @@
             init: function (container, options) {
                 var opts = $.extend({}, this.defaults, options || {}),
                     handler = opts.onclick || opts.handler,
-                    btn = $("<a class='toolbar-item-button'></a>").appendTo(container).linkbutton(opts);
+                    btn = $("<a class='toolbar-item-button'></a>").appendTo(container);
                 if (handler) {
                     handler = $.string.toFunction(handler);
                 }
-                return btn.click(function () {
-                    if ($.isFunction(handler)) {
-                        handler.call(this, $(container).closest("table.toolbar-wrapper")[0]);
+                return btn.linkbutton($.extend(opts, {
+                    onClick: function () {
+                        if ($.isFunction(handler)) {
+                            handler.call(this, $(container).closest("table.toolbar-wrapper")[0]);
+                        }
                     }
-                });
+                }));
             },
             enable: function (target) {
                 $(target).linkbutton("enable");
@@ -863,6 +881,9 @@
         return $.array.likeArrayNotString(data) ? data : [];
     };
 
+    itemTypes.text = itemTypes.textbox;
+    itemTypes.linkbutton = itemTypes.button;
+
 
 
 
@@ -1053,7 +1074,9 @@
         //          align   :
         //  返回值：返回表示当前 easyui-toolbar 控件的 jQuery 链式对象。
         //  备注：执行该方法会清空当前 easyui-toolbar 控件中原来的所有子项控件。
-        loadData: function (jq, data) { return jq.each(function () { loadData(this, data); }); }
+        loadData: function (jq, data) { return jq.each(function () { loadData(this, data); }); },
+
+        destroy: function (jq) { return jq.each(function () { destroy(this); }); }
     };
 
     $.fn.toolbar.defaults = {

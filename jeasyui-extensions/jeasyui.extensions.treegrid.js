@@ -920,7 +920,10 @@
         var pager = t.treegrid("getPager");
         if (pager && pager.length) {
             var len = t.treegrid("getVisibleRows").length, total = t.datagrid("getRows").length,
-                visible = pager.find("div.pagination-visiblerows");
+                isShow = len < total ? true : false, visible = pager.find("div.pagination-visiblerows");
+            if (opts.showFilterText == false || ((opts.showFilterText == null || opts.showFilterText == undefined) && !isShow)) {
+                return visible.remove();
+            }
             if (visible.length) {
                 visible.html("当前页显示" + len + "/" + total + "行");
             } else {
@@ -1300,7 +1303,9 @@
             if (opts.autoBindDblClickRow && opts.dblClickRowMenuIndex >= 0 && $.util.likeArray(opts.rowContextMenu)
                 && !$.util.isString(opts.rowContextMenu) && opts.rowContextMenu.length > opts.dblClickRowMenuIndex) {
                 var item = items[opts.dblClickRowMenuIndex], handler = item.handler || item.onclick;
-                return handler(null, row, eventData, t, item, null);
+                if (!item.disabled) {
+                    return handler(null, row, eventData, t, item, null);
+                }
             }
             if (opts.autoEditing) { t.treegrid("beginEdit", row[opts.idField]); }
         };
@@ -2192,6 +2197,9 @@
         //      3、该功能仅实现本地数据过滤，也就是说该插件不会在处理远程数据请求时将过滤参数信息发送到远程服务器；
         //      4、当启用该功能时，easyui-treegrid 的属性 fitColumns 请保持默认值为 false，否则列头过滤器组件可能导致表头列不能对齐而布局混乱。
         columnFilter: null,
+
+        //  
+        showFilterText: undefined,
 
         //  覆盖 easyui-treegrid 的原生属性 loader，以支持相应扩展功能。
         loader: loader,

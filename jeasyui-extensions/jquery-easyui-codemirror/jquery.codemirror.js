@@ -11,19 +11,19 @@
 * jQuery EasyUI CodeMirror 插件扩展
 * jquery.codemirror.js
 * 二次开发 流云
-* 最近更新：2014-04-21
+* 最近更新：2014-05-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 
-*   3、codemirror-4.0/lib/codemirror.css
-*   4、codemirror-4.0/lib/codemirror.js
-*   5、codemirror-4.0/mode/xml/xml.js
-*   6、codemirror-4.0/mode/javascript/javascript.js
-*   7、codemirror-4.0/mode/vbscript/vbscript.js
-*   8、codemirror-4.0/mode/css/css.js
-*   9、codemirror-4.0/mode/htmlmixed/htmlmixed.js
+*   3、codemirror-4.1/lib/codemirror.css
+*   4、codemirror-4.1/lib/codemirror.js
+*   5、codemirror-4.1/mode/xml/xml.js
+*   6、codemirror-4.1/mode/javascript/javascript.js
+*   7、codemirror-4.1/mode/vbscript/vbscript.js
+*   8、codemirror-4.1/mode/css/css.js
+*   9、codemirror-4.1/mode/htmlmixed/htmlmixed.js
 *
 * Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -80,7 +80,8 @@
             state.cm.on(n, function () {
                 if (n == "change") {
                     var val = opts.value = $(target).codemirror("getValue");
-                    state.wrapper.text(val);
+                    //state.wrapper.text(val);
+                    state.wrapper.val(val);
                 }
                 if ($.isFunction(e)) { return e.apply(target, arguments); }
             });
@@ -1252,7 +1253,8 @@
     $.parser.plugins.push("codemirror");
 
     if ($.fn.form && $.isArray($.fn.form.otherList)) {
-        $.array.insert($.fn.form.otherList, 0, "codemirror");
+        $.fn.form.otherList.push("codemirror");
+        //$.array.insert($.fn.form.otherList, 0, "codemirror");
     }
 
 })(jQuery);

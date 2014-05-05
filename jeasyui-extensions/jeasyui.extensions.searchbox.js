@@ -11,7 +11,7 @@
 * jQuery EasyUI searchbox 组件扩展
 * jeasyui.extensions.searchbox.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-05-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -80,7 +80,8 @@
     $.extend($.fn.searchbox.methods, methods);
 
     if ($.fn.form && $.isArray($.fn.form.otherList)) {
-        $.array.insert($.fn.form.otherList, 0, "searchbox");
+        $.fn.form.otherList.push("searchbox");
+        //$.array.insert($.fn.form.otherList, 0, "searchbox");
     }
 
 

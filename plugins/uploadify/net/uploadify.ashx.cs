@@ -37,7 +37,7 @@ namespace DF.WebUI.jqext.plugins.uploadify
             }
             else
             {
-                context.Response.Write("bb");
+                context.Response.Write("0");
             }
         }
 

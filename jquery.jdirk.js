@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2014-04-24
+* 最近更新：2014-05-03
 *
 * 依赖项：jquery 1.9.x/2.x late
 *
@@ -448,6 +448,48 @@
     };
 
 
+    //  以 try...catch... 方式执行指定的函数代码块；该函数提供如下重载方式：
+    //      function (options):该重载中，参数 options 表示一个 JSON-Object.
+    //          格式如 { code: function|string , error: function|string , final: function|string , tryError: boolean , tryFinal: boolean }
+    //          其中 code 表示将被 try 块执行的函数代码块.
+    //               error 表示在 code 执行出错时将执行的代码块.
+    //               final 表示在 code 和 error 执行完成后将执行的代码块.
+    //               tryError 指定 error 是否同样以 try...catch... 方式执行.
+    //               tryFinal 指定 final 是否同样以 try...catch... 方式执行.
+    //      function (code, error, final): 该重载将会被自动转换成 function ({ code: code, error: error, final: finall, tryError: false, tryFinal: false }) 方式执行；
+    //  返回值：如果 code 代码块执行成功，则返回该代码块的执行返回值；
+    //      否则判断 error 和 final 代码块是否具有返回值；
+    //          如果这两个代码块都有返回值，则取 final 的执行结果返回；
+    //          如果 error 和 final 两个代码块只有其中一个具有返回值，则返回那个具有返回值的代码块的执行结果。
+    coreUtil.tryExec = function (code, error, final) {
+        var defaults = {
+            code: null, error: null, final: null, tryError: false, tryFinal: false
+        };
+        var opts = $.extend(defaults, typeof code == "object" ? code : { code: code, error: error, final: final }), ret;
+        if (typeof opts.code == "string") { opts.code = coreString.toFunction(opts.code); }
+        if (typeof opts.error == "string") { opts.error = coreString.toFunction(opts.error); }
+        if (typeof opts.final == "string") { opts.final = coreString.toFunction(opts.final); }
+        try {
+            if (coreUtil.isFunction(opts.code)) {
+                ret = opts.code();
+            }
+        } catch (e) {
+            if (coreUtil.isFunction(opts.error)) {
+                var a = opts.tryError ? coreUtil.tryExec(opts.error) : opts.error(e);
+                if (a != null && a != undefined) { ret = a; }
+            }
+        } finally {
+            if (coreUtil.isFunction(opts.final)) {
+                var b = opts.tryFinal ? coreUtil.tryExec(opts.final) : opts.final();
+                if (b != null && b != undefined) { ret = b; }
+            }
+        }
+        return ret;
+    };
+
+
+
+
 
     var _matched, _browser;
     var _userAgentMatch = function (userAgent) {
@@ -648,8 +690,8 @@
                 str = str.replace(new RegExp("\\{" + key + "}", "gm"), value);
             }
         }
-        return str;
         function proxy(key) { try { return eval("this[\"" + key + "\"]"); } catch (ex) { return ""; } }
+        return str;
     };
     coreString.prototype.format = function (arg1, arg2, arg3, argn) {
         arguments = coreArray.insert(arguments, 0, this);
@@ -844,7 +886,7 @@
     //  判断当前 String 对象是否是正确的手机号码格式(中国)。
     coreString.isMobile = function (str) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
-        return /^(13|14|15|18)\d{9}$/i.test(str);
+        return /^(13|14|15|17|18)\d{9}$/i.test(str);
     };
     coreString.prototype.isMobile = function () { return coreString.isMobile(this); };
 
@@ -1282,12 +1324,14 @@
     coreArray.prototype.isNullOrEmpty = function () { return coreArray.isNullOrEmpty(this); };
 
 
-    //  复制数组内的所有项到一个新的数组中，该函数定义如下参数：
-    //      source: 源数据数组，该数组内的所有项将被赋值到目标数组 target 中；
+    //  将另一数组中的所有项复制到当前指定数组中，该函数定义如下参数：
     //      target: 目标数组，源数组 source 中的所有项将被赋值到该数组中；
-    //  该方法会改变目标数组 target 中的元素数量。
+    //      source: 源数据数组，该数组内的所有项将被赋值到目标数组 target 中；
+    //  注意：该方法会改变目标数组 target 中的元素数量。
     //  返回值：源数组数据复制过来后的目标数组 target。
-    coreArray.copy = function (source, target) {
+    coreArray.copy = coreArray.copyFrom = function (target, source) {
+        target = coreArray.likeArray(target) ? target : [];
+        source = coreArray.likeArray(source) ? source : [];
         var l = source.length, i = 0;
         if (coreUtil.isNumeric(l)) {
             while (i < l) { core_push.call(target, source[i++]); };
@@ -1296,11 +1340,20 @@
         }
         return target;
     };
-    coreArray.prototype.copy = function (source) { return coreArray.copy(source, this); };
-    coreArray.prototype.copyTo = function (target) { return coreArray.copy(this, target); };
+    coreArray.prototype.copy = coreArray.prototype.copyFrom = function (source) { return coreArray.copy(this, source); };
+
+    //  将当前指定数组中的所有项复制到另一数组中；该函数定义如下参数：
+    //      source: 源数据数组，该数组内的所有项将被赋值到目标数组 target 中；
+    //      target: 目标数组，源数组 source 中的所有项将被赋值到该数组中；
+    //  注意：该方法会改变目标数组 target 中的元素数量。
+    //  返回值：源数组数据复制过来后的目标数组 target。
+    coreArray.copyTo = function (source, target) {
+        return coreArray.copy(target, source);
+    };
+    coreArray.prototype.copyTo = function (target) { return coreArray.copy(target, this); };
 
     //  创建一个和当前数组对象相同的数组并返回
-    coreArray.clone = function (source) { return coreArray.copy(source, []); };
+    coreArray.clone = function (source) { return coreArray.copy([], source); };
     coreArray.prototype.clone = function () { return coreArray.clone(this); };
 
     //  确认数组中是否包含指定的元素。该函数定义如下参数：
@@ -1527,11 +1580,13 @@
     coreArray.insertRange = function (array, index, collect) {
         if (!coreArray.likeArray(array)) { throw "传入的参数 array 必须是一个数组"; }
         collect = coreArray.likeArray(collect) ? collect : [collect];
-        if (!coreUtil.isNumeric(index) || index < 0 || index > array.length) { throw "ArgumentOutOfRangeException: 传入的索引号 index 超出数组 array 的范围。"; }
+        if (!coreUtil.isNumeric(index) || index < 0 || index > array.length) {
+            throw "ArgumentOutOfRangeException: 传入的索引号 index 超出数组 array 的范围。";
+        }
         var part = coreArray.range(array, index);
         coreArray.removeRange(array, index);
-        coreArray.copy(collect, array);
-        coreArray.copy(part, array);
+        coreArray.copy(array, collect);
+        coreArray.copy(array, part);
         return array;
     };
     coreArray.prototype.insertRange = function (index, collect) { return coreArray.insertRange(this, index, collect); };
@@ -1573,7 +1628,9 @@
     //  返回值：返回添加元素后的数组对象本身。
     //  注意：该方法会改变现有的数组。
     coreArray.attach = function (array, item, compare) {
-        if (!coreArray.contains(array, item, compare)) { array.push(item); }
+        if (!coreArray.contains(array, item, compare)) {
+            array.push(item);
+        }
         return array;
     };
     coreArray.prototype.attach = function (item, compare) { return coreArray.attach(this, item, compare); };
@@ -1586,14 +1643,20 @@
     //  返回值：返回去除重复元素后的数组对象本身。
     //  注意：该方法会改变现有的数组。
     coreArray.distinct = function (array, compare) {
-        if (!coreArray.likeArray(array)) { throw "传入的参数 array 必须是一个数组对象。"; }
+        if (!coreArray.likeArray(array)) {
+            throw "传入的参数 array 必须是一个数组对象。";
+        }
         var temps = [];
         for (var i = 0; i < array.length; i++) {
             var item = array[i];
-            if (i == 0) { temps.push(item); } else { coreArray.attach(temps, item, compare); }
+            if (i == 0) {
+                temps.push(item);
+            } else {
+                coreArray.attach(temps, item, compare);
+            }
         }
         coreArray.removeRange(array, 0);
-        coreArray.copy(temps, array);
+        coreArray.copy(array, temps);
         return array;
     };
     coreArray.prototype.distinct = function (compare) { return coreArray.distinct(this, compare); };
@@ -1608,12 +1671,14 @@
     //  返回值：返回合并多个数组(元素)后的数组对象本身。
     //  注意：该方法会改变现有的数组，item1、item2、item3、itemn...等所有的参数项将被合并入 array 数组。
     coreUtil.merge = coreArray.merge = function (array, item1, item2, itemn) {
-        if (!coreArray.likeArray(array)) { throw "传入的参数 array 必须是一个数组对象。"; }
+        if (!coreArray.likeArray(array)) {
+            throw "传入的参数 array 必须是一个数组对象。";
+        }
         if (arguments.length > 1) {
             for (var i = 1; i < arguments.length; i++) {
                 var arg = arguments[i];
-                arg = coreArray.likeArray(arg) && !coreUtil.isString(arg) ? arg : [arg];
-                coreArray.copy(arg, array);
+                arg = coreArray.likeArrayNotString(arg) ? arg : [arg];
+                coreArray.copy(array, arg);
             }
         }
         return array;
@@ -1679,7 +1744,9 @@
     //  参考：http://msdn.microsoft.com/ZH-CN/library/ie/ff679976(v=vs.94).aspx
     coreArray.map = coreArray.map ? coreArray.map : function (array, callback, thisArg) {
         array = coreArray.likeArray(array) ? array : [];
-        if (!coreUtil.isFunction(callback)) { throw "传入的参数 callback 不是一个函数。"; }
+        if (!coreUtil.isFunction(callback)) {
+            throw "传入的参数 callback 不是一个函数。";
+        }
         var temps = [];
         for (var i = 0; i < array.length; i++) {
             var item = callback.call(thisArg, array[i], i, array);
@@ -2843,7 +2910,7 @@
                     args = [];
                 }
             }
-            coreArray.copy(args, obj);
+            coreArray.copy(obj, args);
             obj.callee = callback;
             val = callback.apply(thisArg, obj);
         }
@@ -3059,7 +3126,7 @@
             var elements = jQuery.prop(this, "elements");
             return $.merge([], elements ? $.makeArray(elements) : $(this).find("*"));
         }).filter(function () {
-            return (this.name || this.id) && (!opts.onlyEnabled || !$(this).is(":disabled")) &&
+            return this.name && (!opts.onlyEnabled || !$(this).is(":disabled")) &&
 				rsubmittable.test(this.nodeName) && !rsubmitterTypes.test(this.type);
         }).map(function (i, elem) {
             var name = elem.name, id = elem.id, type = this.type, val = $(this).val(),
@@ -3070,9 +3137,9 @@
                     : (val ? val.replace(rCRLF, "\r\n") : val)
             };
         });
-        names = coreArray.distinct(list.map(function (i, elem) { return elem.name ? elem.name : elem.id; }));
+        names = coreArray.distinct(list.map(function (i, elem) { return elem.name; }));
         $.each(names, function (i, name) {
-            var elems = list.filter(function (i, elem) { return (elem.name ? elem.name : elem.id) == name; }),
+            var elems = list.filter(function (i, elem) { return elem.name == name; }),
                 val = elems.length == 1 ? getElemVal(elems[0]) : getElemsVal(elems);
             ret[name] = (val == undefined || val == null) ? null : val;
         });
@@ -3102,86 +3169,112 @@
     //      namespace:  要创建的命名空间，不同级别的命名请用符号 "." 隔开，请不要包含任何空格；
     //      callback:   可选，创建完命名空间后执行的回调函数；
     //      thisArg:    可选，同参数 callback 一起定义；表示 callback 回调函数执行中的 this 对象
-    coreUtil.namespace = function (namespace, callback, thisArg) {
-        var ret = window;
-        if (!namespace) { return ret; }
-        var names = String(namespace).split(".");
-        for (var i = 0; i < names.length; i++) {
-            names[i] = coreString.trim(names[i]);
-            if (!names[i]) { coreArray.remove(names, names[i--]); }
+    coreUtil.namespace = function (obj, namespace, callback, thisArg) {
+        var index = 0, ret;
+        if (typeof obj != "string") {
+            ret = obj || window;
+            index++;
+        } else {
+            ret = window;
         }
-        $.each(names, function (i, name) {
+        namespace = arguments[index++];
+        callback = arguments[index++];
+        thisArg = arguments[index++];
+
+        if (!namespace) { return ret; }
+        var names = String(namespace).split("."), array = [], n;
+        for (var i = 0; i < names.length; i++) {
+            n = coreString.trim(names[i]);
+            if (n != "") { array.push(n); }
+        }
+        $.each(array, function (i, name) {
             ret = (ret[name] == null || ret[name] == undefined) ? (ret[name] = {}) : ret[name];
         });
-        if (coreUtil.isFunction(callback)) { callback.call(thisArg); }
+        if (coreUtil.isFunction(callback)) { callback.call(thisArg, ret); }
         return ret;
     };
 
     //  获取指定全名称的 JavaScript 类型函数对象；该函数定义如下参数：
-    //      className   : 要获取的类的类名称，对应命名空间限定名用符号 "." 隔开，请不要包含任何空格；
+    //      namespace   : 要获取的类的类名称，对应命名空间限定名用符号 "." 隔开，请不要包含任何空格；
     //  返回值：
-    //      如果 className 指定的类型函数存在，则返回该类型函数对象；
-    //      如果 className 指定的类型函数不存在，className 值为空字符串或者 null/undefined，否则返回 null。
-    coreUtil.getDefined = function (className) {
-        if (!className) { return null; }
-        var names = String(className).split("."), ret = window;
-        for (var i = 0; i < names.length; i++) {
-            names[i] = coreString.trim(names[i]);
-            if (!names[i]) { coreArray.remove(names, names[i--]); }
+    //      如果 namespace 指定的类型函数存在，则返回该类型函数对象；
+    //      如果 namespace 指定的类型函数不存在，namespace 值为空字符串或者 null/undefined，否则返回 null。
+    coreUtil.getNamespace = coreUtil.getDefined = function (namespace) {
+        var index = 0, ret;
+        if (typeof obj != "string") {
+            ret = obj || window;
+            index++;
+        } else {
+            ret = window;
         }
-        $.each(names, function (i, name) {
+        namespace = arguments[index++];
+        if (!namespace) { return ret; }
+        var names = String(namespace).split("."), array = [], n;
+        for (var i = 0; i < names.length; i++) {
+            n = coreString.trim(names[i]);
+            if (n != "") { array.push(n); }
+        }
+        $.each(array, function (i, name) {
             ret = (ret == null || ret == undefined || ret[name] == null || ret[name] == undefined) ? null : ret[name];
         });
         return ret;
     };
 
     //  创建或定义一个 JavaScript 类；该函数定义如下参数：
-    //      className   : 要创建的类的类名，对应命名空间限定名用符号 "." 隔开，请不要包含任何空格；
+    //      namespace   : 要创建的类的类名，对应命名空间限定名用符号 "." 隔开，请不要包含任何空格；
     //      data        : 可选；被创建的类型默认定义的成员属性或方法(即 prototype)；
     //      createFn    : 可选；被创建的类型的默认构造函数；
     //  返回值：返回被创建的类型的 Function 对象；
     //  注意：
-    //      如果传入的参数 className 的值为 null，则创建的这个 JavaScript 类为匿名类；
-    //      如果指定此定义函数时，className 所指定的对象已经存在，则该对象将会被覆盖；
-    //      可以用 coreUtil.getDefined(className) 来判断 className 所指定的对象是否已经存在；
-    coreUtil.define = function (className, data, createFn) {
-        if (coreUtil.isFunction(data)) { createFn = data; }
+    //      如果传入的参数 namespace 的值为 null，则创建的这个 JavaScript 类为匿名类；
+    //      如果指定此定义函数时，namespace 所指定的对象已经存在，则该对象将会被覆盖；
+    //      可以用 coreUtil.getDefined(namespace) 来判断 namespace 所指定的对象是否已经存在；
+    coreUtil.define = function (namespace, data, createFn) {
+        if (coreUtil.isFunction(data)) {
+            createFn = data;
+            data = {};
+        }
         var p, name, constructor, func;
-        if (className) {
-            var names = String(className).split(".");
+        if (namespace) {
+            var names = String(namespace).split("."), array = [], n;
             for (var i = 0; i < names.length; i++) {
-                names[i] = coreString.trim(names[i]);
-                if (!names[i]) { coreArray.remove(names, names[i--]); }
+                n = coreString.trim(names[i]);
+                if (n != "") { array.push(n); }
             }
-            if (names[0] != "window") { names.splice(0, 0, "window"); }
-            if (names.length > 1) {
-                p = coreUtil.namespace(names.slice(0, names.length - 1).join("."));
-                name = names[names.length - 1];
+            if (array[0] != "window") { array.splice(0, 0, "window"); }
+            if (array.length > 1) {
+                p = coreUtil.namespace(array.slice(0, array.length - 1).join("."));
+                name = array[array.length - 1];
             }
         }
         createFn = coreUtil.isFunction(createFn) ? createFn : function () { };
-        constructor = function (options) { return createFn.call(this, options); };
-        func = function (options) { return new constructor(options); };
+        constructor = function (options) {
+            return createFn.call(this, options);
+        };
+        func = function (options) {
+            return new constructor(options);
+        };
         func.defaults = func.fn = func.prototype = constructor.defaults = constructor.fn = constructor.prototype;
         $.extend(func, { extend: $.extend, union: coreJquery.union, init: constructor, inst: createFn });
         $.extend(func.defaults, data, { extend: $.extend, union: coreJquery.union });
         if (p && name) {
             var old = p[name];
             p[name] = func;
-            if (old) { coreJquery.union(func, old); }
+            if (old) {
+                coreJquery.union(func, old);
+            }
         }
         return func;
     };
 
     //  以指定的参数创建一个指定类型的对象；该函数定义如下参数：
-    //      className   : 必须，String 类型值，指定的类型函数名称；
-    //      options     : 可选，JSON-Object 类型值；构造 className 类型对象所用的参数，默认为 null；
-    //      thisArgs    : 可选，任意类型值；表示指定 className 类型函数时指定函数内部的 this 对象引用。
+    //      namespace   : 必须，String 类型值，指定的类型函数名称；
+    //      options     : 可选，JSON-Object 类型值；构造 namespace 类型对象所用的参数，默认为 null；
     //  返回值：
-    //      如果 className 指定的类型函数存在，则返回该函数通过 options 参数和 thisArgs 参数所构造的对象；
-    //      如果 className 指定的类型函数不存在，则返回 null。
-    coreUtil.createDefinedObject = function (className, options) {
-        var type = coreUtil.getDefined(className);
+    //      如果 namespace 指定的类型函数存在，则返回该函数通过 options 参数和 thisArgs 参数所构造的对象；
+    //      如果 namespace 指定的类型函数不存在，则返回 null。
+    coreUtil.createDefinedObject = function (namespace, options) {
+        var type = coreUtil.getDefined(namespace);
         return coreUtil.isFunction(type) ? type(options) : null;
     };
 

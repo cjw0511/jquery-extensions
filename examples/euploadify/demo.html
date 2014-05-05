@@ -2,6 +2,69 @@
 
     <script type="text/javascript">
         $(function () {
+            var t = $("#euploadify1,#euploadify2,#euploadify3");
+
+            $("#btn1").click(function () {
+                t.euploadify("disable");
+            });
+
+            $("#btn2").click(function () {
+                t.euploadify("enable");
+            });
+
+            $("#btn3").click(function () {
+                $("#euploadify2").euploadify("resize", { width: 700, height: 100 });
+            });
+
+            $("#btn4").click(function () {
+                $("#euploadify3").euploadify("resize", { width: 900, height: 500 });
+            });
+
+            $("#btn5").click(function () {
+                $("#euploadify2").euploadify("destroy");
+            });
+
+            $("#btn6").click(function () {
+                $("#euploadify3").euploadify("destroy");
+            });
+
+
+            $("#btn21").click(function () {
+                t.euploadify("setFormData", {});
+            });
+
+
+            $("#btn41").click(function () {
+                t.euploadify("validate");
+            });
+
+            $("#btn42").click(function () {
+                $("#demo").form("validate");
+            });
+
+            $("#btn43").click(function () {
+                $("#demo").form("enableValidation");
+            });
+
+            $("#btn44").click(function () {
+                $("#demo").form("disableValidation");
+            });
+
+            $("#btn45").click(function () {
+                $("#demo").form("clear");
+            });
+
+            $("#btn46").click(function () {
+                $("#demo").form("reset");
+            });
+
+            $("#btn47").click(function () {
+                $("#demo").form("load", {
+                    euploadify1: "111",
+                    euploadify2: "222",
+                    euploadify3: "333"
+                });
+            });
         });
     </script>
 
@@ -11,17 +74,37 @@
         此版本为预览版，目前所有 UI 功能和事件响应都已经实现，还有部分表单方法和属性尚未实现，敬请期待！
     </p>
     <hr />
-    <input id="euploadify1" class="easyui-euploadify" type="file" data-options="
+    <input id="btn1" type="button" value="disable" />
+    <input id="btn2" type="button" value="enable" />
+    <input id="btn3" type="button" value="resize-euploadify2" />
+    <input id="btn4" type="button" value="resize-euploadify3" />
+    <input id="btn5" type="button" value="destroy-euploadify2" />
+    <input id="btn6" type="button" value="destroy-euploadify3" />
+    <hr />
+    <input id="btn21" type="button" value="setFormData" />
+    <hr />
+    <input id="btn41" type="button" value="validate" />
+    <input id="btn42" type="button" value="validate-form" />
+    <input id="btn43" type="button" value="enableValidation-form" />
+    <input id="btn44" type="button" value="disableValidation-form" />
+    <input id="btn45" type="button" value="clear-form" />
+    <input id="btn46" type="button" value="reset-form" />
+    <input id="btn47" type="button" value="load-form" />
+    <hr />
+    <input id="euploadify1" name="euploadify1" class="easyui-euploadify" type="text" data-options="
            width: 900, multi: false,
            auto: false,
            showStop: true,
            showCancel: true,
+           //disabled: true,
+           required: true,
+           value: '123',
            swf: '../plugins/uploadify/uploadify.swf',
            uploader: '../plugins/uploadify/net/uploadify.ashx'
            " />
     <hr />
     <hr />
-    <input id="euploadify2" class="easyui-euploadify" type="file" data-options="
+    <input id="euploadify2" name="euploadify2" class="easyui-euploadify" type="text" data-options="
            width: 900,
            //height: 400,
            multi: true,
@@ -29,11 +112,13 @@
            auto: false,
            showStop: true,
            showCancel: true,
+           required: true,
+           onCancel: function (file) { alert(file.id); },
            swf: '../plugins/uploadify/uploadify.swf',
            uploader: '../plugins/uploadify/net/uploadify.ashx'
            " />
     <hr />
-    <input id="euploadify3" class="easyui-euploadify" type="file" data-options="
+    <input id="euploadify3" name="euploadify3" class="easyui-euploadify" type="text" data-options="
            width: 800,
            height: 400,
            multi: true,
@@ -41,6 +126,7 @@
            auto: false,
            showStop: true,
            showCancel: true,
+           required: true,
            swf: '../plugins/uploadify/uploadify.swf',
            uploader: '../plugins/uploadify/net/uploadify.ashx'
            " />

@@ -27,4 +27,5 @@
             plugins/ueditor/ue1.3.6-utf8-net/ueditor.config.js
             plugins/ueditor/ue1.3.6-utf8-net/ueditor.all.js
             plugins/ueditor/ue1.3.6-utf8-net/langh/zh-cn/zh-cn.js (可选，ueditor 的中文语言包)
+            plugins/ueditor/ue1.3.6-utf8-net/patch/ueditor-patch-149.js(补丁文件)
     12. jeasyui.extensions.all.min.js

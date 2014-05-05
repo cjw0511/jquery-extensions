@@ -7,6 +7,7 @@
             "<script src=\"../plugins/ueditor/ue1.3.6-utf8-net/ueditor.config.js\"></script>",
             "<script src=\"../plugins/ueditor/ue1.3.6-utf8-net/ueditor.all.js\"></script>",
             "<script src=\"../plugins/ueditor/ue1.3.6-utf8-net/lang/zh-cn/zh-cn.js\"></script>",
+            "<script src=\"../plugins/ueditor/ue1.3.6-utf8-net/patch/ueditor-patch-149.js\"></script>",
             "<script src=\"../jeasyui-extensions/jquery-easyui-ueditor/jquery.ueditor.js\"></script>"
         ],
         umeditor: [
@@ -26,13 +27,13 @@
             "<script src=\"../jeasyui-extensions/jquery-easyui-my97/jquery.my97.js\"></script>"
         ],
         codemirror: [
-            "<link href=\"../plugins/codemirror-4.0/lib/codemirror.css\" rel=\"stylesheet\"/>",
-            "<script src=\"../plugins/codemirror-4.0/lib/codemirror.js\"></script>",
-            "<script src=\"../plugins/codemirror-4.0/mode/xml/xml.js\"></script>",
-            "<script src=\"../plugins/codemirror-4.0/mode/javascript/javascript.js\"></script>",
-            "<script src=\"../plugins/codemirror-4.0/mode/vbscript/vbscript.js\"></script>",
-            "<script src=\"../plugins/codemirror-4.0/mode/css/css.js\"></script>",
-            "<script src=\"../plugins/codemirror-4.0/mode/htmlmixed/htmlmixed.js\"></script>",
+            "<link href=\"../plugins/codemirror-4.1/lib/codemirror.css\" rel=\"stylesheet\"/>",
+            "<script src=\"../plugins/codemirror-4.1/lib/codemirror.js\"></script>",
+            "<script src=\"../plugins/codemirror-4.1/mode/xml/xml.js\"></script>",
+            "<script src=\"../plugins/codemirror-4.1/mode/javascript/javascript.js\"></script>",
+            "<script src=\"../plugins/codemirror-4.1/mode/vbscript/vbscript.js\"></script>",
+            "<script src=\"../plugins/codemirror-4.1/mode/css/css.js\"></script>",
+            "<script src=\"../plugins/codemirror-4.1/mode/htmlmixed/htmlmixed.js\"></script>",
             "<script src=\"../jeasyui-extensions/jquery-easyui-codemirror/jquery.codemirror.js\"></script>"
         ],
         euploadify: [

@@ -61,6 +61,11 @@
             $("#btn26").click(function () {
                 alert($("#t2").codemirror("getSelection"));
             });
+
+
+            $("#btn41").click(function () {
+                $.easyui.showOption($(this).currentPanel().form("getData"));
+            });
         });
     </script>
     <style>
@@ -86,7 +91,9 @@
     <input id="btn25" type="button" value="redo" />
     <input id="btn26" type="button" value="getSelection" />
     <hr />
-    <textarea id="t2" class="easyui-codemirror" data-options="mode: 'text/html', lineNumbers: true, width: 800, height: 400, fontSize: '14px'">
+    <input id="btn41" type="button" value="getData-form" />
+    <hr />
+    <textarea id="t2" name="t2" class="easyui-codemirror" data-options="mode: 'text/html', lineNumbers: true, width: 800, height: 400, fontSize: '14px'">
         <script type="text/javascript">
             $(function () {
                 var editor = CodeMirror.fromTextArea($("#t1")[0], {

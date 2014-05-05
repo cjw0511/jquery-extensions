@@ -14,7 +14,7 @@
 #navMenu_list { padding: 0px; margin: 0px; }
 #navMenu_list>li { line-height: 26px; list-style-type: none; }
 #navMenu_list>li>div.panel-header { height: 26px; line-height: 26px; padding: 0; margin: 0; font-weight: normal; border-top-width: 1px; border-bottom-width: 0; }
-#navMenu_list>li:first-child>div.panel-header { border-top-width: 0; }
+#navMenu_list>li:first-child>div.panel-header { border-top-width: 0;cursor: pointer;  }
 #navMenu_list>li>div.panel-header a { width: 100%; height: 100%; color: inherit; text-decoration: none; display: inline-block; padding: 0; margin: 0; }
 
 .nav-menu { vertical-align: middle; }
@@ -22,10 +22,10 @@
 /*.nav-menu { padding-left: 10px; }
 .nav-menu-icon { padding-left: 25px; background-position: left center; }*/
 
-#mainTab>div.tabs-header { border-right-width: 0; }
-#mainTab>div.tabs-header>div.tabs-scroller-left,#mainTab>div.tabs-header>div.tabs-scroller-right { border-left-width: 0; }
+#mainTabs>div.tabs-header { border-right-width: 0; }
+#mainTabs>div.tabs-header>div.tabs-scroller-left,#mainTab>div.tabs-header>div.tabs-scroller-right { border-left-width: 0; }
 
-#navTab>div.tabs-header { border-right-width: 0; }
+#navTabs>div.tabs-header { border-right-width: 0; }
 .tabs-tool table { border-width: 0; border-collapse: collapse; border-spacing: 0; }
 .tabs-tool table td { padding: 0; }
 

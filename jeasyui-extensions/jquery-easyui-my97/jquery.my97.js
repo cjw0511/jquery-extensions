@@ -11,7 +11,7 @@
 * jQuery EasyUI my97 插件扩展
 * jquery.my97.js
 * 二次开发 流云
-* 最近更新：2014-04-21
+* 最近更新：2014-05-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -187,7 +187,8 @@
     $.parser.plugins.push("my97");
 
     if ($.fn.form && $.isArray($.fn.form.comboList)) {
-        $.array.insert($.fn.form.comboList, 0, "my97");
+        $.fn.form.comboList.push("my97");
+        //$.array.insert($.fn.form.comboList, 0, "my97");
     }
 
 })(jQuery);

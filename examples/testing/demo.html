@@ -45,6 +45,11 @@
             };
         });
     </script>
+    <style type="text/css">
+        input:not([type]), input[type=text] {
+            border: 1px solid blue;
+        }
+    </style>
 
     <h2>Testing</h2>
     <hr />
@@ -58,6 +63,8 @@
         <br /><br />
         <label for="userName" accesskey="u"><u>N</u>ame:</label>
         <input id="userName" name="userName" type="text" />
+        <input />
+        <input type="color" />
         <br /><br />
         <a id="btn2" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-ok'" accesskey="t"><u>T</u>estButton</a>
     </fieldset>
