@@ -11,7 +11,7 @@
 * jQuery EasyUI ueditor 插件扩展
 * jquery.ueditor.js
 * 二次开发 流云
-* 最近更新：2014-05-05
+* 最近更新：2014-05-08
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -30,31 +30,42 @@
     function create(target) {
         var t = $(target).addClass("ueditor-f"),
             isDiv = /^(?:div)$/i.test(target.nodeName), isText = /^(?:textarea)$/i.test(target.nodeName),
-            html = isText ? t.text() : t.html(),
+            html = isText ? (t.val() || t.text()) : t.html(),
             state = $.data(target, "ueditor"), opts = state.options,
             name = t.attr("name"), id = state.editorId = "ueditor_" + $.util.guid("N"),
-            ueditor = state.ueditor = isDiv ? t.addClass("ueditor").empty() : $("<div class=\"ueditor\"></div>").insertAfter(t.hide().empty()),
-            wrapper = state.wrapper = $("<textarea id=\"" + id + "\"" + (name ? " name=\"" + name + "\"" : "") + "></textarea>").insertAfter(ueditor).attr("id", id);
+            panel = state.panel = isDiv ? t.addClass("ueditor-panel").empty() : $("<div class=\"ueditor-panel\"></div>").insertAfter(t.hide().empty()).append(t),
+            textarea = state.textarea = $("<textarea id=\"" + id + "\"" + (name ? " name=\"" + name + "\"" : "") + "></textarea>").appendTo(panel);
         if (name) {
             t.attr("ueditorName", name).removeAttr("name");
         }
-        if (html) { wrapper.text(html); }
+        if (html) { textarea.val(html); }
 
         if (opts.value) {
-            wrapper.empty();
             opts.initialContent = opts.value;
         }
-        opts.originalValue = opts.initialContent || html;
-        if (opts.templet) {
-            opts.toolbars = opts.toolbarsTemplet[opts.templet]
+        opts.originalValue = html || opts.initialContent;
+        if (opts.template) {
+            opts.toolbars = opts.toolbarsTemplate[opts.template]
         }
-        state.ueditor.addClass("panel").show().css({
-            width: 1, height: 1, position: "fixed", top: -10000, left: -10000
-        });
+
+        state.panel.panel($.extend({}, opts, {
+            noheader: true,
+            onDestroy: $.fn.panel.defaults.onDestroy,
+            onResize: function (width, height) {
+                $.fn.panel.defaults.onResize.apply(this, arguments);
+                $.extend(opts, { width: width, height: height });
+                setEditorSize(target);
+                if ($.isFunction(opts.onResize)) { opts.onResize.apply(target, arguments); }
+            }
+        }));
+
+        state.wrapper = state.panel.panel("body").addClass("ueditor-wrapper");
+
         state.editor = UE.getEditor(id, opts);
 
         initialEvents(target);
         initialState(target);
+        setValidation(target);
     };
 
     function initialEvents(target) {
@@ -64,8 +75,8 @@
             state.editor.addListener(n, function () {
                 if (n == "contentChange") {
                     var val = opts.value = $(target).ueditor("getValue");
-                    state.wrapper.val(val);
-                    //state.wrapper.text(val);
+                    state.textarea.val(val);
+                    //state.textarea.text(val);
                 }
                 if ($.isFunction(e)) { return e.apply(target, arguments); }
             });
@@ -73,16 +84,10 @@
     };
 
     function initialState(target) {
-        var state = $.data(target, "ueditor"), opts = state.options, checkCount = 10;
-        state.ueditor.bind('_resize', function () {
-            if (opts.fit == true) {
-                setSize(target);
-            }
-            return false;
-        });
-        $.util.exec(checkState);
+        var state = $.data(target, "ueditor"), opts = state.options, checkCount = 20;
+        checkState();
         function checkState() {
-            state.edui = state.wrapper.prev();
+            state.edui = state.textarea.prev();
             state.eduieditor = state.edui.find(">div.edui-editor");
             state.toolbarbox = state.eduieditor.find(">div.edui-editor-toolbarbox");
             state.iframeholder = state.eduieditor.find(">div.edui-editor-iframeholder");
@@ -90,8 +95,8 @@
             state.scalelayer = state.eduieditor.find(">div[id$=scalelayer]");
 
             if (state.editor.iframe && state.editor.iframe.parentNode && state.editor.iframe.parentNode.style && state.editor.body) {
-                setSize(target);
-                if (opts.disabled) { disable(target); }
+                setEditorSize(target);
+                setEditorDisabled(target, opts.disabled);
             } else {
                 if (--checkCount) {
                     $.util.exec(checkState, 100);
@@ -101,50 +106,41 @@
     };
 
 
-
-
-    function setSize(target) {
-        var t = $(target), opts = t.ueditor("options");
-        opts.fit ? $.extend(opts, t._fit()) : t._fit(false);
-        resize(target, { width: opts.width, height: opts.height });
+    function getOptions(target) {
+        var state = $.data(target, "ueditor"), opts = state.panel.panel("options");
+        return $.extend(state.options, {
+            title: opts.title, iconCls: opts.iconCls, width: opts.width, height: opts.height, left: opts.left, top: opts.top,
+            cls: opts.cls, headerCls: opts.headerCls, bodyCls: opts.bodyCls, style: opts.style, fit: opts.fit, border: opts.border,
+            doSize: opts.doSize, noheader: opts.noheader, collapsible: opts.collapsible, minimizable: opts.minimizable, maximizable: opts.maximizable,
+            closable: opts.closable, collapsed: opts.collapsed, minimized: opts.minimized, maximized: opts.maximized, closed: opts.closed
+        });
     };
 
-    function setWidth(target, width) {
-        var t = $(target), state = $.data(target, "ueditor"),
-            opts = t.ueditor("options"), editor = t.ueditor("editor");
-        opts.width = width;
-        state.iframeholder.width(width);
-        state.eduieditor.width(width);
-    };
 
-    function setHeight(target, height) {
-        var t = $(target), state = $.data(target, "ueditor"),
-            opts = t.ueditor("options"), editor = t.ueditor("editor"),
-            vheight = opts.holderHeight = height - state.toolbarbox.height() - state.bottomContainer.height() - state.scalelayer.height();
-        opts.height = height;
-        editor.setHeight(vheight);
+
+
+    function setEditorSize(target) {
+        var t = $(target), state = $.data(target, "ueditor");
+        if (state && state.toolbarbox && state.bottomContainer && state.scalelayer && state.iframeholder && state.eduieditor && state.editor) {
+            var opts = state.options, size = t._fit(),
+                vwidth = size.width - (opts.border ? 4 : 2);
+            state.iframeholder.width(vwidth);
+            state.eduieditor.width(vwidth);
+            state.editor.setHeight(vheight = size.height - state.toolbarbox.height() - state.bottomContainer.height() - state.scalelayer.height() - (opts.border ? 4 : 2));
+        }
     };
 
     function resize(target, param) {
-        var t = $(target), opts = t.ueditor("options"),
-            size = $.extend({ width: opts.width, height: opts.height }, param ? param : (opts.fit ? t._fit() : {}));
-        setWidth(target, size.width);
-        setHeight(target, size.height);
-        if ($.isFunction(opts.onResize)) { opts.onResize.call(target, size.width, size.height); }
+        var state = $.data(target, "ueditor");
+        state.panel.panel("resize", param);
     };
 
 
 
-    function enableEditor(target, except) {
-        var state = $.data(target, "ueditor"), opts = state.options;
-        opts.disabled = false;
-        return state.editor.setEnabled(except);
-    };
-
-    function disableEditor(target, except) {
-        var state = $.data(target, "ueditor"), opts = state.options;
-        opts.disabled = true;
-        return state.editor.setDisabled(except);
+    function setEditorDisabled(target, disabled, except) {
+        var state = $.data(target, "ueditor"), opts = state.options, d = disabled ? true : false;
+        opts.disabled = d;
+        return state.editor[d ? "setDisabled" : "setEnabled"](except);
     };
 
     function showEditor(target) {
@@ -162,9 +158,12 @@
 
     function destroy(target) {
         var t = $(target), state = $.data(target, "ueditor");
-        state.editor.destroy();
-        if (state.ueditor) { state.ueditor.remove(); }
-        if (state.wrapper) { state.wrapper.remove(); }
+        if (state) {
+            if (state.editor) { state.editor.destroy(); }
+            //if (state.ueditor) { state.ueditor.remove(); }
+            if (state.panel) { state.panel.panel("destroy"); }
+            //if (state.textarea) { state.textarea.remove(); }
+        }
         t.remove();
     };
 
@@ -303,6 +302,103 @@
 
 
 
+
+    function hideTip(target) {
+        var state = $.data(target, "ueditor");
+        state.tip = false;
+        state.wrapper.tooltip("hide");
+    };
+
+    function showTip(target) {
+        var state = $.data(target, "ueditor"), opts = state.options;
+        state.wrapper.tooltip($.extend({}, opts.tipOptions, { content: opts.missingMessage, position: opts.tipPosition, deltaX: opts.deltaX })).tooltip("show");
+        state.tip = true;
+    };
+
+    function repositionTip(target) {
+        var state = $.data(target, "ueditor");
+        if (state && state.tip) {
+            state.wrapper.tooltip("reposition");
+        }
+    };
+
+    function initializeValidate(target) {
+        var t = $(target), state = $.data(target, "ueditor"), opts = state.options;
+        state.wrapper.unbind(".ueditor");
+        if (opts.novalidate) {
+            return;
+        }
+        state.wrapper.bind("focus.ueditor", function () {
+            state.validating = true;
+            state.value = undefined;
+            (function () {
+                if (state.validating) {
+                    var value = t.ueditor("getContentTxt");
+                    if (state.value != value) {
+                        state.value = value;
+                        if (state.timer) {
+                            clearTimeout(state.timer);
+                        }
+                        state.timer = setTimeout(function () { t.ueditor("validate"); }, opts.delay);
+                    } else {
+                        repositionTip(target);
+                    }
+                    setTimeout(arguments.callee, 200);
+                }
+            })();
+        }).bind("blur.ueditor", function () {
+            if (state.timer) {
+                clearTimeout(state.timer);
+                state.timer = undefined;
+            }
+            state.validating = false;
+            hideTip(target);
+        }).bind("mouseenter.ueditor", function () {
+            if (state.wrapper.find("div.edui-editor").hasClass("ueditor-invalid")) {
+                showTip(target);
+            }
+        }).bind("mouseleave.ueditor", function () {
+            if (!state.validating) {
+                hideTip(target);
+            }
+        });
+    };
+
+    function validate(target) {
+        var t = $(target), state = $.data(target, "ueditor"), opts = state.options,
+            value = t.ueditor("getContentTxt");
+        state.wrapper.find("div.edui-editor").removeClass("ueditor-invalid");
+        hideTip(target);
+        if (!opts.novalidate && opts.required && $.string.isNullOrWhiteSpace(value) && !t.is(":disabled") && !state.wrapper.hasClass("ueditor-disabled")) {
+            state.wrapper.find("div.edui-editor").addClass("ueditor-invalid");
+            if (state.validating) {
+                showTip(target);
+            }
+            return false;
+        }
+        return true;
+    };
+
+    function setValidation(target, novalidate) {
+        var state = $.data(target, "ueditor"), opts = state.options;
+        if (novalidate != undefined && novalidate != null) {
+            opts.novalidate = novalidate;
+        }
+        if (opts.novalidate) {
+            state.wrapper.find("div.edui-editor").removeClass("ueditor-invalid");
+            hideTip(target);
+        }
+        initializeValidate(target);
+    };
+
+
+
+
+
+
+
+
+
     $.fn.ueditor = function (options, param) {
         if (typeof options == "string") {
             return $.fn.ueditor.methods[options](this, param);
@@ -321,10 +417,10 @@
 
 
     $.fn.ueditor.events = [
-            "ready", "destroy", "reset", "focus", "langReady",
-            "beforeExecCommand", "afterExecCommand", "firstBeforeExecCommand",
-            "beforeGetContent", "afterGetContent", "getAllHtml", "beforeSetContent", "afterSetContent",
-            "selectionchange", "beforeSelectionChange", "afterSelectionChange", "contentChange"
+        "ready", "destroy", "reset", "focus", "langReady",
+        "beforeExecCommand", "afterExecCommand", "firstBeforeExecCommand",
+        "beforeGetContent", "afterGetContent", "getAllHtml", "beforeSetContent", "afterSetContent",
+        "selectionchange", "beforeSelectionChange", "afterSelectionChange", "contentChange"
     ];
     $.fn.ueditor.toolbars = [[
         'fullscreen', 'source', '|', 'undo', 'redo', '|',
@@ -342,23 +438,162 @@
     $.fn.ueditor.parseOptions = function (target) {
         return $.extend({}, $.parser.parseOptions(target, [
             "lang", "theme", "charset", "initialContent", "textarea", "wordCountMsg", "tabNode", "sourceEditor", "value", "templet", "valueMethod",
+            "missingMessage", "tipPosition",
             {
                 enableAutoSave: "boolean", isShow: "boolean", focus: "boolean", fullscreen: "boolean", readonly: "boolean",
                 imagePopup: "boolean", emotionLocalization: "boolean", pasteplain: "boolean", wordCount: "boolean", elementPathEnabled: "boolean",
-                autoHeightEnabled: "boolean", scaleEnabled: "boolean", tableDragable: "boolean", sourceEditorFirst: "boolean", fit: "boolean", disabled: "boolean"
+                autoHeightEnabled: "boolean", scaleEnabled: "boolean", tableDragable: "boolean", sourceEditorFirst: "boolean",
+                fit: "boolean", disabled: "boolean", border: "boolean",
+                required: "boolean", novalidate: "boolean"
             },
-            { saveInterval: "number", zIndex: "number", maximumWords: "number", tabSize: "number", width: "number", height: "number" }
+            {
+                saveInterval: "number", zIndex: "number", maximumWords: "number", tabSize: "number", width: "number", height: "number",
+                deltaX: "number"
+            }
         ]));
     };
 
 
+
+
+
+
+
+
+    $.fn.ueditor.buttons = {
+        defaults: {
+            name: null, label: null, iconCss: "background-position: 0 0;",
+            execCommand: function (cmd) { },
+            queryCommandState: function () { },
+            queryCommandValue: function () { },
+            onInit: function (editor) { }
+        },
+        list: [
+            {
+                name: "fontset", iconCss: "background-position: -720px 0;",
+                label: { "zh-cn": "测试按钮" },
+                execCommand: function (cmd) {
+                    var btn = this, offset = $(btn.container).offset(),
+                        dia = btn.dia ? btn.dia : btn.dia = createDialog(),
+                        dopts = dia.dialog("options");
+                    dopts.closed ? dia.dialog("open").dialog("move", { top: offset.top - 50, left: offset.left }) : dia.dialog("close");
+
+                    function createDialog() {
+                        var dia = $.easyui.showDialog({
+                            noheader: true, modal: false, resizable: false, draggable: false, closed: true, autoDestroy: false,
+                            width: 280, height: 50, top: offset.top - 50, left: offset.left,
+                            enableSaveButton: false, enableCloseButton: false, enableApplyButton: false,
+                            content: "<div class=\"ueditor-fontset-container\"></div>"
+                        });
+                        $.util.exec(function () {
+                            var cc = dia.find(".ueditor-fontset-container");
+                            $("<input class=\"ueditor-fontset-fontfamily\" type=\"text\" />").appendTo(cc).combobox({ width: 80, data: [] });
+                            $("<input class=\"ueditor-fontset-fontsize\" type=\"text\" />").appendTo(cc).combobox({ width: 80, data: [] });
+                            $("<a></a>").appendTo(cc).linkbutton({
+                                plain: true, iconCls: "icon-standard-text-bold", onClick: function () {
+                                }
+                            });
+                            $("<a></a>").appendTo(cc).linkbutton({
+                                plain: true, iconCls: "icon-standard-text-italic", onClick: function () {
+                                }
+                            });
+                            $("<a></a>").appendTo(cc).linkbutton({
+                                plain: true, iconCls: "icon-standard-text-underline", onClick: function () {
+                                }
+                            });
+                        });
+                        return dia;
+                    };
+                },
+                queryCommandState: function () {
+                    var btn = this;
+                    return btn.dia ? (btn.dia.dialog("options").closed ? 0 : 1) : 0;
+                }
+            }
+        ],
+
+        styleTagID: "ueditorCss_" + $.util.guid("N"),
+
+        append: function (button, init) {
+            var b = $.extend({}, $.fn.ueditor.buttons.defaults, button),
+                editorui = baidu.editor.ui, ci = b.name;
+
+            UEDITOR_CONFIG.toolbars[0].push(b.name);
+            for (var lang in b.label) {
+                UE.I18N[lang].labelMap[b.name] = b.label[lang];
+            }
+
+            editorui[ci] = function (cmd) {
+                return function (editor) {
+                    var ui = new editorui.Button({
+                        className: 'edui-for-' + cmd,
+                        title: editor.options.labelMap[cmd] || editor.getLang("labelMap." + cmd) || '',
+                        onclick: function () {
+                            editor.execCommand(cmd);
+                        },
+                        theme: editor.options.theme,
+                        showText: false
+                    });
+                    editorui.buttons[cmd] = ui;
+                    editor.addListener('selectionchange', function (type, causeByUi, uiReady) {
+                        var state = editor.queryCommandState(cmd);
+                        if (state == -1) {
+                            ui.setDisabled(true);
+                            ui.setChecked(false);
+                        } else {
+                            if (!uiReady) {
+                                ui.setDisabled(false);
+                                ui.setChecked(state);
+                            }
+                        }
+                    });
+                    //下面这行代码为该插件添加的，使得ueditor编辑器在初始化该按钮时执行一个事件函数；
+                    if ($.isFunction(b.onInit)) { $.util.exec(function () { b.onInit.call(ui, editor); }); }
+                    return ui;
+                };
+            }(ci);
+
+            UE.commands[b.name] = $.extend({}, b);
+
+            var styleText = " .edui-for-" + b.name + " .edui-icon {" + (b.iconCss ? b.iconCss : "") + "}",
+                style = $("#" + $.fn.ueditor.buttons.styleTagID);
+            if (style.length) {
+                styleText = (style.text() || style.html()) + "\n" + styleText;
+                if ($.util.browser.msie && $.util.browser.version < 9) {
+                    style.remove();
+                    $.util.addCss(styleText).attr("id", $.fn.ueditor.buttons.styleTagID);
+                } else {
+                    style.text(styleText);
+                }
+            } else {
+                $.util.addCss(styleText).attr("id", $.fn.ueditor.buttons.styleTagID);
+            }
+
+            if (!init) {
+                $.fn.ueditor.buttons.list.push(b);
+            }
+        }
+    };
+    $.each($.fn.ueditor.buttons.list, function (i, btn) {
+        $.fn.ueditor.buttons.append(btn, true);
+    });
+
+
+
+
+
+
+
+
     $.fn.ueditor.methods = {
 
-        options: function (jq) { return $.data(jq[0], "ueditor").options; },
+        options: function (jq) { return getOptions(jq[0]); },
+
+        panel: function (jq) { return $.data(jq[0], "ueditor").panel; },
 
         editor: function (jq) { return $.data(jq[0], "ueditor").editor; },
 
-        wrapper: function (jq) { return $.data(jq[0], "ueditor").wrapper; },
+        textarea: function (jq) { return $.data(jq[0], "ueditor").textarea; },
 
         resize: function (jq, size) { return jq.each(function () { resize(this, size); }); },
 
@@ -411,10 +646,10 @@
         reset: function (jq) { return jq.each(function () { reset(this); }); },
 
         //  设置当前编辑区域可以编辑,except中的命令除外
-        setEnabled: function (jq, except) { return jq.each(function () { enableEditor(this, except); }); },
+        setEnabled: function (jq, except) { return jq.each(function () { setEditorDisabled(this, false, except); }); },
 
         //  设置当前编辑区域不可编辑,except中的命令除外
-        setDisabled: function (jq, except) { return jq.each(function () { disableEditor(this, except); }); },
+        setDisabled: function (jq, except) { return jq.each(function () { setEditorDisabled(this, true, except); }); },
 
         //  显示编辑器
         setShow: function (jq) { return jq.each(function () { showEditor(this); }); },
@@ -442,10 +677,10 @@
         hide: function (jq) { return jq.each(function () { hideEditor(this); }); },
 
         //  同 setEnabled 方法
-        enable: function (jq, except) { return jq.each(function () { enableEditor(this, except); }); },
+        enable: function (jq, except) { return jq.each(function () { setEditorDisabled(this, false, except); }); },
 
         //  同 setDisabled 方法
-        disable: function (jq, except) { return jq.each(function () { disableEditor(this, except); }); },
+        disable: function (jq, except) { return jq.each(function () { setEditorDisabled(this, true, except); }); },
 
         //  参数 param 同 getContent 的参数 filter。
         getValue: function (jq, param) { return getValue(jq[0], param); },
@@ -460,7 +695,16 @@
         setFocus: function (jq, toEnd) { return jq.each(function () { setFocus(this, toEnd); }); },
 
         //  清空文档
-        clear: function (jq) { return jq.each(function () { clear(this); }); }
+        clear: function (jq) { return jq.each(function () { clear(this); }); },
+
+
+        validate: function (jq) { return jq.each(function () { validate(this); }); },
+
+        isValid: function (jq) { return validate(jq[0]); },
+
+        enableValidation: function (jq) { return jq.each(function () { setValidation(this, false) }); },
+
+        disableValidation: function (jq) { return jq.each(function () { setValidation(this, true) }); }
     };
 
     $.fn.ueditor.defaults = {
@@ -533,28 +777,6 @@
         sourceEditorFirst: false,
 
 
-        fit: false,
-
-        width: 600,
-
-        height: 150,
-        //  同 initialContent，表示初始化编辑器的内容；不过其优先级高于 initialContent 和 textarea/script 的 innerText；
-        //  当设置了该属性后，初始化编辑器的内容将被强制设为该属性值，而无论是否设置了 initialContent 或 textarea/script 的 innerText；
-        value: null,
-
-        toolbarsTemplet: {
-            simple: [[]],
-            complex: [[]],
-            full: $.fn.ueditor.toolbars
-        },
-
-        templet: "full",
-        //  getValue 方法所使用的内部取值方法
-        valueMethod: "getContent",
-        //  编辑器初始化完成后是否立即将其执行 setDisabled 操作使其禁用；
-        disabled: false,
-
-
         //  编辑器准备就绪后会触发该事件
         onready: function () { },
 
@@ -604,12 +826,73 @@
         onafterSelectionChange: function () { },
 
         //  编辑器内容发生改变时会触发该事件
-        oncontentChange: function () { },
+        oncontentChange: function () { }
+    };
+
+    $.extend($.fn.ueditor.defaults, {
+
+        fit: false,
+
+        border: false,
+
+        width: 600,
+
+        height: 150,
+        //  同 initialContent，表示初始化编辑器的内容；不过其优先级高于 initialContent 和 textarea/script 的 innerText；
+        //  当设置了该属性后，初始化编辑器的内容将被强制设为该属性值，而无论是否设置了 initialContent 或 textarea/script 的 innerText；
+        value: null,
+
+        toolbarsTemplate: {
+            //
+            simple: [[
+                'fontset', '|',
+                'fontfamily', 'fontsize', 'forecolor', 'backcolor', 'bold', 'italic', 'underline',
+                '|', 'emotion', 'scrawl', '|', 'snapscreen', 'insertimage', 'attachment'
+            ]],
+            normal: [[
+                'bold', 'italic', 'underline',
+                '|', 'fontfamily', 'fontsize', 'forecolor', 'backcolor',
+                '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',
+                '|', 'insertorderedlist', 'insertunorderedlist',
+                '|', 'indent', 'blockquote', 'link', 'formatmatch',
+                '|', 'source'
+            ]],
+            //
+            rich: [[]],
+            full: [[
+                'fullscreen', 'source', '|', 'undo', 'redo', '|',
+                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+                'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+                'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+                'directionalityltr', 'directionalityrtl', 'indent', '|',
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+                'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+                'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
+                'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+                'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+                'print', 'preview', 'searchreplace', 'help', 'drafts'
+            ]]
+        },
+
+        template: "full",
+        //  getValue 方法所使用的内部取值方法
+        valueMethod: "getContent",
+        //  编辑器初始化完成后是否立即将其执行 setDisabled 操作使其禁用；
+        disabled: false,
+
+
+        required: false,
+        missingMessage: "该编辑框不能为空.",
+        //  "left", "right", "top", "bottom"
+        tipPosition: "right",
+        deltaX: 0,
+        tipOptions: $.fn.validatebox.defaults.tipOptions,
+        novalidate: false,
 
 
         //  当调整编辑器大小时，触发该事件
         onResize: function (width, height) { }
-    };
+    });
 
 
     $.parser.plugins.push("ueditor");

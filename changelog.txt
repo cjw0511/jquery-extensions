@@ -1,10 +1,16 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
-/******** 2014-05-05(1.0.48 preview) ********/
-1、【^】 完善扩展插件 jquery.euploadify.js 的 API 方法，同时使该插件支持 jquery.form.js 插件的表单方法(submit、load、clear、validate，需插件 jeasyui.extensions.form.js 支持)；
+/******** 2014-05-09(1.0.48 preview) ********/
+1、【^】 完善扩展插件 jquery.euploadify.js 的 API 方法，同时使该插件支持 jquery.form.js 插件的表单方法(submit、load、clear、validate，需
+    插件 jeasyui.extensions.form.js 支持)，同时定义该插件的服务器代码数据返回格式约定；
 2、【^】 重写 jquery.form.js 插件的 validate、enableValidation 和 disableValidation 方法（ 在  jeasyui.extensions.form.js 中） 以支持自定义扩展的表单插件；
-3、[#] 修复 jquery.jdirk.js 的 serializeObject 方法中，因 id 和 name 双重定义导致重复取值的 bug；
+3、【^】 为 jquery.ueditor.js 和 jquery.codemirror.js 插件增加表单验证方法的支持（validate、isValid、enableValidation、disableValidation 方法
+    和 required、missingMessage、tipPosition、nvalidate 等属性的支持）
+4、[+] 丰富 jquery.ueditor.js 的按钮布局模板，提供多种快速模版布局；
+5、[#] 修复 jquery.jdirk.js 的 serializeObject 方法中，因 id 和 name 双重定义导致重复取值的 bug；
+6、[#] 修复 jquery.jdirk.js 中因判断 iframe 层级导致的算法 BUG；
+7、[#] 修复 jeasyui.extensions.treegrid.js 中 remove 方法重载导致的 BUG(该 BUG 可能导致行拖动效果无效)；
 
 
 /******** 2014-05-04(1.0.47 preview) ********/

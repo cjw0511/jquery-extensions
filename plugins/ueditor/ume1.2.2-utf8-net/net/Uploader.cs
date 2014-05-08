@@ -60,7 +60,7 @@ namespace UMEditor
                     URL = pathbase + filename;
                 }
             }
-            catch (Exception e)
+            catch //(Exception e)
             {
                 state = "未知错误";
                 URL = "";
@@ -93,7 +93,7 @@ namespace UMEditor
 
                 URL = pathbase + filename;
             }
-            catch (Exception e)
+            catch //(Exception e)
             {
                 state = "未知错误";
                 URL = "";

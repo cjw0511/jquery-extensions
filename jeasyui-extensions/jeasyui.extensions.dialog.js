@@ -11,7 +11,7 @@
 * jQuery EasyUI dialog 组件扩展
 * jeasyui.extensions.dialog.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-05-07
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -52,7 +52,7 @@
     //  该方法仅可以在通过 $.easyui.showDialog 打开的 easyui-dialog 中的 iframe 中使用；
     //  关闭当前页面所在的 easyui-dialog 窗体。
     $.easyui.parent.closeDialog = $.easyui.closeCurrentDialog = function () {
-        if ($.util.isTopMost) { return; }
+        if ($.util.isUtilTop) { return; }
         $.easyui.parent.$($.util.currentFrame).closest("div.window-body").dialog("close");
     };
 
@@ -223,10 +223,10 @@
         var content = jq("<table class=\"dialog-options-body\" ></table>"), type = jq.type(options);
         if ($.array.contains(["array", "object", "function"], type)) {
             for (var key in options) {
-                content.append("<tr class=\"dialog-options-row\"><td class=\"dialog-options-cell\">" + key + ":</td><td class=\"dialog-options-cell-content\">" + options[key] + "</td></tr>");
+                content.append("<tr class=\"dialog-options-row\"><td class=\"dialog-options-cell\">" + key + ":</td><td class=\"dialog-options-cell-content\">" + $.string.toHtmlEncode(options[key]) + "</td></tr>");
             }
         } else {
-            content.append("<tr class=\"dialog-options-row\"><td class=\"dialog-options-cell\">options:</td><td class=\"dialog-options-cell-content\">" + String(options) + "</td></tr>");
+            content.append("<tr class=\"dialog-options-row\"><td class=\"dialog-options-cell\">options:</td><td class=\"dialog-options-cell-content\">" + $.string.toHtmlEncode(String(options)) + "</td></tr>");
         }
         opts.content = content;
         return $.easyui.showDialog(opts);

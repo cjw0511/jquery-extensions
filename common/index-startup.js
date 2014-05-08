@@ -31,7 +31,7 @@
             window.mainpage.mainTabs.loadHash(hash);
 
             var stop = new Date();
-            $.easyui.messager.show({ msg: "当前页面加载耗时(毫秒)：" + start.diff("ms", stop), position: "bottomRight" });
+            $.easyui.messager.show({ msg: "当前页面加载耗时(毫秒)：" + $.date.diff(start, "ms", stop), position: "bottomRight" });
         });
 
         $("#A1").click(function () {

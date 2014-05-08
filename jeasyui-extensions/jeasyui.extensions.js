@@ -24,14 +24,14 @@
 
 
     $.easyui.getTopEasyuiMessager = function () {
-        if ($.util.isTopMost) { return $.messager; }
+        if ($.util.isUtilTop) { return $.messager; }
         return $.util.$ && $.util.$.messager ? $.util.$.messager : $.messager;
     };
     $.easyui.messager = $.easyui.getTopEasyuiMessager();
 
 
     $.easyui.getTopEasyuiTooltip = function () {
-        if ($.util.isTopMost) { return $.fn.tooltip; }
+        if ($.util.isUtilTop) { return $.fn.tooltip; }
         return $.util.$ && $.util.$.fn && $.util.$.fn.tooltip ? $.util.$.fn.tooltip : $.fn.tooltip;
     };
     $.easyui.tooltip = $.fn.tooltip;
@@ -141,29 +141,54 @@
 
     //  增加 $.messager.solicit 方法，该方法弹出一个包含三个按钮("是"、"否" 和 "取消")的对话框，点击任意按钮或者关闭对话框时，执行指定的回调函数；
     //      该函数提供如下重载方式：
-    //      function (message, callback)
-    //      function (title, message, callback)
+    //      function (param: object)
+    //      function (callback: function)
+    //      function (message: string, callback: function)
+    //      function (title: string, message: string, callback: function)
     //  返回值：返回弹出的消息框 easyui-window 对象
     $.messager.solicit = function (title, msg, fn) {
-        var options = $.extend({}, (arguments.length == 2) ? { title: defaults.title, msg: arguments[0], fn: arguments[1] }
-            : { title: arguments[0], msg: arguments[1], fn: arguments[2] });
-        var win = $.messager.confirm(options.title, options.msg, options.fn), opts = win.window("options"), onClose = opts.onClose;
-        opts.onClose = function () {
+        var args = arguments, type = $.type(args[0]),
+            opts = $.extend({}, $.messager.solicit.defaults,
+                type == "object" ? args[0] : (
+                    type == "function" ? { callback: args[0] } : (
+                        args.length == 2 ? { message: args[0], callback: args[1] } : { title: args[0], message: args[1], callback: args[2] }
+                    )
+                )
+            ),
+            ret = $.messager.confirm(opts.title, opts.message, opts.callback),
+            options = ret.window("options"), onClose = options.onClose;
+        options.onClose = function () {
             if ($.isFunction(onClose)) { onClose.apply(this, arguments); }
-            if ($.isFunction(options.fn)) { options.fn.call(this, undefined); }
+            if ($.isFunction(opts.callback)) { opts.callback.call(this, undefined); }
         };
-        var button = win.find(">div.messager-button").empty();
-        $("<a></a>").linkbutton({ text: "是" }).css("margin-left", "10px").click(function () {
-            opts.onClose = onClose; win.window("close"); if ($.isFunction(options.fn)) { options.fn.call(this, true); }
-        }).appendTo(button);
-        $("<a></a>").linkbutton({ text: "否" }).css("margin-left", "10px").click(function () {
-            opts.onClose = onClose; win.window("close"); if ($.isFunction(options.fn)) { options.fn.call(this, false); }
-        }).appendTo(button);
-        $("<a></a>").linkbutton({ text: "取消" }).css("margin-left", "10px").click(function () {
-            opts.onClose = onClose; win.window("close"); if ($.isFunction(options.fn)) { options.fn.call(this, undefined); }
-        }).appendTo(button);
-        return win;
+        var buttons = ret.find(">div.messager-button").empty();
+        $("<a class=\"messager-solicit messager-solicit-yes\"></a>").appendTo(buttons).linkbutton({
+            text: opts.yesText,
+            onClick: function () {
+                options.onClose = onClose; ret.window("close");
+                if ($.isFunction(opts.callback)) { opts.callback.call(this, true); }
+            }
+        });
+        $("<a class=\"messager-solicit messager-solicit-no\"></a>").appendTo(buttons).linkbutton({
+            text: opts.noText,
+            onClick: function () {
+                options.onClose = onClose; ret.window("close");
+                if ($.isFunction(opts.callback)) { opts.callback.call(this, false); }
+            }
+        });
+        $("<a class=\"messager-solicit messager-solicit-cancel\"></a>").appendTo(buttons).linkbutton({
+            text: opts.cancelText,
+            onClick: function () {
+                options.onClose = onClose; ret.window("close");
+                if ($.isFunction(opts.callback)) { opts.callback.call(this, undefined); }
+            }
+        });
+
+        return ret;
     };
+
+    $.messager.solicit.defaults = { title: "操作提醒", message: null, callback: null, yesText: "是", noText: "否", cancelText: "取消" };
+
 
     //  重写 $.messager.prompt 方法，使其支持如下的多种重载方式：
     //      function (callback)

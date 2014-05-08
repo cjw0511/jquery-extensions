@@ -14,6 +14,10 @@ easyui-lang-zh_CN.js
 
 /*jeasyui.extensions.js*/
 .mask-container { position: relative; }
+.messager-button .messager-solicit { margin-left: 10px; }
+/*.messager-solicit-yes {}
+.messager-solicit-no {}
+.messager-solicit-cancel {}*/
 
 /*添加下一行css代码，修复页面中 input 与 easyui-combo 组件同行时位置偏移的问题*/
 input { vertical-align: middle; }
@@ -24,6 +28,8 @@ input { vertical-align: middle; }
 .validatebox-prompt { color: #ccc; }
 
 /*jeasyui.extensions.combo.js*/
+/*.combo-panel.panel-body { border-top-width: 0; }*/
+
 /*jeasyui.extensions.combobox.js*/
 /*jeasyui.extensions.form.js*/
 /*jeasyui.extensions.menu.js*/
@@ -126,7 +132,16 @@ ul.icon-selector-ul li.selected { border-color: Red; background-color: rgb(221, 
 
 /*jquery.comboselector.js*/
 
+/*jquery.codemirror.js*/
+.codemirror-disabled { filter: alpha(opacity=60); opacity: 0.6; }
+.codemirror-invalid { border: 1px solid red; }
 
+/*jquery.ueditor.js*/
+.ueditor-panel { overflow: hidden; }
+.ueditor-disabled { filter: alpha(opacity=60); opacity: 0.6; }
+.edui-default .edui-editor.ueditor-invalid { border: 1px solid red; }
+.ueditor-fontset-container { padding: 5px; }
+.ueditor-fontset-container>* { vertical-align: middle; margin-left: 2px; }
 
 /*jquery.euploadify.js*/
 .euploadify-panel {}
@@ -136,7 +151,7 @@ ul.icon-selector-ul li.selected { border-color: Red; background-color: rgb(221, 
 .euploadify-wrapper div.uploadify { display: inline-block; font-size: 12px; margin: 0; }
 .euploadify-wrapper div.uploadify .uploadify-button { border-radius: 0; margin: 0 4px 0 10px; }
 .euploadify-wrapper div.uploadify > object { left: 0px; }
-.euploadify-wrapper.euploadify-wrapper-disabled {}
+.euploadify-wrapper.euploadify-disabled { filter: alpha(opacity=60); opacity: 0.6; }
 .euploadify-wrapper a.l-btn-disabled div.uploadify > object { visibility: hidden; }
 
 .euploadify-wrapper.euploadify-invalid { border: 1px solid red; }

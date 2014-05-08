@@ -39,6 +39,40 @@
             });
 
 
+
+            $("#btn41").click(function () {
+                t.ueditor("validate");
+            });
+
+            $("#btn42").click(function () {
+                $("#demo").form("validate");
+            });
+
+            $("#btn43").click(function () {
+                $("#demo").form("enableValidation");
+            });
+
+            $("#btn44").click(function () {
+                $("#demo").form("disableValidation");
+            });
+
+            $("#btn45").click(function () {
+                $("#demo").form("clear");
+            });
+
+            $("#btn46").click(function () {
+                $("#demo").form("reset");
+            });
+
+            $("#btn47").click(function () {
+                $("#demo").form("load", {
+                    t1: "111"
+                });
+            });
+
+
+
+
             $("#btn51").click(function () {
                 t.ueditor("destroy");
             });
@@ -76,6 +110,13 @@
                 var data = $(this).currentPanel().form("getData");
                 $.easyui.showOption(data);
             });
+
+            $("#btn103").click(function () {
+                var d = $.easyui.showDialog({
+                    content: "<div class=\"uuu\"></div>"
+                });
+                d.find(".uuu").ueditor({ fit: true, border: false, zIndex: 20000, template: 'simple' });
+            });
         });
     </script>
 
@@ -92,6 +133,14 @@
     <input id="btn15" type="button" value="reset" />
     <input id="btn16" type="button" value="clear" />
     <hr />
+    <input id="btn41" type="button" value="validate" />
+    <input id="btn42" type="button" value="validate-form" />
+    <input id="btn43" type="button" value="enableValidation-form" />
+    <input id="btn44" type="button" value="disableValidation-form" />
+    <input id="btn45" type="button" value="clear-form" />
+    <input id="btn46" type="button" value="reset-form" />
+    <input id="btn47" type="button" value="load-form" />
+    <hr />
     <input id="btn51" type="button" value="destroy" />
     <input id="btn52" type="button" value="loadData" />
     <input id="btn53" type="button" value="validateForm" />
@@ -100,6 +149,7 @@
     <hr />
     <input id="btn101" type="button" value="getValue" />
     <input id="btn102" type="button" value="getData" />
+    <input id="btn103" type="button" value="showUeditorDialog" />
     <hr />
     <input id="t2" name="t2" type="text" value="tt2" />
     <input id="t3" name="t3" type="text" class="easyui-searchbox" data-options="required: true" value="tt3" />
@@ -108,7 +158,10 @@
     <input id="t6" name="t6" type="text" class="easyui-comboicons" data-options="required: true" value="tt6" />
     <hr />
     <div id="t1" name="t1" class="easyui-ueditor" data-options="
-         width: 1000, height: 500, value: '123'
+         width: 1000, height: 500, //border: true,
+         value: '123',
+         required: true,
+         template: 'simple'
          ">asdf</div>
 
 </div>

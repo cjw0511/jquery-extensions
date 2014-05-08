@@ -68,7 +68,9 @@
         }
 
         .panel-noborder {
-            border-left-width: 0px; border-top-width: 0px; border-right-width: 0px;
+            border-left-width: 0px;
+            border-top-width: 0px;
+            border-right-width: 0px;
         }
     </style>
 
@@ -76,11 +78,9 @@
         $.util.namespace("$.easyui");
         $.easyui.showSourceDialog = function (url, options) {
             var defaults = { title: $.string.format("查看页面\"{0}\"的源码", url), width: 800, height: 600, enableCloseButton: false, enableApplyButton: false },
-                opts = typeof options == "string" ? $.extend({}, defaults, {
-                    title: options, content: "<pre></pre>", topMost: false, maximizable: true
-                }) : $.extend({}, defaults, options || {}, {
-                    content: "<textarea></textarea>", topMost: false
-                });
+                opts = typeof options == "string"
+                    ? $.extend({}, defaults, { title: options, content: "<textarea></textarea>", topMost: false, maximizable: true })
+                    : $.extend({}, defaults, options || {}, { content: "<textarea></textarea>", topMost: false });
             $.easyui.showDialog(opts).find("textarea").codemirror({
                 fit: true, url: url, border: false, readOnly: true, bodyCls: "panel-noborder", fontSize: "13px", lineHeight: "15px"
             });

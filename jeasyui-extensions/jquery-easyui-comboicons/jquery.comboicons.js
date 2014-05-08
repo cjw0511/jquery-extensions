@@ -60,7 +60,7 @@
                         }
                     });
                     var dopts = state.dialog.dialog("options");
-                    if (!$.util.isTopMost && !dopts.topMost || $.util.isTopMost) {
+                    if ((!$.util.isUtilTop && !dopts.topMost) || $.util.isUtilTop) {
                         var textbox = t.combo("textbox"), offset = textbox.offset();
                         state.dialog.dialog("move", $.extend(offset, { top: offset.top + textbox.outerHeight() + 2 }))
                     }

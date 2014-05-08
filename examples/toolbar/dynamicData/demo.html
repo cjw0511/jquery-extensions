@@ -1,7 +1,7 @@
 ﻿<div>
     <script type="text/javascript">
         $(function () {
-            var t = $("#tt");
+            var t = $("#tt1");
             t.toolbar({
                 method: "get",
                 url: "toolbar/toolbar-data.json",
@@ -10,6 +10,15 @@
                 onLoadError: $.easyui.ajaxError(),
                 onBeforeLoad: function (param) { }
             });
+
+            $("#tt2").toolbar({
+                data: [
+                    { type: "button", options: { text: "保存", iconCls: "icon-save" } }, "-",
+                    { type: "button", options: { text: "刷新", iconCls: "icon-reload" } }, "-",
+                    { type: "combobox", options: { valueField: "id", textField: "text", width: 140 } }
+                ]
+            });
+
 
             $("#btn1").click(function () { t.toolbar("enable"); });
 
@@ -58,8 +67,8 @@
     <input id="btn9" type="button" value="setItemFocus 8" />
     <input id="btn10" type="button" value="setItemFocus 9" />
     <hr />
-    <div id="tt"></div>
-    <br /><br /><br />
+    <div id="tt1"></div>
+    <br /><br />
     <div class="easyui-toolbar">
         <input class="easyui-validatebox" data-options="prompt: '拟定企业名称'" style="width: 100px;" />
         <span>-</span>
@@ -76,4 +85,6 @@
         <span>-</span>
         <span>asdfasdfasdf</span>
     </div>
+    <br /><br />
+    <div id="tt2"></div>
 </div>

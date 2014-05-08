@@ -64,6 +64,38 @@
 
 
             $("#btn41").click(function () {
+                $("#t2").codemirror("validate");
+            });
+
+            $("#btn42").click(function () {
+                $("#demo").form("validate");
+            });
+
+            $("#btn43").click(function () {
+                $("#demo").form("enableValidation");
+            });
+
+            $("#btn44").click(function () {
+                $("#demo").form("disableValidation");
+            });
+
+            $("#btn45").click(function () {
+                $("#demo").form("clear");
+            });
+
+            $("#btn46").click(function () {
+                $("#demo").form("reset");
+            });
+
+            $("#btn47").click(function () {
+                $("#demo").form("load", {
+                    t2: "111"
+                });
+            });
+
+
+
+            $("#btn51").click(function () {
                 $.easyui.showOption($(this).currentPanel().form("getData"));
             });
         });
@@ -91,9 +123,22 @@
     <input id="btn25" type="button" value="redo" />
     <input id="btn26" type="button" value="getSelection" />
     <hr />
-    <input id="btn41" type="button" value="getData-form" />
+    <input id="btn41" type="button" value="validate" />
+    <input id="btn42" type="button" value="validate-form" />
+    <input id="btn43" type="button" value="enableValidation-form" />
+    <input id="btn44" type="button" value="disableValidation-form" />
+    <input id="btn45" type="button" value="clear-form" />
+    <input id="btn46" type="button" value="reset-form" />
+    <input id="btn47" type="button" value="load-form" />
     <hr />
-    <textarea id="t2" name="t2" class="easyui-codemirror" data-options="mode: 'text/html', lineNumbers: true, width: 800, height: 400, fontSize: '14px'">
+    <input id="btn51" type="button" value="getData-form" />
+    <hr />
+    <textarea id="t2" name="t2" class="easyui-codemirror" data-options="
+              mode: 'text/html',
+              lineNumbers: true, width: 800, height: 400, fontSize: '14px',
+              value: '123',
+              required: true,
+              ">
         <script type="text/javascript">
             $(function () {
                 var editor = CodeMirror.fromTextArea($("#t1")[0], {

@@ -679,7 +679,7 @@
 
 
     function closeCurrentTab(target, iniframe) {
-        iniframe = iniframe && !$.util.isTopMost ? true : false;
+        iniframe = iniframe && !$.util.isUtilTop ? true : false;
         var current = $(target),
             currentTabs = current.currentTabs(),
             index;
@@ -698,7 +698,7 @@
     };
 
     function refreshCurrentTab(target, iniframe) {
-        iniframe = iniframe && !$.util.isTopMost ? true : false;
+        iniframe = iniframe && !$.util.isUtilTop ? true : false;
         var current = $(target),
             currentTabs = current.currentTabs(),
             index;

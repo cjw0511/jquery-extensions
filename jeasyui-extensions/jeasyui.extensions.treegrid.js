@@ -11,7 +11,7 @@
 * jQuery EasyUI treegrid 组件扩展
 * jeasyui.extensions.treegrid.js
 * 二次开发 流云
-* 最近更新：2014-04-29
+* 最近更新：2014-05-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -598,7 +598,7 @@
     };
 
 
-    var _remove = $.fn.datagrid.methods.remove;
+    var _remove = $.fn.treegrid.methods.remove;
     var removeRow = function (target, id) {
         var t = $(target), opts = t.treegrid("options"), row = t.treegrid("find", id);
         if (row && $.isFunction(opts.onBeforeRemove) && opts.onBeforeRemove.call(target, row) != false) {

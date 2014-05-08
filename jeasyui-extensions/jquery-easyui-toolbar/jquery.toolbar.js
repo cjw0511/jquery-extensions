@@ -11,7 +11,7 @@
 * jQuery EasyUI toolbar 插件扩展
 * jquery.toolbar.js
 * 二次开发 流云
-* 最近更新：2014-05-04
+* 最近更新：2014-05-07
 *
 * 依赖项：
 *   1、jquery.jdirk.js
@@ -48,14 +48,14 @@
 (function ($, undefined) {
 
     function initialize(target) {
-        var t = $(target), isDiv = /^(?:div)$/i.test(target.nodeName),
-            toolbar = isDiv ? t : $("<div></div>").insertAfter(t);
+        var t = $(target), isDiv = /^(?:div)$/i.test(target.nodeName), cc = t.children(),
+            toolbar = isDiv ? t : $("<div></div>").insertAfter(t).append(t);
         if (!isDiv) {
             toolbar.attr({ "class": t.attr("class"), "style": t.attr("style") }).removeClass("easyui-toolbar");
-            t.children().each(function () { toolbar[0].appendChild(this); });
+            t.children().each(function () { toolbar.append(this); });
             t.hide();
         }
-        var state = $.data(target, "toolbar"), opts = state.options, cc = toolbar.children();
+        var state = $.data(target, "toolbar"), opts = state.options;
         state.toolbar = toolbar.addClass("dialog-toolbar toolbar");
         t.addClass("toolbar-f");
 

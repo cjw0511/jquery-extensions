@@ -11,7 +11,7 @@
 * jQuery EasyUI CodeMirror 插件扩展
 * jquery.codemirror.js
 * 二次开发 流云
-* 最近更新：2014-05-05
+* 最近更新：2014-05-07
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -33,14 +33,17 @@
     function create(target) {
         var t = $(target).addClass("codemirror-f"),
             isDiv = /^(?:div)$/i.test(target.nodeName), isText = /^(?:textarea)$/i.test(target.nodeName),
-            html = isText ? t.text() : t.html(),
+            html = isText ? (t.val() || t.text()) : t.html(),
             state = $.data(target, "codemirror"), opts = state.options,
             name = t.attr("name"), id = state.codemirrorId = "codemirror_" + $.util.guid("N"),
-            panel = state.panel = isDiv ? t.addClass("codemirror-panel").empty() : $("<div class=\"codemirror-panel\"></div>").insertAfter(t.hide().empty()),
+            panel = state.panel = isDiv ? t.addClass("codemirror-panel").empty() : $("<div class=\"codemirror-panel\"></div>").insertAfter(t.hide().empty()).append(t),
             panelId = state.panelId = panel.attr("id"),
-            wrapper = state.wrapper = $("<textarea id=\"" + id + "\"" + (name ? " name=\"" + name + "\"" : "") + "></textarea>").appendTo(panel);
+            textarea = state.textarea = $("<textarea id=\"" + id + "\"" + (name ? " name=\"" + name + "\"" : "") + "></textarea>").appendTo(panel);
         if (name) { t.attr("codemirrorName", name).removeAttr("name"); }
-        if (html) { wrapper.text(html); }
+
+        opts.originalValue = html || opts.value;
+        if (opts.originalValue) { textarea.val(opts.originalValue); }
+
         if (!panelId) { panel.attr("id", panelId = state.panelId = "codemirror_panel_" + $.util.guid("N")); }
         if (opts.fontSize || opts.lineHeight) {
             state.style = $.util.addCss("#" + panelId + " .CodeMirror { " +
@@ -49,19 +52,16 @@
                 " }").appendTo(panel);
         }
 
-        if (opts.value) { wrapper.empty(); }
-        opts.originalValue = opts.value || html;
-
         var param = $.extend({}, opts);
         if (opts.disabled) { param.readOnly = "nocursor"; }
-        state.cm = CodeMirror.fromTextArea(wrapper[0], param);
+        state.cm = CodeMirror.fromTextArea(textarea[0], param);
         state.doc = state.cm.getDoc();
 
         panel.panel($.extend({}, opts, {
             onResize: function (width, height) {
                 $.fn.panel.defaults.onResize.apply(this, arguments);
                 $.extend(opts, { width: width, height: height });
-                var size = wrapper._fit();
+                var size = textarea._fit();
                 state.cm.setSize(size.width, size.height);
                 if ($.isFunction(opts.onResize)) { opts.onResize.apply(target, arguments); }
             },
@@ -69,7 +69,11 @@
             id: panelId
         }));
 
+        state.wrapper = panel.panel("body").addClass("codemirror-wrapper");
+
         initialEvents(target);
+        setDisabled(target, opts.disabled);
+        setValidation(target);
     };
 
 
@@ -80,8 +84,8 @@
             state.cm.on(n, function () {
                 if (n == "change") {
                     var val = opts.value = $(target).codemirror("getValue");
-                    //state.wrapper.text(val);
-                    state.wrapper.val(val);
+                    //state.textarea.text(val);
+                    state.textarea.val(val);
                 }
                 if ($.isFunction(e)) { return e.apply(target, arguments); }
             });
@@ -125,20 +129,14 @@
         return $(target).codemirror("options");
     };
 
-    function enable(target) {
-        var state = $.data(target, "codemirror"), opts = state.options;
-        state.cm.setOption("disabled", false);
-        state.cm.setOption("readOnly", false);
-        opts.readOnly = false;
-        opts.disabled = false;
-    };
 
-    function disable(target) {
-        var state = $.data(target, "codemirror"), opts = state.options;
-        state.cm.setOption("disabled", true);
-        state.cm.setOption("readOnly", true);
-        opts.readOnly = true;
-        opts.disabled = true;
+    function setDisabled(target, disabled) {
+        var state = $.data(target, "codemirror"), opts = state.options, d = disabled ? true : false;
+        state.panel[d ? "addClass" : "removeClass"]("codemirror-disabled");
+        state.cm.setOption("disabled", d);
+        state.cm.setOption("readOnly", d);
+        opts.readOnly = d;
+        opts.disabled = d;
     };
 
     function getValue(target, separator) {
@@ -594,6 +592,101 @@
 
 
 
+    function hideTip(target) {
+        var state = $.data(target, "codemirror");
+        state.tip = false;
+        state.wrapper.tooltip("hide");
+    };
+
+    function showTip(target) {
+        var state = $.data(target, "codemirror"), opts = state.options;
+        state.wrapper.tooltip($.extend({}, opts.tipOptions, { content: opts.missingMessage, position: opts.tipPosition, deltaX: opts.deltaX })).tooltip("show");
+        state.tip = true;
+    };
+
+    function repositionTip(target) {
+        var state = $.data(target, "codemirror");
+        if (state && state.tip) {
+            state.wrapper.tooltip("reposition");
+        }
+    };
+
+    function initializeValidate(target) {
+        var t = $(target), state = $.data(target, "codemirror"), opts = state.options;
+        state.wrapper.unbind(".codemirror");
+        if (opts.novalidate) {
+            return;
+        }
+        state.wrapper.bind("focus.codemirror", function () {
+            state.validating = true;
+            state.value = undefined;
+            (function () {
+                if (state.validating) {
+                    var value = t.codemirror("getValue");
+                    if (state.value != value) {
+                        state.value = value;
+                        if (state.timer) {
+                            clearTimeout(state.timer);
+                        }
+                        state.timer = setTimeout(function () { t.codemirror("validate"); }, opts.delay);
+                    } else {
+                        repositionTip(target);
+                    }
+                    setTimeout(arguments.callee, 200);
+                }
+            })();
+        }).bind("blur.codemirror", function () {
+            if (state.timer) {
+                clearTimeout(state.timer);
+                state.timer = undefined;
+            }
+            state.validating = false;
+            hideTip(target);
+        }).bind("mouseenter.codemirror", function () {
+            if (state.wrapper.hasClass("codemirror-invalid")) {
+                showTip(target);
+            }
+        }).bind("mouseleave.codemirror", function () {
+            if (!state.validating) {
+                hideTip(target);
+            }
+        });
+    };
+
+    function validate(target) {
+        var t = $(target), state = $.data(target, "codemirror"), opts = state.options,
+            value = t.codemirror("getValue");
+        state.wrapper.removeClass("codemirror-invalid");
+        hideTip(target);
+        if (!opts.novalidate && opts.required && $.string.isNullOrWhiteSpace(value) && !t.is(":disabled") && !state.wrapper.hasClass("codemirror-disabled")) {
+            state.wrapper.addClass("codemirror-invalid");
+            if (state.validating) {
+                showTip(target);
+            }
+            return false;
+        }
+        return true;
+    };
+
+    function setValidation(target, novalidate) {
+        var state = $.data(target, "codemirror"), opts = state.options;
+        if (novalidate != undefined && novalidate != null) {
+            opts.novalidate = novalidate;
+        }
+        if (opts.novalidate) {
+            state.wrapper.removeClass("codemirror-invalid");
+            hideTip(target);
+        }
+        initializeValidate(target);
+    };
+
+
+
+
+
+
+
+
 
     function loader(param, success, error) {
         var opts = $(this).codemirror("options");
@@ -715,16 +808,19 @@
     $.fn.codemirror.parseOptions = function (target) {
         return $.extend({}, $.fn.panel.parseOptions(target), $.parser.parseOptions(target, [
             "width", "height", "value", "mode", "theme", "keyMap", "fontSize", "lineHeight", "url",
+            "missingMessage", "tipPosition",
             {
                 fit: "boolean", disabled: "boolean", smartIndent: "boolean", indentWithTabs: "boolean", electricChars: "boolean",
                 rtlMoveVisually: "boolean", lineWrapping: "boolean", lineNumbers: "boolean", fixedGutter: "boolean",
                 coverGutterNextToScrollbar: "boolean", readOnly: "boolean", showCursorWhenSelecting: "boolean", autofocus: "boolean",
-                dragDrop: "boolean", resetSelectionOnContextMenu: "boolean", flattenSpans: "boolean", addModeClass: "boolean"
+                dragDrop: "boolean", resetSelectionOnContextMenu: "boolean", flattenSpans: "boolean", addModeClass: "boolean",
+                required: "boolean", novalidate: "boolean"
             },
             {
                 indentUnit: "number", tabSize: "number", firstLineNumber: "number", undoDepth: "number", historyEventDelay: "number",
                 tabindex: "number", cursorBlinkRate: "number", cursorScrollMargin: "number", cursorHeight: "number", workTime: "number",
-                workDelay: "number", pollInterval: "number", maxHighlightLength: "number", viewportMargin: "number"
+                workDelay: "number", pollInterval: "number", maxHighlightLength: "number", viewportMargin: "number",
+                deltaX: "number"
             }
         ]));
     };
@@ -736,7 +832,7 @@
 
         panel: function (jq) { return $.data(jq[0], "codemirror").panel; },
 
-        wrapper: function (jq) { return $.data(jq[0], "codemirror").wrapper; },
+        textarea: function (jq) { return $.data(jq[0], "codemirror").textarea; },
 
         cm: function (jq) { return $.data(jq[0], "codemirror").cm; },
 
@@ -758,10 +854,10 @@
         hide: function (jq) { return jq.each(function () { hide(this); }); },
 
         //
-        enable: function (jq) { return jq.each(function () { enable(this); }); },
+        enable: function (jq) { return jq.each(function () { setDisabled(this, false); }); },
 
         //
-        disable: function (jq) { return jq.each(function () { disable(this); }); },
+        disable: function (jq) { return jq.each(function () { setDisabled(this, true); }); },
 
         //  
         getValue: function (jq, separator) { return getValue(jq[0], separator); },
@@ -932,7 +1028,7 @@
 
         //  return: object
         getHistory: function (jq) { return getHistory(jq[0]); },
-        
+
         //  history: object
         setHistory: function (jq, history) { return jq.each(function () { setHistory(this, history); }); },
 
@@ -1097,7 +1193,16 @@
         getScrollerElement: function (jq) { return getScrollerElement(jq[0]); },
 
         //  return: Element
-        getGutterElement: function (jq) { return getGutterElement(jq[0]); }
+        getGutterElement: function (jq) { return getGutterElement(jq[0]); },
+
+
+        validate: function (jq) { return jq.each(function () { validate(this); }); },
+
+        isValid: function (jq) { return validate(jq[0]); },
+
+        enableValidation: function (jq) { return jq.each(function () { setValidation(this, false) }); },
+
+        disableValidation: function (jq) { return jq.each(function () { setValidation(this, true) }); }
     };
 
     $.fn.codemirror.defaults = $.extend({}, $.fn.panel.defaults, {
@@ -1239,6 +1344,16 @@
         loader: loader,
 
         loadFilter: function (data) { return data; },
+
+
+        required: false,
+        missingMessage: "该编辑框不能为空.",
+        //  "left", "right", "top", "bottom"
+        tipPosition: "right",
+        deltaX: 0,
+        tipOptions: $.fn.validatebox.defaults.tipOptions,
+        novalidate: false,
+
 
         onResize: function (width, height) { },
 

@@ -1,6 +1,8 @@
 ﻿[
     { "type": "label", "options": { "text": "用户名：" } },
     { "type": "textbox", "id": "userName", "options": { "width": 100 } },
+    "-",
+    { "type": "combobox", "options": { "width": 100, "value": 2, "data": [{ "value": 1, "text": 1 }, { "value": 2, "text": 2 }, { "value": 3, "text": 3 }] }  },
     "密码：",
     { "type": "textbox", "id": "password", "options": { "width": 100 }, "htmlAttr": { "type": "password" } },
     "-",

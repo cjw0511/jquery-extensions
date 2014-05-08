@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2014-05-03
+* 最近更新：2014-05-07
 *
 * 依赖项：jquery 1.9.x/2.x late
 *
@@ -476,12 +476,12 @@
         } catch (e) {
             if (coreUtil.isFunction(opts.error)) {
                 var a = opts.tryError ? coreUtil.tryExec(opts.error) : opts.error(e);
-                if (a != null && a != undefined) { ret = a; }
+                if (a != undefined) { ret = a; }
             }
         } finally {
             if (coreUtil.isFunction(opts.final)) {
                 var b = opts.tryFinal ? coreUtil.tryExec(opts.final) : opts.final();
-                if (b != null && b != undefined) { ret = b; }
+                if (b != undefined) { ret = b; }
             }
         }
         return ret;
@@ -2398,25 +2398,25 @@
                 break;
             case "dd":
             case "d":
-                d = parseInt((value - date) / 86400000);
+                d = parseInt((value.getTime() - date.getTime()) / 86400000);
                 break;
             case "wk":
             case "ww":
-                d = parseInt((value - date) / (86400000 * 7));
+                d = parseInt((value.getTime() - date.getTime()) / (86400000 * 7));
                 break;
             case "hh":
-                d = parseInt((value - date) / 3600000);
+                d = parseInt((value.getTime() - date.getTime()) / 3600000);
                 break;
             case "mi":
             case "n":
-                d = parseInt((value - date) / 60000);
+                d = parseInt((value.getTime() - date.getTime()) / 60000);
                 break;
             case "ss":
             case "s":
-                d = parseInt((value - date) / 1000);
+                d = parseInt((value.getTime() - date.getTime()) / 1000);
                 break;
             case "ms":
-                d = value - date;
+                d = value.getTime() - date.getTime();
                 break;
             default:
                 throw "传入的参数 datepart 为不可识别的值。";
@@ -2731,12 +2731,12 @@
         return ret;
     };
     coreUtil.getTopJquery = function () {
-        if (coreUtil.isTopMost) { return $; }
+        if (coreUtil.isUtilTop) { return $; }
         var w = window;
         while (coreUtil.hasParentJquery(w) && w != w.parent) { w = w.parent; }
         return w.jQuery;
     };
-    var topJquery = coreUtil.isTopMost ? $ : coreUtil.getTopJquery();
+    var topJquery = coreUtil.getTopJquery();
 
     //  获取当前页面所在顶级窗口的 jQuery 对象；如果顶级窗口不存在 jQuery 对象或者 jQuery 对象无法访问(例如跨域情况下) 则返回次级 jQuery 对象；以此类推；
     coreUtil.$ = coreUtil.jQuery = coreUtil.topJquery = topJquery;
@@ -2753,7 +2753,7 @@
     //  如果当前页面为顶级页面或当前页面的父级页面和当前页面不在同一个域下，则返回 null。
     coreUtil.currentFrameUniqueID = null;
     coreUtil.getCurrentFrame = function () {
-        if (coreUtil.isTopMost) { return null; }
+        if (coreUtil.isUtilTop) { return null; }
         var result = null;
         var frames = coreArray.merge([], top.document.getElementsByTagName("iframe"), top.document.getElementsByTagName("frame"));
         var find = function (frame) {
@@ -2769,9 +2769,9 @@
         $.each(frames, function () { result = find(this); return result == null; });
         return result;
     };
-    if (!coreUtil.isTopMost) { coreUtil.currentFrame = coreUtil.getCurrentFrame(); }
-    if (coreUtil.currentFrame != null) { coreUtil.currentFrameId = coreUtil.currentFrame.id; }
-    if (coreUtil.currentFrame != null) { coreUtil.currentFrameUniqueID = coreUtil.getElementUniqueID(coreUtil.currentFrame); }
+    coreUtil.currentFrame = coreUtil.getCurrentFrame();
+    if (coreUtil.currentFrame) { coreUtil.currentFrameId = coreUtil.currentFrame.id; }
+    if (coreUtil.currentFrame) { coreUtil.currentFrameUniqueID = coreUtil.getElementUniqueID(coreUtil.currentFrame); }
 
     //  获取当前焦点对象；
     coreUtil.getActiveElement = function () { return $(document.activeElement); };
@@ -2935,7 +2935,7 @@
     coreUtil.parseJSON = function (data) {
         var val = null;
         var isString = coreUtil.isString(data);
-        if (coreUtil.isPlainObject(data) || (coreUtil.likeArray(data) && !isString)) {
+        if (coreUtil.isPlainObject(data) || (coreUtil.likeArrayNotString(data))) {
             val = coreUtil.isPlainObject(data.d) ? coreUtil.parseJSON(data.d) : data;
         } else {
             val = $.parseJSON(isString ? coreString.toJSONString(data) : $(data).text());
@@ -3462,7 +3462,9 @@
     //  初始化浏览器的自动给 DOM 元素创建全局唯一标识符 uniqueID 功能；
     if (_enableUniqueID) {
         $(function () {
-            if (!coreUtil.isTopMost && coreUtil.currentFrame && coreUtil.currentFrame != null) { coreUtil.initElementUniqueID(coreUtil.currentFrame); }
+            if (coreUtil.currentFrame) {
+                coreUtil.initElementUniqueID(coreUtil.currentFrame);
+            }
             coreUtil.setEnableUniqueID(_enableUniqueID);
         });
     }
