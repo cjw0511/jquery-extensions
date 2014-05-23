@@ -1,6 +1,30 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2014-05-23(1.0.51 preview) ********/
+1、[#] 修复插件 jquery.ueditor.js 和插件 jquery.euploadify.js 中 show、hide 方法存在 BUG 的问题；
+2、[+] 扩展 jeasyui.extensions.datagrid.js 和扩展 jeasyui.extensions.treegrid.js 中，增加属性 autoEditingEvent，用于控制当自动行编辑功能启用时，触发行编辑的事件
+    是 onDblClickRow 还是 onClickRow；
+3、[+] 扩展 jeasyui.extensions.datagrid.js 和扩展 jeasyui.extensions.treegrid.js 中，增加方法 isEditing，用于判断指定的行是否当前正开启编辑妆台；
+4、[+] 扩展 jeasyui.extensions.datagrid.js 中，增加方法 getEditingRowIndex、getEditingRowIndexs，用于获取当前表格中开启了行编辑状态的行索引号；
+5、[+] 扩展 jeasyui.extensions.treegrid.js 中，增加方法 getEditingNodeId、getEditingNodeIds，用于获取当前表格中开启了行编辑状态的行节点 id 值；
+6、[+] 扩展 jeasyui.extensions.datagrid.js 和扩展 jeasyui.extensions.treegrid.js 中，增加属性 finishEditOnBlur、finishEditLocale、finishEditEvent，用于控制表格在失去
+    焦点时，是否自动退出行编辑状态；
+
+
+/******** 2014-05-17(1.0.50 preview) ********/
+1、【^】 扩展插件 jquery.ueditor.js 中，其 ueditor 依赖库由 1.3.6 升级至 1.4.2，同时 jquery.ueditor.js 插件支持 ueditor1.4.2 中的最新属性和方法；
+2、[^] 通过调整 ueditor_1.4.2_net 版本下的 Config.cs 源码，使得 config.json 文件中的所有 UrlPrefix 属性配置项(共 8 个)无效，自动变更为 controller.ashx 文件所在
+    目录，通过这种方式，避免了每次调整 ueditor 安装目录后都需要需改 config.json 文件中关于 UrlPrefix 相关配置项的问题。
+3、[#] 修复扩展插件 jquery.ueditor.js 在表单验证不通过的情况下，验证提醒样式表现不正确的问题；
+
+
+/******** 2014-05-12(1.0.49 preview) ********/
+1、[-] 删除插件 ue1.3.6-utf8-php 和 jquery-easyui 旧版本库 jquery-easyui-1.3.4/jquery-easyui-1.3.5 以节约磁盘空间；
+2、【+】 为 jquery.euploadiyf.js 插件增加全局方法 $.easyui.showUploadDialog 用以快速创建文件上传对话框；
+3、【+】 为 jquery.ueditor.js 插件增加全局方法 $.easyui.showUeditorDialog 用以快速创建HTML富文本编辑对话框；
+
+
 /******** 2014-05-09(1.0.48 preview) ********/
 1、【^】 完善扩展插件 jquery.euploadify.js 的 API 方法，同时使该插件支持 jquery.form.js 插件的表单方法(submit、load、clear、validate，需
     插件 jeasyui.extensions.form.js 支持)，同时定义该插件的服务器代码数据返回格式约定；

@@ -28,9 +28,41 @@
                 $("#euploadify3").euploadify("destroy");
             });
 
+            $("#btn7").click(function () {
+                $("#euploadify3").euploadify("show");
+            });
+
+            $("#btn8").click(function () {
+                $("#euploadify3").euploadify("hide");
+            });
+
+
 
             $("#btn21").click(function () {
                 t.euploadify("setFormData", {});
+            });
+
+
+            $("#btn22").click(function () {
+                $.easyui.showEuploadifyDialog({
+                    multi: false, auto: false,
+                    swf: '../plugins/uploadify/uploadify.swf',
+                    uploader: '../plugins/uploadify/net/uploadify.ashx',
+                    onEnter: function (val) {
+                        alert(val);
+                    }
+                });
+            });
+
+            $("#btn23").click(function () {
+                $.easyui.showEuploadifyDialog({
+                    multi: true, auto: false,
+                    swf: '../plugins/uploadify/uploadify.swf',
+                    uploader: '../plugins/uploadify/net/uploadify.ashx',
+                    onEnter: function (val) {
+                        alert(val);
+                    }
+                });
             });
 
 
@@ -80,8 +112,12 @@
     <input id="btn4" type="button" value="resize-euploadify3" />
     <input id="btn5" type="button" value="destroy-euploadify2" />
     <input id="btn6" type="button" value="destroy-euploadify3" />
+    <input id="btn7" type="button" value="show-euploadify3" />
+    <input id="btn8" type="button" value="hide-euploadify3" />
     <hr />
     <input id="btn21" type="button" value="setFormData" />
+    <input id="btn22" type="button" value="showEuploadifyDialog-generic" />
+    <input id="btn23" type="button" value="showEuploadifyDialog" />
     <hr />
     <input id="btn41" type="button" value="validate" />
     <input id="btn42" type="button" value="validate-form" />

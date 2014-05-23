@@ -112,10 +112,44 @@
             });
 
             $("#btn103").click(function () {
-                var d = $.easyui.showDialog({
-                    content: "<div class=\"uuu\"></div>"
+                var ue = null,
+                    d = $.easyui.showDialog({
+                        content: "<div class=\"uuu\"></div>",
+                        onMove: function () {
+                            var ret = $.fn.dialog.defaults.onMove.apply(this, arguments);
+                            if (ue && ue.fontset && !ue.fontset.dialog("options").closed) {
+                                var offset = $(ue.container).offset();
+                                ue.fontset.dialog("open").dialog("move", { top: offset.top - 50, left: offset.left })
+                            }
+                            return ret;
+                        },
+                        onClose: function () {
+                            var ret = $.fn.dialog.defaults.onClose.apply(this, arguments);
+                            if (ue && ue.fontset) {
+                                ue.fontset.dialog("close");
+                            }
+                            return ret;
+                        },
+                        onBeforeDestroy: function () {
+                            var ret = $.fn.dialog.defaults.onBeforeDestroy.apply(this, arguments);
+                            if (ue && ue.fontset) {
+                                ue.fontset.dialog("destroy");
+                            }
+                            return ret;
+                        }
+                    });
+                ue = d.find(".uuu").ueditor({ fit: true, border: false, zIndex: 20000, template: 'simple', codeMirrorJsUrl: false, codeMirrorCssUrl: false }).ueditor("editor");
+            });
+
+            $("#btn104").click(function () {
+                $.easyui.showUeditorDialog({
+                    codeMirrorJsUrl: false, codeMirrorCssUrl: false,
+                    value: 123,
+                    template: "simple", topMost: true,
+                    onEnter: function (val, editor, btn) {
+                        alert(val);
+                    }
                 });
-                d.find(".uuu").ueditor({ fit: true, border: false, zIndex: 20000, template: 'simple' });
             });
         });
     </script>
@@ -149,7 +183,8 @@
     <hr />
     <input id="btn101" type="button" value="getValue" />
     <input id="btn102" type="button" value="getData" />
-    <input id="btn103" type="button" value="showUeditorDialog" />
+    <input id="btn103" type="button" value="showUeditorDialog-generic" />
+    <input id="btn104" type="button" value="showUeditorDialog" />
     <hr />
     <input id="t2" name="t2" type="text" value="tt2" />
     <input id="t3" name="t3" type="text" class="easyui-searchbox" data-options="required: true" value="tt3" />
@@ -158,8 +193,11 @@
     <input id="t6" name="t6" type="text" class="easyui-comboicons" data-options="required: true" value="tt6" />
     <hr />
     <div id="t1" name="t1" class="easyui-ueditor" data-options="
-         width: 1000, height: 500, //border: true,
+         width: 600, height: 240,
          value: '123',
+         //emotionLocalization: true,
+         codeMirrorJsUrl: false,
+         codeMirrorCssUrl: false,
          required: true,
          template: 'simple'
          ">asdf</div>

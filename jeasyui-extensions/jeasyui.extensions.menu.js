@@ -11,7 +11,7 @@
 * jQuery EasyUI menu 组件扩展
 * jeasyui.extensions.menu.js
 * 二次开发 流云
-* 最近更新：2014-04-30
+* 最近更新：2014-05-13
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -604,7 +604,8 @@
                 left: window.event ? window.event.clientX : 0,
                 top: window.event ? window.event.clientY : 0,
                 hideOnUnhover: false,
-                slideOut: false, items: null, hideDisabledMenu: false, minWidth: 140
+                slideOut: false, autoDestroy: true,
+                items: null, hideDisabledMenu: false, minWidth: 140
             }, options || {});
         opts.items = $.util.likeArrayNotString(opts.items) ? opts.items : [];
         if (opts.id) { menu.attr("id", opts.id); }
@@ -680,7 +681,8 @@
         //                      函数中 this 指向触发事件的对象本身
         //                  另，如果同时定义了 onclick 和 handler，则只处理 handler 而不处理 onclick，所以请不要两个回调函数属性同时使用。
         //              children: 同上一级对象的 items 属性，为一个 Array 对象；
-        //          slideOut:   一个 Boolean 类型值，表示菜单是否以滑动方式显示出来；默认为 false。
+        //          slideOut:   一个 Boolean 类型值，表示菜单是否以滑动方式显示出来；默认为 false；
+        //          autoDestroy: Boolean 类型值，表示菜单是否在隐藏时自动销毁，默认为 true；
         //  返回值：返回一个 JSON 格式对象，该返回的对象中具有如下属性：
         //      menu: 依据于传入参数 options 构建出的菜单 DOM 元素对象，这是一个 jQuery 对象，该对象未初始化为 easyui-menu 控件，而只是具有该控件的 DOM 结构；
         //      options: 传入参数 options 解析后的结果，该结果尚未用于但可用于初始化 menu 元素。
@@ -696,7 +698,9 @@
             opts.onHide = function () {
                 var m = $(this);
                 if ($.isFunction(onHide)) { onHide.apply(this, arguments); }
-                $.util.exec(function () { m.menu("destroy"); });
+                if (opts.autoDestroy) {
+                    $.util.exec(function () { m.menu("destroy"); });
+                }
             };
             mm.menu("show", { left: opts.left, top: opts.top });
             if (opts.slideOut) {

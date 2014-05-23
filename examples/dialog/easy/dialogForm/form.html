@@ -1,7 +1,18 @@
-﻿<fieldset style="margin: 10px; min-width: 450px;">
+﻿
+<style type="text/css">
+    fieldset#ff {
+        margin: 10px;
+        min-width: 450px;
+    }
+
+    fieldset#ff * {
+        vertical-align: middle;
+    }
+</style>
+<fieldset id="ff">
     <legend>请填写表单</legend>
     <span>姓名：</span>
-    <input name="Text1" type="text" class="easyui-validatebox" data-options="required: true" />
+    <input name="Text1" type="text" class="easyui-validatebox" data-options="required: true, autoFocus: true" />
     <span>年龄：</span>
     <input name="Text2" type="text" class="easyui-numberbox" data-options="required: true, prompt: '请输入年龄'" /><hr />
     <span>学历：</span>

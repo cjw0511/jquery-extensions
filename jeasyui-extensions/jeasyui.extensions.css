@@ -138,8 +138,13 @@ ul.icon-selector-ul li.selected { border-color: Red; background-color: rgb(221, 
 
 /*jquery.ueditor.js*/
 .ueditor-panel { overflow: hidden; }
+.ueditor-panel .edui-editor.edui-default { border-width: 0; }
 .ueditor-disabled { filter: alpha(opacity=60); opacity: 0.6; }
-.edui-default .edui-editor.ueditor-invalid { border: 1px solid red; }
+.ueditor-panel:not(.panel-body-noborder).ueditor-invalid { border: 1px solid red; }
+.ueditor-panel.ueditor-invalid { *border: 1px solid red; }
+.ueditor-panel.panel-body-noborder.ueditor-invalid .edui-default .edui-editor { border: 1px solid red; }
+.ueditor-panel.panel-body-noborder.ueditor-invalid .edui-default .edui-editor { *border-width: 0; }
+
 .ueditor-fontset-container { padding: 5px; }
 .ueditor-fontset-container>* { vertical-align: middle; margin-left: 2px; }
 

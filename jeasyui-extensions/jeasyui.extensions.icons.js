@@ -11,7 +11,7 @@
 * jQuery EasyUI icons 组件扩展
 * jeasyui.extensions.icons.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-05-12
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -58,7 +58,7 @@
                 saveButtonText: "确定",
                 saveButtonIconCls: "icon-ok",
                 enableApplyButton: false,
-                topMost: true,
+                //topMost: true,
                 onSave: function () { if ($.isFunction(opts.onEnter)) { return opts.onEnter.call(this, value); } }
             }));
         $.util.exec(function () {

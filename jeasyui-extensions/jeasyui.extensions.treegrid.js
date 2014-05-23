@@ -11,7 +11,7 @@
 * jQuery EasyUI treegrid 组件扩展
 * jeasyui.extensions.treegrid.js
 * 二次开发 流云
-* 最近更新：2014-05-09
+* 最近更新：2014-05-23
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -205,6 +205,25 @@
     var isSelected = function (target, id) {
         var t = $(target), opts = t.treegrid("options"), rows = t.treegrid("getSelections");
         return $.array.contains(rows, id, function (val) { return val[opts.idField] == id; });
+    };
+
+    var isEditing = function (target, id) {
+        var t = $(target), panel = t.treegrid("getPanel");
+        return panel.find("div.datagrid-view div.datagrid-body table tr.datagrid-row[node-id=" + id + "]").hasClass("datagrid-row-editing");
+    };
+
+    var getEditingNodeId = function (target) {
+        var array = getEditingNodeIds(target);
+        return array.length ? array[0] : undefined;
+    };
+
+    var getEditingNodeIds = function (target) {
+        var t = $(target), panel = t.treegrid("getPanel"),
+            rows = panel.find("div.datagrid-view div.datagrid-body table tr.datagrid-row.datagrid-row-editing").map(function () {
+                return $(this).attr("node-id");
+            }),
+            array = $.array.distinct($.array.clone(rows));
+        return array;
     };
 
     var isRootNode = function (target, id) {
@@ -1307,10 +1326,30 @@
                     return handler(null, row, eventData, t, item, null);
                 }
             }
-            if (opts.autoEditing) { t.treegrid("beginEdit", row[opts.idField]); }
+            //if (opts.autoEditing) { t.treegrid("beginEdit", row[opts.idField]); }
         };
     };
     /************************  initDblClickRow   End  ************************/
+
+    function initAutoEditingEvent(t, opts, exts) {
+        exts[opts.autoEditingEvent] = opts[opts.autoEditingEvent];
+        opts[opts.autoEditingEvent] = function (row) {
+            if ($.isFunction(exts[opts.autoEditingEvent])) { exts[opts.autoEditingEvent].apply(this, arguments); }
+            if (opts.autoEditing) { t.treegrid("beginEdit", row[opts.idField]); }
+        }
+    }
+
+    function initFinishEditEvent(t, opts, exts) {
+        $(opts.finishEditLocale).click(function (e) {
+            if (opts.finishEditOnBlur) {
+                var body = t.treegrid("getPanel"), rows = t.treegrid("getEditingNodeIds");
+                if (!$.contains(body[0], e.target)) {
+                    $.each(rows, function (ii, id) { t.treegrid(opts.finishEditMethod, id); });
+                }
+            }
+        });
+    };
+
 
     var initTreeGridExtensions = $.fn.treegrid.extensions.initTreeGridExtensions = function (t, opts, exts) {
         opts = opts || t.treegrid("options");
@@ -1472,11 +1511,15 @@
         initOffset();
         initContextMenu();
         initDblClickRow();
+        initAutoEditing();
+        initFinishEdit();
         initTreeExtensions();
         function initColumnExtensions() { $.fn.datagrid.extensions.initColumnExtendProperties(t, exts); };
         function initOffset() { t.treegrid("setOffset", opts.offset); };
         function initContextMenu() { initHeaderContextMenu(t, opts, exts); initRowContextMenu(t, opts, exts); initHeaderClickMenu(t, opts, exts); };
         function initDblClickRow() { initDblClickRowEvent(t, opts, exts); };
+        function initAutoEditing() { initAutoEditingEvent(t, opts, exts); };
+        function initFinishEdit() { initFinishEditEvent(t, opts, exts); };
         function initTreeExtensions() { initTreeGridExtensions(t, opts, exts); };
 
         var rows = t.datagrid("getRows");
@@ -1594,6 +1637,18 @@
         //  扩展 easyui-treegrid 的自定义方法；判断指定的 tree-node 是否被 select；该方法的参数 id 表示要判断的节点的 idField 值；
         //  返回值：如果参数 id 所表示的 tree-node 被 select，则返回 true，否则返回 false。
         isSelected: function (jq, id) { return isSelected(jq[0], id); },
+
+        //  扩展 easyui-treegrid 的自定义方法；判断指定的 tree-node 是否开启行编辑状态；该方法的参数 id 表示要判断的节点的 idField 值；
+        //  返回值：如果参数 id 所表示的 tree-node 正开启行编辑状态，则返回 true，否则返回 false。
+        isEditing: function (jq, id) { return isEditing(jq[0], id); },
+
+        //  扩展 easyui-treegrid 的自定义方法；获取当前表格中第一个开启了编辑状态的 tree-node 的节点 id 值(idField 属性所示值)；
+        //  返回值：如果当前表格中存在开启了行编辑状态的行，则返回第一个编辑行 tree-node 的节点 id；否则返回 undefined。
+        getEditingNodeId: function (jq) { return getEditingNodeId(jq[0]); },
+
+        //  扩展 easyui-treegrid 的自定义方法；获取当前表格中所有开启了行编辑状态的 tree-node 的节点 id 值(idField 属性所示值)；
+        //  返回值：返回一个数组，数组中包含当前表格中所有已经开启了行编辑状态的 tree-node 的节点 id；
+        getEditingNodeIds: function (jq) { return getEditingNodeIds(jq[0]); },
 
         //  扩展 easyui-treegrid 的自定义方法；判断指定的 tree-node 是否为根节点；该方法定义如下参数：
         //      id: 用于判断的 tree-node 对象的 idField 值。
@@ -2178,8 +2233,26 @@
 
         //  增加 easyui-treegrid 的自定义扩展属性，该属性表示在双击 data-row(数据行) 时，是否自动启用该行的编辑功能(执行 beginEdit 操作)；
         //  Boolean 类型值，默认为 false。
-        //  注意：当 autoBindDblClickRow 属性设置为 true 且菜单项满足其触发条件时，autoEditing 的双击行时自动启用编辑效果将不会触发。
         autoEditing: false,
+
+        //  增加 easyui-treegrid 的自定义扩展属性，该属性表示在 autoEditing: true 时自动触发行编辑效果的事件(双击行还是单击行)。
+        //  String 类型值，可选的值为 "onClickRow" 和 "onDblClickRow"，默认为 "onDblClickRow"
+        //  注意：该参数仅在 autoEditing: true 时才有效。
+        //        因 "onDblClickRow" 在 autoBindDblClickRow: true 时会自动将右键菜单第一项绑定至行双击事件中；
+        //        所以建议在 autoBindDblClickRow: true 且行右键菜单第一项为行编辑功能时，autoEditing 设置为 false 或 autoEditingEvent 设置为 "onClickRow"
+        autoEditingEvent: "onDblClickRow",
+
+        //  增加 easyui-treegrid 的自定义扩展属性，该属性表示在表格失去焦点(逻辑上失去焦点，实际上是判断页面上表格外的其他部分被点击)后，表格是否自动关闭行编辑状态。
+        //  Boolean 类型值，默认为 true。
+        finishEditOnBlur: true,
+
+        //  增加 easyui-treegrid 的自定义扩展属性，该属性表示当 finishEditOnBlur: true，点击哪个区域会导致当前表格自动关闭行编辑状态。
+        //  该属性可以是一个 HTML-DOM 对象、也可以是一个 jQuery-DOM 对象、或者一个 jquery-DOM selector。默认为 window.document。
+        finishEditLocale: window.document,
+
+        //  增加 easyui-treegrid 的自定义扩展属性，该属性表示当 finishEditOnBlur: true 时并且在表格失去焦点后将要触发表格自动关闭行编辑状态时，关闭行编辑状态所使用的方法。
+        //  String 类型值，可选的值为 "endEdit" 或 "cancelEdit"，默认为 "endEdit"。
+        finishEditMethod: "endEdit",
 
         //  增加 easyui-treegrid 的自定义扩展属性，该属性表示是否在一个时刻只允许一行数据开启编辑状态(当某行数据开启编辑状态时，其他正在编辑的行将会被自动执行 endEdit 操作)；
         //  Boolean 类型值，默认为 true。

@@ -2,6 +2,24 @@
     #demo.panel-container {
         padding: 0;
     }
+
+    .button-mini {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        border-width: 1px;
+        border-color: #FFFFFF;
+        border-style: solid;
+        display: inline-block;
+    }
+    .button-mini:hover {
+        border-color: red;
+    }
+    .button-mini-icon {
+        line-height: 16px;
+        padding-left: 16px;
+        display: inline-block;
+    }
 </style>
 
 <div id="ll" class="easyui-layout" data-options="fit: true">
@@ -36,6 +54,7 @@
                 height: 400,
                 method: "get",
                 url: "datagrid/datagrid-data.json",
+                singleSelect: true,
                 idField: 'ID',
                 remoteSort: false,
                 rownumbers: true,
@@ -53,11 +72,17 @@
                     { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true },
                     {
                         field: 'operator', title: '测试(不存在的字段)', width: 140, formatter: function (val, row, index) {
-                            return "<a class='l-btn l-btn-plain'><span class='l-btn-left'><span class='l-btn-text icon-ok l-btn-icon-left'>操作</span></span></a>";
+                            var html = '<div title="取消" class="button-mini" onclick="javascript: return window.editEmployee(' + row.ID + ');"><span class="button-mini-icon icon-edit">&nbsp;</span></div>';
+                            return html;
                         }
                     }
                 ]],
                 rowContextMenu: [
+                    {
+                        text: "编辑", iconCls: "icon-edit", handler: function (e, i, row) {
+                            window.editEmployee(row.ID);
+                        }
+                    },
                     {
                         text: "平均身高", iconCls: "", handler: function (e, index, row) {
                             var val = t.datagrid("getRows").avg(function (r) { return r.Height; }).round(2);
@@ -72,6 +97,11 @@
                     },
                 ]
             });
+
+            window.editEmployee = function (id) {
+                var row = t.datagrid("getRowData", id);
+                $.easyui.showOption(row);
+            };
 
             $("#btn1").click(function () {
                 $.easyui.messager.show("...");

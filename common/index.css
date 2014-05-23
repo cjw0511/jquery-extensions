@@ -19,17 +19,19 @@
 
 .nav-menu { vertical-align: middle; }
 .nav-menu>* { padding-left: 10px; }
-/*.nav-menu { padding-left: 10px; }
 .nav-menu-icon { padding-left: 25px; background-position: left center; }*/
 
-#mainTabs>div.tabs-header { border-right-width: 0; }
-#mainTabs>div.tabs-header>div.tabs-scroller-left,#mainTab>div.tabs-header>div.tabs-scroller-right { border-left-width: 0; }
-
-#navTabs>div.tabs-header { border-right-width: 0; }
+.tabs-container .tabs-header .tabs-scroller-left { border-top-width: 0; border-left-width: 0; }
+.tabs-container .tabs-header .tabs-scroller-right { border-top-width: 0; border-right-width: 0; }
+.tabs-container .tabs-tool { border-top-width: 0; border-right-width: 0; }
 .tabs-tool table { border-width: 0; border-collapse: collapse; border-spacing: 0; }
 .tabs-tool table td { padding: 0; }
 
-#mainLayout>div.layout-panel-east>div.panel-header { border-left-width: 0; }
+
+/*限制 easyui-tabs 选项卡页签的宽度*/
+/*.tabs-container .tabs-header .tabs-wrap .tabs li a.tabs-inner { max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }*/
+
+
 #eastLayout>div.layout-panel-center>div.panel-header { border-top-width: 0; }
 
 .portlet-list { padding-left: 20px; margin: 5px; line-height: 20px; }

@@ -11,7 +11,7 @@
 * jQuery EasyUI comboicons 插件扩展
 * jquery.comboicons.js
 * 二次开发 流云
-* 最近更新：2014-05-05
+* 最近更新：2014-05-12
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -146,7 +146,8 @@
         iconCls: "icon-hamburg-zoom",
         panelWidth: 500,
         panelHeight: 360,
-        autoShowPanel: false
+        autoShowPanel: false,
+        editable: false
     });
 
 

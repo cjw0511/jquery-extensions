@@ -11,7 +11,7 @@
 * jQuery EasyUI datagrid 组件扩展
 * jeasyui.extensions.datagrid.js
 * 二次开发 流云
-* 最近更新：2014-04-29
+* 最近更新：2014-05-23
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -99,6 +99,25 @@
         var t = $(target), rows = t.datagrid("getSelections"),
             list = $.array.map(rows, function (val) { return t.datagrid("getRowIndex", val); });
         return $.array.contains(list, index);
+    };
+
+    var isEditing = function (target, index) {
+        var t = $(target), panel = t.datagrid("getPanel");
+        return panel.find("div.datagrid-view div.datagrid-body table tr.datagrid-row[datagrid-row-index=" + index + "]").hasClass("datagrid-row-editing");
+    };
+
+    var getEditingRowIndex = function (target) {
+        var array = getEditingRowIndexs(target);
+        return array.length ? array[0] : -1;
+    };
+
+    var getEditingRowIndexs = function (target) {
+        var t = $(target), panel = t.datagrid("getPanel"),
+            rows = panel.find("div.datagrid-view div.datagrid-body table tr.datagrid-row.datagrid-row-editing").map(function () {
+                return window.parseInt($(this).attr("datagrid-row-index"));
+            }),
+            array = $.array.distinct($.array.clone(rows));
+        return array;
     };
 
     var freezeColumn = function (target, field) {
@@ -1087,8 +1106,27 @@
                     return handler(null, rowIndex, rowData, eventData, t, item, null);
                 }
             }
-            if (opts.autoEditing) { t.datagrid("beginEdit", rowIndex); }
+            //if (opts.autoEditing) { t.datagrid("beginEdit", rowIndex); }
         };
+    };
+
+    function initAutoEditingEvent(t, opts, exts) {
+        exts[opts.autoEditingEvent] = opts[opts.autoEditingEvent];
+        opts[opts.autoEditingEvent] = function (rowIndex, rowData) {
+            if ($.isFunction(exts[opts.autoEditingEvent])) { exts[opts.autoEditingEvent].apply(this, arguments); }
+            if (opts.autoEditing) { t.datagrid("beginEdit", rowIndex); }
+        }
+    }
+
+    function initFinishEditEvent(t, opts, exts) {
+        $(opts.finishEditLocale).click(function (e) {
+            if (opts.finishEditOnBlur) {
+                var body = t.datagrid("getPanel"), rows = t.datagrid("getEditingRowIndexs");
+                if (!$.contains(body[0], e.target)) {
+                    $.each(rows, function (ii, i) { t.datagrid(opts.finishEditMethod, i); });
+                }
+            }
+        });
     };
 
 
@@ -1484,10 +1522,14 @@
         initOffset();
         initContextMenu();
         initDblClickRow();
+        initAutoEditing();
+        initFinishEdit();
         function initColumnExtensions() { initColumnExtendProperties(t, exts); };
         function initOffset() { t.datagrid("setOffset", opts.offset); };
         function initContextMenu() { initHeaderContextMenu(t, opts, exts); initRowContextMenu(t, opts, exts); initHeaderClickMenu(t, opts, exts); };
         function initDblClickRow() { initDblClickRowEvent(t, opts, exts); };
+        function initAutoEditing() { initAutoEditingEvent(t, opts, exts); };
+        function initFinishEdit() { initFinishEditEvent(t, opts, exts); };
 
         var rows = t.datagrid("getRows");
         if (!rows || !rows.length) { initHeaderColumnFilterContainer(t, opts, exts); }
@@ -1608,6 +1650,18 @@
         //  扩展 easyui-datagrid 的自定义方法；判断指定的 data-row(数据行) 是否被 select；该方法的参数 index 表示要判断的行的索引号，从 0 开始计数；
         //  返回值：如果参数 index 所表示的 data-row(数据行) 被 select，则返回 true，否则返回 false。
         isSelected: function (jq, index) { return isSelected(jq[0], index); },
+
+        //  扩展 easyui-datagrid 的自定义方法；判断指定的 data-row(数据行) 是否开启行编辑状态；该方法的参数 index 表示要判断的行的索引号，从 0 开始计数；
+        //  返回值：如果参数 index 所表示的 data-row(数据行) 正开启行编辑状态，则返回 true，否则返回 false。
+        isEditing: function (jq, index) { return isEditing(jq[0], index); },
+
+        //  扩展 easyui-datagrid 的自定义方法；获取当前表格中第一个开启了编辑状态的数据行的索引号(从 0 开始计数)；
+        //  返回值：如果当前表格中存在开启了行编辑状态的行，则返回第一个编辑行的行索引号(从 0 开始计数)；否则返回 -1。
+        getEditingRowIndex: function (jq) { return getEditingRowIndex(jq[0]); },
+
+        //  扩展 easyui-datagrid 的自定义方法；获取当前表格中所有开启了行编辑状态的行的索引号(从 0 开始计数)
+        //  返回值：返回一个数组，数组中包含当前表格中所有已经开启了行编辑状态的行的索引号(从 0 开始计数)。
+        getEditingRowIndexs: function (jq) { return getEditingRowIndexs(jq[0]); },
 
         //  扩展 easyui-datagrid 的自定义方法；冻结指定的列；该方法的参数 field 表示要冻结的列的 field 值。
         //  返回值：返回表示当前 easyui-datagrid 的 jQuery 链式对象。
@@ -2083,8 +2137,26 @@
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示在双击 data-row(数据行) 时，是否自动启用该行的编辑功能(执行 beginEdit 操作)；
         //  Boolean 类型值，默认为 false。
-        //  注意：当 autoBindDblClickRow 属性设置为 true 且菜单项满足其触发条件时，autoEditing 的双击行时自动启用编辑效果将不会触发。
         autoEditing: false,
+
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示在 autoEditing: true 时自动触发行编辑效果的事件(双击行还是单击行)。
+        //  String 类型值，可选的值为 "onClickRow" 和 "onDblClickRow"，默认为 "onDblClickRow"
+        //  注意：该参数仅在 autoEditing: true 时才有效。
+        //        因 "onDblClickRow" 在 autoBindDblClickRow: true 时会自动将右键菜单第一项绑定至行双击事件中；
+        //        所以建议在 autoBindDblClickRow: true 且行右键菜单第一项为行编辑功能时，autoEditing 设置为 false 或 autoEditingEvent 设置为 "onClickRow"
+        autoEditingEvent: "onDblClickRow",
+
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示在表格失去焦点(逻辑上失去焦点，实际上是判断页面上表格外的其他部分被点击)后，表格是否自动关闭行编辑状态。
+        //  Boolean 类型值，默认为 true。
+        finishEditOnBlur: true,
+
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示当 finishEditOnBlur: true，点击哪个区域会导致当前表格自动关闭行编辑状态。
+        //  该属性可以是一个 HTML-DOM 对象、也可以是一个 jQuery-DOM 对象、或者一个 jquery-DOM selector。默认为 window.document。
+        finishEditLocale: window.document,
+
+        //  增加 easyui-datagrid 的自定义扩展属性，该属性表示当 finishEditOnBlur: true 时并且在表格失去焦点后将要触发表格自动关闭行编辑状态时，关闭行编辑状态所使用的方法。
+        //  String 类型值，可选的值为 "endEdit" 或 "cancelEdit"，默认为 "endEdit"。
+        finishEditMethod: "endEdit",
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示是否在一个时刻只允许一行数据开启编辑状态(当某行数据开启编辑状态时，其他正在编辑的行将会被自动执行 endEdit 操作)；
         //  Boolean 类型值，默认为 true。

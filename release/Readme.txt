@@ -24,8 +24,8 @@
     10.  可选，如果需要用到 easyui-my97 插件，则需要引入如下文件
             plugins/My97DatePicker/WdatePicker.js
     11.  可选，如果需要用到 easyui-ueditor 插件，则需要引入如下文件(根据服务器语言环境的不同，以下路径中 "ue1.3.6-utf8-net" 请更换成其对应的服务语言环境版本)
-            plugins/ueditor/ue1.3.6-utf8-net/ueditor.config.js
-            plugins/ueditor/ue1.3.6-utf8-net/ueditor.all.js
-            plugins/ueditor/ue1.3.6-utf8-net/langh/zh-cn/zh-cn.js (可选，ueditor 的中文语言包)
-            plugins/ueditor/ue1.3.6-utf8-net/patch/ueditor-patch-149.js(补丁文件)
+            plugins/ueditor/ue1_4_2-utf8-net/ueditor.config.js
+            plugins/ueditor/ue1_4_2-utf8-net/ueditor.all.js
+            plugins/ueditor/ue1_4_2-utf8-net/langh/zh-cn/zh-cn.js (可选，ueditor 的中文语言包)
+            plugins/ueditor/ue1_4_2-utf8-net/patch/ueditor-patch-149.js(补丁文件)
     12. jeasyui.extensions.all.min.js

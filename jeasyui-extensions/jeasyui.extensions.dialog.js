@@ -11,7 +11,7 @@
 * jQuery EasyUI dialog 组件扩展
 * jeasyui.extensions.dialog.js
 * 二次开发 流云
-* 最近更新：2014-05-07
+* 最近更新：2014-05-12
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -63,6 +63,7 @@
         var _onClose = opts.onClose;
         opts.onClose = function () {
             if ($.isFunction(_onClose)) { _onClose.apply(this, arguments); }
+            $.fn.dialog.defaults.onClose.apply(this, arguments);
             if (opts.autoDestroy) {
                 $(this).dialog("destroy");
             }
@@ -74,7 +75,14 @@
                 var iframe = $(this).dialog("iframe");
                 resetCache(iframe[0]);
             }
-            if ($.isFunction(_onBeforeDestroy)) { _onBeforeDestroy.apply(this, arguments); }
+            var ret;
+            if ($.isFunction(_onBeforeDestroy)) {
+                ret = _onBeforeDestroy.apply(this, arguments);
+            }
+            if ($.fn.dialog.defaults.onBeforeDestroy.apply(this, arguments) == false) {
+                return false;
+            }
+            return ret;
         };
 
         if (opts.locale) { opts.inline = true; }
@@ -359,7 +367,7 @@
         locale: null,
 
         //  是否在顶级窗口打开此 easyui-dialog 组件。
-        topMost: true,
+        topMost: false,
 
         //  是否在iframe加载远程 href 页面数据
         iniframe: false,

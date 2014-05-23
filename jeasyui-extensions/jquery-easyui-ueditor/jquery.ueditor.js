@@ -11,7 +11,7 @@
 * jQuery EasyUI ueditor 插件扩展
 * jquery.ueditor.js
 * 二次开发 流云
-* 最近更新：2014-05-08
+* 最近更新：2014-05-23
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -41,7 +41,7 @@
         if (html) { textarea.val(html); }
 
         if (opts.value) {
-            opts.initialContent = opts.value;
+            opts.initialContent = String(opts.value);
         }
         opts.originalValue = html || opts.initialContent;
         if (opts.template) {
@@ -76,7 +76,10 @@
                 if (n == "contentChange") {
                     var val = opts.value = $(target).ueditor("getValue");
                     state.textarea.val(val);
-                    //state.textarea.text(val);
+                }
+                if (n == "setHeight") {
+                    var body = $(state.editor.body), height = body.parent().height();
+                    body.height(height);
                 }
                 if ($.isFunction(e)) { return e.apply(target, arguments); }
             });
@@ -126,7 +129,9 @@
                 vwidth = size.width - (opts.border ? 4 : 2);
             state.iframeholder.width(vwidth);
             state.eduieditor.width(vwidth);
-            state.editor.setHeight(vheight = size.height - state.toolbarbox.height() - state.bottomContainer.height() - state.scalelayer.height() - (opts.border ? 4 : 2));
+
+            var vheight = size.height - state.toolbarbox.height() - state.bottomContainer.height() - state.scalelayer.height() - (opts.border ? 4 : 2);
+            state.editor.setHeight(vheight);
         }
     };
 
@@ -146,23 +151,30 @@
     function showEditor(target) {
         var state = $.data(target, "ueditor"), opts = state.options;
         opts.isShow = true;
-        return state.editor.setShow();
+        state.panel.panel("open");
+        state.editor.setShow();
+        return getOptions(target);
     };
 
     function hideEditor(target) {
         var state = $.data(target, "ueditor"), opts = state.options;
         opts.isShow = false;
-        return state.editor.setHide();
+        state.editor.setHide();
+        state.panel.panel("close");
+        return getOptions(target);
     };
 
 
     function destroy(target) {
         var t = $(target), state = $.data(target, "ueditor");
         if (state) {
-            if (state.editor) { state.editor.destroy(); }
-            //if (state.ueditor) { state.ueditor.remove(); }
+            if (state.editor) {
+                if (state.editor.fontset) {
+                    state.editor.fontset.dialog("destroy");
+                }
+                state.editor.destroy();
+            }
             if (state.panel) { state.panel.panel("destroy"); }
-            //if (state.textarea) { state.textarea.remove(); }
         }
         t.remove();
     };
@@ -354,7 +366,7 @@
             state.validating = false;
             hideTip(target);
         }).bind("mouseenter.ueditor", function () {
-            if (state.wrapper.find("div.edui-editor").hasClass("ueditor-invalid")) {
+            if (state.wrapper.hasClass("ueditor-invalid")) {
                 showTip(target);
             }
         }).bind("mouseleave.ueditor", function () {
@@ -367,10 +379,10 @@
     function validate(target) {
         var t = $(target), state = $.data(target, "ueditor"), opts = state.options,
             value = t.ueditor("getContentTxt");
-        state.wrapper.find("div.edui-editor").removeClass("ueditor-invalid");
+        state.wrapper.removeClass("ueditor-invalid");
         hideTip(target);
         if (!opts.novalidate && opts.required && $.string.isNullOrWhiteSpace(value) && !t.is(":disabled") && !state.wrapper.hasClass("ueditor-disabled")) {
-            state.wrapper.find("div.edui-editor").addClass("ueditor-invalid");
+            state.wrapper.addClass("ueditor-invalid");
             if (state.validating) {
                 showTip(target);
             }
@@ -420,21 +432,22 @@
         "ready", "destroy", "reset", "focus", "langReady",
         "beforeExecCommand", "afterExecCommand", "firstBeforeExecCommand",
         "beforeGetContent", "afterGetContent", "getAllHtml", "beforeSetContent", "afterSetContent",
-        "selectionchange", "beforeSelectionChange", "afterSelectionChange", "contentChange"
+        "selectionchange", "beforeSelectionChange", "afterSelectionChange", "contentChange", "setHeight"
     ];
-    $.fn.ueditor.toolbars = [[
-        'fullscreen', 'source', '|', 'undo', 'redo', '|',
-        'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-        'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-        'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-        'directionalityltr', 'directionalityrtl', 'indent', '|',
-        'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-        'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-        'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
-        'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-        'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-        'print', 'preview', 'searchreplace', 'help', 'drafts'
-    ]];
+    $.fn.ueditor.toolbars = window.UEDITOR_CONFIG.toolbars;
+    //$.fn.ueditor.toolbars = [[
+    //    'fullscreen', 'source', '|', 'undo', 'redo', '|',
+    //    'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+    //    'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+    //    'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+    //    'directionalityltr', 'directionalityrtl', 'indent', '|',
+    //    'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+    //    'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+    //    'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
+    //    'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+    //    'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+    //    'print', 'preview', 'searchreplace', 'help', 'drafts'
+    //]];
     $.fn.ueditor.parseOptions = function (target) {
         return $.extend({}, $.parser.parseOptions(target, [
             "lang", "theme", "charset", "initialContent", "textarea", "wordCountMsg", "tabNode", "sourceEditor", "value", "templet", "valueMethod",
@@ -468,49 +481,7 @@
             queryCommandValue: function () { },
             onInit: function (editor) { }
         },
-        list: [
-            {
-                name: "fontset", iconCss: "background-position: -720px 0;",
-                label: { "zh-cn": "测试按钮" },
-                execCommand: function (cmd) {
-                    var btn = this, offset = $(btn.container).offset(),
-                        dia = btn.dia ? btn.dia : btn.dia = createDialog(),
-                        dopts = dia.dialog("options");
-                    dopts.closed ? dia.dialog("open").dialog("move", { top: offset.top - 50, left: offset.left }) : dia.dialog("close");
-
-                    function createDialog() {
-                        var dia = $.easyui.showDialog({
-                            noheader: true, modal: false, resizable: false, draggable: false, closed: true, autoDestroy: false,
-                            width: 280, height: 50, top: offset.top - 50, left: offset.left,
-                            enableSaveButton: false, enableCloseButton: false, enableApplyButton: false,
-                            content: "<div class=\"ueditor-fontset-container\"></div>"
-                        });
-                        $.util.exec(function () {
-                            var cc = dia.find(".ueditor-fontset-container");
-                            $("<input class=\"ueditor-fontset-fontfamily\" type=\"text\" />").appendTo(cc).combobox({ width: 80, data: [] });
-                            $("<input class=\"ueditor-fontset-fontsize\" type=\"text\" />").appendTo(cc).combobox({ width: 80, data: [] });
-                            $("<a></a>").appendTo(cc).linkbutton({
-                                plain: true, iconCls: "icon-standard-text-bold", onClick: function () {
-                                }
-                            });
-                            $("<a></a>").appendTo(cc).linkbutton({
-                                plain: true, iconCls: "icon-standard-text-italic", onClick: function () {
-                                }
-                            });
-                            $("<a></a>").appendTo(cc).linkbutton({
-                                plain: true, iconCls: "icon-standard-text-underline", onClick: function () {
-                                }
-                            });
-                        });
-                        return dia;
-                    };
-                },
-                queryCommandState: function () {
-                    var btn = this;
-                    return btn.dia ? (btn.dia.dialog("options").closed ? 0 : 1) : 0;
-                }
-            }
-        ],
+        list: [],
 
         styleTagID: "ueditorCss_" + $.util.guid("N"),
 
@@ -578,6 +549,183 @@
         $.fn.ueditor.buttons.append(btn, true);
     });
 
+
+
+
+
+
+
+    $.fn.ueditor.buttons.refreshFontSet = {
+        name: "fontset", iconCss: "background-position: -720px 0;",
+        label: { "zh-cn": "字体设置" },
+        execCommand: function (cmd) {
+            var editor = this, offset = $(editor.container).offset(),
+                fontset = editor.fontset ? editor.fontset : editor.fontset = createDialog(),
+                fopts = fontset.dialog("options");
+            fopts.closed ? fontset.dialog("open").dialog("move", { top: offset.top - 50, left: offset.left }) : fontset.dialog("close");
+
+            function createDialog() {
+                var fontset = $.easyui.showDialog({
+                    noheader: true, modal: false, resizable: false, draggable: false, closed: true, autoDestroy: false, border: false, topMost: false,
+                    width: 260, height: 50, top: offset.top - 50, left: offset.left,
+                    enableSaveButton: false, enableCloseButton: false, enableApplyButton: false,
+                    onOpen: function () { $.fn.ueditor.buttons.refreshFontSet.refresh(editor); },
+                    content: "<div class=\"ueditor-fontset-container\"></div>"
+                });
+                $.util.exec(function () {
+                    var cc = fontset.find(".ueditor-fontset-container"), config = UE.I18N[editor.ui.lang], fontfamily = [], fontsize = [];
+                    for (var n in config.fontfamily) {
+                        fontfamily.push({ value: config.fontfamily[n], text: config.fontfamily[n] });
+                    }
+                    for (var i = 0; i < editor.ui.fontsize.length; i++) {
+                        fontsize.push({ value: editor.ui.fontsize[i] + "px", text: editor.ui.fontsize[i] + "px" });
+                    }
+                    fontset.fontfamily = $("<input class=\"ueditor-fontset-fontfamily\" type=\"text\" />").appendTo(cc).combobox({
+                        width: 70, panelWidth: 120, editable: false, data: fontfamily,
+                        formatter: function (r) {
+                            return "<span style=\"font-family: " + r.text + ";\">" + r.text + "</span>";
+                        },
+                        onSelect: function (r) { editor.execCommand("fontfamily", r.text); },
+                        onShowPanel: function () { fontset.fontsize.combobox("hidePanel"); }
+                    });
+                    fontset.fontsize = $("<input class=\"ueditor-fontset-fontsize\" type=\"text\" />").appendTo(cc).combobox({
+                        width: 70, panelWidth: 120, editable: false, data: fontsize,
+                        formatter: function (r) {
+                            return "<span style=\"font-size: " + r.text + ";\">" + r.text + "</span>";
+                        },
+                        onSelect: function (r) { editor.execCommand("fontsize", r.text); },
+                        onShowPanel: function () { fontset.fontfamily.combobox("hidePanel"); }
+                    });
+                    fontset.bold = $("<a></a>").appendTo(cc).linkbutton({
+                        plain: true, toggle: true, iconCls: "icon-standard-text-bold", onClick: function () {
+                            editor.execCommand("bold");
+                        }
+                    });
+                    fontset.italic = $("<a></a>").appendTo(cc).linkbutton({
+                        plain: true, toggle: true, iconCls: "icon-standard-text-italic", onClick: function () {
+                            editor.execCommand("italic");
+                        }
+                    });
+                    fontset.underline = $("<a></a>").appendTo(cc).linkbutton({
+                        plain: true, toggle: true, iconCls: "icon-standard-text-underline", onClick: function () {
+                            editor.execCommand("underline");
+                        }
+                    });
+
+                    editor.addListener("focus", function () {
+                        cc.find(".combobox-f").combobox("hidePanel");
+                    });
+                });
+                return fontset;
+            };
+        },
+        queryCommandState: function () {
+            var editor = this;
+            $.fn.ueditor.buttons.refreshFontSet.refresh(editor);
+            return editor.fontset ? (editor.fontset.dialog("options").closed ? 0 : 1) : 0;
+        },
+        refresh: function (editor) {
+            var fontfamily = editor.queryCommandValue("fontfamily"), fontsize = editor.queryCommandValue("fontsize"),
+                bold = editor.queryCommandState("bold"), italic = editor.queryCommandState("italic"), underline = editor.queryCommandState("underline");
+            if (editor.fontset && !editor.fontset.dialog("options").closed) {
+                if (editor.fontset.fontfamily && fontfamily) {
+                    var data = editor.fontset.fontfamily.combobox("getData"), array = fontfamily.split(","), b = false;
+                    $.each(array, function (i, family) {
+                        if (b) { return; }
+                        family = $.trim(family);
+                        if ($.array.contains(data, family, function (r) { return r.value == family; })) {
+                            editor.fontset.fontfamily.combobox("setValue", family);
+                            b = true;
+                        }
+                    });
+                    if (!b) { editor.fontset.fontfamily.combobox("setValue", "arial"); }
+                }
+                if (editor.fontset.fontsize) {
+                    editor.fontset.fontsize.combobox("setValue", fontsize);
+                }
+                if (editor.fontset.bold) {
+                    editor.fontset.bold.linkbutton(bold == 1 ? "select" : "unselect");
+                }
+                if (editor.fontset.italic) {
+                    editor.fontset.italic.linkbutton(italic == 1 ? "select" : "unselect");
+                }
+                if (editor.fontset.underline) {
+                    editor.fontset.underline.linkbutton(underline == 1 ? "select" : "unselect");
+                }
+            }
+        }
+    };
+    $.fn.ueditor.buttons.append($.fn.ueditor.buttons.refreshFontSet);
+
+
+
+
+    //  提供外部调用公共方法 $.easyui.showUeditorDialog 用于快速创建 Ueditor 富文本 HTML 编辑器对话框；
+    //  该方法的参数 options 参考继承于方法 $.easyui.showDialog 和插件 easyui-ueditor 的参数格式，在在此基础上增加了如下描述的属性：
+    //      title   : string
+    //      value   : string
+    //      onEnter : function(val, eueditor, editor, btn)
+    //      onCancel: function(val, eueditor, editor, btn)
+    //      ... 
+    //  返回值：返回创建的 easyui-dialog 对象；
+    $.easyui.showUeditorDialog = function (options) {
+        if (options && options.topMost && $ != $.util.$ && $.util.$.easyui.showUeditorDialog) {
+            return $.util.$.easyui.showUeditorDialog.apply(this, options);
+        }
+        var opts = $.extend({}, $.easyui.showUeditorDialog.defaults, options || {}),
+            ueditor, editor, value = opts.value,
+            dia = $.easyui.showDialog($.extend({}, opts, {
+                content: "<div class=\"ueditor-dialog-container\"></div>",
+                enableApplyButton: false, topMost: false,
+                onDestroy: function () { if (ueditor) { ueditor.ueditor("destroy"); } },
+                onResize: function () {
+                    var ret = $.fn.dialog.defaults.onResize.apply(this, arguments);
+                    if ($.isFunction(opts.onResize)) { opts.onResize.apply(this, arguments); }
+                    return ret;
+                },
+                onSave: function () { return opts.onEnter.call(dia, value, ueditor, editor, this); },
+                onClose: function () {
+                    if (editor && editor.fontset) { editor.fontset.dialog("close"); }
+                    return opts.onCancel.call(dia, value, ueditor, editor, this);
+                },
+                onMove: function () {
+                    var ret = $.fn.dialog.defaults.onMove.apply(this, arguments);
+                    if (editor && editor.fontset && !editor.fontset.dialog("options").closed) {
+                        var offset = $(editor.container).offset();
+                        editor.fontset.dialog("open").dialog("move", { top: offset.top - 50, left: offset.left })
+                    }
+                    return ret;
+                },
+                onBeforeDestroy: function () {
+                    if (editor && editor.fontset) { editor.fontset.dialog("destroy"); }
+                }
+            }));
+        $.util.exec(function () {
+            var container = dia.find(".ueditor-dialog-container").ueditor($.extend({}, opts, {
+                fit: true, border: false, value: value,
+                onResize: $.fn.ueditor.defaults.onResize,
+                oncontentChange: function () {
+                    value = $(this).ueditor("options").value;
+                    if ($.isFunction(opts.oncontentChange)) { opts.oncontentChange.apply(this, arguments); }
+                }
+            }));
+            dia.ueditor = ueditor = container;
+            dia.editor = editor = container.ueditor("editor");
+        });
+        return dia;
+    };
+
+
+    $.easyui.showUeditorDialog.defaults = {
+        title: "Html 编辑器窗口",
+        iconCls: "icon-standard-application-form-edit",
+        width: 665, height: 480, minWidth: 400, minHeight: 240,
+        maximizable: true,
+        collapsible: true,
+        value: null, zIndex: 20000, focus: true, template: "normal",
+        onEnter: function (val, editor, btn) { },
+        onCancel: function (val, editor, btn) { }
+    };
 
 
 
@@ -738,7 +886,7 @@
         //  图片操作的浮层开关，默认打开
         imagePopup: true,
         //  是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
-        emotionLocalization: true,
+        emotionLocalization: false,
         //  是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
         pasteplain: false,
         //  字号列表
@@ -772,9 +920,18 @@
         //  表格是否可以拖拽
         tableDragable: true,
         //  源码的查看方式,codemirror 是代码高亮，textarea是文本框,默认是codemirror
-        sourceEditor: $.util.browser.msie && $.util.browser.version < 8 ? "textarea" : "codemirror",
+        sourceEditor: "codemirror",
         //  编辑器初始化完成后是否进入源码模式，默认为 false
         sourceEditorFirst: false,
+
+        //  开关右键菜单，默认为true
+        enableContextMenu: true,
+
+        //  指定产出的列表中是否嵌套P标签，默认是false
+        disablePInList: false,
+
+        //  指定粘贴时是否是只保留标签模式，默认是false
+        retainOnlyLabelPasted: false,
 
 
         //  编辑器准备就绪后会触发该事件
@@ -826,14 +983,17 @@
         onafterSelectionChange: function () { },
 
         //  编辑器内容发生改变时会触发该事件
-        oncontentChange: function () { }
+        oncontentChange: function () { },
+
+        //  当调用 setHeight 方法重置编辑器高度时触发
+        onsetHeight: function () { }
     };
 
     $.extend($.fn.ueditor.defaults, {
 
         fit: false,
 
-        border: false,
+        border: true,
 
         width: 600,
 
@@ -845,9 +1005,9 @@
         toolbarsTemplate: {
             //
             simple: [[
-                'fontset', '|',
-                'fontfamily', 'fontsize', 'forecolor', 'backcolor', 'bold', 'italic', 'underline',
-                '|', 'emotion', 'scrawl', '|', 'snapscreen', 'insertimage', 'attachment'
+                'fontset', '|', 'forecolor', 'backcolor',
+                //'fontfamily', 'fontsize', 'forecolor', 'backcolor', 'bold', 'italic', 'underline',
+                '|', 'emotion', 'scrawl', '|', 'snapscreen', 'insertimage', 'attachment', '|', 'source'//, 'preview'
             ]],
             normal: [[
                 'bold', 'italic', 'underline',
@@ -855,30 +1015,24 @@
                 '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',
                 '|', 'insertorderedlist', 'insertunorderedlist',
                 '|', 'indent', 'blockquote', 'link', 'formatmatch',
-                '|', 'source'
+                '|', 'source'//, 'preview'
             ]],
             //
             rich: [[]],
-            full: [[
-                'fullscreen', 'source', '|', 'undo', 'redo', '|',
-                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-                'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-                'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-                'directionalityltr', 'directionalityrtl', 'indent', '|',
-                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-                'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-                'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
-                'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-                'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-                'print', 'preview', 'searchreplace', 'help', 'drafts'
-            ]]
+            full: $.fn.ueditor.toolbars
         },
 
-        template: "full",
+        template: "normal",
         //  getValue 方法所使用的内部取值方法
         valueMethod: "getContent",
         //  编辑器初始化完成后是否立即将其执行 setDisabled 操作使其禁用；
         disabled: false,
+
+
+        codeMirrorJsUrl: undefined,
+        codeMirrorCssUrl: undefined,
+        autoHeightEnabled: false,
+        scaleEnabled: false,
 
 
         required: false,

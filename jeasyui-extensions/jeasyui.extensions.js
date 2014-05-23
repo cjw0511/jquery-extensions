@@ -183,7 +183,6 @@
                 if ($.isFunction(opts.callback)) { opts.callback.call(this, undefined); }
             }
         });
-
         return ret;
     };
 

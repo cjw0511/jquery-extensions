@@ -16,6 +16,11 @@
                             return false;
                         }
                     },
+                    onLoad: function () {
+                        var f = $(this), ret = $.fn.dialog.defaults.onLoad();
+                        f.form("disableValidation").form("enableValidation");
+                        return ret;
+                    },
                     buttons: [
                         {
                             text: "源码查看", iconCls: "icon-search", handler: function (d) {

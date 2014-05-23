@@ -11,7 +11,7 @@
 * jQuery EasyUI uploadify 插件扩展
 * jquery.euploadify.js
 * 二次开发 流云
-* 最近更新：2014-05-07
+* 最近更新：2014-05-23
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -255,7 +255,7 @@
 
         if (opts.multi && template == "grid") {
             $("<span>-</span>").insertAfter(state.button);
-            if (!opts.auto || opts.multi) {
+            if (!opts.auto) {
                 $("<span>-</span>").insertAfter(state.uploadButton);
             }
             if (opts.showStop || opts.showCancel) {
@@ -767,6 +767,21 @@
 
 
 
+    function show(target) {
+        var state = $.data(target, "euploadify");
+        state.panel.panel("open");
+        return getOptions(target);
+    };
+
+    function hide(target) {
+        var state = $.data(target, "euploadify");
+        state.panel.panel("close");
+        return getOptions(target);
+    };
+
+
+
+
 
 
     $.fn.euploadify = function (options, param) {
@@ -841,6 +856,64 @@
             }
         ]));
     };
+
+
+
+
+
+    //  提供外部调用公共方法 $.easyui.showEuploadifyDialog 用于快速创建 euploadify 文件上传对话框；
+    //  该方法的参数 options 参考继承于方法 $.easyui.showDialog 和插件 easyui-euploadify 的参数格式，在在此基础上增加了如下描述的属性：
+    //      title   : string
+    //      value   : string
+    //      onEnter : function(val, euploadify, uploadify, btn)
+    //      onCancel: function(val, euploadify, uploadify, btn)
+    //      ... 
+    //  返回值：返回创建的 easyui-dialog 对象；
+    $.easyui.showEuploadifyDialog = function (options) {
+        if (options && options.topMost && $ != $.util.$ && $.util.$.easyui.showEuploadifyDialog) {
+            return $.util.$.easyui.showEuploadifyDialog.apply(this, options);
+        }
+        var opts = $.extend({}, $.easyui.showEuploadifyDialog.defaults, options || {}),
+            euploadify, uploadify, value = opts.value,
+            dia = $.easyui.showDialog($.extend({}, opts, {
+                content: "<input class=\"euploadify-dialog-container\" />",
+                enableApplyButton: false, topMost: false,
+                height: opts.height == "auto" ? (opts.multi ? 480 : 160) : opts.height,
+                onBeforeDestroy: function () { if (euploadify) { euploadify.euploadify("destroy"); } },
+                onSave: function () { return opts.onEnter.call(dia, getValue(), euploadify, uploadify, this); },
+                onClose: function () { return opts.onCancel.call(dia, getValue(), euploadify, uploadify, this); }
+            }));
+        $.util.exec(function () {
+            var container = dia.find(".euploadify-dialog-container").euploadify($.extend({}, opts, {
+                fit: true, border: false, noheader: true, value: value
+            }));
+            dia.euploadify = euploadify = container;
+            uploadify = container.euploadify("uploadify");
+            euploadify.euploadify("resize");
+        });
+        function getValue() {
+            if (!euploadify || !uploadify) { return value; }
+            var eopts = euploadify.euploadify("options");
+            return euploadify.euploadify(eopts.multi ? "getValues" : "getValue");
+        };
+        return dia;
+    };
+
+    $.easyui.showEuploadifyDialog.defaults = {
+        title: "文件上传对话框",
+        iconCls: "icon-hamburg-publish",
+        width: 750, height: "auto", minWidth: 400, minHeight: 160,
+        maximizable: true, collapsible: true,
+        multi: false, value: null,
+        onEnter: function (val, editor, btn) { },
+        onCancel: function (val, editor, btn) { }
+    };
+
+
+
+
+
+
 
 
     $.fn.euploadify.methods = {
@@ -924,7 +997,12 @@
 
         getValue: function (jq) { return getValue(jq[0]); },
 
-        setValue: function (jq, value) { return jq.each(function () { setValue(this, value); }); }
+        setValue: function (jq, value) { return jq.each(function () { setValue(this, value); }); },
+
+
+        show: function (jq) { return jq.each(function () { show(this); }); },
+
+        hide: function (jq) { return jq.each(function () { hide(this); }); }
     };
 
     $.fn.euploadify.defaults = {

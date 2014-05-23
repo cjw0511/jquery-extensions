@@ -55,12 +55,12 @@
         },
         //  指定字符最小长度
         minLength: {
-            validator: function (value, param) { return rules.length.validator(value, [param[0]]); },
+            validator: function (value, param) { return $.string.trim(value).length >= param[0]; },
             message: "最少输入 {0} 个字符."
         },
         //  指定字符最大长度
         maxLength: {
-            validator: function (value, param) { return rules.length.validator(value, [0, param[0]]); },
+            validator: function (value, param) { return $.string.trim(value).length <= param[0]; },
             message: "最多输入 {0} 个字符."
         },
         //  必须包含指定的内容
