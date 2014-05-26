@@ -2,12 +2,192 @@
 
     <script type="text/javascript">
         $(function () {
+            var f = $("#form1");
+
+            $("#btn1").click(function () {
+                $.easyui.showOption(f.form("getData"));
+            });
+
+            $("#btn2").click(function () {
+                f.form("load", {
+                    validatebox: "validatebox",
+                    combobox: "a006",
+                    combotree: "211",
+                    combogrid: [1, 3, 4],
+                    numberbox: 24,
+                    datebox: "2001-01-01",
+                    datetimebox: "2012-01-01 12:00:22",
+                    numberspinner: 33,
+                    timespinner: "00:12:31",
+                    slider: 45,
+                    searchbox: "searchbox",
+                    comboicons: "icon-hamburg-calendar",
+                    comboselector: [2, 5, 8],
+                    my97: "2013-12-31",
+                    codemirror: "codemirror",
+                    euploadify: "euploadify",
+                    ueditor: "uedito<b>R</b>"
+                });
+            });
+
+            $("#btn3").click(function () {
+                f.form("validate");
+            });
+
+            $("#btn4").click(function () {
+                f.form("enableValidation");
+            });
+
+            $("#btn5").click(function () {
+                f.form("disableValidation");
+            });
+
+            $("#btn6").click(function () {
+                f.form("clear");
+            });
+
+            $("#btn7").click(function () {
+                f.form("reset");
+            });
         });
     </script>
+    <style>
+        label * {
+            vertical-align: middle;
+            display: list-item;
+        }
+    </style>
 
-    <h2>jEasyUI xxxx Extensions</h2>
-    <p>该部分扩展由文件 jeasyui.extensions.xxx.js 实现。</p>
+    <h2>jEasyUI Form Extensions</h2>
+    <p>该部分扩展由文件 jeasyui.extensions.form.js 实现。</p>
     <hr />
-    <h2>该扩展功能的 DEMO 尚未编写，敬请期待！</h2>
+    <div id="buttons">
+        <a id="btn1" class="easyui-linkbutton" data-options="iconCls: 'icon-search'" >getData</a>
+        <a id="btn2" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">loadData</a>
+        <a id="btn3" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">validate</a>
+        <a id="btn4" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">enableValidation</a>
+        <a id="btn5" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">disableValidation</a>
+        <a id="btn6" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">clear</a>
+        <a id="btn7" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">reset</a>
+    </div>
+    <hr />
+    <div id="form1">
+        <table>
+            <tr>
+                <td>validatebox:</td>
+                <td><input name="validatebox" class="easyui-validatebox" data-options="required: true, width: 140, value: 'validatebox1', width: 200, prompt: 'prompt...'" /></td>
+            </tr>
+            <tr>
+                <td>combobox:</td>
+                <td><input name="combobox" class="easyui-combobox" data-options="required: true, method: 'get', url: 'combobox/combobox-data.json', value: 'a003'" /></td>
+            </tr>
+            <tr>
+                <td>combotree:</td>
+                <td><input name="combotree" class="easyui-combotree" data-options="required: true,
+                           method: 'get', panelWidth: 200,
+                           url: 'tree/tree-data.json', value: '22'
+                           " /></td>
+            </tr>
+            <tr>
+                <td>combogrid:</td>
+                <td><input name="combogrid" class="easyui-combogrid" data-options="required: true,
+                           value: [1, 2, 3],
+                           method: 'get', valueField: 'ID', textField: 'Name', multiple: true,
+                           panelWidth: 600, panelHeight: 300, url: 'datagrid/datagrid-data.json',
+                           idField: 'ID',
+                           rownumbers: true,
+                           frozenColumns: [[
+                               { field: 'ck', checkbox: true },
+                               { field: 'ID', title: 'ID', width: 80, sortable: true }
+                           ]],
+                           columns: [[
+                               { field: 'Code', title: '编号(Code)', width: 120, sortable: true },
+                               { field: 'Name', title: '名称(Name)', width: 140, sortable: true },
+                               { field: 'Age', title: '年龄(Age)', width: 120, sortable: true },
+                               { field: 'Height', title: '身高(Height)', width: 140, sortable: true },
+                               { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true },
+                               { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true }
+                           ]]
+                           " /></td>
+            </tr>
+            <tr>
+                <td>numberbox:</td>
+                <td><input name="numberbox" class="easyui-numberbox" data-options="required: true, value: '22', width: 200" /></td>
+            </tr>
+            <tr>
+                <td>datebox:</td>
+                <td><input name="datebox" class="easyui-datebox" data-options="required: true, value: '2013-11-11'" /></td>
+            </tr>
+            <tr>
+                <td>datetimebox:</td>
+                <td><input name="datetimebox" class="easyui-datetimebox" data-options="required: true, value: '2013-11-11 11:11:11'" /></td>
+            </tr>
+            <tr>
+                <td>numberspinner:</td>
+                <td><input name="numberspinner" class="easyui-numberspinner" data-options="required: true, value: 112" /></td>
+            </tr>
+            <tr>
+                <td>timespinner:</td>
+                <td><input name="timespinner" class="easyui-timespinner" data-options="required: true, value: '12:12:12'" /></td>
+            </tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr>
+                <td>slider:</td>
+                <td><input name="slider" class="easyui-slider" data-options="required: true, showTip:true,rule:[0,'|',25,'|',50,'|',75,'|',100], width: 240, value: 31" /></td>
+            </tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr>
+                <td>searchbox:</td>
+                <td><input name="searchbox" class="easyui-searchbox" data-options="required: true, value: 'searchbox1'" /></td>
+            </tr>
+
+            <tr>
+                <td>comboicons:</td>
+                <td><input name="comboicons" class="easyui-comboicons" data-options="required: true, value: 'icon-hamburg-donate'" /></td>
+            </tr>
+            <tr>
+                <td>comboselector:</td>
+                <td><input name="comboselector" class="easyui-comboselector" data-options="required: true, value: [1, 2, 3], text: 'zhangsan',
+                           lazyLoad: false,
+                           method: 'get', valueField: 'ID', textField: 'Name', multiple: true,
+                           panelWidth: 600, panelHeight: 300, url: 'datagrid/datagrid-data.json',
+                           idField: 'ID',
+                           rownumbers: true,
+                           frozenColumns: [[
+                               { field: 'ck', checkbox: true },
+                               { field: 'ID', title: 'ID', width: 80, sortable: true }
+                           ]],
+                           columns: [[
+                               { field: 'Code', title: '编号(Code)', width: 120, sortable: true },
+                               { field: 'Name', title: '名称(Name)', width: 140, sortable: true },
+                               { field: 'Age', title: '年龄(Age)', width: 120, sortable: true },
+                               { field: 'Height', title: '身高(Height)', width: 140, sortable: true },
+                               { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true },
+                               { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true }
+                           ]]
+                           " /></td>
+            </tr>
+            <tr>
+                <td>my97:</td>
+                <td><input name="my97" class="easyui-my97" data-options="required: true, value: '2014-05-22'" /></td>
+            </tr>
+            <tr>
+                <td>codemirror:</td>
+                <td><div name="codemirror" class="easyui-codemirror" data-options="required: true, height: 240, value: 'codemirror1'"></div></td>
+            </tr>
+            <tr>
+                <td>euploadify:</td>
+                <td><div name="euploadify" class="easyui-euploadify" data-options="required: true, value: 'euploadify1',
+                         swf: '../plugins/uploadify/uploadify.swf',
+                         uploader: '../plugins/uploadify/net/uploadify.ashx'
+                         "></div></td>
+            </tr>
+            <tr>
+                <td>ueditor:</td>
+                <td><div name="ueditor" class="easyui-ueditor" data-options="required: true, height: 240, value: 'ueditor1'"></div></td>
+            </tr>
+        </table>
+
+    </div>
 
 </div>

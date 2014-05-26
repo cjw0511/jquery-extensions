@@ -52,7 +52,7 @@
         { "id": "110501", "text": "Form", "pid": "1105", "children": [
             { "id": "11050101", "text": "支持div-form", "pid": "110501", "attributes": { "href": "examples/example.html?path=form/div/demo.html" } },
             { "id": "11050102", "text": "获取表单数据", "pid": "110501", "attributes": { "href": "examples/example.html?path=form/getData/demo.html" } },
-            { "id": "11050103", "text": "其他扩展功能", "pid": "110501", "attributes": { "href": "examples/example.html?path=form/others/demo.html" } }
+            { "id": "11050103", "text": "其他扩展功能", "pid": "110501", "attributes": { "href": "examples/example.html?path=form/others/demo.html&plugin=all" } }
         ]
         },
 
@@ -72,7 +72,8 @@
 
         { "id": "110504", "text": "ComboBox", "pid": "1105", "attributes": { "href": "examples/example.html?path=combobox/demo.html" } },
         { "id": "110505", "text": "ComboGrid", "pid": "1105", "attributes": { "href": "examples/example.html?path=combogrid/demo.html" } },
-        { "id": "110506", "text": "ComboTree", "pid": "1105", "attributes": { "href": "examples/example.html?path=combotree/demo.html" } }
+        { "id": "110506", "text": "ComboTree", "pid": "1105", "attributes": { "href": "examples/example.html?path=combotree/demo.html" } },
+        { "id": "110507", "text": "Slider", "pid": "1105", "attributes": { "href": "examples/example.html?path=slider/demo.html" } }
     ]
     },
 

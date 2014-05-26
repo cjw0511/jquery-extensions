@@ -11,7 +11,7 @@
 * jQuery EasyUI combogrid 组件扩展
 * jeasyui.extensions.combogrid.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-05-25
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -34,7 +34,7 @@
 
         //  覆盖 easyui-combogrid 的事件 onLoadSuccess 以支持 easyui-datagrid 的自定义扩展功能；
         onLoadSuccess: function () {
-            $.fn.datagrid.extensions.defaults.onLoadSuccess.apply(t.combogrid("grid")[0], arguments);
+            $.fn.datagrid.extensions.defaults.onLoadSuccess.apply($(this).combogrid("grid")[0], arguments);
         },
 
         //  覆盖 easyui-combogrid 的事件 onResizeColumn 以支持 easyui-datagrid 的自定义扩展功能；

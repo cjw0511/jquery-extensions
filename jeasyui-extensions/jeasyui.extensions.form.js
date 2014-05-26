@@ -173,7 +173,7 @@
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i],
                 r = t.find('.' + plugin + '-f');
-            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"]) {
+            if (r.length && $.fn[plugin] && $.fn[plugin]["methods"]) {
                 $.util.tryExec(function () {
                     r[plugin]("clear");
                 });
@@ -191,7 +191,7 @@
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             var r = t.find('.' + plugin + '-f');
-            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"]) {
+            if (r.length && $.fn[plugin] && $.fn[plugin]["methods"]) {
                 $.util.tryExec(function () {
                     r[plugin]("reset");
                 });
@@ -217,8 +217,8 @@
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             var r = t.find('.' + plugin + '-f');
-            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"]) {
-                if ($.util.tryExec(function () { return r[plugin]("validate"); }) === false) {
+            if (r.length && $.fn[plugin] && $.fn[plugin]["methods"]) {
+                if ($.util.tryExec(function () { return r[plugin]("isValid"); }) === false) {
                     $.util.tryExec({
                         code: function () { r[plugin]("focus"); },
                         error: function () { r[plugin]("textbox").focus(); },
@@ -240,7 +240,7 @@
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             var r = t.find('.' + plugin + '-f');
-            if (r.length && r[plugin] && $.fn[plugin] && $.fn[plugin]["methods"]) {
+            if (r.length && $.fn[plugin] && $.fn[plugin]["methods"]) {
                 $.util.tryExec(function () {
                     r[plugin](novalidate ? 'disableValidation' : 'enableValidation');
                 });

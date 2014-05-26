@@ -11,7 +11,7 @@
 * jQuery EasyUI validatebox 组件扩展
 * jeasyui.extensions.validatebox.js
 * 二次开发 流云
-* 最近更新：2014-05-05
+* 最近更新：2014-05-26
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -259,13 +259,16 @@
                     opts.onChange.call(target, opts.value);
                 }
             });
-            setPrompt(target, opts.prompt, opts);
-            if (opts.autoFocus) {
-                $.util.exec(function () { t.focus(); });
-            }
             opts.originalValue = opts.value;
             if (opts.value) {
                 setValue(target, opts.value);
+            }
+            if (opts.width && !t.parent().is("span.combo,span.spinner,span.searchbox")) {
+                resize(target, opts.width);
+            }
+            setPrompt(target, opts.prompt, opts);
+            if (opts.autoFocus) {
+                $.util.exec(function () { t.focus(); });
             }
             opts._initialized = true;
         }
@@ -278,7 +281,7 @@
         if ($.html5.testProp("placeholder", t[0].nodeName)) {
             t.attr("placeholder", prompt);
         } else {
-            if (!$.isFunction(!opts.promptFocus)) {
+            if (!$.isFunction(opts.promptFocus)) {
                 opts.promptFocus = function () {
                     if (t.hasClass("validatebox-prompt")) {
                         t.removeClass("validatebox-prompt");
@@ -287,7 +290,7 @@
                 };
                 t.focus(opts.promptFocus);
             }
-            if (!$.isFunction(!opts.promptBlur)) {
+            if (!$.isFunction(opts.promptBlur)) {
                 opts.promptBlur = function () {
                     if ($.string.isNullOrEmpty(t.val())) { t.addClass("validatebox-prompt").val(opts.prompt); }
                 }
@@ -314,6 +317,7 @@
         if (val != value) {
             t.val(opts.value = (value ? value : ""));
         }
+        validate(target);
     };
 
     function getValue(target) {
@@ -328,7 +332,12 @@
     function reset(target) {
         var t = $(target), opts = t.validatebox("options");
         t.validatebox("setValue", opts.originalValue ? opts.originalValue : "");
-    }
+    };
+
+    function resize(target, width) {
+        var t = $(target), opts = t.validatebox("options");
+        t._outerWidth(opts.width = width);
+    };
 
 
     var _validatebox = $.fn.validatebox;
@@ -340,8 +349,9 @@
         return this.each(function () {
             var jq = $(this), hasInit = $.data(this, "validatebox") ? true : false,
                 opts = hasInit ? options : $.extend({}, $.fn.validatebox.parseOptions(this), $.parser.parseOptions(this, [
-                    "value", "prompt", { autoFocus: "boolean" }
+                    "prompt", { autoFocus: "boolean" }
                 ]), options);
+            opts.value = opts.value || jq.val();
             _validatebox.call(jq, opts);
             initialize(this);
         });
@@ -367,7 +377,9 @@
 
         clear: function (jq) { return jq.each(function () { clear(this); }); },
 
-        reset: function (jq) { return jq.each(function () { reset(this); }); }
+        reset: function (jq) { return jq.each(function () { reset(this); }); },
+
+        resize: function (jq, width) { return jq.each(function () { resize(this, width); }); }
     };
     var defaults = $.fn.validatebox.extensions.defaults = {
         //  增加 easyui-validatebox 的扩展属性 prompt，该属性功能类似于 easyui-searchbox 的 prompt 属性。
@@ -381,6 +393,10 @@
         //  增加 easyui-validatebox 的扩展属性 value，表示其初始化时的值
         value: null,
 
+        //  增加 easyui-validatebox 的扩展属性 width，表示其初始化时的宽度值
+        width: null,
+
+        //  增加 easyui-validatebox 的扩展事件 onChange，表示输入框在值改变时所触发的事件
         onChange: function (value) { }
     };
 
@@ -398,14 +414,15 @@
     //  修改 jQuery 本身的成员方法 val；使之支持 easyui-validatebox 的扩展属性 prompt。
     var core_val = $.fn.val;
     $.fn.val = function (value) {
-        var val, opts;
         if (this.length > 0 && this.is(".validatebox-text.validatebox-prompt") && !$.html5.testProp("placeholder", this[0].nodeName)) {
-            opts = this.validatebox("options");
+            var val, opts = this.validatebox("options");
             if (arguments.length == 0) {
                 val = core_val.apply(this, arguments);
                 return val == opts.prompt ? "" : val;
             }
-            if (value && value != opts.prompt) { this.removeClass("validatebox-prompt"); }
+            if (value && value != opts.prompt) {
+                this.removeClass("validatebox-prompt");
+            }
         }
         return core_val.apply(this, arguments);
     };

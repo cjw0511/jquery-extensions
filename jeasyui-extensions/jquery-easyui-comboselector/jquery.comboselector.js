@@ -41,8 +41,9 @@
                         width: $.isNumeric(opts.panelWidth) ? opts.panelWidth : grid.width,
                         height: $.isNumeric(opts.panelHeight) ? opts.panelHeight : grid.height,
                         selected: t.combo(opts.multiple ? "getValues" : "getValue"),
-                        singleSelect: opts.multiple ? false : true,
-                        idField: idField, data: opts.url ? undefined : state.data,
+                        singleSelect: opts.multiple ? false : true, idField: idField,
+                        url: opts.url, data: opts.data,
+                        //data: opts.url ? undefined : state.data,
                         buttons: [
                             {
                                 index: 101.5, text: "清除", iconCls: "icon-standard-cancel", handler: function (d) {
@@ -111,16 +112,35 @@
                     }
                 }
             }));
-
+        state.data = opts.data ? opts.data : [];
         opts.originalValue = opts.value;
-        if (opts.text) {
-            setText(target, opts.text);
+        opts.originalText = opts.text;
+        
+        if (opts.lazyLoad) {
+            initValue();
         } else {
-            if (opts.value) {
-                setValues(target, $.util.likeArrayNotString(opts.value) ? opts.value : [opts.value]);
-            }
+            $[opts.method](opts.url, $.extend({}, opts.queryParams || {}, { page: opts.pageNumber || $.fn.datagrid.defaults.pageNumber, rows: opts.rows || $.fn.datagrid.defaults.pageSize }), function (data) {
+                state.data = data ? ($.util.likeArrayNotString(data) ? data : data.rows) : [];
+                initValue();
+            });
         }
         t.combo("validate");
+
+        function initValue() {
+            if (state.data && state.data.length) {
+                if (opts.value) {
+                    setValues(target, $.util.likeArrayNotString(opts.value) ? opts.value : [opts.value]);
+                }
+            } else {
+                if (opts.text) {
+                    setText(target, opts.text);
+                } else {
+                    if (opts.value) {
+                        setValues(target, $.util.likeArrayNotString(opts.value) ? opts.value : [opts.value]);
+                    }
+                }
+            }
+        };
     };
 
 
@@ -138,6 +158,11 @@
 
     function setText(target, text) {
         $(target).combo("setText", text).comboselector("options").text = text;
+    };
+
+    function reset(target) {
+        var t = $(target), opts = t.comboselector("options");
+        t.comboselector("setValue", opts.originalValue).comboselector("setText", opts.originalText);
     };
 
 
@@ -197,7 +222,7 @@
         options: function (jq) {
             var opts = jq.combo("options"), copts = $.data(jq[0], 'comboselector').options;
             return $.extend(copts, {
-                originalValue: opts.originalValue, disabled: opts.disabled, readonly: opts.readonly
+                originalValue: opts.originalValue, originalText: opts.originalText, disabled: opts.disabled, readonly: opts.readonly
             });
         },
 
@@ -209,7 +234,9 @@
 
         loadData: function (jq, data) { return jq.each(function () { loadData(this, data); }); },
 
-        getData: function (jq) { return $.data(jq[0], "comboselector").data; }
+        getData: function (jq) { return $.data(jq[0], "comboselector").data; },
+
+        reset: function (jq) { return jq.each(function () { reset(this); }); }
     };
 
     $.fn.comboselector.defaults = $.extend({}, $.fn.combo.defaults, {
@@ -231,6 +258,15 @@
         autoShowPanel: false,
 
         iconCls: "icon-standard-application-form-magnify",
+
+        //  表示 grid-selector 中的数据是否为懒加载；
+        //  如果该值设置为 true，则是在鼠标点击打开 grid-selector 后，表格中的数据才实际被加载；否则将是在控件被初始化时即刻加载数据；
+        //  boolean 类型值，默认为 true。
+        lazyLoad: true,
+
+        url: null,
+
+        data: null,
 
         selectorTypes: selectorTypes,
 

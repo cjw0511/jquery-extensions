@@ -11,7 +11,7 @@
 * jQuery EasyUI treegrid 组件扩展
 * jeasyui.extensions.treegrid.js
 * 二次开发 流云
-* 最近更新：2014-05-23
+* 最近更新：2014-05-25
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -1211,7 +1211,7 @@
                     padding: "10px"
                 }).append(checkAll).append(uncheckAll).append("<hr />").each(function () {
                     var win = $(this), ul = $("<ul></ul>").css({ "list-style-type": "decimal", "padding-left": "40px", "line-height": "18px" }).appendTo(win);
-                    $.each(distinctVals, function (index, index) {
+                    $.each(distinctVals, function (index, text) {
                         var id = "itemCheckbox_" + $.util.guid("N"),
                             checked = !$.array.some(exts.filterData, function (val) { return val[field] == text; }),
                             itemWrap = $("<li></li>").appendTo(ul),
@@ -1341,7 +1341,7 @@
 
     function initFinishEditEvent(t, opts, exts) {
         $(opts.finishEditLocale).click(function (e) {
-            if (opts.finishEditOnBlur) {
+            if (opts.finishEditOnBlur && $.data(t[0], "treegrid")) {
                 var body = t.treegrid("getPanel"), rows = t.treegrid("getEditingNodeIds");
                 if (!$.contains(body[0], e.target)) {
                     $.each(rows, function (ii, id) { t.treegrid(opts.finishEditMethod, id); });

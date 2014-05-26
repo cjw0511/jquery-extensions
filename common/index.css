@@ -45,4 +45,4 @@
 
 ul.link-list>li>a { padding-left: 10px; white-space: nowrap; }
 
-div.hidden { visibility: hidden; }
+div.hidden { visibility: hidden; overflow: hidden; }

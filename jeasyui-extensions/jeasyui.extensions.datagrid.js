@@ -11,7 +11,7 @@
 * jQuery EasyUI datagrid 组件扩展
 * jeasyui.extensions.datagrid.js
 * 二次开发 流云
-* 最近更新：2014-05-23
+* 最近更新：2014-05-25
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -1120,7 +1120,7 @@
 
     function initFinishEditEvent(t, opts, exts) {
         $(opts.finishEditLocale).click(function (e) {
-            if (opts.finishEditOnBlur) {
+            if (opts.finishEditOnBlur && $.data(t[0], "datagrid")) {
                 var body = t.datagrid("getPanel"), rows = t.datagrid("getEditingRowIndexs");
                 if (!$.contains(body[0], e.target)) {
                     $.each(rows, function (ii, i) { t.datagrid(opts.finishEditMethod, i); });

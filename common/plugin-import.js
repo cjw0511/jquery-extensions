@@ -36,26 +36,52 @@
         ]
     };
 
-    var list = ["syntaxhighlighter", "codemirror"];
-    $.each(list, function (i, name) {
-        loadPlugin(name, true);
-    });
+    var param = $.util.request["plugin"],
+        params = param ? String(param).split(",") : [],
+        list = ["syntaxhighlighter", "codemirror"],
+        imported = [];
 
-    loadPlugin($.util.request["plugin"]);
+    if ($.array.contains(params, "all"), function (val) { return String(val).toLocaleLowerCase() == "all" }) {
+        return $.each(plugins, function (name) { loadPlugin(name); });
+    }
 
-    function loadPlugin(name, flag) {
-        if (name) {
-            var names = String(name).split(",");
-            for (var i = 0; i < names.length; i++) {
-                var plugin = plugins[names[i]];
-                if (plugin && (flag || !$.array.contains(list, names[i]))) {
-                    $.each(plugin, function (index, n) {
-                        $(n).appendTo("head");
-                        //document.write(n);
-                    });
-                }
-            }
+    $.each(list, function (i, name) { loadPlugin(name); });
+
+    $.each(params, function (i, name) { loadPlugin(name); });
+
+    function loadPlugin(name) {
+        if ($.string.isNullOrWhiteSpace(name)) { return; }
+        var plugin = plugins[name];
+        if (plugin && !$.array.contains(imported, name)) {
+            $.each(plugin, function (i, script) {
+                //$(script).appendTo("head");
+                document.write(script);
+            });
+            imported.push(name);
         }
     };
+
+
+    //var list = ["syntaxhighlighter", "codemirror"];
+    //$.each(list, function (i, name) {
+    //    loadPlugin(name, true);
+    //});
+
+    //loadPlugin($.util.request["plugin"]);
+
+    //function loadPlugin(name, flag) {
+    //    if (name) {
+    //        var names = String(name).split(",");
+    //        for (var i = 0; i < names.length; i++) {
+    //            var plugin = plugins[names[i]];
+    //            if (plugin && (flag || !$.array.contains(list, names[i]))) {
+    //                $.each(plugin, function (index, n) {
+    //                    $(n).appendTo("head");
+    //                    //document.write(n);
+    //                });
+    //            }
+    //        }
+    //    }
+    //};
 
 })();

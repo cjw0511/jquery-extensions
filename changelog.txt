@@ -1,7 +1,11 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
-/******** 2014-05-23(1.0.51 preview) ********/
+/******** 2014-05-26(1.0.51 preview) ********/
+1、[+] 扩展插件 jquery.comboselector.js 中，增加属性 lazyLoad，用于控制 grid-selector 数据是否采取懒加载方式；boolean 类型值，默认为 true；
+
+
+/******** 2014-05-24(1.0.51 preview) ********/
 1、[#] 修复插件 jquery.ueditor.js 和插件 jquery.euploadify.js 中 show、hide 方法存在 BUG 的问题；
 2、[+] 扩展 jeasyui.extensions.datagrid.js 和扩展 jeasyui.extensions.treegrid.js 中，增加属性 autoEditingEvent，用于控制当自动行编辑功能启用时，触发行编辑的事件
     是 onDblClickRow 还是 onClickRow；
@@ -10,6 +14,8 @@
 5、[+] 扩展 jeasyui.extensions.treegrid.js 中，增加方法 getEditingNodeId、getEditingNodeIds，用于获取当前表格中开启了行编辑状态的行节点 id 值；
 6、[+] 扩展 jeasyui.extensions.datagrid.js 和扩展 jeasyui.extensions.treegrid.js 中，增加属性 finishEditOnBlur、finishEditLocale、finishEditEvent，用于控制表格在失去
     焦点时，是否自动退出行编辑状态；
+7、[#] 修复扩展 jeasyui.extensions.datagrid.js 中表头右键菜单中的“过滤/显示”功能在特殊情况下存在 BUG 的问题；
+8、[+] 扩展 jeasyui.extensions.validatebox.js 中，增加扩展属性 width，表示 easyui-validatebox 的宽度值；
 
 
 /******** 2014-05-17(1.0.50 preview) ********/
