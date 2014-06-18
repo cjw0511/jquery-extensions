@@ -11,7 +11,7 @@
 * jQuery EasyUI datagrid 组件扩展
 * jeasyui.extensions.datagrid.js
 * 二次开发 流云
-* 最近更新：2014-05-25
+* 最近更新：2014-06-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -458,15 +458,16 @@
             row = $.array.first(rows, param);
             index = t.datagrid("getRowIndex", row);
         } else {
-            index = $.isNumeric(param) ? param : t.datagrid("getRowIndex", param);
+            //index = $.isNumeric(param) ? param : t.datagrid("getRowIndex", param);
+            index = param;
             row = t.datagrid("getRowData", index);
         }
-        if ($.isNumeric(index) && index > -1 && $.isFunction(opts.onBeforeDeleteRow) && opts.onBeforeDeleteRow.call(target, index, row) != false) {
-            _deleteRow.call(t, t, index);
-            if ($.isFunction(opts.onDeleteRow)) { opts.onDeleteRow.call(target, index, row); }
-            if (doFilter) {
-                initHeaderColumnFilterContainer(t, opts);
-            }
+        //if ($.isNumeric(index) && index > -1 && $.isFunction(opts.onBeforeDeleteRow) && opts.onBeforeDeleteRow.call(target, index, row) != false) {
+        if ($.isNumeric(index) && index > -1 && $.isFunction(opts.onBeforeDeleteRow) && opts.onBeforeDeleteRow.call(target, index, row) == false) { return; }
+        _deleteRow.call(t, t, index);
+        if ($.isFunction(opts.onDeleteRow)) { opts.onDeleteRow.call(target, index, row); }
+        if (doFilter) {
+            initHeaderColumnFilterContainer(t, opts);
         }
     };
 
@@ -1947,7 +1948,7 @@
 
         //  删除一行数据，重写 easyui-datagrid 本身的 deleteRow 方法；参数 param 表示要删除的内容；该参数可以是以下三种类型：
         //      Number 类型，表示要删除的行索引号；
-        //      表示要删除的行数据的 idField(主键) 字段值，或者行数据对象；
+        //      //表示要删除的行数据的 idField(主键) 字段值，或者行数据对象；
         //      Function 类型，该回调函数签名为 function(row, index, rows)，其中 row 表示行数据对象、index 表示行索引号、rows 表示当前 easyui-datagrid 调用 getRows 返回的结果集；
         //          如果 param 参数为 Function 类型，则 deleteRow 方法会对当前 easyui-datagrid 的当前页的每一行数据调用该回调函数；
         //          当回调函数返回 true 时，则表示查找到了需要被删除的行，deleteRow 方法将会删除该行数据并立即停止和跳出循环操作；
@@ -2147,8 +2148,8 @@
         autoEditingEvent: "onDblClickRow",
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示在表格失去焦点(逻辑上失去焦点，实际上是判断页面上表格外的其他部分被点击)后，表格是否自动关闭行编辑状态。
-        //  Boolean 类型值，默认为 true。
-        finishEditOnBlur: true,
+        //  Boolean 类型值，默认为 false。
+        finishEditOnBlur: false,
 
         //  增加 easyui-datagrid 的自定义扩展属性，该属性表示当 finishEditOnBlur: true，点击哪个区域会导致当前表格自动关闭行编辑状态。
         //  该属性可以是一个 HTML-DOM 对象、也可以是一个 jQuery-DOM 对象、或者一个 jquery-DOM selector。默认为 window.document。

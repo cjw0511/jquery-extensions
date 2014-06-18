@@ -11,7 +11,7 @@
 * jQuery EasyUI combotree 组件扩展
 * jeasyui.extensions.combotree.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-06-05
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -40,7 +40,7 @@
         autoBindDblClick: false,
 
         onExpand: function () {
-            $.fn.datagrid.extensions.defaults.onLoadSuccess.apply(t.combotree("tree")[0], arguments);
+            $.fn.tree.extensions.defaults.onExpand.apply($(this).combotree("tree")[0], arguments);
         }
     });
 

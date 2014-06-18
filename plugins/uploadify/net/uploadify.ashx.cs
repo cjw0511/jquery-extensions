@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 
-namespace DF.WebUI.jqext.plugins.uploadify
+namespace NDF.Euploadify
 {
     /// <summary>
     /// uploadify 的摘要说明

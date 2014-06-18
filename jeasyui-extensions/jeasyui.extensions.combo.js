@@ -11,7 +11,7 @@
 * jQuery EasyUI combo 组件扩展
 * jeasyui.extensions.combo.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-05-28
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -55,12 +55,30 @@
     };
 
 
+    var _setValues = $.fn.combo.methods.setValues;
+    function setValues(target, values) {
+        var t = $(target), opts = t.combo("options");
+        if (!opts.nullable && $.array.isNullOrEmpty(values)) {
+            values = [null];
+        }
+        return _setValues.call(t, t, values);
+    };
+
+    function clear(target) {
+        var state = $.data(target, "combo"), opts = state.options, combo = state.combo;
+        if (opts.multiple) {
+            combo.find("input.combo-value" + (opts.nullable ? "" : ":gt(0)")).remove();
+        }
+        combo.find("input.combo-value,input.combo-text").val("");
+    };
+
+
 
 
     function initialize(target) {
         var t = $(target), state = $.data(target, "combo"),
             opts = t.combo("options"), panel = state.panel,
-            combo = state.combo, arrow = combo.find(".combo-arrow"),
+            combo = state.combo, //arrow = combo.find(".combo-arrow"),
             exts = opts.extensions ? opts.extensions : opts.extensions = {};
         if (!exts._initialized) {
             t.combo("textbox").focus(function () {
@@ -102,6 +120,13 @@
         //  Boolean 类型值，默认为 true。
         autoShowPanel: true,
 
+        //  增加 easyui-combo 的自定义扩展属性；表示该 combox 组件是否允许值为 Null。
+        //  注意：nullable 值为 true 时，表示当该 combo 组件没有值(例如执行 clear 方法后，或者 setValue/setValues 设置为的值为 null/undefined/空数组 后)时，
+        //      该组件内的所有 input:hidden.combo-value DOM标签将会被清空。
+        //      而当 nullable 的值设置为 false 时，在该 combo 组件没有值时，也会保留一个值为空字符串("")的 input:hidden.combo-value DOM标签。
+        //  Boolean 类型值，默认为 true。
+        nullable: true,
+
         onBeforeDestroy: function () { },
 
         onDestroy: function () { }
@@ -125,7 +150,13 @@
 
         destroy: function (jq) { return jq.each(function () { destroy(this); }); },
 
-        combo: function (jq) { return getCombo(jq[0]); }
+        combo: function (jq) { return getCombo(jq[0]); },
+
+        //  重写 easyui-combo 组件的 setValues 方法，以支持相应扩展功能。
+        setValues: function (jq, values) { return jq.each(function () { setValues(this, values); }); },
+
+        //  重写 easyui-combo 组件的 setValues 方法，以支持相应扩展功能。
+        clear: function (jq) { return jq.each(function () { clear(this); }); }
     };
     $.extend($.fn.combo.defaults, defaults);
     $.extend($.fn.combo.methods, methods);
@@ -134,7 +165,7 @@
 
 
 
-    //  下面这段代码实现即使在跨 IFRAME 的情况下，一个 WEB-PAGE 中也只能同时显示一个 easyui-combo 控件。
+    //  下面这段代码实现即使在跨 IFRAME 的情况下，一个 WEB-PAGE 中也只能同时显示一个 easyui-combo panel 控件。
     $.easyui.bindPageNestedFunc("mousedown", "jdirkCombo", "combo", function (win, e) {
         var jq = win.jQuery, p = jq(e.target).closest("span.combo,div.combo-p");
         if (p.length) {

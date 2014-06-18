@@ -11,7 +11,7 @@
 * jQuery EasyUI layout 组件扩展
 * jeasyui.extensions.layout.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-06-17
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -26,11 +26,16 @@
 
 
 
-    function getPanels(target) {
-        var l = $(target);
-        return $.array.reduce(["north", "west", "east", "center", "south"], function (prev, val, index) {
+    function getPanels(target, withCenter) {
+        var l = $(target),
+            flag = (withCenter == null || withCenter == undefined) ? true : withCenter,
+            regions = flag ? ["north", "west", "east", "center", "south"] : ["north", "west", "east", "south"];
+        return $.array.reduce(regions, function (prev, val, index) {
             var p = l.layout("panel", val);
-            if (p && p.length) { prev.push({ region: val, panel: p }); }
+            if (p && p.length) {
+                prev.push({ region: val, panel: p });
+                prev[val] = p;
+            }
             return prev;
         }, []);
     };
@@ -44,11 +49,11 @@
     };
 
     function collapseAll(target) {
-        var l = $(target);
-        collapseRegion(l, "north");
-        collapseRegion(l, "west");
-        collapseRegion(l, "east");
-        collapseRegion(l, "south");
+        var l = $(target), panels = l.layout("panels", false);
+        $.each(panels, function (index, item) {
+            var opts = item.panel.panel("options");
+            if (!opts.collapsed) { l.layout("collapse", item.region); }
+        });
         $.util.exec(function () { l.layout("resize"); }, $.fn.layout.extensions.resizeDelay);
     };
 
@@ -61,11 +66,11 @@
     };
 
     function expandAll(target) {
-        var l = $(target);
-        expandRegion(l, "north");
-        expandRegion(l, "west");
-        expandRegion(l, "east");
-        expandRegion(l, "south");
+        var l = $(target), panels = l.layout("panels", false);
+        $.each(panels, function (index, item) {
+            var opts = item.panel.panel("options");
+            if (opts.collapsed) { l.layout("expand", item.region); }
+        });
         $.util.exec(function () { l.layout("resize"); }, $.fn.layout.extensions.resizeDelay);
     };
 
@@ -91,16 +96,24 @@
                 if (p && p.length) { var opts = p.panel("options"); return !opts.collapsed ? true : false; } else { return false; }
             });
         switch (type) {
-            case "collapse": if (hasExpanded) { l.layout("collapseAll"); } else { l.layout("expandAll"); } break;
-            case "expand": if (hasCollapsed) { l.layout("expandAll"); } else { l.layout("collapseAll"); } break;
-            case "toggle": toggleRegions(); break;
-            default: toggleRegions(); break;
+            case "collapse":
+                l.layout(hasExpanded ? "collapseAll" : "expandAll");
+                break;
+            case "expand":
+                l.layout(hasCollapsed ? "expandAll" : "collapseAll");
+                break;
+            case "toggle":
+                toggleRegions();
+                break;
+            default:
+                toggleRegions();
+                break;
         }
         function toggleRegions() {
             $.each(regions, function (i, region) {
                 l.layout("toggle", region);
-                $.util.exec(function () { l.layout("resize"); }, $.fn.layout.extensions.resizeDelay);
             });
+            $.util.exec(function () { l.layout("resize"); }, $.fn.layout.extensions.resizeDelay);
         };
     };
 
@@ -112,10 +125,11 @@
     var methods = $.fn.layout.extensions.methods = {
 
         // 扩展 easyui-layout 组件的自定义方法；获取 easyui-layout 组件的所有 panel 面板；
+        // 该方法的参数 withCenter 是一个 boolean 类型值，默认为 true；表示返回的数组中是否包含 center panel。
         // 返回值：该方法返回一个 Array 数组对象；数组中的每个元素都是一个包含如下属性定义的 JSON-Object：
         //      region  : String 类型值，表示该面板所在的位置，可能的值为 "north"、"west"、"east"、"center"、"south"；
         //      panel   : jQuery 对象，表示 easyui-panel 面板对象；
-        panels: function (jq) { return getPanels(jq[0]); },
+        panels: function (jq, withCenter) { return getPanels(jq[0], withCenter); },
 
         //  扩展 easyui-layout 组件的自定义方法；用于折叠 easyui-layout 组件除 center 位置外的所有 panel 面板；
         //  返回值：返回表示当前 easyui-combo layout jQuery 链式对象。

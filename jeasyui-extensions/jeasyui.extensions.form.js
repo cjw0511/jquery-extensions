@@ -11,11 +11,12 @@
 * jQuery EasyUI form 组件扩展
 * jeasyui.extensions.form.js
 * 二次开发 流云
-* 最近更新：2014-05-05
+* 最近更新：2014-06-12
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
+*   3、jeasyui.extensions.validatebox.js v1.0 beta late
 *
 * Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -37,24 +38,50 @@
 
     var _submit = $.fn.form.methods.submit;
     function submit(target, options) {
-        var t = $(target), state = $.data(target, "form"), isForm = /^(?:form)$/i.test(target.nodeName) ? true : false;
-        if (isForm) {
-            return _submit.call(t, t, options);
-        }
-        var opts = state ? state.options : $.fn.form.defaults, param = t.form("getData"), method = $[opts.method];
-        opts = $.extend({}, opts, (typeof options == "string") ? { url: options } : ($.isFunction(options) ? { success: options } : options || {}));
+        var t = $(target), state = $.data(target, "form"),
+            isForm = (/^(?:form)$/i.test(target.nodeName) && state) ? true : false,
+            opts = $.extend(
+                {}, (state ? state.options : $.fn.form.defaults), (typeof options == "string") ? { url: options } : ($.isFunction(options) ? { success: options } : options || {})
+            ),
+            loading = function () {
+                if (opts.showLoading) {
+                    $.easyui.loading({ msg: opts.loadingMessage, locale: opts.loadingLocale });
+                }
+            },
+            loaded = function () {
+                if (opts.showLoading) {
+                    if (opts.loadedDelay) {
+                        $.util.exec(function () { $.easyui.loaded(opts.loadingLocale); }, opts.loadedDelay);
+                    } else {
+                        $.easyui.loaded(opts.loadingLocale);
+                    }
+                }
+            };
 
-        if (($.isFunction(opts.onSubmit) && opts.onSubmit.call(target, param) == false)) {
-            return;
-        }
-        if (!opts.url) {
-            opts.url = window.location.href;
-        }
-        method(opts.url, param, function (data) {
-            if ($.isFunction(opts.success)) {
-                opts.success.call(target, data);
+        if (!opts.url) { opts.url = window.location.href; }
+        if (isForm) { return _submit.call(t, t, opts); }
+
+        var param = t.form("getData");
+        if ($.isFunction(opts.onSubmit) && opts.onSubmit.call(target, param) == false) { return loaded(); }
+        var beforeSend = $.ajaxSettings.beforeSend, complete = $.ajaxSettings.complete;
+        $.ajax({
+            url: opts.url, type: opts.method, data: param,
+            success: function (data) {
+                if ($.isFunction(opts.success)) { return opts.success.call(target, data); }
+            },
+            beforeSend: function () {
+                var ret = $.isFunction(beforeSend) ? beforeSend.apply(this, arguments) : undefined;
+                loading();
+                return ret;
+            },
+            complete: function () {
+                var ret = $.isFunction(complete) ? complete.apply(this, arguments) : undefined;
+                loaded();
+                return ret;
             }
         });
+
+        //$[opts.method](opts.url, param, function (data) { opts.success(data); });
     };
 
     function load(target, data) {
@@ -132,7 +159,7 @@
             var c = t.find('[comboName="' + name + '"]');
             if (c.length) {
                 for (var i = cc.length - 1; i >= 0; i--) {
-                //for (var i = 0; i < cc.length; i++) {
+                    //for (var i = 0; i < cc.length; i++) {
                     var type = cc[i];
                     if (c.hasClass(type + '-f')) {
                         if (c[type]('options').multiple) {
@@ -183,7 +210,7 @@
     };
 
     function reset(target) {
-        var t = $(target), isForm = /^(?:form)$/i.test(target.nodeName) && state ? true : false;
+        var t = $(target), state = $.data(target, "form"), isForm = /^(?:form)$/i.test(target.nodeName) && state ? true : false;
         if (isForm) {
             target.reset();
         }
@@ -248,6 +275,42 @@
         }
     };
 
+    function setFormDisabled(target, disabled, withButton) {
+        var t = $(target), state = $.data(target, "form");
+        disabled = disabled ? true : false;
+
+        if (state && state.options) { state.disabled = disabled; }
+        var cc = withButton ? t.find("input, select, textarea") : t.find("input, select, textarea, button, a.l-btn, .m-btn, .s-btn");
+        if (withButton) {
+            $.each(cc, function (i, elem) {
+                var item = $(elem);
+                if (item.is(".s-btn")) {
+                    item.splitbutton(disabled ? "disable" : "enable");
+                } else if (item.is(".m-btn")) {
+                    item.menubutton(disabled ? "disable" : "enable");
+                } else if (item.is("a.l-btn")) {
+                    item.linkbutton(disabled ? "disable" : "enable");
+                } else {
+                    disabled ? item.attr("disabled", true) : item.removeAttr("disabled");
+                }
+            });
+        }
+
+        if ($.fn.validatebox) {
+            t.find('.validatebox-text').validatebox(disabled ? "disable" : "enable");
+        }
+        var plugins = $.array.distinct($.array.merge([], $.fn.form.otherList, $.fn.form.spinnerList, $.fn.form.comboList));
+        for (var i = 0; i < plugins.length; i++) {
+            var plugin = plugins[i];
+            var r = t.find('.' + plugin + '-f');
+            if (r.length && $.fn[plugin] && $.fn[plugin]["methods"]) {
+                $.util.tryExec(function () {
+                    r[plugin](disabled ? "disable" : "enable");
+                });
+            }
+        }
+    };
+
 
 
     var methods = $.fn.form.extensions.methods = {
@@ -291,12 +354,28 @@
         //  重写 easyui-form 控件的 disableValidation 方法，使其支持扩展的 easyui 插件操作；
         disableValidation: function (jq) { return jq.each(function () { setValidation(this, true); }); },
 
+        //  增加 easyui-form 控件的自定义方法；启用该表单 DOM 所有子级节点的输入效果(移除所有子级可输入控件的 disabled 效果)
+        //  该方法的参数 withButton 表示是否连同表单中的按钮控件(html-button、html-input-button、easyui-menu|linkbutton|menubutton|splitbutton)一并启用；
+        enable: function (jq, withButton) { return jq.each(function () { setFormDisabled(this, false, withButton); }); },
+
+        //  增加 easyui-form 控件的自定义方法；禁用该表单 DOM 所有子级节点的输入效果(给所有子级可输入控件增加 disabled 效果)
+        //  该方法的参数 withButton 表示是否连同表单中的按钮控件(html-button、html-input-button、easyui-menu|linkbutton|menubutton|splitbutton)一并禁用；
+        disable: function (jq, withButton) { return jq.each(function () { setFormDisabled(this, true, withButton); }); },
+
         //  重写 easyui-form 控件的 load 方法。
         load: function (jq, data) { return jq.each(function () { load(this, data); }); }
     };
     var defaults = $.fn.form.extensions.defaults = {
 
         method: "post",
+
+        showLoading: true, 
+        
+        loadingLocale: "body",
+        
+        loadingMessage: "正在将数据发送至服务器...", 
+        
+        loadedDelay: 300,
 
         serializer: { onlyEnabled: true, transcript: "overlay", overtype: "append", separator: "," }
     };

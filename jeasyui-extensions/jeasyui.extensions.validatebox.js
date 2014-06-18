@@ -11,7 +11,7 @@
 * jQuery EasyUI validatebox 组件扩展
 * jeasyui.extensions.validatebox.js
 * 二次开发 流云
-* 最近更新：2014-05-26
+* 最近更新：2014-06-09
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -270,6 +270,10 @@
             if (opts.autoFocus) {
                 $.util.exec(function () { t.focus(); });
             }
+            if (!opts.autovalidate) {
+                t.validatebox("disableValidation").validatebox("enableValidation");
+            }
+            setDisabled(target, opts.disabled);
             opts._initialized = true;
         }
     };
@@ -307,7 +311,9 @@
     var _validate = $.fn.validatebox.methods.isValid;
     function validate(target) {
         var t = $(target);
-        if (t.hasClass("validatebox-prompt")) { t.removeClass("validatebox-prompt").val(""); }
+        if (t.hasClass("validatebox-prompt")) {
+            t.removeClass("validatebox-prompt").val("");
+        }
         return _validate.call(t, t);
     };
 
@@ -337,6 +343,17 @@
     function resize(target, width) {
         var t = $(target), opts = t.validatebox("options");
         t._outerWidth(opts.width = width);
+    };
+
+    function setDisabled(target, disabled) {
+        var t = $(target), state = $.data(target, "validatebox");
+        if (disabled) {
+            if (state && state.options) { state.options.disabled = true; }
+            t.attr("disabled", true);
+        } else {
+            if (state && state.options) { state.options.disabled = false; }
+            t.removeAttr("disabled");
+        }
     };
 
 
@@ -379,7 +396,11 @@
 
         reset: function (jq) { return jq.each(function () { reset(this); }); },
 
-        resize: function (jq, width) { return jq.each(function () { resize(this, width); }); }
+        resize: function (jq, width) { return jq.each(function () { resize(this, width); }); },
+
+        enable: function (jq) { return jq.each(function () { setDisabled(this, false); }); },
+
+        disable: function (jq) { return jq.each(function () { setDisabled(this, true); }); }
     };
     var defaults = $.fn.validatebox.extensions.defaults = {
         //  增加 easyui-validatebox 的扩展属性 prompt，该属性功能类似于 easyui-searchbox 的 prompt 属性。
@@ -395,6 +416,12 @@
 
         //  增加 easyui-validatebox 的扩展属性 width，表示其初始化时的宽度值
         width: null,
+
+        //  增加 easyui-validatebox 的扩展属性 autovalidate，表示是否在该控件初始化完成后立即进行一次验证；默认为 true。
+        autovalidate: true,
+
+        //  增加 easyui-validatebox 的扩展属性 disabled，表示该控件在初始化完成后是否设置其为禁用状态(disabled)；默认为 false。
+        disabled: false,
 
         //  增加 easyui-validatebox 的扩展事件 onChange，表示输入框在值改变时所触发的事件
         onChange: function (value) { }

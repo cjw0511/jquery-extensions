@@ -58,8 +58,11 @@
                     "<span class=\"l-btn-text\">" + (item.text ? item.text : "无标题菜单导航") + "</span>" +
                     "<span class=\"l-btn-icon" + (item.iconCls ? " " + item.iconCls : "") + "\"></span></span>").appendTo(a);
             });
-            var layout = $(westLayout), south = layout.layout("panel", "south"), southOpts = south.panel("options");
-            southOpts.minHeight = 5 + Math.min(menus.length, 3) * 27; southOpts.maxHeight = 5 + menus.length * 27;
+            var layout = $(westLayout),
+                south = layout.layout("panel", "south"),
+                southOpts = south.panel("options");
+            southOpts.minHeight = 5 + Math.min(menus.length, 3) * 27;
+            southOpts.maxHeight = 5 + menus.length * 27;
             layout.layout("resize");
             if ($.isFunction(callback)) { callback.call(ul, menus); }
         }, "json");

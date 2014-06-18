@@ -540,6 +540,10 @@
         //  Boolean 类型值，默认为 false。
         dataPlain: false,
 
+        //  扩展 easyui-treegrid 的自定义属性，表示当前 easyui-treeg 控件支持平滑数据格式时，程序用哪个 field 表示当前行数据的父级节点 idField 值
+        //  String 类型值，默认为 "pid"。
+        parentField: "pid",
+
         //  扩展 easyui-tree 的自定义属性，表示当右键点击 tree-node 时，是否自动选择被点击的 tree-node 对象；
         //  Boolean 类型值，默认为 false；
         selectOnContextMenu: false,

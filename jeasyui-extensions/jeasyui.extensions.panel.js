@@ -129,12 +129,14 @@
 
 
 
-    function parseExtensionsBegin(options) {
-        options._extensionsPanel = { href: options.href, content: options.content };
-        if (options.iniframe) {
-            options.href = null;
-            options.content = null;
+    function parseExtensionsBegin(opts) {
+        opts._extensionsPanel = { href: opts.href, content: opts.content };
+        if (opts.iniframe) {
+            opts.href = null;
+            opts.content = null;
         }
+
+
     };
     function parseExtensionsEnd(target) {
         var panel = $(target), opts = panel.panel("options"),
@@ -158,7 +160,7 @@
             var jq = $(this), hasInit = $.data(this, "panel") ? true : false,
                 opts = hasInit ? options : $.extend({}, $.fn.panel.parseOptions(this), $.parser.parseOptions(this, [
                     { minWidth: "number", maxWidth: "number", minHeight: "number", maxHeight: "number" },
-                    { iniframe: "boolean", inContainer: "boolean" }
+                    { iniframe: "boolean", inContainer: "boolean", keepTitle: "boolean" }
                 ]), options);
             parseExtensionsBegin(opts);
             _panel.call(jq, opts);

@@ -272,7 +272,8 @@
             { "id": "11089903", "text": "03-ueditor", "pid": "110899", "attributes": { "href": "tests/03-ueditor.html" } },
             { "id": "11089904", "text": "04-layout", "pid": "110899", "attributes": { "href": "tests/04-layout.html" } },
             { "id": "11089905", "text": "05-uploadify", "pid": "110899", "attributes": { "href": "tests/05-uploadify.html" } },
-            { "id": "11089906", "text": "06-navmenu", "pid": "110899", "attributes": { "href": "tests/06-navmenu.html" } }
+            { "id": "11089906", "text": "06-navmenu", "pid": "110899", "attributes": { "href": "tests/06-navmenu.html" } },
+            { "id": "11089907", "text": "07-layout", "pid": "110899", "attributes": { "href": "tests/07-layout.html" } }
         ] }
     ]
     }

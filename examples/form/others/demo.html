@@ -49,6 +49,15 @@
             $("#btn7").click(function () {
                 f.form("reset");
             });
+
+
+            $("#btn21").click(function () {
+                f.form("enable");
+            });
+
+            $("#btn22").click(function () {
+                f.form("disable");
+            });
         });
     </script>
     <style>
@@ -62,20 +71,35 @@
     <p>该部分扩展由文件 jeasyui.extensions.form.js 实现。</p>
     <hr />
     <div id="buttons">
-        <a id="btn1" class="easyui-linkbutton" data-options="iconCls: 'icon-search'" >getData</a>
+        <a id="btn1" class="easyui-linkbutton" data-options="iconCls: 'icon-search'">getData</a>
         <a id="btn2" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">loadData</a>
         <a id="btn3" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">validate</a>
         <a id="btn4" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">enableValidation</a>
         <a id="btn5" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">disableValidation</a>
         <a id="btn6" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">clear</a>
         <a id="btn7" class="easyui-linkbutton" data-options="iconCls: 'icon-edit'">reset</a>
+        <hr />
+        <a id="btn21" class="easyui-linkbutton" data-options="iconCls: 'icon-ok'">enable</a>
+        <a id="btn22" class="easyui-linkbutton" data-options="iconCls: 'icon-cancel'">disable</a>
     </div>
     <hr />
     <div id="form1">
         <table>
             <tr>
                 <td>validatebox:</td>
-                <td><input name="validatebox" class="easyui-validatebox" data-options="required: true, width: 140, value: 'validatebox1', width: 200, prompt: 'prompt...'" /></td>
+                <td><input name="validatebox1" class="easyui-validatebox" data-options="required: true, width: 140, width: 200, prompt: 'prompt1...'" value="validatebox1" /></td>
+            </tr>
+            <tr>
+                <td>validatebox2:</td>
+                <td><input name="validatebox2" class="easyui-validatebox" data-options="required: true, width: 140, width: 200, prompt: 'prompt2...'" value="validatebox2" /></td>
+            </tr>
+            <tr>
+                <td>validatebox3:</td>
+                <td><input name="validatebox3" class="easyui-validatebox" data-options="required: true, width: 140, width: 200, prompt: 'prompt3...'" value="validatebox3" /></td>
+            </tr>
+            <tr>
+                <td>validatebox4:</td>
+                <td><input name="validatebox4" class="easyui-validatebox" data-options="required: true, width: 140, width: 200, prompt: 'prompt4...'" value="validatebox4" /></td>
             </tr>
             <tr>
                 <td>combobox:</td>
@@ -83,17 +107,20 @@
             </tr>
             <tr>
                 <td>combotree:</td>
-                <td><input name="combotree" class="easyui-combotree" data-options="required: true,
+                <td>
+                    <input name="combotree" class="easyui-combotree" data-options="required: true,
                            method: 'get', panelWidth: 200,
                            url: 'tree/tree-data.json', value: '22'
-                           " /></td>
+                           " />
+                </td>
             </tr>
             <tr>
                 <td>combogrid:</td>
-                <td><input name="combogrid" class="easyui-combogrid" data-options="required: true,
+                <td>
+                    <input name="combogrid" class="easyui-combogrid" data-options="required: true,
                            value: [1, 2, 3],
                            method: 'get', valueField: 'ID', textField: 'Name', multiple: true,
-                           panelWidth: 600, panelHeight: 300, url: 'datagrid/datagrid-data.json',
+                           panelWidth: 600, panelHeight: 300, url: 'datagrid/datagrid-data.bak.json',
                            idField: 'ID',
                            rownumbers: true,
                            frozenColumns: [[
@@ -108,7 +135,8 @@
                                { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true },
                                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true }
                            ]]
-                           " /></td>
+                           " />
+                </td>
             </tr>
             <tr>
                 <td>numberbox:</td>
@@ -147,10 +175,11 @@
             </tr>
             <tr>
                 <td>comboselector:</td>
-                <td><input name="comboselector" class="easyui-comboselector" data-options="required: true, value: [1, 2, 3], text: 'zhangsan',
+                <td>
+                    <input name="comboselector" class="easyui-comboselector" data-options="required: true, value: [1, 2, 3], text: 'zhangsan',
                            lazyLoad: false,
                            method: 'get', valueField: 'ID', textField: 'Name', multiple: true,
-                           panelWidth: 600, panelHeight: 300, url: 'datagrid/datagrid-data.json',
+                           panelWidth: 600, panelHeight: 300, url: 'datagrid/datagrid-data.bak.json',
                            idField: 'ID',
                            rownumbers: true,
                            frozenColumns: [[
@@ -165,7 +194,8 @@
                                { field: 'Weight', title: '体重(Weight)', width: 140, sortable: true },
                                { field: 'CreateDate', title: '创建日期(CreateDate)', width: 180, sortable: true }
                            ]]
-                           " /></td>
+                           " />
+                </td>
             </tr>
             <tr>
                 <td>my97:</td>
@@ -177,10 +207,12 @@
             </tr>
             <tr>
                 <td>euploadify:</td>
-                <td><div name="euploadify" class="easyui-euploadify" data-options="required: true, value: 'euploadify1',
+                <td>
+                    <div name="euploadify" class="easyui-euploadify" data-options="required: true, value: 'euploadify1',
                          swf: '../plugins/uploadify/uploadify.swf',
                          uploader: '../plugins/uploadify/net/uploadify.ashx'
-                         "></div></td>
+                         "></div>
+                </td>
             </tr>
             <tr>
                 <td>ueditor:</td>

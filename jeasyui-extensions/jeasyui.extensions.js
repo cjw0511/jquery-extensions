@@ -11,7 +11,7 @@
 * jQuery EasyUI 通用插件基础库
 * jeasyui.extensions.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-06-12
 *
 * 依赖项：jquery.jdirk.js v1.0 beta late
 *
@@ -76,24 +76,23 @@
         if (isString) {
             return arguments.length == 1 ? $.messager.show({ msg: String(options) }) : $.messager.show({ title: options, msg: arguments[1], icon: arguments[2], position: arguments[3] });
         }
-        var defaults = $.extend({}, $.messager.defaults, { title: "操作提醒", timeout: 4000, showType: "slide" });
-        var position = {
-            topLeft: { showType: "show", right: "", left: 0, top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
-            topCenter: { showType: "slide", right: "", top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
-            topRight: { showType: "show", left: "", right: 0, top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
-            centerLeft: { showType: "fade", left: 0, right: "", bottom: "" },
-            center: { showType: "fade", right: "", bottom: "" },
-            centerRight: { showType: "fade", left: "", right: 0, bottom: "" },
-            bottomLeft: { showType: "show", left: 0, right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
-            bottomCenter: { showType: "slide", right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
-            bottomRight: { showType: "show", left: "", right: 0, top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop }
-        };
-        var opts = $.extend({}, defaults, options);
-        opts.style = position[options.position] ? position[options.position] : position.topCenter;
+        var opts = $.extend({}, $.messager.defaults, { title: "操作提醒", timeout: 4000, showType: "slide" }, options),
+            position = {
+                topLeft: { showType: "show", right: "", left: 0, top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
+                topCenter: { showType: "slide", right: "", top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
+                topRight: { showType: "show", left: "", right: 0, top: document.body.scrollTop + document.documentElement.scrollTop, bottom: "" },
+                centerLeft: { showType: "fade", left: 0, right: "", bottom: "" },
+                center: { showType: "fade", right: "", bottom: "" },
+                centerRight: { showType: "fade", left: "", right: 0, bottom: "" },
+                bottomLeft: { showType: "show", left: 0, right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
+                bottomCenter: { showType: "slide", right: "", top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop },
+                bottomRight: { showType: "show", left: "", right: 0, top: "", bottom: -document.body.scrollTop - document.documentElement.scrollTop }
+            };
+        opts.style = (opts.position && position[opts.position]) ? position[opts.position] : position.topCenter;
         if (opts.style.showType) {
             opts.showType = opts.style.showType;
         }
-        var iconCls = icons[opts.icon] ? icons[opts.icon] : icons.info;
+        var iconCls = (opts.icon && icons[opts.icon]) ? icons[opts.icon] : icons.info;
         opts.msg = "<div class='messager-icon " + iconCls + "'></div>" + "<div>" + opts.msg + "</div>";
         return _show(opts);
     };
@@ -217,15 +216,18 @@
     //      topMost 为一个布尔类型参数，默认为 false，表示是否在顶级页面加载此 mask 状态层。
     //  返回值：返回表示弹出的数据加载框和层的 jQuery 对象。
     $.easyui.loading = function (options) {
-        var opts = { msg: defaults.loading, locale: "body", topMost: false };
-        options = options || {};
-        $.extend(opts, options);
-        var jq = opts.topMost ? $.util.$ : $, locale = jq(opts.locale), array = locale.children().map(function () {
-            var zindex = $(this).css("z-index");
-            return $.isNumeric(zindex) ? parseInt(zindex) : 0;
-        }), zindex = $.array.max(array);
-        locale.addClass("mask-container");
-        var mask = jq("<div></div>").addClass("datagrid-mask").css({ display: "block", "z-index": ++zindex }).appendTo(locale);
+        var opts = $.extend({ msg: defaults.loading, locale: "body", topMost: false }, options || {}),
+            jq = opts.topMost ? $.util.$ : $,
+            locale = jq(opts.locale),
+            array = locale.children().map(function () {
+                var zindex = $(this).css("z-index");
+                return $.isNumeric(zindex) ? parseInt(zindex) : 0;
+            }),
+            zindex = $.array.max(array.length ? array : [1]);
+        if (!locale.is("body")) {
+            locale.addClass("mask-container");
+        }
+        var mask = jq("<div></div>").addClass("datagrid-mask").css({ display: "block", "z-index": zindex += 100 }).appendTo(locale);
         var msg = jq("<div></div>").addClass("datagrid-mask-msg").css({ display: "block", left: "50%", "z-index": ++zindex }).html(opts.msg).appendTo(locale);
         msg.css("marginLeft", -msg.outerWidth() / 2);
         return mask.add(msg);
@@ -356,6 +358,11 @@
         win.window("center");
     };
 
+
+
+    //  备份 jquery ajax 方法的默认参数。
+    $.easyui.ajaxDefaults = $.extend({}, $.ajaxSettings);
+
     //  更改 jQuery EasyUI 部分组件的通用错误提示。
     $.easyui.ajaxError(onLoadError);
 
@@ -364,6 +371,12 @@
         dataFilter: function (data, type) {
             return String(type).toLowerCase(type) == "json" ? $.string.toJSONString(data) : data;
         }
+        //,beforeSend: function (XMLHttpRequest) {
+        //    $.easyui.loading({ msg: "正在将请求数据发送至服务器..." });
+        //}
+        //,complete: function (XMLHttpRequest, textStatus) {
+        //    $.easyui.loaded();
+        //}
     });
 
 

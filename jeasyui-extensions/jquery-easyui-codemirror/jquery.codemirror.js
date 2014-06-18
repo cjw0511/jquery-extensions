@@ -11,19 +11,19 @@
 * jQuery EasyUI CodeMirror 插件扩展
 * jquery.codemirror.js
 * 二次开发 流云
-* 最近更新：2014-05-07
+* 最近更新：2014-06-17
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
 *   2、jeasyui.extensions.js v1.0 beta late
 
-*   3、codemirror-4.1/lib/codemirror.css
-*   4、codemirror-4.1/lib/codemirror.js
-*   5、codemirror-4.1/mode/xml/xml.js
-*   6、codemirror-4.1/mode/javascript/javascript.js
-*   7、codemirror-4.1/mode/vbscript/vbscript.js
-*   8、codemirror-4.1/mode/css/css.js
-*   9、codemirror-4.1/mode/htmlmixed/htmlmixed.js
+*   3、codemirror-4.2/lib/codemirror.css
+*   4、codemirror-4.2/lib/codemirror.js
+*   5、codemirror-4.2/mode/xml/xml.js
+*   6、codemirror-4.2/mode/javascript/javascript.js
+*   7、codemirror-4.2/mode/vbscript/vbscript.js
+*   8、codemirror-4.2/mode/css/css.js
+*   9、codemirror-4.2/mode/htmlmixed/htmlmixed.js
 *
 * Copyright (c) 2013-2014 ChenJianwei personal All rights reserved.
 * http://www.chenjianwei.org
@@ -1216,8 +1216,8 @@
         mode: null,
         //  CodeMirror 编辑器的主题 css 风格；string
         theme: "default",
-        //  CodeMirror 编辑器的代码缩进空格数；integer
-        indentUnit: 2,
+        //  CodeMirror 编辑器的代码缩进空格数；integer；CodeMirror 官方默认为 2；此处修改为 4。
+        indentUnit: 4,
         //  指定 CodeMirror 编辑器的进行换行时代码是否自动缩进；boolean
         smartIndent: true,
         //  指定 CodeMirror 编辑器的制表符宽度；integer

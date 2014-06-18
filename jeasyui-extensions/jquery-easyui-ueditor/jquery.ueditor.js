@@ -11,7 +11,7 @@
 * jQuery EasyUI ueditor 插件扩展
 * jquery.ueditor.js
 * 二次开发 流云
-* 最近更新：2014-05-23
+* 最近更新：2014-06-04
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -126,11 +126,11 @@
         var t = $(target), state = $.data(target, "ueditor");
         if (state && state.toolbarbox && state.bottomContainer && state.scalelayer && state.iframeholder && state.eduieditor && state.editor) {
             var opts = state.options, size = t._fit(),
-                vwidth = size.width - (opts.border ? 4 : 2);
+                vwidth = size.width - (opts.border ? 0 : 2);
             state.iframeholder.width(vwidth);
             state.eduieditor.width(vwidth);
 
-            var vheight = size.height - state.toolbarbox.height() - state.bottomContainer.height() - state.scalelayer.height() - (opts.border ? 4 : 2);
+            var vheight = size.height - state.toolbarbox.height() - state.bottomContainer.height() - state.scalelayer.height() - (opts.border ? 0 : 2);
             state.editor.setHeight(vheight);
         }
     };
@@ -457,7 +457,7 @@
                 imagePopup: "boolean", emotionLocalization: "boolean", pasteplain: "boolean", wordCount: "boolean", elementPathEnabled: "boolean",
                 autoHeightEnabled: "boolean", scaleEnabled: "boolean", tableDragable: "boolean", sourceEditorFirst: "boolean",
                 fit: "boolean", disabled: "boolean", border: "boolean",
-                required: "boolean", novalidate: "boolean"
+                required: "boolean", novalidate: "boolean", autosave: "boolean"
             },
             {
                 saveInterval: "number", zIndex: "number", maximumWords: "number", tabSize: "number", width: "number", height: "number",
@@ -702,7 +702,7 @@
             }));
         $.util.exec(function () {
             var container = dia.find(".ueditor-dialog-container").ueditor($.extend({}, opts, {
-                fit: true, border: false, value: value,
+                fit: true, border: false, value: value, autosave: false, enableAutoSave: false,
                 onResize: $.fn.ueditor.defaults.onResize,
                 oncontentChange: function () {
                     value = $(this).ueditor("options").value;
@@ -932,6 +932,9 @@
 
         //  指定粘贴时是否是只保留标签模式，默认是false
         retainOnlyLabelPasted: false,
+
+        //  指定编辑器是否启用自动保存草稿功能，默认是true
+        autosave: true,
 
 
         //  编辑器准备就绪后会触发该事件

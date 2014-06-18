@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2014-05-07
+* 最近更新：2014-06-11
 *
 * 依赖项：jquery 1.9.x/2.x late
 *
@@ -993,7 +993,7 @@
     //  判断是否为合法的货币格式
     coreString.isCurrency = function (str) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
-        return /^d{0,}(\.\d+)?$/i.test(str);
+        return /^\d{0,}(\.\d+)?$/i.test(str);
     };
     coreString.prototype.isCurrency = function () { return coreString.isCurrency(this); };
 

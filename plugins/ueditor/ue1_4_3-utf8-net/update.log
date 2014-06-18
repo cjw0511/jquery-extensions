@@ -1,0 +1,6 @@
+修改 ueditor.all.js 如下位置：
+
+
+1、更新 ueditor/third-party/codemirror 目录下的 codemirror.css、codemirror.js 文件为 CodeMirror 官方的最新版本(4.2)
+
+2、16406、16419、16420、16427行，加了两个关于 CodeMirror 插件文件导入的判断，使得 ueditor 在 codeMirrorJsUrl 和 codeMirrorCssUrl 参数为 false 的情况下，不导入 CodeMirror 插件文件；

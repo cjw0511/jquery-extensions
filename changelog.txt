@@ -1,8 +1,35 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
-/******** 2014-05-26(1.0.51 preview) ********/
+/******** 2014-06-16(1.0.55 preview) ********/
+1、【+】 增加扩展 jeasyui.extensions.slider.js，该扩展修复 jquery.slider.js 插件中，当 easyui-slider 被禁用后
+    或 disabled 属性设置为 true 时仍能通过点击 slider 横/竖条改变值并触发 onComplete 事件的 BUG；
+2、[+] 扩展 jeasyui.extensions.slider.js 中，增加 easyui-datagrid 控件的行编辑状态下可使用 easyui-slider 编辑器；
+
+
+/******** 2014-06-12(1.0.54 preview) ********/
+1、[#] 修复 jquery.jdirk.js 中 $.string.isCurrency 方法的正则 BUG；
+2、[^] 优化扩展 jeasyui.extensions.js 中部分代码；
+3、[^] 扩展 jeasyui.extensions.form.js 中，增加自定义扩展属性 showLoading、loadingLocale、loadingMessage、loadedDelay，用于控制表单提交时 loading 效果的显示；
+
+
+/******** 2014-06-09(1.0.53 preview) ********/
+1、[#] 调整扩展 jeasyui.extensions.datagrid.js 的自定义属性 finishEditOnBlur 默认值为 false；
+2、【+】 扩展 jeasyui.extensions.validatebox.js 中，增加自定义属性 disabled 和自定义方法 enable、disable；
+3、【+】 扩展 jeasyui.extensions.form.js 中，增加自定义方法 enable、disable；
+4、[#] 修复扩展 jeasyui.extensions.datagrid.js 中方法重写代码块 deleteRow 中的部分算法 BUG；
+
+
+/******** 2014-06-05(1.0.52 preview) ********/
+1、【^】 扩展插件 jquery.ueditor.js 中，其 ueditor 依赖库由 1.4.2 升级至 1.4.3；
+2、【^】 扩展插件 jquery.codemirror.js 中，其 codemirror 依赖库由 4.1 升级至 4.2；
+3、[^] 扩展插件 jquery.ueditor.js，调整其兼容性，使其支持 ueditor 1.4.3 的最新特性和属性，并微调其边框尺寸算法使其更精确；
+4、[#] 修复扩展 jeasyui.extensions.combotree.js 中 onExpand 事件的 BUG；
+
+
+/******** 2014-05-28(1.0.51 preview) ********/
 1、[+] 扩展插件 jquery.comboselector.js 中，增加属性 lazyLoad，用于控制 grid-selector 数据是否采取懒加载方式；boolean 类型值，默认为 true；
+2、[+] 扩展 jeasyui.extensions.combo.js 中，增加 nullable，用于控制 easyui-combo 及其继承组件是否允许值为 Null。
 
 
 /******** 2014-05-24(1.0.51 preview) ********/

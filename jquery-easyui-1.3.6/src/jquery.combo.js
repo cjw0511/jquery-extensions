@@ -248,16 +248,16 @@
         var _40 = _3f.readonly ? true : (!_3f.editable);
         _3e.combo.find(".combo-text").attr("readonly", _40).css("cursor", _40 ? "pointer" : "");
     };
-    function _41(_42) {
-        var _43 = $.data(_42, "combo");
-        var _44 = _43.options;
-        var _45 = _43.combo;
-        if (_44.multiple) {
-            _45.find("input.combo-value").remove();
+    function _41(target) {
+        var state = $.data(target, "combo");
+        var opts = state.options;
+        var combo = state.combo;
+        if (opts.multiple) {
+            combo.find("input.combo-value").remove();
         } else {
-            _45.find("input.combo-value").val("");
+            combo.find("input.combo-value").val("");
         }
-        _45.find("input.combo-text").val("");
+        combo.find("input.combo-text").val("");
     };
     function _46(_47) {
         var _48 = $.data(_47, "combo").combo;
@@ -280,38 +280,38 @@
         });
         return _50;
     };
-    function _52(_53, _54) {
-        var _55 = $.data(_53, "combo").options;
-        var _56 = _4e(_53);
-        var _57 = $.data(_53, "combo").combo;
-        _57.find("input.combo-value").remove();
-        var _58 = $(_53).attr("comboName");
-        for (var i = 0; i < _54.length; i++) {
-            var _59 = $("<input type=\"hidden\" class=\"combo-value\">").appendTo(_57);
-            if (_58) {
-                _59.attr("name", _58);
+    function _52(target, values) {
+        var opts = $.data(target, "combo").options;
+        var oldVals = _4e(target);
+        var combo = $.data(target, "combo").combo;
+        combo.find("input.combo-value").remove();
+        var comboName = $(target).attr("comboName");
+        for (var i = 0; i < values.length; i++) {
+            var comboValue = $("<input type=\"hidden\" class=\"combo-value\">").appendTo(combo);
+            if (comboName) {
+                comboValue.attr("name", comboName);
             }
-            _59.val(_54[i]);
+            comboValue.val(values[i]);
         }
         var tmp = [];
-        for (var i = 0; i < _56.length; i++) {
-            tmp[i] = _56[i];
+        for (var i = 0; i < oldVals.length; i++) {
+            tmp[i] = oldVals[i];
         }
         var aa = [];
-        for (var i = 0; i < _54.length; i++) {
+        for (var i = 0; i < values.length; i++) {
             for (var j = 0; j < tmp.length; j++) {
-                if (_54[i] == tmp[j]) {
-                    aa.push(_54[i]);
+                if (values[i] == tmp[j]) {
+                    aa.push(values[i]);
                     tmp.splice(j, 1);
                     break;
                 }
             }
         }
-        if (aa.length != _54.length || _54.length != _56.length) {
-            if (_55.multiple) {
-                _55.onChange.call(_53, _54, _56);
+        if (aa.length != values.length || values.length != oldVals.length) {
+            if (opts.multiple) {
+                opts.onChange.call(target, values, oldVals);
             } else {
-                _55.onChange.call(_53, _54[0], _56[0]);
+                opts.onChange.call(target, values[0], oldVals[0]);
             }
         }
     };
