@@ -203,20 +203,26 @@
             </tr>
             <tr>
                 <td>codemirror:</td>
-                <td><div name="codemirror" class="easyui-codemirror" data-options="required: true, height: 240, value: 'codemirror1'"></div></td>
+                <td><textarea name="codemirror" class="easyui-codemirror" data-options="required: true, height: 240, value: 'codemirror1'"></textarea></td>
             </tr>
             <tr>
                 <td>euploadify:</td>
                 <td>
-                    <div name="euploadify" class="easyui-euploadify" data-options="required: true, value: 'euploadify1',
+                    <textarea name="euploadify" class="easyui-euploadify" data-options="required: true, value: 'euploadify1',
                          swf: '../plugins/uploadify/uploadify.swf',
                          uploader: '../plugins/uploadify/net/uploadify.ashx'
-                         "></div>
+                         "></textarea>
                 </td>
             </tr>
             <tr>
                 <td>ueditor:</td>
-                <td><div name="ueditor" class="easyui-ueditor" data-options="required: true, height: 240, value: 'ueditor1'"></div></td>
+                <td>
+                    <textarea name="ueditor" class="easyui-ueditor" data-options="
+                              required: true, height: 240, value: 'ueditor1',
+                              template: 'simple',
+                              codeMirrorJsUrl: false, codeMirrorCssUrl: false
+                              "></textarea>
+                </td>
             </tr>
         </table>
 

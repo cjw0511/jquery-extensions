@@ -11,7 +11,7 @@
 * jQuery EasyUI validatebox 组件扩展
 * jeasyui.extensions.validatebox.js
 * 二次开发 流云
-* 最近更新：2014-06-09
+* 最近更新：2014-06-18
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -273,6 +273,9 @@
             if (!opts.autovalidate) {
                 t.validatebox("disableValidation").validatebox("enableValidation");
             }
+            if (opts.defaultClass) {
+                t.addClass(opts.defaultClass);
+            }
             setDisabled(target, opts.disabled);
             opts._initialized = true;
         }
@@ -422,6 +425,10 @@
 
         //  增加 easyui-validatebox 的扩展属性 disabled，表示该控件在初始化完成后是否设置其为禁用状态(disabled)；默认为 false。
         disabled: false,
+
+        //  增加 easyui-validatebox 的扩展属性 defaultClass，表示 easyui-validatebox 初始化时默认需要加载的样式类名；
+        //  该值将会被作为 html-class 属性在 easyui-validatebox 初始化完成后加载至 html 标签上。
+        defaultClass: "textbox",
 
         //  增加 easyui-validatebox 的扩展事件 onChange，表示输入框在值改变时所触发的事件
         onChange: function (value) { }

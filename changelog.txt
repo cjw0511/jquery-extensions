@@ -1,6 +1,11 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2014-06-19(1.0.56 preview) ********/
+1、[+] 扩展 jeasyui.extensions.validatebox.js 中，增加 defaultClass 属性，表示 easyui-validatebox 初始化时默认需要加载的样式类名；
+2、[#] 修复扩展插件 jquery.portal.js 中，在 easyui-portal 初始化完成后，会导致每个 portlet 原定义的 onClose 失效的 BUG；
+
+
 /******** 2014-06-16(1.0.55 preview) ********/
 1、【+】 增加扩展 jeasyui.extensions.slider.js，该扩展修复 jquery.slider.js 插件中，当 easyui-slider 被禁用后
     或 disabled 属性设置为 true 时仍能通过点击 slider 横/竖条改变值并触发 onComplete 事件的 BUG；
