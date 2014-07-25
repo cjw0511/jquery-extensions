@@ -15,7 +15,7 @@
 *   7、jeasyui.extensions.dialog.js v1.0 beta late
 *   8、jeasyui.extensions.tabs.js v1.0 beta late
 *   9、jeasyui.extensions.datagrid.js v1.0 beta late
-*   10、jquery-easyui-toolbar/jquery.toolbar.js v1.0 beta late
+*   10、jquery.toolbar.js v1.0 beta late
 *
 * 依赖样式：
 *   1、icon-all.css

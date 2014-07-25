@@ -11,7 +11,7 @@
 * jQuery EasyUI form 组件扩展
 * jeasyui.extensions.form.js
 * 二次开发 流云
-* 最近更新：2014-06-12
+* 最近更新：2014-06-20
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late

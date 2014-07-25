@@ -4,6 +4,8 @@
     var hash = window.location.hash, start = new Date();
 
     $(function () {
+        window.onbeforeunload = function () { return "您确定要退出本程序？"; };
+
         window.mainpage.instMainMenus();
         window.mainpage.instFavoMenus();
         window.mainpage.instTimerSpan();

@@ -1,6 +1,20 @@
 ﻿jquery-extensions 发布及更新日志
 [+]：新增， [-]：删除， [^]：升级， [#]：修复， 【】：重要
 
+/******** 2014-07-24(1.0.58 preview) ********/
+1、[+] 调整 DEMO 展示页面的“查看源码”选项卡内容，增加说明性文字；
+
+
+/******** 2014-06-27(1.0.57 preview) ********/
+1、[^] 将 jquery 基础库版本从 1.11.0 升级至 1.11.1。
+2、【^】 扩展插件 jquery.codemirror.js 中，其 codemirror 依赖库由 4.2 升级至 4.3；
+3、【^】 扩展插件 jquery.ueditor.js 中，其 ueditor 依赖库由 1.4.2 升级至 1.4.3；
+4、[#] 修复 index.html 页面中存在部分布局线条瑕疵的问题；
+5、【^】 调整插件 jquery.codemirror.js、jquery.comboicons.js、jquery.comboselector、jquery.euploadify.js、jquery.my97.js、jquery.portal.js、
+        jquery.toolbar.js、jquery.ueditor.js 直接放置在 jeasyui-extensions 目录下，不再单独为每个插件设置二级目录，引用者需注意进行目录调整；
+6、[#] 修复 jeasyui.extensions.theme.js 中关于查找主题样式 css 文件的部分算法 BUG；
+
+
 /******** 2014-06-19(1.0.56 preview) ********/
 1、[+] 扩展 jeasyui.extensions.validatebox.js 中，增加 defaultClass 属性，表示 easyui-validatebox 初始化时默认需要加载的样式类名；
 2、[#] 修复扩展插件 jquery.portal.js 中，在 easyui-portal 初始化完成后，会导致每个 portlet 原定义的 onClose 失效的 BUG；

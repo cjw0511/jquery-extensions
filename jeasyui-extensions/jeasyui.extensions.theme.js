@@ -11,7 +11,7 @@
 * jQuery EasyUI theme 组件扩展
 * jeasyui.extensions.theme.js
 * 二次开发 流云
-* 最近更新：2014-04-09
+* 最近更新：2014-06-27
 *
 * 依赖项：
 *   1、jquery.jdirk.js v1.0 beta late
@@ -48,15 +48,22 @@
 
     function getTheme(jq) {
         jq = jq || $;
-        var link = jq("link[href$='easyui.css']"), href = link.attr("href"), array = href.split("/");
+        var link = jq("link[href$='easyui.css'],link[href*='easyui.css']"), href = link.attr("href"), array = href ? href.split("/") : [];
         return array.length > 1 ? array[array.length - 2] : array[array.length - 1];
     };
 
     function setTheme(jq, theme, callback, thisArg) {
         var oldTheme = getTheme(jq);
-        if (oldTheme == theme) { return; }
-        var link = jq("link[href$='easyui.css']"), href = link.attr("href"), array = href.split("/");
-        if (arguments.length > 1) { array[array.length - 2] = theme; } else { jq.array.insert(array, 0, theme); }
+        if (oldTheme == theme) {
+            return;
+        }
+        var link = jq("link[href$='easyui.css'],link[href*='easyui.css']"),
+            href = link.attr("href"), array = href ? href.split("/") : [];
+        if (arguments.length > 1) {
+            array[array.length - 2] = theme;
+        } else {
+            jq.array.insert(array, 0, theme);
+        }
         link.attr("href", array.join("/"));
         callbackFunc(callback, oldTheme, theme, thisArg);
     };

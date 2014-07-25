@@ -28,7 +28,7 @@
         e、jeasyui.extensions.dialog.js
         f、jeasyui.extensions.tabs.js
         g、jeasyui.extensions.datagrid.js
-        h、jquery-easyui-toolbar/jquery.toolbar.js
+        h、jquery.toolbar.js
     5、在页面上导入本插件主程序文件：jeasyui.baygui.js 或 jeasyui.baygui.min.js
     7、参考 DEMO(BayGUI.html) 页面编写相应的功能代码；
         编写代码时注意将 boxesGrid、boxesColumns、baysContainer、boxesUrl、boxesMethod、boxesQueryParams、baysUrl、baysMethod、baysQueryParams、saveUrl、saveMethod 替换成项目中实际的相应值；

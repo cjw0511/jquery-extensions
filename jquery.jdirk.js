@@ -9,7 +9,7 @@
 * jQuery Extensions Basic Library 基础函数工具包 v1.0 beta
 * jquery.jdirk.js
 * 二次开发 流云
-* 最近更新：2014-06-11
+* 最近更新：2014-06-26
 *
 * 依赖项：jquery 1.9.x/2.x late
 *
@@ -876,7 +876,7 @@
     };
     coreString.prototype.isDate = function () { return coreString.isDate(this); };
 
-    //  判断当前 String 独享是否是正确的电话号码格式(中国)。
+    //  判断当前 String 对象是否是正确的电话号码格式(中国)。
     coreString.isTel = function (str) {
         str = coreString.isNullOrEmpty(str) ? "" : String(str);
         return /^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,7}(\-\d{1,4})?$/i.test(str);
@@ -1206,6 +1206,7 @@
         str = coreString.trim(str);
         return str.charAt(0) === "<" && str.charAt(str.length - 1) === ">" && str.length >= 3 ? $(str).text() : str;
     };
+    coreString.prototype.toJSONString = function () { return coreString.toJSONString(this); };
 
     //  将字符串对象转换成 函数(function) 值
     coreString.toFunction = function (str) {
@@ -3015,6 +3016,46 @@
 
 
 
+
+
+
+    //  获取或设置当前表达式匹配到的元素的边框值(css-border 属性)；该方法提供如下重载：
+    //      function()              : 获取当前表达式匹配到的第一个元素的边框值，该函数返回一个格式如 { top: number, left: number, right: number, bottom: number } 的 JSON 对象；
+    //      function("region")      : 获取当前表达式匹配到的第一个元素的 region 所示位置的边框值，该函数返回一个 Number 数值表示该位置的边框值；
+    //      function(val)           : 设置当前表达式匹配到的所有元素的所有位置边框值为 val；该函数返回当前 jquery 链式对象；
+    //      function("region", val) : 设置当前表达式匹配到的所有元素的 region 位置边框值为 val；该函数返回当前 jquery 链式对象；
+    //  以上重载中，region 参数表示边框的位置，String 类型值，可选的值限定为 "top"、"left"、"right" 或 "bottom"
+    //              val 参数表示要设定的边框的值，Number 类型值，不能为负数。
+    coreJquery.prototype.border = function (region, val) {
+        if (!arguments.length) {
+            return { top: getRegionBorder("top"), left: getRegionBorder("left"), right: getRegionBorder("right"), bottom: getRegionBorder("bottom") };
+        }
+        var thisArg = this;
+        if (arguments.length == 1) {
+            if (coreUtil.isNumeric(region) || coreString.endsWith(region, "px")) {
+                return thisArg.css("border", region);
+            } else {
+                var locale = coreString.toLowerCase(region);
+                return coreArray.contains(["top", "left", "right", "bottom"], locale) ? getRegionBorder(locale) : null;
+            }
+        } else {
+            var locale = coreString.toLowerCase(region);
+            if (coreArray.contains(["top", "left", "right", "bottom"], locale)) {
+                return thisArg.css("border-" + locale + "-width", val);
+            } else {
+                return thisArg;
+            }
+        }
+        function getRegionBorder(locale) {
+            var str = thisArg.css("border-" + locale + "-width");
+            return toNumber(str);
+        };
+        function toNumber(str) {
+            str = coreString.isNullOrEmpty(str) ? "" : String(str).toLowerCase();
+            str = str.replace("px", "");
+            return str ? coreString.toInteger(str) : 0;
+        };
+    };
 
 
 

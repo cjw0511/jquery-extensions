@@ -30,7 +30,7 @@
         d、jeasyui.extensions.window.js
         e、jeasyui.extensions.dialog.js
         f、jeasyui.extensions.tabs.js                (BayGUI-Viewer功能中不需要依赖该插件)
-        g、jquery-easyui-toolbar/jquery.toolbar.js   (BayGUI-Viewer功能中不需要依赖该插件)
+        g、jquery.toolbar.js   (BayGUI-Viewer功能中不需要依赖该插件)
     6、在页面上导入本插件主程序文件：jeasyui.bayseditor.js 或 jeasyui.bayseditor.min.js
     7、参考 DEMO(bayedit.html 或 bayview.html) 页面编写相应的功能代码；
         编写代码时注意将 baysContainer、shipUrl、shipMethod、shipQueryParams、baysUrl、baysMethod、baysQueryParams、saveUrl、saveMethod 替换成项目中实际的相应值；

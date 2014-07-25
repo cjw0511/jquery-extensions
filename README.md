@@ -68,7 +68,7 @@
                         <li>新增部分 jeasyui 插件，包括：
                             <ul>
                                 <li>gridselector 和 dblgridselector</li>
-                                <li>toolbar(所在目录为 "jeasyui-extensions/jquery-easyui-toolbar")；</li>
+                                <li>toolbar(所在目录为 "jquery-easyui-toolbar")；</li>
                                 <li>theme；</li>
                                 <li>my97；</li>
                                 <li>ckeditor；</li>

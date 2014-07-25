@@ -60,9 +60,11 @@
             });
             var layout = $(westLayout),
                 south = layout.layout("panel", "south"),
-                southOpts = south.panel("options");
-            southOpts.minHeight = 5 + Math.min(menus.length, 3) * 27;
-            southOpts.maxHeight = 5 + menus.length * 27;
+                southOpts = south.panel("options"),
+                border = south.panel("panel").border("top"),
+                navHeight = 27;
+            southOpts.minHeight = border + Math.min(menus.length, 3) * navHeight;
+            southOpts.maxHeight = border + menus.length * navHeight;
             layout.layout("resize");
             if ($.isFunction(callback)) { callback.call(ul, menus); }
         }, "json");
@@ -239,7 +241,10 @@
 
         $(btnExit).click(function () {
             $.easyui.messager.confirm("操作提醒", "您确定要退出当前程序并关闭该网页？", function (c) {
-                if (c) { $.util.closeWindowNoConfirm(); }
+                if (c) {
+                    window.onbeforeunload = null;
+                    $.util.closeWindowNoConfirm();
+                }
             });
         });
     };
